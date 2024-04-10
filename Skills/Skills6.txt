@@ -1,0 +1,1721 @@
+Mail for feedback: David138it@gmail.com
+
+Docker, Set up a LAMP server in Docker
+    Task:
+    Here I am using Docker Compose to create a LAMP server for PHP web development.
+    Decision:
+    $ mkdir Lamp
+    $ cd Lamp/
+    $ mkdir html
+    $ vim Dockerfile
+    $ cat Dockerfile
+    FROM php:7.4.3-apache
+    RUN docker-php-ext-install mysqli pdo pdo_mysql
+    $ vim docker-compose.yaml
+    $ cat docker-compose.yaml
+    version: "3.7"
+    services:
+      web-server:
+        build:
+          dockerfile: Dockerfile
+          context: .
+        restart: always
+        volumes:
+          - "./html/:/var/www/html/"
+        ports:
+          - "8080:80"
+      YOUR-HOST:
+        image: mysql:8.0.19
+        restart: always
+        environment:
+          MYSQL_ROOT_PASSWORD: YOUR-PASSWORD
+          TZ: "Asia/Irkutsk"
+        volumes:
+          - mysql-data:/var/lib/mysql
+      phpmyadmin:
+        image: phpmyadmin/phpmyadmin:5.0.2
+        restart: always
+        environment:
+          PMA_HOST: YOUR-HOST
+          PMA_USER: YOUR-USERNAME
+          PMA_PASSWORD: YOUR-PASSWORD
+        ports:
+          - "5000:80"
+    volumes:
+      mysql-data:
+    $ vim html/index.php
+    $ cat html/index.php
+    <?php
+    $host = "YOUR-HOST";
+    $user = "YOUR-USERNAME";
+    $pass = "YOUR-PASSWORD";
+    $db = "tdb";
+    try {
+        $conn = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
+        $conn->setAttribute(PDO::ATTR_ERr-tODE, PDO::ERr-tODE_EXCEPTION);
+        echo "Connected successfully";
+    } catch(PDOException $e) {
+        echo "Connection failed: " . $e->getMessage();
+    $ docker-compose up -d
+    $ docker-compose ps
+           Name                      Command               State                  Ports
+    ---------------------------------------------------------------------------------------------------
+    lamp_YOUR-HOST_1   docker-entrypoint.sh mysqld      Up      3306/tcp, 33060/tcp
+    lamp_phpmyadmin_1     /docker-entrypoint.sh apac ...   Up      0.0.0.0:5000->80/tcp,:::5000->80/tcp
+    lamp_web-server_1     docker-php-entrypoint apac ...   Up      0.0.0.0:8080->80/tcp,:::8080->80/tcp
+      $ firefox http://localhost:5000 &
+    Соединение невозможно! Неверные настройки
+    $ docker-compose down -v
+    ...
+    ERROR: error while removing network: network lamp_default id YOUR-ID4 has active endpoints
+    $ docker network r-t lamp_default
+    Error response from daemon: error while removing network: network lamp_default id YOUR-ID4 has active endpoints
+    $ docker-compose down --remove-orphans
+    $ docker-compose up -d
+    $ docker ps
+    CONTAINER ID   IMAGE                         COMMAND                  CREATED          STATUS          PORTS                                   NAMES
+    YOUR-ID5   phpmyadmin/phpmyadmin:5.0.2   "/docker-entrypoint.…"   19 seconds ago   Up 14 seconds   0.0.0.0:5000->80/tcp, :::5000->80/tcp   lamp_phpmyadmin_1
+    YOUR-ID6   mysql:8.0.19                  "docker-entrypoint.s…"   19 seconds ago   Up 14 seconds   3306/tcp, 33060/tcp                     lamp_YOUR-HOST_1
+    YOUR-ID7   lamp_web-server               "docker-php-entrypoi…"   19 seconds ago   Up 15 seconds   0.0.0.0:8080->80/tcp, :::8080->80/tcp   lamp_web-server_1
+      $ firefox http://localhost:5000 &
+    new - tdb - create - http://localhost:8080
+    $ docker-compose down
+    $ docker ps -a
+
+Docker, Docker-compose.yml For PgAdmin And PostgreSQL
+    Task:
+    Here I am using Docker Compose to create a PostgreSQL container and access it using pgAdmin 4, the PostgreSQL admin web interface. You also need to access the PostgreSQL database server running in a Docker container from the Datagrid IDE.
+    Decision:
+    $ mkdir PostgreslPgadmin
+    $ cd PostgreslPgadmin/
+    $ vim docker-compose.yml
+    $ cat docker-compose.yml
+    version: "2.3"
+    services:
+      demo-container-db:
+        image: postgres:12
+        mem_limit: 1536MB
+        mem_reservation: 1G
+        environment:
+          POSTGRES_USER: YOUR-USERNAME
+          POSTGRES_PASSWORD: YOUR-PASSWORD
+        ports:
+        - "5442:5432"
+        networks:
+        - TestNetwork
+        volumes:
+        - db-data:/var/lib/postgresql/data
+      demo-pgadmin4:
+        image: dpage/pgadmin4
+        environment:
+          PGADMIN_DEFAULT_EMAIL: YOUR-MAIL
+          PGADMIN_DEFAULT_PASSWORD: YOUR-PASSWORD
+        ports:
+        - "8889:80"
+        networks:
+        - TestNetwork
+    networks:
+      TestNetwork:
+        driver: bridge
+    volumes:
+      db-data:
+    $ docker-compose up -d
+    $ sudo netstat -tlpn
+    Active Internet connections (only servers)
+    Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+    tcp        0      0 0.0.0.0:5442            0.0.0.0:*               LISTEN      732/docker-proxy
+    tcp        0      0 0.0.0.0:8889            0.0.0.0:*               LISTEN      752/docker-proxy
+    tcp6       0      0 :::5442                 :::*                    LISTEN      739/docker-proxy
+    tcp6       0      0 :::8889                 :::*                    LISTEN      759/docker-proxy
+    $ docker images
+    REPOSITORY              TAG            IMAGE ID       CREATED         SIZE
+      ...
+    dpage/pgadmin4          latest         YOUR-ID8   4 days ago      382MB
+    postgres                12             YOUR-ID9   2 weeks ago     373MB
+    $ docker container ls
+    CONTAINER ID   IMAGE            COMMAND                  CREATED         STATUS         PORTS                                            NAMES
+    YOUR-ID10   dpage/pgadmin4   "/entrypoint.sh"         3 minutes ago   Up 3 minutes   443/tcp, 0.0.0.0:8889->80/tcp, :::8889->80/tcp   postgreslpgadmin_demo-pgadmin4_1
+    YOUR-ID11   postgres:12      "docker-entrypoint.s…"   3 minutes ago   Up 3 minutes   0.0.0.0:5442->5432/tcp, :::5442->5432/tcp        postgreslpgadmin_demo-container-db_1
+    $ docker inspect YOUR-ID10
+    ...
+                        "NetworkID": "YOUR-ID12",
+                        "EndpointID": "YOUR-ID13",
+                        "Gateway": "YOUR-IP",
+                        "IPAddress": "YOUR-IP1",
+                        "IPPrefixLen": 16,
+                        "IPv6Gateway": "",
+                        "GlobalIPv6Address": "",
+                        "GlobalIPv6PrefixLen": 0,
+                        "MacAddress": "YOUR-MACIP1",
+                        "DriverOpts": null
+                    }
+                }
+            }
+        }
+    ]
+    $ firefox http://localhost:8889 &
+    Mail logins - Servers - register - server - name - TestServer - port - 5432 - username - YOUR-USERNAME - password - YOUR-PASSWORD - save password - hostname - YOUR-IP1 - save
+    $ docker-compose down
+    $ docker ps -a
+    CONTAINER ID   IMAGE                    COMMAND                  CREATED             STATUS                           PORTS     NAMES
+    YOUR-ID   dt/apache:v1     "/bin/sh -c 'apache2…"   About an hour ago   Exited (137) About an hour ago             ecstatic_tesla
+    $ docker images -a
+    REPOSITORY              TAG            IMAGE ID       CREATED             SIZE
+      ...
+    dpage/pgadmin4          latest         YOUR-ID8   4 days ago          382MB
+    postgres                12             YOUR-ID9   2 weeks ago         373MB
+    ubuntu                  20.04          20fffa419e3a   7 weeks ago         72.8MB
+    Source:
+    - https://linuxhint.com/lamp_server_docker/
+    - https://www.youtube.com/playlist?list=PLTd7y0vdxhK643dY-Th-fQvyNP46eW7CU    
+    - https://linuxhint.com/postgresql_docker/
+    - https://www.youtube.com/playlist?list=PL7-fzhJ95xrPJUSzziEsymILf0bKusiLZ
+
+Docker, Установка и настройка ПО
+    Task:
+    Delete an image, container, and volume
+    Decision:
+    $ docker images
+    $ docker system prune
+    $ docker images
+    REPOSITORY              TAG            IMAGE ID       CREATED         SIZE
+    php                     latest         dc8b9808febc   13 hours ago    414MB
+    dt/webservers   lamp           dc8b9808febc   13 hours ago    414MB
+    lamp_web-server         latest         dc8b9808febc   13 hours ago    414MB
+    dpage/pgadmin4          latest         YOUR-ID8   4 days ago      382MB
+    postgres                12             YOUR-ID9   2 weeks ago     373MB
+    ubuntu                  20.04          20fffa419e3a   7 weeks ago     72.8MB
+    phpmyadmin/phpmyadmin   5.0.2          125749bd47bf   22 months ago   469MB
+    mysql                   8.0.19         0c27e8e5fcfa   2 years ago     546MB
+    php                     7.4.3-apache   d753d5b380a1   2 years ago     414MB
+    $ docker system prune -a
+    $ docker images
+    $ docker ps -a
+    $ docker volume ls
+    DRIVER    VOLUME NAME
+    local     YOUR-ID13
+    local     YOUR-ID14
+    local     YOUR-ID15
+    local     YOUR-ID16
+    local     YOUR-ID17
+    local     docker-mysqlphpmyadmin_dbdata
+    local     docker-postresqlpgadmin_db-data
+    local     docker_db-data
+    local     lamp_mysql-data
+    local     postgreslpgadmin_db-data
+    $ docker volume r-t YOUR-ID13 YOUR-ID14 YOUR-ID15 YOUR-ID16 YOUR-ID17 docker-mysqlphpmyadmin_dbdata docker-postresqlpgadmin_db-data docker_db-data lamp_mysql-data postgreslpgadmin_db-data
+    $ docker volume ls
+    Task:
+    Создадим новый проект. Для этого создаем файл docker-compose.yml. В ссылке https://hub.docker.com/_/mariadb есть инструкция для compose - копируем и вставлем по этой инструкции. после в директории, где расположен этот файл запустим ее. Потом надо будет в браузере локальной машины запустить 127.0.0.1:6080
+    Decision:
+    $ ls
+      docker-compose.yml  Dockerfile
+    $ cat Dockerfile
+    FROM ubuntu
+    RUN apt-get update && apt-get install -y cowsay && ln -s /usr/games/cowsay /usr/bin/cowsay
+    ENTRYPOINT ["cowsay"]
+    $ cat docker-compose.yml
+    version: '3.1'
+    services:
+      db:
+        image: mariadb
+        restart: always
+        environment:
+          MYSQL_ROOT_PASSWORD: YOUR-PASSWORD
+      adminer:
+        image: adminer
+        restart: always
+        ports:
+          - 6080:8080
+    $ docker -v
+    $ docker-compose -v
+    $ docker-compose up
+    $ docker-compose up -d
+      $ docker-compose ps
+            Name                Command          State           Ports        
+      ------------------------------------------------------------------------
+      docker_adminer_1   entrypoint.sh docker-   Up      0.0.0.0:6080->8080/tc
+                         php-e ...                       p,:::6080->8080/tcp  
+      docker_db_1        docker-entrypoint.sh    Up      3306/tcp             
+                         mysqld
+    Decision:
+    В винде тот же самый файл и те же команды запуска. Единственное, чтоб узнать ip адрес машины, для запуска в браузере напишем команду - docker-machine ip default. и в браузере уже по этому адресу запускаем проект
+    Task:
+    Уменьшить размер образа - файловая система UnionFS и слои. Посмотрим список образов, которые у нас есть локально и команду историю образа. Создадим образ и проверим его историю. Тут каждая команда в отдельном слое
+    Decision:
+    $ docker images
+      REPOSITORY        TAG       IMAGE ID       CREATED       SIZE
+      dato138it/myapp   latest    52bf88faf371   2 days ago    147MB
+      dato138it/myapp   <none>    c26a6cad11ba   2 days ago    147MB
+      bitnami/apache    latest    6edfa339f61e   3 days ago    176MB
+      adminer           latest    7707fd9b142f   4 days ago    89.8MB
+      docker_adminer    latest    7707fd9b142f   4 days ago    89.8MB
+      docker_db         latest    992bce5ed710   12 days ago   401MB
+      mariadb           latest    992bce5ed710   12 days ago   401MB
+      ubuntu            latest    7e0aa2d69a15   12 days ago   72.7MB
+    $ docker history adminer
+      IMAGE          CREATED       CREATED BY                                      SIZE      COMMENT
+      7707fd9b142f   4 days ago    /bin/sh -c #(nop)  EXPOSE 8080                  0B        
+      <missing>      4 days ago    /bin/sh -c #(nop)  CMD ["php" "-S" "[::]:808…   0B        
+      <missing>      4 days ago    /bin/sh -c #(nop)  USER adminer                 0B        
+      <missing>      4 days ago    /bin/sh -c #(nop)  ENTRYPOINT ["entrypoint.s…   0B        
+      <missing>      4 days ago    /bin/sh -c #(nop) COPY file:5ff0be587f5dd916…   482B      
+      <missing>      4 days ago    /bin/sh -c set -x && curl -fsSL https://gith…   1.15MB    
+      <missing>      4 days ago    /bin/sh -c #(nop)  ENV ADMINER_SRC_DOWNLOAD_…   0B        
+      <missing>      4 days ago    /bin/sh -c #(nop)  ENV ADMINER_DOWNLOAD_SHA2…   0B        
+      <missing>      4 days ago    /bin/sh -c #(nop)  ENV ADMINER_VERSION=4.8.0    0B        
+      <missing>      4 days ago    /bin/sh -c #(nop) COPY multi:3020a2cf8da93de…   3.12kB    
+      <missing>      4 days ago    /bin/sh -c set -x && apk add --no-cache --vi…   6.35MB    
+      <missing>      4 days ago    /bin/sh -c #(nop) WORKDIR /var/www/html         0B        
+      <missing>      4 days ago    /bin/sh -c addgroup -S adminer && adduser -S…   5.05kB    
+      <missing>      4 days ago    /bin/sh -c #(nop)  STOPSIGNAL SIGINT            0B        
+      <missing>      4 days ago    /bin/sh -c echo "upload_max_filesize = 128M"…   113B      
+      <missing>      4 days ago    /bin/sh -c #(nop)  CMD ["php" "-a"]             0B        
+      <missing>      4 days ago    /bin/sh -c #(nop)  ENTRYPOINT ["docker-php-e…   0B        
+      <missing>      4 days ago    /bin/sh -c docker-php-ext-enable sodium         48.2kB    
+      <missing>      4 days ago    /bin/sh -c #(nop) COPY multi:efd917b98407edb…   6.74kB    
+      <missing>      4 days ago    /bin/sh -c set -eux;  apk add --no-cache --v…   62.7MB    
+      <missing>      4 days ago    /bin/sh -c #(nop) COPY file:ce57c04b70896f77…   587B      
+      <missing>      4 days ago    /bin/sh -c set -eux;   apk add --no-cache --…   10.4MB    
+      <missing>      4 days ago    /bin/sh -c #(nop)  ENV PHP_SHA256=ab97f22b12…   0B        
+      <missing>      4 days ago    /bin/sh -c #(nop)  ENV PHP_URL=https://www.p…   0B        
+      <missing>      4 days ago    /bin/sh -c #(nop)  ENV PHP_VERSION=7.4.18       0B        
+      <missing>      3 weeks ago   /bin/sh -c #(nop)  ENV GPG_KEYS=42670A7FE4D0…   0B        
+      <missing>      3 weeks ago   /bin/sh -c #(nop)  ENV PHP_LDFLAGS=-Wl,-O1 -…   0B        
+      <missing>      3 weeks ago   /bin/sh -c #(nop)  ENV PHP_CPPFLAGS=-fstack-…   0B        
+      <missing>      3 weeks ago   /bin/sh -c #(nop)  ENV PHP_CFLAGS=-fstack-pr…   0B        
+      <missing>      3 weeks ago   /bin/sh -c set -eux;  mkdir -p "$PHP_INI_DIR…   0B        
+      <missing>      3 weeks ago   /bin/sh -c #(nop)  ENV PHP_INI_DIR=/usr/loca…   0B        
+      <missing>      3 weeks ago   /bin/sh -c set -eux;  addgroup -g 82 -S www-…   4.68kB    
+      <missing>      3 weeks ago   /bin/sh -c apk add --no-cache   ca-certifi-ca…   3.54MB    
+      <missing>      3 weeks ago   /bin/sh -c #(nop)  ENV PHPIZE_DEPS=autoconf …   0B        
+      <missing>      3 weeks ago   /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B        
+      <missing>      3 weeks ago   /bin/sh -c #(nop) ADD file:8ec69d882e7f29f06…   5.61MB    
+    $ vim Dockerfile
+    $ cat Dockerfile
+    FROM ubuntu
+    RUN apt-get update && apt-get install -y cowsay && ln -s /usr/games/cowsay /usr/bin/cowsay
+    ENTRYPOINT ["cowsay"]
+    $ docker build -t dkatest .
+      ...
+      Successfully built 52bf88faf371
+      Successfully tagged dkatest:latest
+    $ docker images
+      REPOSITORY        TAG       IMAGE ID       CREATED       SIZE
+      dato138it/myapp   latest    52bf88faf371   2 days ago    147MB
+      dkatest           latest    52bf88faf371   2 days ago    147MB
+      dato138it/myapp   <none>    c26a6cad11ba   2 days ago    147MB
+      bitnami/apache    latest    6edfa339f61e   3 days ago    176MB
+      adminer           latest    7707fd9b142f   4 days ago    89.8MB
+      docker_adminer    latest    7707fd9b142f   4 days ago    89.8MB
+      mariadb           latest    992bce5ed710   12 days ago   401MB
+      docker_db         latest    992bce5ed710   12 days ago   401MB
+      ubuntu            latest    7e0aa2d69a15   12 days ago   72.7MB
+    $ docker history dkatest
+      IMAGE          CREATED       CREATED BY                                      SIZE      COMMENT
+      52bf88faf371   2 days ago    /bin/sh -c #(nop)  ENTRYPOINT ["cowsay"]        0B        
+      c43d3a9413c9   2 days ago    /bin/sh -c apt-get update && apt-get install…   73.9MB    
+      7e0aa2d69a15   12 days ago   /bin/sh -c #(nop)  CMD ["/bin/bash"]            0B        
+      <missing>      12 days ago   /bin/sh -c mkdir -p /run/systemd && echo 'do…   7B        
+      <missing>      12 days ago   /bin/sh -c [ -z "$(apt-get indextargets)" ]     0B        
+      <missing>      12 days ago   /bin/sh -c set -xe   && echo '#!/bin/sh' > /…   811B      
+      <missing>      12 days ago   /bin/sh -c #(nop) ADD file:5c44a80f547b7d68b…   72.7MB
+    Task:
+    Давайте изменим Dockerfile, чтобы каждая команда начиналась на новых уровнях и в конце добавим удаление всех файлов, которая насоздавала команда. Переформируем навый образ и посмотрим на размер. Вернем в этом файле команды и добавим удаление. Также создаем образ и просмотрим размер.
+    Decision:
+    $ vim Dockerfile
+    $ cat Dockerfile
+    FROM ubuntu
+    RUN apt-get update
+    RUN apt-get install -y cowsay
+    RUN ln -s /usr/games/cowsay /usr/bin/cowsay
+    RUN r-t -rf /var/lib/apt/lists/*
+    ENTRYPOINT ["cowsay"]
+    $ docker build -t dkamanyrun .
+      ...
+      Successfully built 944e60e98ca0
+      Successfully tagged dkamanyrun:latest
+    $ docker images
+      REPOSITORY        TAG       IMAGE ID       CREATED         SIZE
+      dkamanyrun        latest    944e60e98ca0   9 seconds ago   147MB
+      dato138it/myapp   latest    52bf88faf371   2 days ago      147MB
+      dkatest           latest    52bf88faf371   2 days ago      147MB
+      dato138it/myapp   <none>    c26a6cad11ba   2 days ago      147MB
+      bitnami/apache    latest    6edfa339f61e   3 days ago      176MB
+      adminer           latest    7707fd9b142f   4 days ago      89.8MB
+      docker_adminer    latest    7707fd9b142f   4 days ago      89.8MB
+      mariadb           latest    992bce5ed710   12 days ago     401MB
+      docker_db         latest    992bce5ed710   12 days ago     401MB
+      ubuntu            latest    7e0aa2d69a15   12 days ago     72.7MB
+    $ vim Dockerfile
+    $ cat Dockerfile
+    FROM ubuntu
+    RUN apt-get update \
+            && apt-get install -y cowsay \
+            && ln -s /usr/games/cowsay /usr/bin/cowsay \
+            && r-t -rf /var/lib/apt/lists/*
+    ENTRYPOINT ["cowsay"]
+    $ docker build -t dkaonerun .
+      ...
+      Successfully built af8ceb4756cc
+      Successfully tagged dkaonerun:latest
+    $ docker images
+      REPOSITORY        TAG       IMAGE ID       CREATED          SIZE
+      dkaonerun         latest    af8ceb4756cc   14 seconds ago   119MB
+      dkamanyrun        latest    944e60e98ca0   4 minutes ago    147MB
+      dato138it/myapp   latest    52bf88faf371   2 days ago       147MB
+      dkatest           latest    52bf88faf371   2 days ago       147MB
+      dato138it/myapp   <none>    c26a6cad11ba   2 days ago       147MB
+      bitnami/apache    latest    6edfa339f61e   3 days ago       176MB
+      adminer           latest    7707fd9b142f   4 days ago       89.8MB
+      docker_adminer    latest    7707fd9b142f   4 days ago       89.8MB
+      mariadb           latest    992bce5ed710   12 days ago      401MB
+      docker_db         latest    992bce5ed710   12 days ago      401MB
+      ubuntu            latest    7e0aa2d69a15   12 days ago      72.7MB
+    Task:
+    Образы занимают места на диске и если они вам уже не нужны, то сначала удаляем контейнеры, а затем все образы
+    Decision:
+    $ docker images
+      REPOSITORY        TAG       IMAGE ID       CREATED         SIZE
+      dkaonerun         latest    af8ceb4756cc   2 minutes ago   119MB
+      dkamanyrun        latest    944e60e98ca0   6 minutes ago   147MB
+      dato138it/myapp   latest    52bf88faf371   2 days ago      147MB
+      dkatest           latest    52bf88faf371   2 days ago      147MB
+      dato138it/myapp   <none>    c26a6cad11ba   2 days ago      147MB
+      bitnami/apache    latest    6edfa339f61e   3 days ago      176MB
+      docker_adminer    latest    7707fd9b142f   4 days ago      89.8MB
+      adminer           latest    7707fd9b142f   4 days ago      89.8MB
+      docker_db         latest    992bce5ed710   12 days ago     401MB
+      mariadb           latest    992bce5ed710   12 days ago     401MB
+      ubuntu            latest    7e0aa2d69a15   12 days ago     72.7MB
+    $ docker r-t -v $(docker ps -aq -f status=exited)
+      f3258c7f0edb
+      4e4079f3befe
+      cce4d69b3f3f
+      d6562c779f1a
+      c596a54cccb4
+      386a76086449
+      eae5e2c135a5
+    $ docker r-ti $(docker images -q) --force
+    Source:
+    1. https://stepik.org/course/1612/syllabus
+
+Sql, Основы SQL
+  Task:
+  Задача на соединение таблиц
+  Таблица "Прайс-лист":
+  Товар |	Цена
+  Стол красный | 5000
+  Стол синий | 6000
+  Стул черный | 1500
+  Кресло зеленое | 4500
+  Кресло оранжевое | 6500
+  Остатки номенклатуры:
+  Товар | Количество
+  Кресло оранжевое | 15
+  Стул черный | 20
+  Стул коричневый | 1
+  Итоговая таблица:	
+  Товар	Количество | Цена
+  Decision:
+  Левое соединение:
+  Товар | Количество | Цена	
+  Стол красный |  | 5000	
+  Стол синий |  | 6000	
+  Стул черный | 20 | 1500	
+  Кресло зеленое | 4500	
+  Кресло оранжевое | 15 | 6500	
+  Правое соединение:
+  Товар | Количество | Цена	
+  Кресло оранжевое | 15 | 6500	
+  Стул черный | 20 | 1500	
+  Стул коричневый | 1 | 	
+  Внутреннее:
+  Товар | Количество | Цена	
+  Стул черный | 20 | 1500	
+  Кресло оранжевое | 15 | 6500	
+  Полное:			
+  Стул черный | 20 | 1500	
+  Кресло оранжевое | 15 | 6500	
+  Стол красный |  | 5000	
+  Стол синий |  | 6000	
+  Кресло зеленое |  | 4500	
+  Стул коричневый | 1 | 	
+  Декартово:
+  Товар Л | Цена | Товар П | Количество
+  Стол красный | 5000 | Кресло оранжевое | 15
+  Стол красный | 5000 | Стул черный | 20
+  Стол красный | 5000 | Стул коричневый | 1
+  Стол синий | 6000 | Кресло оранжевое | 15
+  Стол синий | 6000 | Стул черный | 20
+  Стол синий | 6000 | Стул коричневый | 1
+  Стул черный | 1500 | Кресло оранжевое | 15
+  Стул черный | 1500 | Стул черный | 20
+  Стул черный | 1500 | Стул коричневый | 1
+  Кресло зеленое | 4500 | Кресло оранжевое | 15
+  Кресло зеленое | 4500 | Стул черный | 20
+  Кресло зеленое | 4500 | Стул коричневый | 1
+  Кресло оранжевое | 6500 | Кресло оранжевое | 15
+  Кресло оранжевое | 6500 | Стул черный | 20
+  Кресло оранжевое | 6500 |	Стул коричневый | 1
+  Task:
+  Создание и подключение к БД
+  Decision:
+  postgres-# \! chcp 1251
+  postgres-# \l
+  postgres-# CREATE DATABASE starter;
+  postgres-# DROP DATABASE starter;
+  postgres-# CREATE DATABASE starter;
+  postgres-# \c starter
+  Task:
+  Создание и удаление таблиц
+  Decision:
+  starter-# CREATE TABLE student_auto (
+      id INT,
+      name VARCHAR(50),
+      surname VARCHAR(50),
+      gender VARCHAR(50),
+      mobile VARCHAR(50),
+      birthday DATE
+  );
+  starter-# DROP TABLE student_auto;
+  starter-# CREATE TABLE student_auto (
+      id INT,
+      name VARCHAR(50),
+      surname VARCHAR(50),
+      gender VARCHAR(50),
+      mobile VARCHAR(50),
+      birthday DATE
+  );
+  starter-# \d student_auto;
+  Task:
+  Наполнение данными
+  Decision:
+  starter=# SELECT * FROM student;
+  starter=# INSERT INTO student(name, surname) VALUES ('Michael', 'Scott');
+  starter=# SELECT * FROM student;
+  Task:
+  Выборка данных
+  Decision:
+  starter=# SELECT * FROM travelers LIMIT 25;
+  starter=# SELECT surname FROM travelers OFFSET 15;
+  starter=# SELECT name, email FROM travelers FETCH FIRST 20 ROW ONLY;
+  starter=# SELECT name, surname FROM travelers ORDER BY name ASC;
+  starter=# SELECT name, email FROM travelers WHERE gender = 'Female';
+  starter=# SELECT * FROM travelers WHERE name IN ('Mark', 'Trisha', 'Raymond');
+  starter=# SELECT country, email FROM travelers WHERE name BETWEEN 'A' AND 'S';
+  starter=# SELECT email, surname FROM travelers WHERE email LIKE '%.net';
+  Task:
+  Базовая арифметика
+  Decision:
+  starter=# SELECT min(price) FROM booking_n WHERE name LIKE '%sia';
+  starter=# SELECT max(price) FROM booking_n WHERE surname BETWEEN 'S' AND 'X';
+  starter=# SELECT avg(price) from booking_n;
+  starter=# SELECT sum(price) FROM booking_n;
+  Task:
+  Дата и время
+  Decision:
+  starter=# SELECT * FROM NOW();
+  starter=# SELECT EXTRACT (SECOND FROM NOW());
+  Task:
+  Первичный ключ
+  Decision:
+  starter=# ALTER TABLE travelers ADD login VARCHAR(25);
+  starter=# ALTER TABLE travelers DROP login;
+  Task:
+  Ограничения
+  Decision:
+  starter=# ALTER TABLE travelers ADD CONSTRAINT id_unique UNIQUE(id);
+  starter=# ALTER TABLE travelers ADD CONSTRAINT gender_check CHECK(gender = 'Female' OR gender = 'Male');
+  Task:
+  UPSERT и обновление таблиц
+  Decision:
+  starter=# UPDATE booking_n SET name  = 'Max' WHERE id = 1;
+  starter=# UPDATE booking_n SET departure_from  = 'Russia', arriving_to = 'Kazakhstan' WHERE id = 1;
+  starter=# INSERT INTO booking_n (id,name,surname,departure_from,arriving_to,price) VALUES (1,'John','Doe','USA','UK','$200') ON CONFLICT (id) DO NOTHING;
+  starter=# INSERT INTO booking_n (id,name,surname,departure_from,arriving_to,price) VALUES (1,'John','Doe','USA','UK','$200') ON CONFLICT (id) DO UPDATE SET departure_from = 'EXCLUDED.departure_from;
+  Task:
+  Внешние ключи
+  Decision:
+  starter=# ALTER TABLE booking_n ADD new_booking_id BIGSERIAL REFERENCES booking(id);
+  Task:
+  Соединение таблиц
+  Decision:
+  starter=# SELECT * FROM travelers RIGHT JOIN booking_n ON travelers.id = booking_n.id;
+  starter=# SELECT * FROM travelers LEFT JOIN booking_n ON travelers.id = booking_n.id;
+  starter=# SELECT * FROM travelers FULL JOIN booking_n ON travelers.id = booking_n.id;
+  Task:
+  Экспорт в CSV
+  Decision:
+  starter=# SELECT * FROM travelers WHERE id < 50;
+  starter=# \copy (SELECT * FROM travelers WHERE id < 50) TO 'C:\Users\david\Documents\EngineerOfThe2ndCategory\Sberbank\Basics of the PostgreSQL language'  DELIMITER ','  CSV HEADER;
+  starter=# \copy (SELECT * FROM travelers WHERE id < 50) TO 'C:/Users/david/Documents/EngineerOfThe2ndCategory/Sberbank/Basics of the PostgreSQL language/sample.csv'  DELIMITER ','  CSV HEADER;
+  Task:
+  Строковые функции
+  Decision:
+  select UPPER('Vasya') up_name, LOWER('Vasya') lo_name,
+            '!'||'    Vasya     '||'!' no_trim,
+            '!'||TRIM('    Vasya     ')||'!' tr_name, 
+            '!'||LTRIM('    Vasya     ')||'!' ltr, 
+            '!'||RTRIM('    Vasya     ')||'!' rtr,
+            'Vasya'||' '||'Petrov' name
+  Decision:    
+  select substr('123456',2) sub_1,
+            substr('123456',2,3) sub_2,
+            substr('123456',-2) sub_3,
+            substr('123456',4,-2) sub_4
+  Decision:     
+  select replace('HeLLo worlld','ll','!!') rep, length('123456') len
+  Task:
+  Используя функцию type(), попробуйте выполнить следующие операции и посмотрите что выведется на экран:
+      type(None)
+      type(True)
+      type(False)
+      type(1)
+      type(5.3)
+      type(5 + 4j)
+      type([1, 5.3, False, 4])
+      type((1, True, 3, 5+4j))
+      type(range(5))
+      type('Hello')
+      type(b'a')
+      type(bytearray([1,2,3]))
+      type(memoryview(bytearray('XYZ', 'utf-8')))
+      type({'a', 3, True})
+      type(frozenset({1, 2, 3}))
+      type({'a' : 32})
+  Decision:
+  >>> type(None)
+  <class 'NoneType'>
+  >>> type(True)
+  <class 'bool'>
+  >>> type(1)
+  <class 'int'>
+  >>> type([1, 5.3, False, 4])
+  <class 'list'>
+  >>> type((1, True, 3, 5+4j))
+  <class 'tuple'>
+  >>> type(range(5))
+  <class 'range'>
+  >>> type(bytearray([1,2,3]))
+  <class 'bytearray'>
+  >>> type(memoryview(bytearray('XYZ', 'utf-8')))
+  <class 'memoryview'>
+  >>> type({'a', 3, True})
+  <class 'set'>
+  >>> type(frozenset({1, 2, 3}))
+  <class 'frozenset'>
+  >>> type({'a' : 32})
+  <class 'dict'>
+
+Sql, Выборка данных
+  Task:
+  Аналитическое подразделение решило уточнить у авиакомпании количество билетов не бизнес-класса. 
+  Напишите запрос, который выведет id билетов, класс обслуживания в которых отличен от бизнес-класса (Business).
+  В выборке должен присутствовать один атрибут — id.
+  Decision:
+  select id from tickets where service_class is not 'Business'
+  Task:
+  Определите билеты бизнес-класса, цена которых не находится в диапазоне от 9100 до 70 400 включительно. 
+  В выборке должны присутствовать два атрибута — id и price.
+  Decision:
+  select id, price from tickets where (price not between 9100 and 70400) and service_class='Business';
+  Task:
+  Определите имена и фамилии пассажиров, чьи идентификаторы заканчиваются на RCB или FCV, а номера телефонов не начинаются на +705. 
+  В выборке должен присутствовать один атрибут — name.
+  Decision:
+  select name from clients where (id like '%_RCB' or id like '%_FCV') and (phone not like '%+705%') ;
+  Task:
+  После каждого рейса проходит плановая уборка салона. Результаты уборки вносятся в отчет-лист. 
+  Авиакомпания получила отчет, в котором указано, что во всех самолетах все места чистые, а спинки кресел исправные. 
+  Выведите бортовой номер самолета, cформировав для каждой строки поле index с значением 'clean'.
+  В выборке должны присутствовать два атрибута — side_number и index.
+  Decision:
+  --alter table airliners add 'index' varchar(30) default 'clean'; select side_number from airliners;
+  select side_number, 'clean' as 'index' from airliners;
+  Task:
+  Составьте в запросе выборку, основанную на конкатенации имени и возраста пассажиров, задав новое имя name_with_age. 
+  Отсортируйте сформированное поле по алфавиту.
+  В выборке должен присутствовать один атрибут — name_with_age.
+  Decision:
+  select /*name, age,*/ (name || ' '|| age) as name_with_age 
+  from clients
+  order by name_with_age;
+  Task:
+  Владельцам аэропорта необходимо возместить ущерб пассажирам, чей багаж намок по вине его сотрудников. 
+  Возврату подлежат 2500 рублей за один купленный билет. Определите номер билета и разницу от его стоимости и той суммы, которую получит пассажир. 
+  Известно, что нет билетов дешевле 2500 рублей. Идентификатор рейса — 87RVI5T7A2.
+  В выборке должны присутствовать два атрибута — id, returns.
+  Decision:
+  select id, price-2500 as returns
+  from tickets
+  where trip_id='87RVI5T7A2'
+  Task:
+  Выведите длину строки поля model_name, назвав поле len_model_name, только для самолетов, название модели которых начинается на S. 
+  В выборке должен присутствовать один атрибут — len_model_name.
+  Decision:
+  select length(model_name) as len_model_name
+  from airliners
+  where model_name like 'S_%';
+  Task:
+  Определите идентификаторы пассажиров, длины имен которых находятся в диапазоне от 10 до 13 символов включительно. 
+  В выборке должен присутствовать один атрибут — id.
+  Decision:
+  select id--, name
+  from clients
+  where length(name) between 10 and 13
+  Task:
+  Экспорт данных из разных источников показал, что некоторые имена записаны в нижнем регистре. 
+  При помощи строковых функций сформируйте новое поле newname, где первая буква имени должна быть представлена в верхнем регистре. 
+  В выборке должны присутствовать два атрибута — id, newname.
+  Decision:
+  select id, 
+      --substr(upper(name),2, -1) as newname
+      --substr(name,2) as newname
+      substr(upper(name),2, -1) || '' || substr(name,2) as newname
+  from clients
+  Task:
+  Экспорт данных из разных источников показал, что некоторые номера телефонов записаны с лишними пробелами. 
+  Уберите их и приведите данные к единому виду. В выборке должны присутствовать два атрибута — id, newphone.
+  Decision:
+  select id, --phone,
+      replace(phone,' ','') as newphone
+  from clients
+  Task:
+  В целях конфиденциальности авиакомпания потребовала не выгружать номера телефонов целиком. 
+  Выведите идентификаторы пассажиров и номера их телефонов, заменив в номерах телефонов все цифры, кроме первой и последних двух, на звездочки, сформировав таким образом строку '+7********35'.
+  В выборке должны присутствовать два атрибута — id, phone.
+  Decision:
+  select id, phone,
+      --phone
+      --substr(phone,-2) as p1,
+      --substr(phone,1,2) as p2,
+      substr(phone,1,2) || '********' || substr(phone,-2) as phone
+  from clients
+  Task:
+  Найдите билеты на рейсы из аэропорта Саратова (код аэропорта RTW). В выборке должен присутствовать один атрибут - id.
+  Decision:
+  /*select id as id_trips, departure
+  from trips
+  where departure = 'RTW' and status = 'Arrived';*/
+  select id --, trip_id
+  from tickets
+  --where trip_id = 'LL4S1G8PQW';
+  where trip_id = (select id as id_trips
+      from trips
+      where departure = 'RTW' and status = 'Arrived');
+  Task:
+  Найдите самолеты, построенные позже 1990 года и хотя бы раз слетавшие в Домодедово (код аэропорта DME). 
+  В выборке должны присутствовать три атрибута: id, model_name, production_year.
+  Decision:
+  select id, model_name, production_year
+  from airliners 
+  where id in (select airliner_id --, status, arrival
+      from trips
+      where arrival = 'DME' and status='Arrived');
+  Task:
+  Определите клиентов, которые пользуются оператором МТС в Мурманской области (коды оператора 911, 981) и летали первым классом на самолетах, зарегистрированных не в России.
+  В выборке должен присутствовать один атрибут: id.
+  Decision:
+  select id/*, 
+      phone,
+      substr(phone,3,3) as newphone*/
+  from clients
+  where substr(phone,3,3)='911' or substr(phone,3,3)='981'
+  Task:
+  Найдите задержанные рейсы на самолеты с дальностью полета меньше 10000 километров. В выборке должен присутствовать один атрибут - id.
+  Decision:
+  /*select id, model_name, range
+  from airliners
+  where range<10000;*/
+  select id--, status, airliner_id
+  from trips
+  where airliner_id=(select id
+      from airliners
+      where range<10000) and status = 'Delayed';
+  Task:
+  Выведите возрастную категорию пассажиров, купивших билет в бизнес- или первый класс. Возрастные категории следующие: < 18 - Ребенок; 18-50 - Взрослый; > 50 - Пожилой.
+  В выборке должны присутствовать два атрибута: id, age_category. 
+  Decision:
+  /*select id--, 
+      --service_class, 
+      --client_id
+  from tickets
+  where (service_class='FirstClass' or service_class='Business') ;*/
+  select id,
+      --age, 
+      case 
+          when age>0 and age<18 then  'Ребенок' 
+          when age>=18 and age<50  then  'Взрослый' 
+          else 'Пожилой'
+      end as age_category
+  from clients
+  where id in (select client_id
+      from tickets
+      where (service_class='FirstClass' or service_class='Business'));
+  Task:
+  Вывести имя сотрудников из таблицы employees
+  Decision:
+  SELECT 
+      first_name as nm
+  FROM employees emp
+  Task:
+  Вывести имена сотрудников из таблицы employees, зарплата которых больше или равна 9000
+  Decision:
+  SELECT 
+      first_name
+  FROM employees
+  WHERE salary >= 9000
+  Task:
+  Вывести имена сотрудников из таблицы employees, зарплата которых находится в диапазоне от 9000 до 20000
+  Decision:
+  SELECT 
+      first_name as nm
+  FROM employees
+  WHERE salary between 9000 and 20000
+  Decision:
+  select first_name, last_name, salary 
+  from employees
+  where salary not between 5000 and 10000;
+  Decision:
+  select first_name, last_name, salary
+  from employees 
+  where salary!=9000 
+      and salary!=6000 
+      and salary!=4000;
+  Decision:
+  select first_name, last_name, salary, salary*0.5 bonus
+  from employees
+  where salary not in (9000, 6000, 4000);
+  Decision:
+  select first_name, last_name, salary, salary*0.5 bonus
+  from employees
+  where first_name in ('Steven', 'lex');
+  Decision:
+  SELECT LAST_NAME
+  FROM employees
+  WHERE last_name not like 'K%';
+  Decision:
+  select * 
+  from employees;
+  Task:
+  Вывести всех сотрудников с ЗП, не равной 10 тыс
+  Decision:
+  select * 
+  from employees 
+  where salary != 10000;
+  Task:
+  Найти в таблице jobs должности с минимальной ЗП больше 8 тыс
+  Decision:
+  select job_title
+  from jobs 
+  where min_salary>8000;
+  Task:
+  Найти в таблице jobs должности с минимальной ЗП от 8 тыс до 10 тыс включительно
+  Decision:
+  select job_title
+  from jobs
+  where min_salary between 8000 and 10000;
+  Decision:
+  select job_title
+  from jobs
+  where min_salary >= 8000 and min_salary <= 10000;
+  Task:
+  Вывести всех сотрудников с ЗП меньше 10 тыс и больше 20 тыс (2 способа)
+  Decision:
+  select * 
+  from employees
+  where salary < 10000 or salary > 20000;
+  Decision:
+  select * 
+  from employees
+  where salary not between 10000 and 20000;
+  Task:
+  Вывести имя, фамилию и идентификатор департамента для сотрудников НЕ из департаментов 30, 60 и 80
+  Decision:
+  select first_name,last_name,department_id
+  from employees
+  where department_id not in (30,60,80)
+  Task:
+  Вывести все локации, кроме Токио, Пекин (Beijing) и Лондон
+  Decision:
+  select *
+  from locations
+  where city not in ('Tokyo','Beijing','London')
+  Task:
+  Вывести всех сотрудников, у которых имя начинается на A
+  Decision:
+  select*
+  from employees
+  where first_name like 'A%'
+  Task:
+  Вывести всех сотрудников, у которых предпоследняя буква в имени e
+  Decision:
+  select * from employees where first_name like '%e_'
+  Task:
+  Вывести множество сотрудников, у которых в имени есть две буквы l подряд 
+  Decision:
+  select * 
+  from employees
+  where first_name like '%ll%'
+  Task:
+  Вывести сотрудников из таблицы employees, у которых не заполнено значение премии
+  Decision:
+  SELECT 
+      *
+  FROM employees
+  Where commission_pct is NULL
+  Task:
+  Вывести всех сотрудников, у которых не указан размер премии
+  Decision:
+  select *
+  FROM employees
+  where commission_pct is not null;
+  Task:
+  Вывести всех департаменты, у которых указан идентификатор менеджера
+  Decision:
+  select *
+  from departments
+  where manager_id is not NULL
+  Decision:
+  select employee_id, last_name, first_name, salary, 12 bonus
+  FROM employees
+  where salary>9000 -- and commission_pct is not null
+  order by bonus
+  Task:
+  Вывести сотрудников из таблицы employees в порядке возрастания их идентификаторов
+  Decision:
+  SELECT 
+      *
+  FROM employees
+  Order by employee_id 
+  Task:
+  Вывести адреса, находящиеся в Японии в сортировке по возрастанию по location_id
+  Decision:
+  select street_address 
+  from locations
+  where country_id = 'JP'
+  order by location_id;
+  Task:
+  Получить список всех сотрудников из 50 и 80 отделов, у которых есть бонус
+  Decision:
+  select *
+  from employees 
+  where department_id in (50,80)
+  and commission_pct > 0
+  Task:
+  Получить список всех уникальных кодов руководителей
+  Decision:
+  select distinct manager_id
+  from employees
+  where manager_id is not null
+  union
+  select manager_id
+  from departments
+  where manager_id is not null
+  Task:
+  вывести список городов и стран, в которых они находятся (таблица locations).
+  Decision:
+  SELECT city,
+  CASE  country_id
+  WHEN  'IT' THEN 'Италия'  
+  WHEN  'JP' THEN 'Япония' 
+  ELSE 'Прочие’
+  END as country  
+  FROM locations;
+  Decision:
+  SELECT city,
+  CASE
+  WHEN country_id = 'IT' THEN 'Италия'  
+  WHEN country_id = 'JP' THEN 'Япония' 
+  ELSE 'Прочие’
+  END as country  
+  FROM  locations;
+  Task:
+  Классификация сотрудников (таблица employees)
+  Зарплата до 4000 – junior,
+  Зарплата от 4000 до 8000 – middle,  
+  Зарплата от 8000 до 20000 – senior,  
+  Зарплата от 20000 – top management.
+  Выведите фамилию, имя работника, зарплату и его классификацию.
+  Decision:
+  SELECT first_name, last_name, salary,
+      CASE
+          WHEN salary > 0 AND salary <= 4000 THEN 'junior1'
+          WHEN salary > 0 AND salary <= 4000 THEN 'junior2'
+          WHEN salary > 4000 AND salary <= 10000 THEN 'middle'
+          WHEN salary > 10000 AND salary <= 20000 THEN 'senior'
+          WHEN salary > 20000 THEN 'top management'
+          WHEN salary is NULL or salary = 0 THEN 'Not Defined'
+          WHEN salary < 0 THEN 'Nagative salary'
+          ELSE 'Something goes wrong'
+      END AS classification
+  FROM employees;
+  Task:
+  Выведите все департаменты, их название и код начальника. Если это  начальника нет – вывести «Без начальника»
+  Decision:
+  select department_id, department_name, 
+      case when manager_id is null then 'Без начальника' 
+      else manager_id end manager_id
+  from departments;
+  Task:
+  Выведите всех сотрудников и их категорию работы:
+  - Сотрудник администрации
+  - Менеджер
+  - Служащий
+  Правило для категорий придумываем сами
+  Decision:
+  select case 
+      when job_id like 'AD_%' THEN 'Администрация'
+      WHEN job_id LIKE '%_MAN' OR job_id LIKE '%_MGR'  THEN 'Менеджер'
+      WHEN job_id IS NULL THEN 'Нет job_id'
+      ELSE 'Служащий'
+  from employees;
+  Task:
+  Вывести на экран сначала адреса Канады и Америки, затем Японии и Китая, а затем всех остальных стран, при этом в каждой из групп сначала должны идти адреса имеющие непустое значение в поле Провинция
+  Decision:
+  select  street_address
+  from locations
+  order by case when country_id in ('CA','US') then 1
+      when country_id in ('JP','CH') then 2
+      else 3 end, state_province nulls last;
+  Task:
+  Рассчитайте ежемесячную зарплату для каждого сотрудника с переводом в рубли по курсу 1$ - 62 рубля
+  Decision:
+  select first_name, last_name, salary, salary*62 salary_rub
+  from employees
+  Task:
+  Рассчитайте размер годового бонуса для каждого сотрудника
+  Decision:
+  select first_name, salary, commission_pct, 
+      salary*12*coalesce(commission_pct, 0) bonus
+  from employees
+  Task:
+  Выведите имя, фамилию и размер ежемесячного бонуса сотрудника, 
+  округленный по сотых.
+  Decision:
+  select first_name, last_name, salary, commission_pct,
+            coalesce(round(salary*commission_pct,2),'Нет бонуса') bonus
+  from employees
+  Task:
+  Считаем, что медиана зарплаты в компании – 10000.
+  Для каждого сотрудника вывести его имя, фамилию, 
+  зарплату и абсолютную величину отклонения от медианы
+  Decision:
+  select first_name, last_name, salary, abs(salary-10000) deviation
+  from employees 
+  Task:
+  Вывести имя сотрудника, его фамилию, а также поле, которое указывает последние 4 цифры номера телефона сотрудника из таблицы EMPLOYEE
+  Decision:
+  select first_name, last_name, phone_numeric ,
+          substr(replace(phone_numeric,'.',''),-4) num
+  from employees
+  Decision:
+  select *
+  from (select first_name, last_name, salary, div
+          from (select first_name, last_name, salary, abs(10000-salary) div
+                    from employees)
+          where salary > div*2)
+  order by;
+  Task:
+  Для каждого сотрудника из таблицы employee выведите идентификатор сотрудника, его номер телефона и тип номера телефона, если длина равна 12, то 'короткий', если  18, то 'длинный';
+  Decision:
+  select employee_id, 
+    phone_NUMERIC,
+    case 
+      when length(phone_NUMERIC)=12 
+        then 'короткий'
+      when length(phone_NUMERIC)=18 
+        then 'длинный'
+      when phone_NUMERIC is null 
+        then 'номер не указан'
+      else 'ошибка в записи'
+    end type_number
+  from employees;
+  Task:
+  Выведите только тех, у кого класс изменился
+  Decision:
+  select *
+  from (
+      select
+          first_name , 
+          last_name ,
+          salary ,
+          commission_pct , 
+          coalesce(salary + 1000000 * commission_pct, salary) as new_salary,
+          case 
+              when salary < 4000 then 'бедные'
+              when salary < 8000 then 'средний класс'
+              when salary < 20000 then 'богатые'
+              when salary > 20000 then 'очень богатые'
+          end as classification_1 ,
+          case 
+              when coalesce(salary + 1000000 * commission_pct, salary) < 4000 then 'бедные'
+              when coalesce(salary + 1000000 * commission_pct, salary) < 8000 then 'средний класс'
+              when coalesce(salary + 1000000 * commission_pct, salary) < 20000 then 'богатые'
+              when coalesce(salary + 1000000 * commission_pct, salary) > 20000 then 'очень богатые'
+          end as classification_2
+      from hr.employees e
+      ) t
+  where classification_1 <> classification_2 
+  Task:
+  Руководитель хочет выплатить премию всем сотрудникам подразделений, перечисленных в таблице hr.dep_bonus. 
+  Выведите список таких сотрудников из таблицы hr.employees, воспользовавшись только подзапросами.
+  Decision:
+  select * 
+  from hr.employees 
+  where department_id in (
+      select department_id 
+      from hr.departments
+      where department_name in (
+          select department_name
+          from hr.dep_bonus
+          )
+      )
+  Task:
+  Сколько сотрудников с именем David?
+  Decision:
+  select count(*)
+  from hr.employees e 
+  where first_name = 'David'
+  Task:
+  Сколько всего регионов в Великобритании?
+  Decision
+  select count(*)
+  from hr.locations l 
+  where country_id = 'UK'
+  Task:
+  Какова средняя зарплата в компании? 
+  Decision:
+  select avg(salary), sum(salary)/count(salary)
+  from hr.employees e 
+  Task:
+  Выведите всех сотрудников, имеющих заработную плату ниже средней.
+  Decision
+  select * 
+  from hr.employees e 
+  where salary < (
+      select avg(salary)
+      from hr.employees ) 
+  Task:
+  Введите в предыдущий запрос колонку «Самая маленькая зарплата» и если у сотрудника самая маленькая зарплата – пишите «Да», иначе – «Нет».
+  Decision:
+  select e.*,
+      case 
+          when salary = (select min(salary) from hr.employees) then 'yes'
+          else 'no'
+      end as smallest_salary
+  from hr.employees e
+  where salary < (
+      select avg(salary)
+      from hr.employees )
+  Task:   
+  Среди работников, не имеющих процента от прибыли, какова максимальная зарплата?
+  Decision:
+  select max(salary)
+  from hr.employees
+  where commission_pct is null 
+  Task:
+  Пересчитайте зарплату работникам. Если работник из IT отдела – добавьте 15%. Выведите всех сотрудников компании.
+  Decision:
+  select e.*,
+      case 
+          when department_id = (
+              select department_id
+              from hr.departments d 
+              where department_name = 'IT') then salary*1.15
+          else salary
+      end as new_salary
+  from hr.employees e 
+  Task:
+  Выведите название отделов с количеством сотрудников больше среднего.
+  Decision
+  select department_name 
+  from hr.departments d 
+  where department_id in (
+      select department_id 
+      from hr.employees e 
+      group by department_id 
+      having  count(*) > (
+          select avg(cnt)
+          from (
+              select department_id , count(*) cnt
+              from hr.employees e 
+              group by department_id  
+              ) t 
+          )
+      )
+
+Sql, Таблицы students и da_course
+  Task:
+  Создадим таблицу students, задав атрибуты group_id  (числовое значение), name (строковый тип) и dept_id (числовое значение) 
+  Decision:
+  starter=# create table students (
+  starter(#   group_id integer,
+  starter(#   name varchar(50),
+  starter(#   dept_id int);
+  Task:
+  Создать таблицу da_course 
+  с 5 полями:
+  course_nm -> тип строка
+  student_id -> тип число
+  course_begin_dt -> тип дата
+  course_end_dt -> тип дата
+  schedule_time -> тип время
+  Decision:
+  starter=# create table da_course (
+  starter(#   cours_nm varchar,
+  starter(#   student_id int,
+  starter(#   course_begin_dt date,
+  starter(#   cours_end_dt date,
+  starter(#   shedule_time time);
+  Task:
+  Создать таблицу da_course_new, по аналогии с da_course, но сразу заполнить строку данными. 
+  Decision:
+  starter=# create table
+  starter-#   da_course_new_1 as select
+  starter-#     'DE13 SQL' course_nm,
+  starter-#     100 student_id,
+  starter-#     '2022-11-18' course_begin_dt,
+  starter-#     null course_end_dt,
+  starter-#     '19:00' schedule_time;
+  SELECT 1
+  starter=# select * from da_course_new_1;
+  course_nm | student_id | course_begin_dt | course_end_dt | schedule_time
+  -----------+------------+-----------------+---------------+---------------
+  DE13 SQL  |        100 | 2022-11-18      |               | 19:00
+  (1 строка)
+  Task:
+  Создать таблицу students_new по аналогии с таблицей students и загрузить в нее сотрудников из таблицы employees, работающих в 30 и 60 департаментах. Зачислить их в группу номер 1.
+  Decision:
+  create table 
+      students_new as select 
+          1 group_id, 
+          first_name name,  
+          department_id dept_id
+  from employees
+  where dept_id in (30, 60);
+  Task:
+  Добавьте в таблицу da_course поле my_name тип строка длиной 50 и значением по умолчанию;
+  Decision:
+  alter table da_course add my_name varchar(50) default 'unnamed';
+  Task:
+  Переименуйте поле my_name в student_nm;
+  Decision:
+  starter=# alter table da_course
+  starter-# rename column my_name to student_nm;
+  Task:
+  Переименуйте табличку da_course в da08_course
+  Decision:
+  starter=# alter table da_course
+  starter-# rename to da08_course;
+  Task:
+  Добавить в таблицу students студента по имени Alex из 100 департамента и зачислить его во 2 группу
+  Decision:
+  INSERT INTO students 
+  (group_id, name, dept_id) 
+  VALUES (2, 'Alex', 100)
+  Task:
+  Вставьте в таблицу da08_course  1 строку 
+  course_nm -> 'SQL Base'
+  student_cnt -> 30
+  course_begin_dt -> '2022-10-10'
+  course_end_dt -> '5999-12-31'
+  schedule_time -> '10:00:00'
+  Придумайте и вставьте еще одну строку
+  Decision:
+  starter=# insert into da08_course (cours_nm, student_id, course_begin_dt, cours_end_dt, shedule_time)
+  starter-#  values ('SQL Base', 30, '2022-10-10', '2999-12-31', '10:00');
+  starter=# insert into da08_course (cours_nm, student_id, course_begin_dt, cours_end_dt, shedule_time)
+  starter-# values ('SQL Edv', 40, '2022-11-18', '2999-12-31', '19:00');
+  starter=# insert into da08_course (cours_nm, student_id, course_begin_dt, cours_end_dt, shedule_time)
+  starter-# values ('Python Base', 30, '2022-12-10', '2999-12-31', '10:00'),
+  starter-# ('Python Edv', 40, '2023-01-18', '2999-12-31', '19:00');
+  Task:
+  Изменить группу, в которой обучается Алекс, на 3 (таблица students) 
+  Decision:
+  UPDATE students 
+  SET group_id = 3 
+  WHERE name = 'Alex';
+  Task:
+  В таблице da08_course обновите название курса 'SQL Base' на 'Base SQL'
+  Decision:
+  starter=# update da08_course
+  starter-# set cours_nm = 'Base SQL'
+  starter-# where cours_nm='SQL Base';
+  Task:
+  В таблице da08_course обновите для всех строк поле окончания курса на '2999-12-31'
+  Decision:
+  starter=# update da08_course set cours_end_dt = '2888-12-31';
+  Task:
+  Вставим в таблицу students новую запись (3, 'Barankin', 10);
+  Удалим из таблицы students все строки, где номер департамента больше 30;
+  Decision:
+  starter=# insert into students
+  starter-# values (3, 'Barankin', 10);
+  starter=# delete from students
+  starter-# where dept_id>30;
+  Task:
+  Удалите из таблицы da08_course все записи
+  Decision:
+  starter=# delete from da08_course;
+
+Sql, Таблица persons
+  Task:
+  необходимо создать таблицу persons с полями:
+  -id,
+  -name,
+  -age, 
+  -order_total
+  -добавьте 5 записей;
+  удалите записи, в которых возраст менее 18 лет ;
+  для конкретного id увеличьте order_total на 500;
+  уменьшите возраст на 2 года всем тем, у кого последняя буква в имени а;
+  удалите таблицу persons;
+  Decision:
+  starter=# create table persons (
+  starter(#   id serial,
+  starter(#   name varchar(50),
+  starter(#   age smallint,
+  starter(#   order_total int
+  starter(# );
+  starter=# insert into persons
+  starter-#     (name,
+  starter(#     age,
+  starter(#     order_total)
+  starter-# values
+  starter-#     ('Dmitry', 34, 200),
+  starter-#     ('Monika', 24, 205),
+  starter-#     ('Moko', 45, 234),
+  starter-#     ('Yoko', 52, 213),
+  starter-#     ('Amy', 27, 231);
+  starter=# delete from persons where age<30;
+  starter=# update persons
+  starter-# set order_total = order_total + 500
+  starter-# where id = 2;
+  starter=# UPDATE persons SET age = age - 2 WHERE name like '%o' ;
+
+Sql, Таблица Алфавит
+  Task:
+  Создать таблицу alphabet c полем letter char(1);
+  Вставить в нее все буквы русского алфавита;
+  Добавить новое поле letter_type varchar(20);
+  Заполните это поле типом буквы (гласная или согласная);
+  Decision:
+  starter=# create table alphabet (letter char(1));
+  starter=# insert into alphabet (letter) values ('А');
+  starter=# insert into alphabet (letter) values ('Б');
+  starter=# insert into alphabet (letter) values ('В');
+  starter=# insert into alphabet (letter) values ('Г');
+  starter=# insert into alphabet (letter) values ('Д');
+  starter=# insert into alphabet (letter) values ('Ё');
+  starter=# insert into alphabet (letter) values ('Е');
+  starter=# insert into alphabet (letter) values ('Ж');
+  starter=# insert into alphabet (letter) values ('З');
+  starter=# insert into alphabet (letter) values ('И');
+  starter=# insert into alphabet (letter) values ('Й');
+  starter=# insert into alphabet (letter) values ('К');
+  starter=# insert into alphabet (letter) values ('Л');
+  starter=# insert into alphabet (letter) values ('М');
+  starter=# insert into alphabet (letter) values ('Н');
+  starter=# insert into alphabet (letter) values ('О');
+  starter=# insert into alphabet (letter) values ('П');
+  starter=# insert into alphabet (letter) values ('Р');
+  starter=# insert into alphabet (letter) values ('С');
+  starter=# insert into alphabet (letter) values ('Т');
+  starter=# insert into alphabet (letter) values ('У');
+  starter=# insert into alphabet (letter) values ('Ф');
+  starter=# insert into alphabet (letter) values ('Х');
+  starter=# insert into alphabet (letter) values ('Ц');
+  starter=# insert into alphabet (letter) values ('Ч');
+  starter=# insert into alphabet (letter) values ('Ш');
+  starter=# insert into alphabet (letter) values ('Щ');
+  starter=# insert into alphabet (letter) values ('Ъ');
+  starter=# insert into alphabet (letter) values ('Ы');
+  starter=# insert into alphabet (letter) values ('Ь');
+  starter=# insert into alphabet (letter) values ('Э');
+  starter=# insert into alphabet (letter) values ('Ю');
+  starter=# insert into alphabet (letter) values ('Я');
+  starter=# ALTER TABLE alphabet
+  starter-#   add letter_type varchar(20);
+  starter=# select * from alphabet;
+  letter | letter_type
+  --------+-------------
+  А      | гласная
+  Б      | согласная
+  В      | согласная
+  Г      | согласная
+  Д      | согласная
+  Ё      | гласная
+  Е      | гласная
+  Ж      | согласная
+  З      | согласная
+  И      | гласная
+  Й      | согласная
+  К      | согласная
+  Л      | согласная
+  М      | согласная
+  Н      | согласная
+  О      | гласная
+  П      | согласная
+  Р      | согласная
+  С      | согласная
+  Т      | согласная
+  У      | гласная
+  Ф      | согласная
+  Х      | согласная
+  Ц      | согласная
+  Ч      | согласная
+  Ш      | согласная
+  Щ      | согласная
+  Ъ      | нет звуков
+  Ы      | гласная
+  Ь      | нет звуков
+  Э      | гласная
+  Ю      | гласная
+  Я      | гласная
+  (33 строки)
+
+Sql, Таблица Классы
+  Task:
+  Создать таблицу classes;
+  Вставьте в нее все записи из приложенного файла (для таблицы classes);
+  Для каждого класса выведите уровень успеваемости. Если среднегодовая отметка    выше 3, то уровень успеваемости принимает значение 'выше среднего', иначе 'ниже     среднего';
+  Decision:
+  starter=# create table classes
+  starter-#   (class_num varchar(4),
+  starter(#   avg_year_mark int,
+  starter(#   avg_month_mark int,
+  starter(#   avg_term_mark int);
+  starter=# insert into classes (class_num, avg_year_mark, avg_month_mark, avg_term_mark) values ('1 А', 4, 4, 5);
+  starter=# insert into classes (class_num, avg_year_mark, avg_month_mark, avg_term_mark) values ('1 Б', 5, 5, 4);
+  starter=# insert into classes (class_num, avg_year_mark, avg_month_mark, avg_term_mark) values ('2 А', 5, 5, 4);
+  starter=# insert into classes (class_num, avg_year_mark, avg_month_mark, avg_term_mark) values ('2 Б', NULL, 5, 5);
+  starter=# insert into classes (class_num, avg_year_mark, avg_month_mark, avg_term_mark) values ('3 А', 4, 4, 5);
+  starter=# insert into classes (class_num, avg_year_mark, avg_month_mark, avg_term_mark) values ('3 Б', 4, 3, 4);
+  starter=# insert into classes (class_num, avg_year_mark, avg_month_mark, avg_term_mark) values ('4 А', 5, 4, 3);
+  starter=# insert into classes (class_num, avg_year_mark, avg_month_mark, avg_term_mark) values ('4 Б', 5, 4, 4);
+  starter=# insert into classes (class_num, avg_year_mark, avg_month_mark, avg_term_mark) values ('5 А', 5, 4, 5);
+  starter=# insert into classes (class_num, avg_year_mark, avg_month_mark, avg_term_mark) values ('5 Б', 4, 5, 3);
+  starter=# insert into classes (class_num, avg_year_mark, avg_month_mark, avg_term_mark) values ('6 А', 3, 3, 3);
+  starter=# insert into classes (class_num, avg_year_mark, avg_month_mark, avg_term_mark) values ('6 Б', 4, 5, 4);
+  starter=# insert into classes (class_num, avg_year_mark, avg_month_mark, avg_term_mark) values ('7 А', 5, 5, 4);
+  starter=# insert into classes (class_num, avg_year_mark, avg_month_mark, avg_term_mark) values ('7 Б', 4, 3, 4);
+  starter=# insert into classes (class_num, avg_year_mark, avg_month_mark, avg_term_mark) values ('8 А', 3, 3, 4);
+  starter=# insert into classes (class_num, avg_year_mark, avg_month_mark, avg_term_mark) values ('8 Б', 5, 4, 5);
+  starter=# insert into classes (class_num, avg_year_mark, avg_month_mark, avg_term_mark) values ('9 А', 3, 3, 4);
+  starter=# insert into classes (class_num, avg_year_mark, avg_month_mark, avg_term_mark) values ('9 Б', NULL, 5, 5);
+  starter=# insert into classes (class_num, avg_year_mark, avg_month_mark, avg_term_mark) values ('10 А', 3, 4, 3);
+  starter=# insert into classes (class_num, avg_year_mark, avg_month_mark, avg_term_mark) values ('10 Б', 5, 5, 4);
+  starter=# insert into classes (class_num, avg_year_mark, avg_month_mark, avg_term_mark) values ('11 А', 5, 4, 4);
+  starter=# insert into classes (class_num, avg_year_mark, avg_month_mark, avg_term_mark) values ('11 Б', 5, 5, 5);
+  starter=# select * from classes;
+  class_num | avg_year_mark | avg_month_mark | avg_term_mark
+  -----------+---------------+----------------+---------------
+  1 А       |             4 |              4 |             5
+  1 Б       |             5 |              5 |             4
+  2 А       |             5 |              5 |             4
+  2 Б       |               |              5 |             5
+  3 А       |             4 |              4 |             5
+  3 Б       |             4 |              3 |             4
+  4 А       |             5 |              4 |             3
+  4 Б       |             5 |              4 |             4
+  5 А       |             5 |              4 |             5
+  5 Б       |             4 |              5 |             3
+  6 А       |             3 |              3 |             3
+  6 Б       |             4 |              5 |             4
+  7 А       |             5 |              5 |             4
+  7 Б       |             4 |              3 |             4
+  8 А       |             3 |              3 |             4
+  8 Б       |             5 |              4 |             5
+  9 А       |             3 |              3 |             4
+  9 Б       |               |              5 |             5
+  10 А      |             3 |              4 |             3
+  10 Б      |             5 |              5 |             4
+  11 А      |             5 |              4 |             4
+  11 Б      |             5 |              5 |             5
+  (22 строки)
+  starter=# select
+  starter-#   class_num,
+  starter-#   avg_year_mark,
+  starter-#   case
+  starter-#     when avg_year_mark>3 and avg_year_mark<=5
+  starter-#       then 'выше среднего'
+  starter-#     when avg_year_mark<=3 and avg_year_mark>=1
+  starter-#       then 'ниже среднего'
+  starter-#     when avg_year_mark is null
+  starter-#       then 'отметка не выставлена'
+  starter-#     else 'ошибка значения'
+  starter-#   end as progress
+  starter-# from classes;
+  class_num | avg_year_mark |       progress
+  -----------+---------------+-----------------------
+  1 А       |             4 | выше среднего
+  1 Б       |             5 | выше среднего
+  2 А       |             5 | выше среднего
+  2 Б       |               | отметка не выставлена
+  3 А       |             4 | выше среднего
+  3 Б       |             4 | выше среднего
+  4 А       |             5 | выше среднего
+  4 Б       |             5 | выше среднего
+  5 А       |             5 | выше среднего
+  5 Б       |             4 | выше среднего
+  6 А       |             3 | ниже среднего
+  6 Б       |             4 | выше среднего
+  7 А       |             5 | выше среднего
+  7 Б       |             4 | выше среднего
+  8 А       |             3 | ниже среднего
+  8 Б       |             5 | выше среднего
+  9 А       |             3 | ниже среднего
+  9 Б       |               | отметка не выставлена
+  10 А      |             3 | ниже среднего
+  10 Б      |             5 | выше среднего
+  11 А      |             5 | выше среднего
+  11 Б      |             5 | выше среднего
+  (22 строки)
+  Task:
+  Для каждого класса из таблицы classes выведите наименьшее из трех средних значений (Если число не заполнено, то вместо него используется число 3)
+  Decision:
+  starter=# select
+  starter-#   class_num,
+  starter-#   avg_year_mark,
+  starter-#   avg_month_mark,
+  starter-#   avg_term_mark,
+  starter-#   case
+  starter-#     when coalesce(avg_year_mark,3)<=coalesce(avg_month_mark ,3)
+  starter-#       and coalesce(avg_year_mark,3)<=coalesce(avg_term_mark,3)
+  starter-#         then coalesce(avg_year_mark,3)
+  starter-#     when coalesce(avg_month_mark,3)<=coalesce(avg_year_mark ,3)
+  starter-#       and coalesce(avg_month_mark,3)<=coalesce(avg_term_mark,3)
+  starter-#         then coalesce(avg_month_mark,3)
+  starter-#     else  coalesce(avg_term_mark,3)
+  starter-#   end min_val
+  starter-# from classes;
+  class_num | avg_year_mark | avg_month_mark | avg_term_mark | min_val
+  -----------+---------------+----------------+---------------+---------
+  1 А       |             4 |              4 |             5 |       4
+  1 Б       |             5 |              5 |             4 |       4
+  2 А       |             5 |              5 |             4 |       4
+  2 Б       |               |              5 |             5 |       3
+  3 А       |             4 |              4 |             5 |       4
+  3 Б       |             4 |              3 |             4 |       3
+  4 А       |             5 |              4 |             3 |       3
+  4 Б       |             5 |              4 |             4 |       4
+  5 А       |             5 |              4 |             5 |       4
+  5 Б       |             4 |              5 |             3 |       3
+  6 А       |             3 |              3 |             3 |       3
+  6 Б       |             4 |              5 |             4 |       4
+  7 А       |             5 |              5 |             4 |       4
+  7 Б       |             4 |              3 |             4 |       3
+  8 А       |             3 |              3 |             4 |       3
+  8 Б       |             5 |              4 |             5 |       4
+  9 А       |             3 |              3 |             4 |       3
+  9 Б       |               |              5 |             5 |       3
+  10 А      |             3 |              4 |             3 |       3
+  10 Б      |             5 |              5 |             4 |       4
+  11 А      |             5 |              4 |             4 |       4
+  11 Б      |             5 |              5 |             5 |       5
+  starter=# select
+  starter-#   case
+  starter-#     when avg_year_mark<=avg_month_mark
+  starter-#       and coalesce(avg_year_mark,3)<=coalesce(avg_term_mark,3)
+  starter-#         then coalesce(avg_year_mark,3)
+  starter-#     when coalesce(avg_month_mark,3)<=coalesce(avg_year_mark ,3)
+  starter-#       and coalesce(avg_month_mark,3)<=coalesce(avg_term_mark,3)
+  starter-#         then coalesce(avg_month_mark,3)
+  starter-#     when coalesce(avg_term_mark,3)<=coalesce(avg_month_mark ,3)
+  starter-#       and coalesce(avg_term_mark,3)<=coalesce(avg_year_mark,3)
+  starter-#         then  coalesce(avg_term_mark,3)
+  starter-#   end min_val
+  starter-# from
+  starter-#   (select
+  starter(#     class_num,
+  starter(#     coalesce(avg_year_mark,3) as avg_year_mark,
+  starter(#     coalesce(avg_month_mark,3) as avg_month_mark,
+  starter(#     coalesce(avg_term_mark,3) as avg_term_mark
+  starter(#   from classes) as minval;
+  min_val
+  ---------
+        4
+        4
+        4
+        3
+        4
+        3
+        3
+        4
+        4
+        3
+        3
+        4
+        4
+        3
+        3
+        4
+        3
+        3
+        3
+        4
+        4
+        5
+  (22 строки)
+
+Sql, Таблица circles
+  Task:
+  Создать таблицу circles;
+  Вставьте в нее все записи из приложенного файла (для таблицы circles);
+  Для каждого круга рассчитайте и выведите требуемый показатель:
+  l (или L) – длина окружности (2*pi*R);
+  s (или S) – площадь круга (pi*R*R)
+  v (или V) – объем шара ((4/3)*pi*R*R*R)
+  Decision:
+  starter=# create table circles
+  starter-#   (id varchar(20),
+  starter(#   radius int,
+  starter(#   value_cd varchar(5));
+  starter=# insert into circles (id, radius, value_cd) values ('MU0000000020', 40, 's');
+  starter=# insert into circles (id, radius, value_cd) values ('MU0000000060', 44, 'L');
+  starter=# insert into circles (id, radius, value_cd) values ('MT0000000075', 15, 'V');
+  starter=# insert into circles (id, radius, value_cd) values ('MT0000000010', 17, 's');
+  starter=# insert into circles (id, radius, value_cd) values ('MU0000000048', 36, 'v');
+  starter=# insert into circles (id, radius, value_cd) values ('MU0000000077', 33, 'l');
+  starter=# insert into circles (id, radius, value_cd) values ('MU0000000088', 46, 's');
+  starter=# insert into circles (id, radius, value_cd) values ('MU0000000056', 19, 'V');
+  starter=# insert into circles (id, radius, value_cd) values ('MP0000000090', 42, 'v');
+  starter=# insert into circles (id, radius, value_cd) values ('MU0000000084', 49, 'S');
+  starter=# insert into circles (id, radius, value_cd) values ('MU0000000030', 45, 'v');
+  starter=# insert into circles (id, radius, value_cd) values ('MP0000000018', 37, 'S');
+  starter=# insert into circles (id, radius, value_cd) values ('MU0000000026', 37, 'l');
+  starter=# insert into circles (id, radius, value_cd) values ('MU0000000053', 24, 'V');
+  starter=# insert into circles (id, radius, value_cd) values ('MB0000000079', 8, 'NULL');
+  starter=# insert into circles (id, radius, value_cd) values ('MU0000000042', 47, 's');
+  starter=# insert into circles (id, radius, value_cd) values ('MU0000000056', 42, 'l');
+  starter=# insert into circles (id, radius, value_cd) values ('MT0000000142', 40, 'v');
+  starter=# insert into circles (id, radius, value_cd) values ('MT0000000065', 34, 'V');
+  starter=# insert into circles (id, radius, value_cd) values ('MT000000006', 47, 's');
+  starter=# insert into circles (id, radius, value_cd) values ('MU000000009', 28, 'S');
+  starter=# insert into circles (id, radius, value_cd) values ('MU0000000039', 20, 'L');
+  starter=# select * from circles;
+        id      | radius | value_cd
+  --------------+--------+----------
+  MU0000000020 |     40 | s
+  MU0000000060 |     44 | L
+  MT0000000075 |     15 | V
+  MT0000000010 |     17 | s
+  MU0000000048 |     36 | v
+  MU0000000077 |     33 | l
+  MU0000000088 |     46 | s
+  MU0000000056 |     19 | V
+  MP0000000090 |     42 | v
+  MU0000000084 |     49 | S
+  MU0000000030 |     45 | v
+  MP0000000018 |     37 | S
+  MU0000000026 |     37 | l
+  MU0000000053 |     24 | V
+  MB0000000079 |      8 | NULL
+  MU0000000042 |     47 | s
+  MU0000000056 |     42 | l
+  MT0000000142 |     40 | v
+  MT0000000065 |     34 | V
+  MT000000006  |     47 | s
+  MU000000009  |     28 | S
+  MU0000000039 |     20 | L
+  (22 строки)
+  starter=# select
+  starter-#   id,
+  starter-#   case
+  starter-#     when value_cd in ('l','L')
+  starter-#       then radius*3.14*2
+  starter-#     when value_cd in ('s','S')
+  starter-#       then radius*radius*3.14
+  starter-#     when value_cd in ('v','V')
+  starter-#       then radius*radius*radius*3.14*(4/3)
+  starter-#     else value_cd
+  starter-#   end as result
+  starter-# from circles;
+  id  result
+  MU0000000020    5024
+  MU0000000060    276.32
+  MT0000000075    10597.5
+  MT0000000010    907.46
+  MU0000000048    146499.84
+  MU0000000077    207.24
+  MU0000000088    6644.240000000001
+  MU0000000056    21537.260000000002
+  MP0000000090    232636.32
+  MU0000000084    7539.14
+  MU0000000030    286132.5
+  MP0000000018    4298.66
+  MU0000000026    232.36
+  MU0000000053    43407.36
+  MB0000000079    NULL
+  MU0000000042    6936.26
+  MU0000000056    263.76
+  MT0000000142    200960
+  MT0000000065    123414.56
+  MT000000006 6936.26
+  MU000000009 2461.76
+  MU0000000039    125.60000000000001
+  Task:
+  Для таблицы circles определить систему источника данных и номер круга: MU0000000001
+  MU - система источника, 1 - номер круга
+  Decision:
+  starter=# select
+  starter-#   id,
+  starter-#   rtrim(substr(id,1,2),'0') source_system,
+  starter-#   ltrim(substr(id,3), '0') circle_number
+  starter-# from circles;
+        id      | source_system | circle_number
+  --------------+---------------+---------------
+  MU0000000020 | MU            | 20
+  MU0000000060 | MU            | 60
+  MT0000000075 | MT            | 75
+  MT0000000010 | MT            | 10
+  MU0000000048 | MU            | 48
+  MU0000000077 | MU            | 77
+  MU0000000088 | MU            | 88
+  MU0000000056 | MU            | 56
+  MP0000000090 | MP            | 90
+  MU0000000084 | MU            | 84
+  MU0000000030 | MU            | 30
+  MP0000000018 | MP            | 18
+  MU0000000026 | MU            | 26
+  MU0000000053 | MU            | 53
+  MB0000000079 | MB            | 79
+  MU0000000042 | MU            | 42
+  MU0000000056 | MU            | 56
+  MT0000000142 | MT            | 142
+  MT0000000065 | MT            | 65
+  MT000000006  | MT            | 6
+  MU000000009  | MU            | 9
+  MU0000000039 | MU            | 39
+  (22 строки)
+  starter=# SELECT
+  starter-#   SUBSTR(LTRIM(id),1, 2) AS source_system,
+  starter-#   cast(SUBSTR(id,3) as int) AS num_circle
+  starter-# FROM circles;SELECT
+  source_system | num_circle
+  ---------------+------------
+  MU            |         20
+  MU            |         60
+  MT            |         75
+  MT            |         10
+  MU            |         48
+  MU            |         77
+  MU            |         88
+  MU            |         56
+  MP            |         90
+  MU            |         84
+  MU            |         30
+  MP            |         18
+  MU            |         26
+  MU            |         53
+  MB            |         79
+  MU            |         42
+  MU            |         56
+  MT            |        142
+  MT            |         65
+  MT            |          6
+  MU            |          9
+  MU            |         39
+  (22 строки)

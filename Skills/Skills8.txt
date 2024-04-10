@@ -1,0 +1,935 @@
+Mail for feedback: David138it@gmail.com
+
+Engineer, Interview Tinkoff
+  Task:
+  Для вывески нового офиса Тинькофф были заказаны неоновые буквы.
+  В офис привезли какой-то набор из больших латинских букв. Проверьте, что из них действительно можно составить строку «TINKOFF» "TINKOFF" для вывески. Тинькофф не хочет платить за лишние буквы, поэтому должны быть использованы все привезённые буквы.
+  Формат входных данных:
+  Каждый тест состоит из нескольких наборов входных данных. В первой строке находится одно целое число t (1<=t<=100)(1<=t<=100) — количество наборов входных данных. Далее следует описание наборов входных данных. Единственная строка каждого набора входных данных содержит одну непустую строку из больших латинских букв длиной не более 20 символов — привезённый набор букв. 
+  Формат выходных данных:
+  Для каждого набора входных данных, в отдельной строке, выведите «Yes» (без кавычек), если из всех привезённых букв можно составить строку «TINKOFF», и «No» иначе. Вы можете выводить каждую букву в любом регистре (строчную или заглавную). Например, строки «yEs», «yes», «Yes» и «YES» будут приняты как положительный ответ.
+  Input:
+  4
+  TINKOFF
+  TINKOFFF
+  AAAA
+  FFOKNIT
+  Output:
+  Yes
+  No
+  No
+  Yes
+  Task:
+  Тинькофф начал разрабатывать новый проект. Для этого было подобрано n разработчиков. У i-го разработчика есть порог социальности ai, это значит, что он готов контактировать напрямую с не более чем ai другими разработчиками.
+  Определите, можно ли наладить контакт между какими-то парами разработчиков, так чтобы любые два контактировали либо напрямую, либо через других разработчиков.
+  Формат входных данных:
+  Каждый тест состоит из нескольких наборов входных данных.
+  В первой строке находится одно целое число t (1<=t<=1000) — количество наборов входных данных. Далее следует описание наборов входных данных.
+  Первая строка каждого набора входных данных содержит одно число n (1<=n<=105) — количество разработчиков. Вторая строка содержит n натуральных чисел ai (1<=ai<=109) — пороги социальностей разработчиков. Гарантируется, что сумма значений n по всем наборам входных данных не превосходит 105.
+  Формат выходных данных:
+  Для каждого набора входных данных, выведите «YesYes», если можно наладить контакт между программистами, и «No» иначе. Вы можете выводить каждую букву в любом регистре (строчную или заглавную). Например, строки «yEs», «yes», «Yes» и «YES» будут приняты как положительный ответ. 
+  Примеры данных
+  Input:
+  4
+  1
+  1000000000
+  2
+  1 1
+  3
+  1 1 1
+  4
+  1 1 2 2
+  Output:
+  Yes
+  Yes
+  No
+  Yes
+  Task:
+  Максим пришёл в Тинькофф, чтобы взять кредит на покупку новогодних подарков. Ему предодобрен кредит в размере m бурлей, значит он может получить любое целое количество бурлей от 00 до m включительно.
+  У Максима есть заранее подготовленный список из n подарков. Он планирует идти по порядку вдоль списка и каждый раз, когда он видит подарок, на который у него хватает денег, он обязательно моментально его покупает.
+  Помогите ему посчитать, какое максимальное количество денег у него может остаться после закупки подарков, если он возьмёт кредит оптимального размера.
+  Формат входных данных:
+  Первая строка содержит два целых числа n и m (1<=n<=105,1<=m<=109 — длина списка подарков и размер предодобренного кредита.
+  Вторая строка содержит n целых чисел — цены подарков ai (1<=ai<=109).
+  Формат выходных данных:
+  Выведите одно число — максимальное количество бурлей, которое могло остаться у Максима после закупки подарков. 
+  Замечание:
+  В первом примере Максим может взять в кредит 3 бурля, и тогда он купит только последний подарок. Во втором примере Максим может взять кредит на все 10 бурлей и купить все подарки. 
+  Пример 1
+  Input:
+  3 10
+  5 4 1
+  Output:
+  2
+  Пример 2
+  Input:
+  3 10
+  1 2 3
+  Output:
+  4
+  Task:
+  Боб начинает свой путь в Тинькофф Инвестициях. Сейчас его интересуют k компаний, и он обязательно хочет купить акции всех этих компаний, чтобы у каждой компании была хотя бы одна акция.
+  Тинькофф Инвестиции предложили ему корневое дерево из n вершин, в каждой из которых лежит пакет акций какой-то из интересующих его компаний, также задана стоимость каждого пакета. Вершины корневого дерева пронумерованы целыми числами от 1 до n.
+  Функционал нынешнего приложения позволяет Бобу купить поддерево этого дерева, на это он потратит столько денег, сколько суммарно стоят пакеты в поддереве и получит все акции из этого поддерева. В результате покупки Боб хочет, чтобы у него были акции всех интересующих его компаний. Поскольку Боб ещё студент, он хочет потратить минимальное количество денег.
+  Определите может ли Боб выкупить какое-то поддерево так, чтобы у него оказались все нужные ему акции, и если да, то какое минимальное количество денег он для этого должен потратить. 
+  Формат входных данных:
+  В первой строке заданы два целых числа n, k (1<=n<=3⋅105,1<=k<=30) - размер дерева и количество интересных для Боба компаний.
+  Следующие k строк содержат различные строки длиной не более 10 символов из маленьких латинских букв — названия компаний.
+  Следующие n строк содержат описание дерева. В i-ой строке находится описание i-й вершины дерева pi, ai, ci (0<=pi<=n,0<=ai<=104):
+  pi — номер родителя i-ой вершины или 00, если вершина является корнем
+  ai — стоимость пакета акций в i-ой вершине
+  ci — название компании, пакет акции которой лежит в i-ой вершине
+  Гарантируется, что компании, акции которых лежат в вершинах, интересуют Боба. Гарантируется, что входные данные задают корректное корневое дерево.
+  Формат выходных данных:
+  Выведите единственное число — минимальное количество денег, которое должен потратить Боб, или −1, если выкупить акции всех компаний невозможно.
+  Замечание
+  Определение корневого дерева можете посмотреть в Википедии.
+  Примеры данных
+  Input:
+  5 2
+  A
+  B
+  0 1 A
+  1 2 A
+  1 2 B
+  1 1 B
+  4 2 A
+  Output:
+  3
+  Дети из кружка Тинькофф Поколение любят считать манулов в различных чатиках. В этой задаче вам тоже придётся считать манулов.
+  Всего есть n детей, некоторые из которых дружат друг с другом. Формально, заданы m различных неупорядоченных пар (v,u), таких что ребёнок с номером v дружит с ребёнком u.
+  Изначально, i-ый ребёнок уже досчитал до ai манулов. Далее происходят q событий, каждое из которых имеет один из двух видов (1<=v<=n,0<=x<=104):
+  + v x — ребёнок с номером v отправляет по x стикеров с манулом каждому из своих друзей. Каждый из его друзей сразу же считает этих полученных манулов, т.е. прибавляет к своим уже посчитанным
+  ? v — мы просим вас посчитать, сколько манулов на данный момент уже посчитал ребёнок с номером v
+  Формат входных данных:
+  В первой строке даны три числа n, m и q (1<=n<=105,0<=m<=105,1<=q<=3⋅105).
+  Во второй строке заданы n чисел ai (0<=ai<=109)(0<=ai<=109) — количество уже посчитанных манулов у i-го ребёнка.
+  В каждой из следующих m строк заданы два числа v, u (1<=v≠u<=n)(1<=v=u<=n) — пары друзей. Гарантируется, что пары не повторяются.
+  В каждой из следующих q строк описаны события в описанном формате. Гарантируется, что будет хотя бы одно событие типа ?.
+  Формат выходных данных:
+  Для каждого события типа ? выведите в отдельной строке требуемое значение.
+  Примеры данных
+  Input:
+  5 5 5
+  1 2 3 4 5
+  1 2
+  2 3
+  3 4
+  4 5
+  5 1
+  ? 1
+  ? 5
+  + 1 2
+  ? 1
+  ? 5
+  Output:
+  1
+  5
+  1
+  7
+  Task:
+  Дан массив aa из n целых чисел. Требуется выполнить q запросов такого вида (1<=l<=r<=n, 0<=k,b,x<=109):
+  + l r x — прибавить x ко всем ai на отрезке i∈[l,r]i∈[l,r]
+  ? l r k b — вывести maxl<=i<=rmin(ai,k⋅i+b)maxl<=i<=rmin(ai,k⋅i+b)
+  Формат входных данных:
+  В первой строке заданы два числа n, q (1<=n<=2⋅105,1<=q<=5⋅105).
+  Во второй строке задан массив aa (0<=ai<=109).
+  Следующие q строк содержат запросы в заданном формате. Гарантируется, что будет хотя бы один запрос типа ?.
+  Формат выходных данных:
+  Для каждого запроса типа ? выведите ответ в отдельной строке.
+  Примеры данных
+  6 3
+  2 4 6 8 10 12
+  ? 2 5 3 0
+  + 2 3 6
+  ? 2 5 3 2
+  10
+  11
+  Примеры данных
+  Input:
+  6 3
+  2 4 6 8 10 12
+  ? 2 5 3 0
+  + 2 3 6
+  ? 2 5 3 2
+  Output:
+  10
+  11
+
+Engineer, CI/CD
+  Task:   
+  Сделай CI/CD Pipeline который созадет и деплоит dicker image в cloud
+  Task:   
+  Сделай CI/CD Pipeline который деплоит java приложение в кибернетес
+  Source:
+  1. https://www.youtube.com/playlist?list=PLg5SS_4L6LYuu1RAT4l1tCkZrJzkIaNgL
+
+Engineer, K8s
+  Task:
+  Как автоматически деплоить helm cart?
+  Decision:
+  k8s add-on helm operator + argocd/fluxcd
+  k8s add-on github action + terraform + helm provider 
+  Source:
+  1. https://www.youtube.com/playlist?list=PLg5SS_4L6LYuu1RAT4l1tCkZrJzkIaNgL
+
+Engineer, Terraform
+  Task:
+  напиши terraform модуль, который создаст простой EC2 instance в каждом полученном subnet ID и выдаст output в таком формате
+  {instance_id : instance_private_ip}
+  например
+  {
+      i-2565432 : 10.10.10.1
+      i-4635656 : 20.20.20.2
+  }  
+  Source:
+  1. https://www.youtube.com/playlist?list=PLg5SS_4L6LYuu1RAT4l1tCkZrJzkIaNgL
+
+Engineer, Git Основы
+    Task:
+    Добавляем новый репозиторий
+    Decision:
+    $ mkdir tProjects
+    $ cd tProjects/
+    $ vim tFile1
+    $ cat tFile1
+    $ git init
+    $ git add .
+    $ git commit -m "first commit"
+    $ git branch -M main
+    $ git remote add origin https://github.com/David138it/tProject.git
+    $ git push -u origin main
+    Task:
+    Вносим новые изменения
+    Decision:
+    $ git status
+    $ git add .
+    $ git commit -m "Add information in the file"
+    $ git push -u origin main
+    Task:
+    Скопируем проект в другом компе
+    Decision:
+    $ git clone https://github.com/David138it/tProject
+    $ cd tProject/
+    Task:
+    Возвращаемся в первый комп и там уже вносим копируем данные другого компа 
+    Decision:
+    $ git fetch origin
+    $ cat tFile1 
+    $ git merge
+    $ cat tFile1
+    Source:
+    1. https://docs.github.com/ru/repositories/creating-and-managing-repositories/cloning-a-repository
+  Task:   
+  Как сделать rebase на main branch? и что это значит?
+  Decision:
+  $ git checkout your-branch
+  $ git rebase main
+  Когда вы сделаете готовый branch, вы хотите все обнволения main добавить себе в branch
+    Source:
+    1. https://www.youtube.com/playlist?list=PLg5SS_4L6LYuu1RAT4l1tCkZrJzkIaNgL
+  Task:
+  Я не хочу кидать в гитхаб репозитория папку Env. Показать последний коммит, последние 2 коммита и статистику внесенных ими изменений.
+  Decision:
+  $ vim .gitignore
+  $ cat .gitignore
+  Env/
+  Env/*
+  $ git show HEAD^
+  $ git log -2 --stat
+  $ git add .
+  Task:
+  Есть master (публичная версия сайта), в двух параллельных ветках (branch_1 и branch_2) было отредактировано одно и то же место одного и того же файла, первую ветку (branch_1) влили в master, попытка влить вторую вызывает конфликт.переключаемся на ветку master
+  Decision:
+  $ git checkout master
+  $ git checkout -b branch_1
+  subl .
+  $ git commit -a -m "Правка 1"
+  $ git checkout master
+  $ git checkout -b branch_2
+  subl .
+  $ git commit -a -m "Правка 2"
+  $ git checkout master
+  $ git merge branch_1
+  $ git merge branch_2
+  subl .
+  $ git commit -a -m "Устранение конфликта"
+  Task:
+  Если в разных ветках, в одних и тех же файлов, разные изменения, значит будет конфликт. Для этого установим утилиту kdiff3 с официального сайта. Укажем утилиту в Гит
+  Decision:
+  $ git config --global merge.tool kdiff3
+  $ git merge master
+  $ git mergetool
+  $ git status
+  Task:
+  Удалим не нужные файлы, которые появились из-за бекапа и коммитим переделанный файл
+  Decision:
+  $ git merge new_vetka создать новую ветку с указанным именем
+  $ git branch new_branch
+  $ git branch -d hotfix
+  $ git branch —merged
+  $ git branch —no-merged
+  $ git branch -a
+  Task:
+  Есть master (публичная версия сайта), хотим масштабно что-то поменять (переверстать «шапку»), но по ходу работ возникает необходимость подправить критичный баг (неправильно указан контакт в «подвале»).создадим новую ветку для задачи изменения «шапки» и перейдём в неё. устраняем баг и сохраняем разметку.  «подвала». удаляем ветку footer_hotfix
+  Decision:
+  $ git checkout -b new_page_header
+  subl inc/header.html
+  $ git commit -a -m "Новая шапка: смена логотипа"
+  $ git checkout master
+  $ git checkout -b footer_hotfix
+    $ subl inc/footer.html
+  $ git commit -a -m "Исправление контакта в подвале"
+  $ git checkout master
+  $ git merge footer_hotfix 
+  $ git branch -d footer_hotfix
+  $ git checkout new_page_header
+  $ subl inc/header.html
+  $ git commit -a -m "Новая шапка: смена навигации"
+  $ git checkout master
+  $ git merge new_page_header
+  $ git branch -d new_page_header
+  Source:
+    1. https://www.youtube.com/playlist?list=PLoonZ8wII66iUm84o7nadL-oqINzBLk5g
+
+Docker, Связь Dockerfile и docker-compose
+  Task:
+  Связь Dockerfile и docker-compose. Используем docker-compose и Dockerfile для запуска контейнеров. Создадим папку, которая будет относиться к образу базы данных и в нем создаем Dockerfile. В нем указываем какой образ нужно использовать (mariadb), в docker-compose добавляем ключ build и image можно убрать. Создаем новую директорию с сервисом adminer. Тут все по аналогии нужно делать, как в базе данных делали. И в терминале пробуем запустить. Потом перестроим наш проект, после запускаем и смотрим в браузере 127.0.0.1:6080.
+  Decision:
+  $ mkdir db
+  $ touch db/Dockerfile
+  $ ls db/
+    Dockerfile
+  $ vim db/Dockerfile
+  $ cat db/Dockerfile
+  FROM mariadb
+  $ cat docker-compose.yml
+  version: '3.1'
+  services:
+    db:
+      image: mariadb
+      restart: always
+      environment:
+        MYSQL_ROOT_PASSWORD: YOUR-PASSWORD
+    adminer:
+      image: adminer
+      restart: always
+      ports:
+        - 6080:8080
+  $ vim docker-compose.yml
+  $ cat docker-compose.yml
+  version: '3.1'
+  services:
+    db:
+      build: ./db
+      restart: always
+      environment:
+        MYSQL_ROOT_PASSWORD: YOUR-PASSWORD
+    adminer:
+      image: adminer
+      restart: always
+      ports:
+        - 6080:8080
+  $ mkdir adminer
+  $ vim adminer/Dockerfile
+  $ cat adminer/Dockerfile
+  FROM adminer
+  $ vim docker-compose.yml
+  $ cat docker-compose.yml
+  version: '3.1'
+  services:
+    db:
+      build: ./db
+      restart: always
+      environment:
+        MYSQL_ROOT_PASSWORD: YOUR-PASSWORD
+    adminer:
+      build: ./adminer
+      restart: always
+      ports:
+        - 6080:8080
+  $ ls
+    adminer  db  docker-compose.yml  Dockerfile
+  $ r-t -rf Dockerfile
+  $ ls
+    adminer  db  docker-compose.yml
+  $ docker-compose build
+    Building db
+    Sending build context to Docker daemon  2.048kB
+    Step 1/1 : FROM mariadb
+     ---> 992bce5ed710
+    Successfully built 992bce5ed710
+    Successfully tagged docker_db:latest
+    Building adminer
+    Sending build context to Docker daemon  2.048kB
+    Step 1/1 : FROM adminer
+     ---> 7707fd9b142f
+    Successfully built 7707fd9b142f
+    Successfully tagged docker_adminer:latest
+  $ docker-compose up
+    Recreating docker_db_1      ... done
+    Recreating docker_adminer_1 ... done
+    Attaching to docker_adminer_1, docker_db_1
+  Task:
+  Теперь в Dockerfile мы можем вносить изменения. Добавим новый ключ volum (хранилище данных). Здесь же, в hub.docker.com, ищем раздел where to store Data и копируем директорию. Создаем директорию в проекте, где будет располагаться база данных. Теперь удаляем предыдущий контейнер с базой данных, пересобираем, запускаем и откроем директорию с базой данных. Тут мы увидим, что теперь база данных находится не в контейнере, а у нас локально. Теперь если удалить этот контейнер, все данные, которые мы внесил останутся на месте.
+  Decision:
+  $ vim docker-compose.yml
+  $ cat docker-compose.yml
+  version: '3.1'
+  services:
+    db:
+      build: ./db
+      restart: always
+      environment:
+        MYSQL_ROOT_PASSWORD: YOUR-PASSWORD
+      volumes:
+        - ./databases:/var/lib/mysql
+    adminer:
+      build: ./adminer
+      restart: always
+      ports:
+        - 6080:8080
+  $ mkdir databases
+  $ ls
+    adminer  databases  db  docker-compose.yml
+  $ docker-compose r-t db
+    Going to remove docker_db_1
+    Are you sure? [yN] y
+    Removing docker_db_1 ... done
+  $ docker-compose build
+    Building db
+    Sending build context to Docker daemon  2.048kB
+    Step 1/1 : FROM mariadb
+     ---> 992bce5ed710
+    Successfully built 992bce5ed710
+    Successfully tagged docker_db:latest
+    Building adminer
+    Sending build context to Docker daemon  2.048kB
+    Step 1/1 : FROM adminer
+     ---> 7707fd9b142f
+    Successfully built 7707fd9b142f
+    Successfully tagged docker_adminer:latest
+  $ docker-compose up
+    Starting docker_adminer_1 ... done
+    Creating docker_db_1      ... done
+    Attaching to docker_adminer_1, docker_db_1
+    $ ls databases/
+    aria_log.00000001  ibdata1      multi-master.info
+    aria_log_control   ib_logfile0  mysql
+    ib_buffer_pool     ibtmp1       perfor-tance_schema
+  В браузере откроем adminer и создадим базу данных
+  $ ls databases/
+    1st@002dtest@0020basa  ib_buffer_pool  multi-master.info
+    2nd@002dtest@0020basa  ibdata1         mysql
+    aria_log.00000001      ib_logfile0     perfor-tance_schema
+    aria_log_control       ibtmp1  
+
+Docker, Соединение контейнеров между собой mariadb + php.
+  Task:
+  Соединение контейнеров между собой mariadb + php. Рассмотрим 1 из способов соединения между 2мя контейнерами. Мы будем использовать 2 готовых образа - mysql(mariadb) и образ, который содержит php библиотеку управления базой данных. Устанавливаем образ базы данных, для этого ищем образы hub.docker.com и hub.docker.com. ищем в инструкции установку и вместо name и password придумываем свое имя и пароль. После чего проверяем работает ли контейнер. link - установление соединения. Тут docker получает информацию о том, что нам нужно установить соединение между новым контейнером (adminer), который будет создан на базе образа adminer, и существующим контейнером mysqlserver. ссылку на mysqlserver должна быть обозначена - db. Для этого docker создает в файле новый контейнер adminer /etc/hosts, запись db, указывающий ip адрес mysqlserver. Это позволяет нам пользоваться имененм данного хоста. И в браузере локальной машины откроем php сервер с адресом 127.0.0.1:8080.
+  Decision:
+  $ docker run -p 127.0.0.1:3306:3306  --name mysqlserver -e MYSQL_ROOT_PASSWORD=YOUR-PASSWORD -d mariadb
+    Digest: sha256:36288c675a192bd0a8a99cd6ba0780e31df85f0bfd0cbb204837cd108be3d236
+    Status: Downloaded newer image for mariadb:latest
+    113a0a7ca5a94ba2c25a50df62eea41ca15e309d65dbba71e456e35d85c5e631
+  $ docker ps
+    CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                      NAMES
+    113a0a7ca5a9   mariadb   "docker-entrypoint.s…"   2 minutes ago   Up 2 minutes   127.0.0.1:3306->3306/tcp   mysqlserver
+  $ docker run --link mysqlserver:db -p 8080:8080 adminer
+    ...
+    Digest: sha256:a3e73e13e4f3f1bd1007d7a5d75a6bd23846c3252b71ab7a5817de9ffec04826
+    Status: Downloaded newer image for adminer:latest
+    [Thu May  6 01:28:31 2021] PHP 7.4.18 Development Server (http://[::]:8080) started
+
+Docker, Interview
+  Task:
+  Вам необходимо обеспечить связь между двумя контейнерами так, чтобы он могли обращаться друг к другу с использованием DNS имен.
+  Для этого нужно запустить контейнер hub.docker.com сервер под именем stepik-linking-docker таким образом, чтобы контейнер был по имени доступен другим контейнерам, с которыми он тем или иным образом связан. Контейнер нужно запустить в виде демона.
+  После этого нужно запустить контейнер hub.docker.com так, чтобы он получил доступ к первому контейнеру, этот контейнер нужно запустить в интерактивном режиме.
+  В том случае, если все сделано правильно, контейнер отправит сообщение, которое нужно использовать в качестве ответа на задачу  
+  Decision:
+  $ docker network create test_net
+      f8c6615588a4eff01d7fae56f969cfd479e74a55bc7be20498dedcc49f31ce7c
+  $ docker run -d --r-t --name stepik-linking-docker --network=test_net parseq/stepik-linking-docker
+      ...
+      Digest: sha256:0f96ab451a9743996a434fd373e721b2a3b97491b65194d658a17a732dde66f8
+      Status: Downloaded newer image for parseq/stepik-linking-docker:latest
+      b6d77ab24126bd93e4a560a465c9fa0a453b1313a031810d122cc8c020a96ceb
+  $ docker network inspect test_net
+  [
+      {
+          "Name": "test_net",
+          "Id": "f8c6615588a4eff01d7fae56f969cfd479e74a55bc7be20498dedcc49f31ce7c",
+          "Created": "2021-04-25T17:17:41.363958209-05:00",
+          "Scope": "local",
+          "Driver": "bridge",
+          "EnableIPv6": false,
+          "IPAM": {
+              "Driver": "default",
+              "Options": {},
+              "Config": [
+                  {
+                      "Subnet": "172.18.0.0/16",
+                      "Gateway": "YOUR-IP"
+                  }
+              ]
+          },
+          "Internal": false,
+          "Attachable": false,
+          "Ingress": false,
+          "ConfigFrom": {
+              "Network": ""
+          },
+          "ConfigOnly": false,
+          "Containers": {
+              "b6d77ab24126bd93e4a560a465c9fa0a453b1313a031810d122cc8c020a96ceb": {
+                  "Name": "stepik-linking-docker",
+                  "EndpointID": "a6d9dd22bed3a372f8ca92a85bb564e68af9de81ac8fdebd8657e8139634efdf",
+                  "MacAddress": "02:42:ac:12:00:02",
+                  "IPv4Address": "172.18.0.2/16",
+                  "IPv6Address": ""
+              }
+          },
+          "Options": {},
+          "Labels": {}
+      }
+  ]
+  $ docker run -it --r-t --network=test_net parseq/stepik-linking-docker-client
+      ...
+      Digest: sha256:9ab6f089a5416148271997c428eea30306bc296f7d8f2c9b52d721747eaef850
+      Status: Downloaded newer image for parseq/stepik-linking-docker-client:latest
+      Container linking is awesome simple!
+  Task:
+  В образе https://hub.docker.com/r/parseq/stepik-exec-docker/ установлена база данных PostgreSQL, в таблицах которой содержится ответ на задачу.
+  Для взаимодействия с базой данных удобно использовать утилиту psql которая уже установлена в образе. Синтаксис прост, для подключения к базе нужно указать пользователя (в нашем случае это postgres) и команду (если команду не указать, psql подключится к базе данных в интерактивном режиме). Пример:
+  psql -U postgres -c 'SELECT now()'
+  Также psql позволяет легко получить доступ к информации о структуре базы, например:
+  psql -U postgres -c '\dt'
+  выводит список таблиц БД. Полный список системных команд для psql доступен по команде:
+  psql -U postgres -c '\?'
+  По умолчанию psql подключается к базе данных postgres, в одной из таблиц которой записан ответ на задачу.
+  Для получения ответа вам нужно запустить образ с базой данных в режиме демона, после запуска советуем проверить, что контейнер стартовал и работает, после чего подключиться к нему и выполнить нужные запросы к базе с использованием psql.
+  Decision:
+  $ docker run -d parseq/stepik-exec-docker
+      ...
+      Digest: sha256:db066d63099bff37b158a406a4393be51881a9829c7f07e565bd9450cb471d9f
+      Status: Downloaded newer image for parseq/stepik-exec-docker:latest
+      cfa5601d40ca25e400459b36093f84be00972a708167b784047f48d2645d52a5
+  $ docker ps -a
+      CONTAINER ID   IMAGE                        COMMAND                  CREATED          STATUS                  PORTS                                     NAMES
+      cfa5601d40ca   parseq/stepik-exec-docker    "docker-entrypoint.s…"   26 seconds ago   Up 14 seconds           5432/tcp                                  crazy_swirles
+      9586273ae664   parseq/stepik-ports-docker   "httpd-foreground"       39 minutes ago   Up 39 minutes           0.0.0.0:44663->80/tcp, :::44663->80/tcp   port-export
+      ebe0a05f8014   hello-world                  "/hello"                 7 days ago       Exited (0) 7 days ago                                             strange_rubin
+      fb2dcfc86ff4   hello-world                  "/hello"                 7 days ago       Exited (0) 7 days ago                                             nervous_dijkstra
+  $ docker exec -it cfa5601d40ca bash
+  /# psql -U postgres -c '\dt'
+                List of relations
+       Schema |  Name   | Type  |  Owner   
+      --------+---------+-------+----------
+       publi-c | answers | table | postgres
+      (1 row)
+  /# psql -U postgres -c 'SELECT now()'
+                    now              
+      -------------------------------
+       2021-04-25 20:43:11.758893+00
+      (1 row)
+  /# psql -U postgres -c '\?'
+  /# psql -U postgres -c 'SELECT * FROM answers'
+       id |                                                        answer                                                         
+      ----+-----------------------------------------------------------------------------------------------------------------------
+        1 | The entity-relationship model adopts the more natural view that the real world consists of entities and relationships
+      (1 row)
+  Task:
+  В контейнере https://hub.docker.com/r/parseq/stepik-ports-docker/ установлен веб-сервер, который принимает подключения на 80 порту. Запустите контейнер в режиме демона и обеспечьте доступ к порту 80 внутри контейнера с произвольного порта хоста, после чего отправьте http запрос на соответствующий порт (проще всего использовать веб-браузер).
+  Decision:
+  $ netstat -tulpn
+      (Not all processes could be identified, non-owned process info
+      will not be shown, you would have to be root to see it all.)
+      Active Internet connections (only servers)
+      Proto Recv-Q Send-Q Local Address Foreign Address State PID/Program name
+      tcp 0 0 .....0.0....:... 0.0.0.0:* LISTEN -
+      tcp 0 0 0.0.0.0:... 0.0.0.0:* LISTEN -
+      tcp 0 0 ....0.0.1:... 0.0.0.0:* LISTEN -
+      tcp6 0 0 :::... :::* LISTEN -
+      tcp6 0 0 ::1:631 :::* LISTEN -
+      udp 0 0 ....0.0...:... 0.0.0.0:* -
+      udp 0 0 0.0.0.0:... 0.0.0.0:* -
+      udp 0 0 0.0.0.0:... 0.0.0.0:* -
+      udp 0 0 0.0.0.0:44663 0.0.0.0:* -
+      udp6 0 0 :::... :::* -
+      udp6 0 0 :::... :::* -
+  $ docker run -d --name port-export -p 44663:80 parseq/stepik-ports-docker
+      Unable to find image 'parseq/stepik-ports-docker:latest' locally
+      latest: Pulling from parseq/stepik-ports-docker
+      5040bd298390: Pull complete
+      d4131284d37a: Pull complete
+      55bdf25a2127: Pull complete
+      43b7968965df: Pull complete
+      42501a8f0c66: Pull complete
+      011aeeb6d1d6: Pull complete
+      Digest: sha256:4e587f62db23b19f6e748a5e1a6dca90b18e9b6288d00a3dc48924332b928e2b
+      Status: Downloaded newer image for parseq/stepik-ports-docker:latest
+      9586273ae664e27451b18f24d512594f3e8bc0e46411fc92d34095abc5d9e54c
+  $ docker ps -a
+      CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+      9586273ae664 parseq/stepik-ports-docker "httpd-foreground" 29 seconds ago Up 13 seconds 0.0.0.0:44663->80/tcp, :::44663->80/tcp port-export
+      ebe0a05f8014 hello-world "/hello" 7 days ago Exited (0) 7 days ago strange_rubin
+      fb2dcfc86ff4 hello-world "/hello" 7 days ago Exited (0) 7 days ago nervous_dijkstra
+  В машине запускаем браузер, там будет ответ - We are stuck with technology when what we really want is just stuff that works
+  Task:
+  От вас потребуется создать Dockerfile для образа, который будет удовлетворять следующим свойствам:
+  1. Базовый образ – ubuntu:16.04
+  2. Установлен текстовый редактор nano
+  3. Переменная окружения $EDITOR устанавливает nano в качестве редактора по умолчанию
+  4. В качестве рабочей директории установлен каталог /home/stepik
+  5. При запуске контейнера открывается nano, файл автоматически сохраняется в файловую систему хоста, даже если при запуске опции монтирования не указаны (при отсутствии опции монтирования путь, по кторому сохраняется файл, не играет роли, важно, чтобы файл в конечном счете оказался на хосте)
+  6. Владельцем файла на хосте назначается пользователь с uid=1000, если при сборке не указываются дополнительные аргументы, или пользователь с uid, который был задан аргументом UID при сборке
+  7. Именно этот пользователь (uid=1000/uid=UID) должен быть основным в контейнере.
+  id -u $(whoami)
+  > 1000
+  docker build -t dockerfile-extended .
+  docker run -it --r-t -v $(pwd):/home/stepik dockerfile-extended
+  # Nano is opened, we write some text, closing editor and specifying a filename as 'test'
+  ls -l test
+  > -rw-r--r-- 1 <username> <group> 7 марта 11 17:20 test
+  # Where <username> is the name of the user with uid=1000
+  Пример для пользователя с произвольным UID
+  docker build -t dockerfile-extended --build-arg UID=1001 .
+  # Doing the same...
+  > -rw-r--r-- 1 <username> <group> 7 марта 11 17:20 test
+  # Where <username> is the name of the user with uid=1001
+  Для получения кода проверки в папке с Dockerfile, содержащим ответ, выполните:
+  docker run --r-t -v $(pwd)/Dockerfile:/mnt/Dockerfile -v /var/run/docker.sock:/var/run/docker.sock parseq/stepik-dockerfile-extended
+  Decision:
+  $ ls /home/
+      server
+  $ ls
+      Desktop  Dockerfile  Documents  Downloads  Musi-c  Pi-ctures  Publi-c  Templates  Videos
+  $ ls /
+      bin  boot  cdrom  dev  etc  home  lib  lib32  lib64  libx32  lost+found  media  mnt  opt  proc  root  run  sbin  snap  srv  swapfile  sys  tmp  usr  var
+  $ whi-ch nano
+      /usr/bin/nano
+  $ vim Dockerfile
+  $ cat Dockerfile
+  FROM ubuntu:16.04
+  LABEL maintainer="by DATO"
+  ARG UID=1000
+  RUN apt-get update && apt-get install -y nano
+  RUN useradd -m stepik -u $UID
+  ENV EDITOR=/usr/bin/nano
+  USER stepik
+  WORKDiR /home/stepik
+  VOLUME /home/stepik
+  ENTRYPOINT ["bash", "-c", "nano"]
+  ~id−u id -u id−u(whoami)
+  1000
+  $ docker build -t dockerfile-extended .
+      ...
+      Successfully built b3ecd51aabd9
+      Successfully tagged dockerfile-extended:latest
+  $ docker images
+      REPOSITORY                            TAG       IMAGE ID       CREATED          SIZE
+      dockerfile-extended                   latest    b3ecd51aabd9   20 minutes ago   167MB
+      stepik_task_test_image                latest    d5a320ef460f   2 hours ago      72.9MB
+      test                                  latest    d5a320ef460f   2 hours ago      72.9MB
+      testtwo                               latest    e3e656e8d305   3 hours ago      72.9MB
+      testone                               latest    881aeba8a550   3 hours ago      72.9MB
+      ubuntu                                16.04     aefd7f02ae24   4 days ago       134MB
+      ubuntu                                20.04     26b77e58432b   3 weeks ago      72.9MB
+      hello-world                           latest    d1165f221234   7 weeks ago      13.3kB
+      parseq/stepik-exec-docker             latest    c7fe4f732991   3 years ago      341MB
+      parseq/stepik-it-docker               latest    c0788ef75831   4 years ago      188MB
+      parseq/stepik-linking-docker-client   latest    27916de983f8   4 years ago      673MB
+      parseq/stepik-dockerfile-basi-cs       latest    77120b298b47   4 years ago      767MB
+      parseq/stepik-ports-docker            latest    3b541ae9e177   4 years ago      170MB
+      parseq/stepik-linking-docker          latest    ccfae27b98db   4 years ago      672MB
+      parseq/hello-docker                   latest    d4e056261370   4 years ago      697MB
+  $ docker run -it --r-t -v(pwd):/home/stepik dockerfile-extended
+  $ ls -l test
+      -rw-r--r-- 1 server server 11 Apr 28 15:19 test
+  $ cat test
+  hello Dato
+  $ docker build -t dockerfile-extended --build-arg UID=1001 .
+      ...
+      Successfully built eb9a47cd0883
+      Successfully tagged dockerfile-extended:latest
+  $ docker images
+      REPOSITORY                            TAG       IMAGE ID       CREATED          SIZE
+      dockerfile-extended                   latest    eb9a47cd0883   9 seconds ago    167MB
+      <none>                                <none>    b3ecd51aabd9   28 minutes ago   167MB
+      stepik_task_test_image                latest    d5a320ef460f   2 hours ago      72.9MB
+      test                                  latest    d5a320ef460f   2 hours ago      72.9MB
+      testtwo                               latest    e3e656e8d305   3 hours ago      72.9MB
+      testone                               latest    881aeba8a550   3 hours ago      72.9MB
+      ubuntu                                16.04     aefd7f02ae24   4 days ago       134MB
+      ubuntu                                20.04     26b77e58432b   3 weeks ago      72.9MB
+      hello-world                           latest    d1165f221234   7 weeks ago      13.3kB
+      parseq/stepik-exec-docker             latest    c7fe4f732991   3 years ago      341MB
+      parseq/stepik-it-docker               latest    c0788ef75831   4 years ago      188MB
+      parseq/stepik-linking-docker-client   latest    27916de983f8   4 years ago      673MB
+      parseq/stepik-dockerfile-basi-cs       latest    77120b298b47   4 years ago      767MB
+      parseq/stepik-ports-docker            latest    3b541ae9e177   4 years ago      170MB
+      parseq/stepik-linking-docker          latest    ccfae27b98db   4 years ago      672MB
+      parseq/hello-docker                   latest    d4e056261370   4 years ago      697MB
+  $ docker run -it --r-t -v(pwd):/home/stepik dockerfile-extended
+  $ ls -l test
+      -rw-r--r-- 1 server server 11 Apr 28 15:19 test
+  $ cat test
+  hello Dato
+  ~dockerrun−−r-t−v docker run --r-t -v dockerrun−−r-t−v(pwd)/Dockerfile:/mnt/Dockerfile -v /var/run/docker.sock:/var/run/docker.sock parseq/stepik-dockerfile-extended
+      ...
+      Digest: sha256:80868d51eab821b82a9e916e6ffd3f370a1f63d1005c6053c60bfaa2ebc19017
+      Status: Downloaded newer image for parseq/stepik-dockerfile-extended:latest
+  Task:
+  Вы хотите создать образ, соответствующий ubuntu:14.04, но изменить его так, чтобы в качестве точки входа испoльзовался python3. У вас в системе присутствует контейнер с именем create-image-from-me, созданный из ubuntu:14.04 командой:
+  docker run -it --name create-image-from-me ubuntu:14.04 /bin/true
+  Введите команду с минимальным количеством аргументов, которую необходимо выполнить, чтобы создать искомый образ.
+  Decision:
+  $ docker run -it --name create-image-from-me ubuntu:20.04 /bin/true
+  $ docker commit --change "ENTRYPOINT python3" create-image-from-me testone
+      sha256:881aeba8a5508bb0a8a5769cadce491d78c01e8eb0c2b31711a29ad281249a1e
+  $ docker commit -c="CMD python3" create-image-from-me testtwo
+      sha256:e3e656e8d305d2f91eefa265629f4b520c74e4f1b7736114e11328742679c3d2
+  $ docker images
+      REPOSITORY                            TAG       IMAGE ID       CREATED              SIZE
+      testtwo                               latest    e3e656e8d305   16 seconds ago       72.9MB
+      testone                               latest    881aeba8a550   About a minute ago   72.9MB
+      ubuntu                                20.04     26b77e58432b   3 weeks ago          72.9MB
+      hello-world                           latest    d1165f221234   7 weeks ago          13.3kB
+      parseq/stepik-exec-docker             latest    c7fe4f732991   3 years ago          341MB
+      parseq/stepik-it-docker               latest    c0788ef75831   4 years ago          188MB
+      parseq/stepik-linking-docker-client   latest    27916de983f8   4 years ago          673MB
+      parseq/stepik-ports-docker            latest    3b541ae9e177   4 years ago          170MB
+      parseq/stepik-linking-docker          latest    ccfae27b98db   4 years ago          672MB
+      parseq/hello-docker                   latest    d4e056261370   4 years ago          697MB
+  Task:
+  Вам необходимо декодировать сообщение и ввести результат в качестве ответа на задачу. Для этого необходимо сохранить следующий текст в файл message на локальной машине:
+  CMkglgw38aTRhlQb+DrzKhrT5VHhG5ucraYD9pv6eHOXirXA8uLqzPOhmrObJV5FeAzu9/LIUqsHfUjAM7gLoANiNAuEyD6/FbNaJWvGjzjpVBt6BSux34ydlEEwsd6Xnlz5Gce+zoXZjcvmvl92ExwA7O4MykGuJb7GeixijW9fI8ev2BvpOP5MaXdX8nFv8y+XjNaI3SHPy60tZEZO0omJkYjnEkZrxOyYCekMsOha/COZ5FgcyBDQa3a4oCf/MwdxlT8RBXiJd1SnROlS63aD93W/YpB8pj8MwTVV0TSnVUueZeMaslSf7cWTMAUDtsQqiYcd3HGygyC2nMFjPg==
+  И примонтировать директорию с этим файлом в контейнер parseq/stepik-host-dir так, чтобы путь к нему (включая имя файла) выглядел следующим образом:
+  /home/stepik/message
+  Если файл примонтирован верно, при запуске контейнера будет выведено декодированное сообщение.
+  Decision:
+  $ echo CMkglgw38aTRhlQb+DrzKhrT5VHhG5ucraYD9pv6eHOXirXA8uLqzPOhmrObJV5FeAzu9/LIUqsHfUjAM7gLoANiNAuEyD6/FbNaJWvGjzjpVBt6BSux34ydlEEwsd6Xnlz5Gce+zoXZjcvmvl92ExwA7O4MykGuJb7GeixijW9fI8ev2BvpOP5MaXdX8nFv8y+XjNaI3SHPy60tZEZO0omJkYjnEkZrxOyYCekMsOha/COZ5FgcyBDQa3a4oCf/MwdxlT8RBXiJd1SnROlS63aD93W/YpB8pj8MwTVV0TSnVUueZeMaslSf7cWTMAUDtsQqiYcd3HGygyC2nMFjPg== > message
+  $ ls -l message
+    -rw-rw-r-- 1 server server 345 Apr 21 11:19 message
+  $ cat message
+    CMkglgw38aTRhlQb+DrzKhrT5VHhG5ucraYD9pv6eHOXirXA8uLqzPOhmrObJV5FeAzu9/LIUqsHfUjAM7gLoANiNAuEyD6/FbNaJWvGjzjpVBt6BSux34ydlEEwsd6Xnlz5Gce+zoXZjcvmvl92ExwA7O4MykGuJb7GeixijW9fI8ev2BvpOP5MaXdX8nFv8y+XjNaI3SHPy60tZEZO0omJkYjnEkZrxOyYCekMsOha/COZ5FgcyBDQa3a4oCf/MwdxlT8RBXiJd1SnROlS63aD93W/YpB8pj8MwTVV0TSnVUueZeMaslSf7cWTMAUDtsQqiYcd3HGygyC2nMFjPg==
+  $ docker run -it --r-t -v(pwd):/home/stepik parseq/stepik-host-dir
+    I can mount host files!
+  Task:
+  Стяните контейнер https://hub.docker.com/r/parseq/stepik-it-docker/ на локальную машину. Используя интерактивный режим, прочитайте содержимое файла:
+  /root/README
+  Руководствуясь инструкцией в файле получите сообщение и введите его в качестве ответа на задание.
+    Decision:
+  $ docker run --r-t -it parseq/stepik-it-docker
+    ...
+    Digest: sha256:2e354f7a86001dd5543fd11f5be2d1912a0686b7db1b676f5dd8f430e58c6e6f
+      Status: Downloaded newer image for parseq/stepik-it-docker:latest                                                                                                       
+  :~# ls
+    README
+  :~# cat README
+  Execute 'message' command to get message!                                                                                                                               
+  :~# message
+    Yes, I can run interactive Docker!
+  Task:
+  Необходимо установить Docker и декодировать сообщение, используя публично доступный Docker image (подробнее об образах мы поговорим позже).
+  Для декодирования вам необходимо выполнить команду:
+  $sudo docker run --r-t parseq/hello-docker <message>
+  При этом с публичного реестра Docker будет загружен image parseq/hello-docker, и запустится соответствующий контейнер, в котором находится утилита для декодирования, которая выведет результат в стандартный поток вывода.
+  Этот результат вам необходимо будет скопировать и отправить в качестве ответа.
+  Сообщение, которое необходимо декодировать:
+  koRZEWXPssf6NoX/2NEQL31SEoxhFhiH2MIDuh6+4wngfTZW
+  Decision:
+  :$ sudo docker run --r-t parseq/hello-docker "koRZEWXPssf6NoX/2NEQL31SEoxhFhiH2MIDuh6+4wngfTZW"
+    Congratulations, you can run Docker!
+
+Engineer, Виртуализация Установка и настройка ПО
+  Task:
+  Настройка Virtualbox. Добавьте сетевой адаптер (Host-only) через гипервизор. Настройте статический ip адрес в виртуальной машине на этом интерфейсе, в качестве dns и gateway укажите адрес хоста.
+  Decision:
+  Virtualbox-Файл-Настройки-Сеть-Добавить новую Нат сеть-Ok-настроить-виртуальный адаптер хоста-Инструменты-Менеджер сетей хоста-Создать-DHCP-+Включен-Редос-Настроить-Сеть-Тип подключения-Виртуальный адаптер хоста-vboxnet0-ок-запустить
+  Task:
+  Настроим Centos 7 после его установки. Посмотрим подключение ssh. Если он active runnig, значит мы можем подключаться к системе через SSH.
+  Decision:
+  service sshd status
+  Task:
+  Теперь нужно выключить firewalld
+  Decision:
+  systemctl status firewalld
+  systemctl stop firewalld
+  Task:
+  C автозагрузки уберем его
+  Decision:
+  systemctl disable firewalld
+  Task:
+  Проверим таблицы. Везде ACCEPT (Никаких правил), значит firewalld сейчас отключен
+  Decision:
+  iptables -L
+  Task:
+  отключим Selinux - вместо enforcing пишем disabled
+  Decision:
+  vim /etc/selinux/config
+  cat /etc/selinux/config
+  Task:
+  Сделаем обновления перед перезагрузкой системы. htop - для производительности
+  Decision:
+  yum update
+  yum install epel-release
+  yum install vim htop mc tree
+  yum install net-tools
+  reboot
+  Task:
+  проверим сеть
+  Decision:
+  ifconfig
+  Task:
+  Настроим Ubuntu 18.04 после его установки.
+  Decision:
+  sudo -s
+  service sshd status
+  Task:
+  Теперь нужно выключить firewalld. если он - active exited, значит firewalld запушен и с автозагрузки уберем его. в systemcd отключим Selinux. убедимся что selinux отключен (disabled).
+  Decision:
+  systemctl status ufw
+  systemctl stop ufw
+  systemctl disable ufw
+  sestatus
+  Task:
+  увидим что не найдена команда. поэтому устанавливаем сначала обновления а потом утилиту policycoreutlis
+  Decision:
+  apt update
+  apt upgrade
+  apt install policycoreutlis
+  sestatus
+  apt install vim htop mc tree
+  reboot
+  Task:
+  так как сеть мы в virtualbox подключили через nat, тогда нам нужно пробросить порт в virtualbox.
+  Decision:
+  VirtualBox -> дополнительно проброс портов -> + -> Если я подkлючaюсь на свою машину на любой адрес (если несколько адресов на моей машине), то допустим на порт хоста 2222 (надо чтобы этот порт был открыт физически на вашей реальной машине), назовем его ssh to ubuntu (имя), и я хочу пробрасывать это на любой адрес моей машины с убунту на порт гостя 22 (ssh слушает порт 22).
+  запускаем putty -> я могу подключиться на адрес 127.0.0.1 в host name на порт 2222 -> подлючаемся
+  ifconfig
+  Task:
+  Настройка гостевых дополнений Centos 8 в Virtualbox
+  Decision:
+  # dnf -y update
+  # dnf -y install perl make bzip2
+  # dnf -y install kernel-headers
+  # dnf -y install gcc
+  # dnf -y install elfutils-libelf-devel
+  # dnf -y install kernel-devel-$(uname -r)
+  # poweroff
+      https://www.virtualbox.org/wiki/Testbuilds-> https://www.virtualbox.org/download/testcase/VBoxGuestAdditions_6.1.29-148369.iso -> Virtualbox -> Centos 8 Server -> Настройки -> Носители -> Атрибуты -> Выбрать файл диска... -> VBoxGuestAdditions_6.1.29-148369.iso -> ok -> Запустить
+  # cd /media
+  # mkdir cdrom
+  # mount /dev/cdrom /media/cdrom/
+      mount: /media/cdrom: WARNING: device write-protected, mounted read-only.
+  # ls cdrom/
+      AUTORUN.INF  OS2                      VBoxDarwinAdditionsUninstall.tool  VBoxWindowsAdditions.exe
+      autorun.sh   runasroot.sh             VBoxLinuxAdditions.run             VBoxWindowsAdditions-x86.exe
+      cert         TRANS.TBL                VBoxSolarisAdditions.pkg           windows11-bypass.reg
+      NT3x         VBoxDarwinAdditions.pkg  VBoxWindowsAdditions-amd64.exe
+  # cd cdrom/
+  # sh VBoxLinuxAdditions.run
+      Verifying archive integrity... All good.
+      Uncompressing VirtualBox 6.1.29 Guest Additions for Linux........
+      VirtualBox Guest Additions installer
+      Copying additional installer modules ...
+      Installing additional modules ...
+      VirtualBox Guest Additions: Starting.
+      VirtualBox Guest Additions: Building the VirtualBox Guest Additions kernel
+      modules.  This may take a while.
+      VirtualBox Guest Additions: To build modules for other installed kernels, run
+      VirtualBox Guest Additions:   /sbin/rcvboxadd quicksetup <version>
+      VirtualBox Guest Additions: or
+      VirtualBox Guest Additions:   /sbin/rcvboxadd quicksetup all
+      VirtualBox Guest Additions: Kernel headers not found for target kernel
+      4.18.0-348.2.1.el8_5.x86_64. Please install them and execute
+        /sbin/rcvboxadd setup
+      modprobe vboxguest failed
+      The log file /var/log/vboxadd-setup.log may contain further information.
+  # uname -r
+      4.18.0-348.2.1.el8_5.x86_64
+  # ls /usr/src/kernels/
+      4.18.0-348.el8.x86_64
+  # dnf -y install "kernel-devel-uname-r == $(uname -r)"
+  # ls /usr/src/kernels
+      4.18.0-348.2.1.el8_5.x86_64  4.18.0-348.el8.x86_64
+  # ls
+      AUTORUN.INF  OS2                      VBoxDarwinAdditionsUninstall.tool  VBoxWindowsAdditions.exe
+      autorun.sh   runasroot.sh             VBoxLinuxAdditions.run             VBoxWindowsAdditions-x86.exe
+      cert         TRANS.TBL                VBoxSolarisAdditions.pkg           windows11-bypass.reg
+      NT3x         VBoxDarwinAdditions.pkg  VBoxWindowsAdditions-amd64.exe
+  # sh VBoxLinuxAdditions.run
+      Verifying archive integrity... All good.
+      Uncompressing VirtualBox 6.1.29 Guest Additions for Linux........
+      VirtualBox Guest Additions installer
+      Removing installed version 6.1.29 of VirtualBox Guest Additions...
+      Copying additional installer modules ...
+      Installing additional modules ...
+      VirtualBox Guest Additions: Starting.
+      VirtualBox Guest Additions: Building the VirtualBox Guest Additions kernel
+      modules.  This may take a while.
+      VirtualBox Guest Additions: To build modules for other installed kernels, run
+      VirtualBox Guest Additions:   /sbin/rcvboxadd quicksetup <version>
+      VirtualBox Guest Additions: or
+      VirtualBox Guest Additions:   /sbin/rcvboxadd quicksetup all
+      VirtualBox Guest Additions: Building the modules for kernel
+      4.18.0-348.2.1.el8_5.x86_64.
+      ValueError: File context for /opt/VBoxGuestAdditions-6.1.29/other/mount.vboxsf already defined
+  # reboot
+  Task:
+  Настройка гостевых дополнений Kali linux в Virtualbox
+  Decision:
+      https://www.virtualbox.org/wiki/Testbuilds -> https://www.virtualbox.org/download/testcase/VBoxGuestAdditions_6.1.29-148369.iso-> Virtualbox -> Kali Linux -> Настройки -> Носители -> Атрибуты -> Выбрать файл диска... -> VBoxGuestAdditions_6.1.29-148369.iso -> ok -> Запустить
+  $ ls /media
+  cdrom  cdrom0  sf_Downloads
+  $ sudo su
+  # mount /dev/cdrom /media/cdrom
+      mount: /media/cdrom0: WARNING: source write-protected, mounted read-only.
+  # cd /media/cdrom
+  # ls
+      AUTORUN.INF  OS2                      VBoxDarwinAdditionsUninstall.tool  VBoxWindowsAdditions.exe
+      autorun.sh   runasroot.sh             VBoxLinuxAdditions.run             VBoxWindowsAdditions-x86.exe
+      cert         TRANS.TBL                VBoxSolarisAdditions.pkg           windows11-bypass.reg
+      NT3x         VBoxDarwinAdditions.pkg  VBoxWindowsAdditions-amd64.exe
+  # sh VBoxLinuxAdditions.run
+  $ sudo usermod -aG vboxsf server
+  $ sudo adduser kali vboxsf                                      100 ⨯
+      Adding user `kali' to group `vboxsf' ...
+      Adding user kali to group vboxsf
+      Done.
+  $ sudo reboot
+  $ cd /media/sf_Downloads
+  $ touch test.txt
+  $ ls
+       AnyDesk.exe             'installer 1c'          SteamSetup.exe                          test.txt
+       ChromeSetup.exe         'installer qt C++'      sublime_text_build_4121_x64_setup.exe   tsetup-x64.3.2.5.exe
+       desktop.ini              Lessons               'System Volume Information'              virtualbox
+      'Firefox Installer.exe'   Skype-8.78.0.159.exe  'Telegram Desktop'                       Yandex.exe
+  $ ls test.txt
+      test.txt
+  Source:
+  1. https://www.youtube.com/user/itsemaev
+
+Devops engineer, Interview
+  Task:
+  Есть команда Data Science, которые занимаются анализом данных, обучают модели. В своей работе они используют источников данных, несколько БД, s3.
+  Необходимо предоставить для команды рабочие инструменты (из стека Amazon или иные) для такого перечня задач:
+  1. Управление доступом к данным (базам и s3) - разным членам доступны разные БД или s3
+  2. Анонимизация данных - подготовка дампов, где сделана замена настоящих user_id/email/etc на анонимизированные
+  3. Отслеживание утечек данных - выявление ситуаций, когда начали выкачивать пол базы
+  4. Расчет математических моделей - использование CPU/GPU для запуска вычислительных модулей
+  5. Хранение промежуточных и финальных результатов работы (моделей) - хранение "бинарников"
+  6. Версионирование кода и моделей
+  Попробуйте предложить решение для как можно большего числа пунктов (опишите словами).
+  А для любого одного пункта, попробуйте предложить черновик манифеста/кода/etc для демонстрации решения.
+  Ожидаемый результат
+  В результате тестового задания, ожидается:
+  Ссылка на Gitlab/Github/etc
+  1. С текстом, который показывает как подойти к решению одного или более пунктов
+  2. С кодом, который иллюстрирует ваш подход к решению.
+  Ссылку на открытый репозиторий приложи в опросник
+  Task:
+  На https://github.com надо создать репозиторий, где положить описание для создания Docker контейнера в котором надо сделать установку с нуля Redmine http://www.redmine.org, потом можно усложнить и разбить установку на три контейнера - БД, сервер приложений (Redmine+puma), фронтенд (nginx) и запускать это все при помощи docker-compose, все результаты работы также положить на гитхаб, Напиши, как закончишь, наши инженеры посмотрят. Также, вместо редмайна можно взять любое веб-приложение или написать свое, тут есть простор для творчества.
+  Необязательное задание со звездочкой: подключить Travis CI для сборки docker образа Redmine, его тестирования и публикации на docker hub.

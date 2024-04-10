@@ -1,0 +1,286 @@
+body{
+	font-family: 'Roboto';
+	background: black;
+	color: #D2D0DB;	
+
+}
+.container{
+	background-color: #1D1C20;
+}
+/*menu*/
+.container .navbar{
+	/*background: blue;*/
+	background-color: #1D1C20;
+	padding: 20px;
+	/*box-shadow: 0px 2px 5px blue;*/
+}
+/*menu logo*/
+.container .navbar-brand img{
+	/*max-width: 100px;
+	max-height: 50px;*/
+	width: 100%;
+	height: 30px;
+	
+}
+.container .nav li a{
+	/*backround: #258644;*/
+	display: inline-block;
+	font-family: 'Roboto Condensed';
+	color: white;
+	font-size: 15px;
+	/*margin: 12px 5px 0px; 
+	padding: 5px 10px;*/
+	/*border: 1px solid white;*/
+	border-radius: 5px;	
+
+}
+.container .nav li a:active,
+.container .nav li a:focus,
+.container .nav li a:hover{
+	color: black;
+}
+.container .nav .dropdown li a{
+	color: gray;
+	font-size: 20px;
+}
+.container .nav .dropdown li a:focus,
+.container .nav .dropdown li a:hover{
+	background: #1EBDD2;
+	color: black;
+	width: 100%;
+}
+
+/*registration*/
+
+.container .button1{
+	background-color: #ECE8E8;
+	color: black;
+	border: none;
+	margin: 3px;
+	/*transform: translate(0px, 15px);	*/
+}
+.container .button1:hover{
+	background-color: #1D1C20;
+	color: white;
+	border: none;
+}
+.container .modal-content{
+    background: #ECE8E8; /* Цвет фона */
+    color: black;
+    padding: 25px;
+}
+.container .form-group{
+	transform: translate(-750px, 50px);	
+	
+}
+.container .checkbox{
+	transform: translate(-750px, 50px);	
+}
+.container .button button{
+	transform: translate(-370px, 40px);	
+	background: #05F63D;
+	color: white;
+}
+.container .button button:hover{
+	background: #07A02B;
+	color: #ECE8E8;
+}
+
+/*telephone*/
+.container .navbar-text{
+	color: #eee;
+	font-size: 15px;
+	
+}
+.container .carousel-caption{
+	font-family: 'Roboto Condensed';
+	background-color: black;
+	transform: translate(350px, -100px);
+	width: 50%;
+	height: 250px;
+}
+.container .carousel-caption small{
+	color: white;
+	font-size: 20px;
+}
+.container .carousel-caption button{
+	transform: translate(150px, 0px);
+	border-radius: 0px;
+	width: 150px;
+}
+/*тариф и услуги*/
+.container #services {
+	color: #615F5F;
+	background-color: white;
+	padding: 40px;
+	font-family: 'Roboto Condensed';
+}
+.container form{
+	transform: translate(750px, -40px);
+}
+/*#services .media-heading{
+	background-color: #9DC6C8;
+	
+}*/
+#services .box{
+	border: 1px solid #C4C8CE;
+	border-radius: 5px;
+}
+
+#services .media-heading{
+	background-color: #CEECEE;
+	color: black;
+	font-family: 'Roboto Condensed';
+	font-size: 20px;
+	padding: 20px;
+}
+#services .btn{
+	margin: 20px;
+	width: 290px;
+}
+/*action*/
+.footer{
+	background-color: #1EBDD2;
+	color: black;
+	text-align: center;
+	font-family: 'Roboto Condensed';
+}
+.carousel-inner img{
+	max-width: 640px;
+	max-height: 375px;
+	
+}
+.carousel-inner .carousel-caption{
+	color: black;
+	background-color: white;
+	transform: translate(340px, 20px);
+	height: 375px;
+}
+.carousel-inner .carousel-caption h3{
+		background-color: #1D1C20;
+		color: white;
+		padding: 20px;
+		transform: translate(0px, -40px);
+}
+.carousel-inner .carousel-caption p{
+		padding: 10px;
+		transform: translate(0px, -50px);
+}
+/*smart*/
+#smart .caption {
+ 	font-family: 'Roboto Condensed';
+ 	color: #101c20;
+}
+#smart .caption a{
+ 	background-color: black;
+ 	color: white;
+ 	border: none;
+ 	font-family: 'Roboto Condensed';
+ 	font-size: 20px;
+}
+#smart .caption a:hover{
+ 	background-color: white;
+ 	color: black;
+}
+
+/*FOOTER*/
+.right{
+	float: right
+}
+.left{
+	float: left
+}
+
+#footer img {
+	width: 10%
+}
+#footer p {
+	height: 50px;
+	padding: 25px;
+}
+
+.img_carousel{
+	width: 50%;
+}
+.carousel-caption__media {
+	    text-align: center;
+	    padding-bottom: 25px;
+	    padding-top: 25px;
+
+	}
+.color-green{
+	background: #51C512;
+}
+.navbar{
+	margin-bottom: 0;
+}
+@media (max-width: 1200px){
+	.boot_form{
+		width: 300px;
+		display: contents;
+	}
+	.container form{
+		transform: none;
+	}
+	#services .btn {
+		margin: 10px 0px;
+    	width: 100%;
+	}
+	.carousel-caption__media {
+
+	}
+	.carousel-caption {
+		/*display: none;*/
+	}
+	img.img_carousel {
+	    width: 100%;
+	}
+	img.img-responsive {
+	    margin-left: 25%;
+	}
+	.carousel-inner .carousel-caption {
+		display: contents;
+	}
+	.carousel-inner .carousel-caption p{
+		background-color: white;
+	}
+	ol.carousel-indicators {
+	    transform: none!important;
+	}
+	
+	button.btn.btn-primary {
+	    margin-bottom: 100px;
+	}
+	button.btn.btn-warning.btn-primary.btn-lg {
+	    margin-bottom: 25px;
+	    margin-left: 20%;
+	}
+	button.btn.btn-primary.btn-lg.button1 {
+	    margin-bottom: 25px;
+	}
+	.carousel__color{
+		background-color: black;
+	}
+	.carousel-caption__padding {
+	    padding-top: 30px;
+	    padding-bottom: 30px;
+	}
+	.nav>li {
+	    display: flex;
+	}
+
+}
+@media (max-width: 800px){
+	img.img-responsive {
+	    margin-left: 0;
+	}
+}
+@media (max-width: 700px){
+	button.btn.btn-warning.btn-primary.btn-lg{
+		margin-left: 0;
+	}
+	img.img-responsive {
+	    margin-left: 0;
+	}
+}
+

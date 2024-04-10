@@ -1,0 +1,2158 @@
+Mail for feedback: David138it@gmail.com
+
+Windows vs Linux, решение проблем
+	Task:
+	вордовский файл после печати в содержании выводит ошибку "ошибка не распределена"
+	Decision:
+	ссылки обновить таблицу
+	Task:
+	ПРОГРАММА-Документы-...
+	произошла ошибка:
+	Документ "...[КОД1;КОД2]" зарегистрирован, но не загружен в редакторе ms word. исключить документ "...[КОД1;КОД2]" из списка зарегистрирован? 
+	Если проигнорировать ошибку, отроется файл, попробовать изменить этот файл и закрыть то выйдет следующая ошибка
+	run-time error '53'
+	file not found: Uni_wordCallback.dll
+	Decision:
+	перенести файлы C:\ПУТЬККЛИЕНТСКОЙПРОГРАММЕ\Uni_word*.dll в C:\windows\system32. Запустить свойства ярлыка C:\ПУТЬККЛИЕНТСКОЙПРОГРАММЕ\ВНЕШНЯЯБАЗА2.exe, ПРОГРАММА-Документы, открыть файл, параметры, дополнительно-шаблоны пользователя, изменить, указать путь C:\ПУТЬККЛИЕНТСКОЙПРОГРАММЕ\
+    Task:
+    Зайти в графическую настройку с командной строки в Ubuntu
+    Столкнулся у себя с такой проблемой в декстопной версии Ubuntu, что пропали в панели меню настройки, а мне захотелось изменить в настроках фона фотографию.
+    Decision:
+    Зайти в настройки можно с помощью командной строки
+    $ gnome-control-center
+    Task:
+    Не удалось получить доступ к местоположению
+    Error mounting /dev/sdb1 at /run/media/...: Filesystem type ntfs3, ntfs not configured in kernel
+    Decision:
+    $ sudo yum install epel-release
+    $ sudo yum install ntfs-3g
+    Source:
+    1. https://itisgood.ru/2019/03/26/kak-smontirovat-disk-ntfs-na-centos-rhel-scientific-linux/
+    Task:
+    WslRegisterDistribution failed with error: 0x8007019e
+    The Windows Subsystem for Linux optional component is not enabled. Please enable it and try again.
+    See https://aka.ms/wslinstall for details.
+    Press any key to continue...
+    Decision:
+    панель управление -> Включение или отключение компонентов Windows -> Подсистема Windows для Linux + -> Ok -> reboot -> Пуск -> Ubuntu 20.04
+    Task:
+    СУФД флешка просит форматнуть
+    Decision:
+    CMD, chkdisk F:/r, на всяк случ скопир в диск Д (flash seettd), идем в бухг, вставл флешку, пуск, криптопроксп, сервис, обхор, сначала верхн, потом нижн, смотрим, чтоб не было такого (отсут, недоступ) у нас было: ключ под ... не доступен, ок, прогу, установить связь ведерации, ок, порт суфд 
+    Task:
+    Не работает ПОРТАЛ из-за такой ошибки: 
+    Часы спешат. Не удалось установить защищенное соединение с доменом ecs.sudrf.ru из-за неверных настроек системных часов и календаря
+    NET.ERR_CERT_DATE_INVALID
+    Decision:
+    Изменить время на сервере контроллера домена или заменить батарейку в сервере
+    Task:
+    ОС не загружается. Предложите на ваш взгляд способы решения проблемы, которые могут вернуть работоспособное состояние.
+    Task:
+    При перезагрузке ОС сбиваются настройки ориентации экрана. Предложите на ваш взгляд способы решения проблемы.
+    Task:
+  	В Windows 8.1 не найдено обновлений, хоть и последний раз обновлялся 2 года назад.
+  	Decision:
+  	гугл -> update puble windows 8.1 64 bit -> скачиваем winFuture8.1x64...exe -> обновляемся.
+    Task:
+    После установки Linux на Windows, Windows показывает неправильное время
+    Decision:
+    Win+R ->regedit -> HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInfor-tation -> Щелкаем правой кнопкой мыши в правой части окна -> новый параметр DWORD(32) -> имя — RealTimeIsUniversal -> щелкаем по новому параметру два раза -> значение 1 -> Перезагружаемся
+    Task:
+    Для воспроизведения видео вам может потребоваться установить необходимые видеокодеки
+    Decision:
+    $ sudo dnf update -y
+    $ sudo dnf config-manager --set-enabled crb
+    $ sudo dnf install -y epel-release epel-next-release
+    $ dnf repolist
+    $ sudo dnf install -y https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-9.noarch.rpm
+    $ sudo dnf install -y https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-9.noarch.rpm
+    $ sudo dnf install -y ffmpeg ffmpeg-devel
+    $ ffmpeg -version
+    Source:
+    https://setiwik.ru/kak-vklyuchit-repozitoriy-epel-v-centos-9-stream/
+    https://setiwik.ru/kak-ustanovit-ffmpeg-na-centos-9-stream/?ysclid=lkordttfyw687770645
+    https://docs.microsoft.com/ru-ru/windows/wsl/
+    Task:
+    при выгрузки из одной сети (1с) во вторую сеть (фис) две сети не видят друг друга
+    посмотреть мартрут сетей и прописать маршрут до фиса указав шлюз тот, по которому нету координатора
+    YOUR-IP1 - это адрес подсети сети фис или тот адрес который в браузере ввожу,
+    YOUR-MASKIP1 - маска сети того адреса 0 или 255 в конце.
+    YOUR-IP2 - адрес того шлюза где нет випнета
+    route print
+    route add -p YOUR-IP1 mask YOUR-MASKIP1 YOUR-IP2
+    Decision:
+    >route print
+    ===========================================================================
+    IPv4 таблица маршрута
+    ===========================================================================
+    Активные маршруты:
+    Сетевой адрес           Маска сети      Адрес шлюза       Интерфейс  Метрика
+                0.0.0.0          0.0.0.0        YOUR-IP5       YOUR-IP6   4227
+            YOUR-IP1    YOUR-MASKIP1         On-link    YOUR-IP7   4227
+            10.0.3.255  255.255.255.255         On-link    YOUR-IP7   4482
+            10.38.0.0    255.255.248.0         On-link        YOUR-IP6   4482
+            YOUR-IP6  255.255.255.255         On-link        YOUR-IP6   4482
+            10.38.7.255  255.255.255.255         On-link        YOUR-IP6   4482
+            127.0.0.0        255.0.0.0         On-link         127.0.0.1   4556
+            127.0.0.1  255.255.255.255         On-link         127.0.0.1   4556
+        127.255.255.255  255.255.255.255         On-link         127.0.0.1   4556
+            169.254.0.0      255.255.0.0         On-link    YOUR-IP7   4482
+        YOUR-IP7  255.255.255.255         On-link    YOUR-IP7   4482
+        169.254.255.255  255.255.255.255         On-link    YOUR-IP7   4482
+            224.0.0.0        240.0.0.0         On-link         127.0.0.1   4556
+            224.0.0.0        240.0.0.0         On-link        YOUR-IP6   4482
+            224.0.0.0        240.0.0.0         On-link    YOUR-IP7   4482
+        255.255.255.255  255.255.255.255         On-link         127.0.0.1   4556
+        255.255.255.255  255.255.255.255         On-link        YOUR-IP6   4482
+        255.255.255.255  255.255.255.255         On-link    YOUR-IP7   4482
+    ===========================================================================
+    Постоянные маршруты:
+        Сетевой адрес            Маска    Адрес шлюза      Метрика
+            YOUR-IP1    YOUR-MASKIP1      YOUR-IP2       1
+    >route delete YOUR-IP1 mask YOUR-MASKIP1 YOUR-IP2
+    >route add -p YOUR-IP1 mask 255.255.255.255 0.0.0.0
+    >route print
+    ===========================================================================
+    IPv4 таблица маршрута
+    ===========================================================================
+    Активные маршруты:
+    Сетевой адрес           Маска сети      Адрес шлюза       Интерфейс  Метрика
+                0.0.0.0          0.0.0.0        YOUR-IP5       YOUR-IP6   4227
+            YOUR-IP1    YOUR-MASKIP1         On-link    YOUR-IP7   4227
+            10.0.3.255  255.255.255.255         On-link    YOUR-IP7   4482
+            10.38.0.0    255.255.248.0         On-link        YOUR-IP6   4482
+            YOUR-IP6  255.255.255.255         On-link        YOUR-IP6   4482
+            10.38.7.255  255.255.255.255         On-link        YOUR-IP6   4482
+            127.0.0.0        255.0.0.0         On-link         127.0.0.1   4556
+            127.0.0.1  255.255.255.255         On-link         127.0.0.1   4556
+        127.255.255.255  255.255.255.255         On-link         127.0.0.1   4556
+            169.254.0.0      255.255.0.0         On-link    YOUR-IP7   4482
+        YOUR-IP7  255.255.255.255         On-link    YOUR-IP7   4482
+        169.254.255.255  255.255.255.255         On-link    YOUR-IP7   4482
+            224.0.0.0        240.0.0.0         On-link         127.0.0.1   4556
+            224.0.0.0        240.0.0.0         On-link        YOUR-IP6   4482
+            224.0.0.0        240.0.0.0         On-link    YOUR-IP7   4482
+        255.255.255.255  255.255.255.255         On-link         127.0.0.1   4556
+        255.255.255.255  255.255.255.255         On-link        YOUR-IP6   4482
+        255.255.255.255  255.255.255.255         On-link    YOUR-IP7   4482
+    ===========================================================================
+    Постоянные маршруты:
+        Сетевой адрес            Маска    Адрес шлюза      Метрика
+            YOUR-IP1  255.255.255.255         On-link        1
+    >route add -p YOUR-IP3 mask 255.255.255.255 YOUR-IP6
+    >route print
+    ===========================================================================
+    IPv4 таблица маршрута
+    ===========================================================================
+    Активные маршруты:
+    Сетевой адрес           Маска сети      Адрес шлюза       Интерфейс  Метрика
+                0.0.0.0          0.0.0.0        YOUR-IP5       YOUR-IP6   4227
+            YOUR-IP1    YOUR-MASKIP1         On-link    YOUR-IP7   4227
+            10.0.3.255  255.255.255.255         On-link    YOUR-IP7   4482
+            10.38.0.0    255.255.248.0         On-link        YOUR-IP6   4482
+            YOUR-IP6  255.255.255.255         On-link        YOUR-IP6   4482
+            10.38.7.255  255.255.255.255         On-link        YOUR-IP6   4482
+        YOUR-IP3  255.255.255.255         On-link        YOUR-IP6   4227
+            127.0.0.0        255.0.0.0         On-link         127.0.0.1   4556
+            127.0.0.1  255.255.255.255         On-link         127.0.0.1   4556
+        127.255.255.255  255.255.255.255         On-link         127.0.0.1   4556
+            169.254.0.0      255.255.0.0         On-link    YOUR-IP7   4482
+        YOUR-IP7  255.255.255.255         On-link    YOUR-IP7   4482
+        169.254.255.255  255.255.255.255         On-link    YOUR-IP7   4482
+            224.0.0.0        240.0.0.0         On-link         127.0.0.1   4556
+            224.0.0.0        240.0.0.0         On-link        YOUR-IP6   4482
+            224.0.0.0        240.0.0.0         On-link    YOUR-IP7   4482
+        255.255.255.255  255.255.255.255         On-link         127.0.0.1   4556
+        255.255.255.255  255.255.255.255         On-link        YOUR-IP6   4482
+        255.255.255.255  255.255.255.255         On-link    YOUR-IP7   4482
+    ===========================================================================
+    Постоянные маршруты:
+        Сетевой адрес            Маска    Адрес шлюза      Метрика
+            YOUR-IP1  255.255.255.255         On-link        1
+        YOUR-IP3  255.255.255.255       YOUR-IP6       1
+    >tracert YOUR-IP3
+    Трассировка маршрута к w-1c-app.YOUR-HOST [YOUR-IP3]
+    с максимальным числом прыжков 30:
+        1     1 ms     1 ms    <1 мс  asr-lo0.stranzit.ru [85.234.112.16]
+        2     *        *        *     Превышен интервал ожидания для запроса.
+    ...
+        8  ^C
+    >route change YOUR-IP3 mask 255.255.255.255 YOUR-IP6 metric 35
+    >route print
+    ===========================================================================
+    IPv4 таблица маршрута
+    ===========================================================================
+    Активные маршруты:
+    Сетевой адрес           Маска сети      Адрес шлюза       Интерфейс  Метрика
+                0.0.0.0          0.0.0.0        YOUR-IP5       YOUR-IP6   4227
+            YOUR-IP1    YOUR-MASKIP1         On-link    YOUR-IP7   4227
+            10.0.3.255  255.255.255.255         On-link    YOUR-IP7   4482
+            10.38.0.0    255.255.248.0         On-link        YOUR-IP6   4482
+            YOUR-IP6  255.255.255.255         On-link        YOUR-IP6   4482
+            10.38.7.255  255.255.255.255         On-link        YOUR-IP6   4482
+        YOUR-IP3  255.255.255.255         On-link        YOUR-IP6   4261
+            127.0.0.0        255.0.0.0         On-link         127.0.0.1   4556
+            127.0.0.1  255.255.255.255         On-link         127.0.0.1   4556
+        127.255.255.255  255.255.255.255         On-link         127.0.0.1   4556
+            169.254.0.0      255.255.0.0         On-link    YOUR-IP7   4482
+        YOUR-IP7  255.255.255.255         On-link    YOUR-IP7   4482
+        169.254.255.255  255.255.255.255         On-link    YOUR-IP7   4482
+            224.0.0.0        240.0.0.0         On-link         127.0.0.1   4556
+            224.0.0.0        240.0.0.0         On-link        YOUR-IP6   4482
+            224.0.0.0        240.0.0.0         On-link    YOUR-IP7   4482
+        255.255.255.255  255.255.255.255         On-link         127.0.0.1   4556
+        255.255.255.255  255.255.255.255         On-link        YOUR-IP6   4482
+        255.255.255.255  255.255.255.255         On-link    YOUR-IP7   4482
+    ===========================================================================
+    Постоянные маршруты:
+        Сетевой адрес            Маска    Адрес шлюза      Метрика
+            YOUR-IP1  255.255.255.255         On-link        1
+    >route change YOUR-IP3 mask 255.255.255.255 YOUR-IP6 metric 35
+    >route print
+    ===========================================================================
+    IPv4 таблица маршрута
+    ===========================================================================
+    Активные маршруты:
+    Сетевой адрес           Маска сети      Адрес шлюза       Интерфейс  Метрика
+                0.0.0.0          0.0.0.0        YOUR-IP5       YOUR-IP6   4227
+            YOUR-IP1    YOUR-MASKIP1         On-link    YOUR-IP7   4227
+            10.0.3.255  255.255.255.255         On-link    YOUR-IP7   4482
+            10.38.0.0    255.255.248.0         On-link        YOUR-IP6   4482
+            YOUR-IP6  255.255.255.255         On-link        YOUR-IP6   4482
+            10.38.7.255  255.255.255.255         On-link        YOUR-IP6   4482
+        YOUR-IP3  255.255.255.255         On-link        YOUR-IP6   4261
+            127.0.0.0        255.0.0.0         On-link         127.0.0.1   4556
+            127.0.0.1  255.255.255.255         On-link         127.0.0.1   4556
+        127.255.255.255  255.255.255.255         On-link         127.0.0.1   4556
+            169.254.0.0      255.255.0.0         On-link    YOUR-IP7   4482
+        YOUR-IP7  255.255.255.255         On-link    YOUR-IP7   4482
+        169.254.255.255  255.255.255.255         On-link    YOUR-IP7   4482
+            224.0.0.0        240.0.0.0         On-link         127.0.0.1   4556
+            224.0.0.0        240.0.0.0         On-link        YOUR-IP6   4482
+            224.0.0.0        240.0.0.0         On-link    YOUR-IP7   4482
+        255.255.255.255  255.255.255.255         On-link         127.0.0.1   4556
+        255.255.255.255  255.255.255.255         On-link        YOUR-IP6   4482
+        255.255.255.255  255.255.255.255         On-link    YOUR-IP7   4482
+    ===========================================================================
+    Постоянные маршруты:
+        Сетевой адрес            Маска    Адрес шлюза      Метрика
+            YOUR-IP1  255.255.255.255         On-link        1
+    >route add -p YOUR-IP3 mask 255.255.255.255 YOUR-IP6 metric 35
+    >route print
+    ===========================================================================
+    IPv4 таблица маршрута
+    ===========================================================================
+    Активные маршруты:
+    Сетевой адрес           Маска сети      Адрес шлюза       Интерфейс  Метрика
+                0.0.0.0          0.0.0.0        YOUR-IP5       YOUR-IP6   4227
+            YOUR-IP1    YOUR-MASKIP1         On-link    YOUR-IP7   4227
+            10.0.3.255  255.255.255.255         On-link    YOUR-IP7   4482
+            10.38.0.0    255.255.248.0         On-link        YOUR-IP6   4482
+            YOUR-IP6  255.255.255.255         On-link        YOUR-IP6   4482
+            10.38.7.255  255.255.255.255         On-link        YOUR-IP6   4482
+        YOUR-IP3  255.255.255.255         On-link        YOUR-IP6   4261
+            127.0.0.0        255.0.0.0         On-link         127.0.0.1   4556
+            127.0.0.1  255.255.255.255         On-link         127.0.0.1   4556
+        127.255.255.255  255.255.255.255         On-link         127.0.0.1   4556
+            169.254.0.0      255.255.0.0         On-link    YOUR-IP7   4482
+        YOUR-IP7  255.255.255.255         On-link    YOUR-IP7   4482
+        169.254.255.255  255.255.255.255         On-link    YOUR-IP7   4482
+            224.0.0.0        240.0.0.0         On-link         127.0.0.1   4556
+            224.0.0.0        240.0.0.0         On-link        YOUR-IP6   4482
+            224.0.0.0        240.0.0.0         On-link    YOUR-IP7   4482
+        255.255.255.255  255.255.255.255         On-link         127.0.0.1   4556
+        255.255.255.255  255.255.255.255         On-link        YOUR-IP6   4482
+        255.255.255.255  255.255.255.255         On-link    YOUR-IP7   4482
+    ===========================================================================
+    Постоянные маршруты:
+        Сетевой адрес            Маска    Адрес шлюза      Метрика
+            YOUR-IP1  255.255.255.255         On-link        1
+        YOUR-IP3  255.255.255.255       YOUR-IP6      35
+    >route -f
+    >route print
+    >route add -p YOUR-IP1 mask 255.255.255.255 YOUR-IP7
+    >route print
+    ===========================================================================
+    IPv4 таблица маршрута
+    ===========================================================================
+    Активные маршруты:
+        Отсутствует
+    Постоянные маршруты:
+        Сетевой адрес            Маска    Адрес шлюза      Метрика
+            YOUR-IP1  255.255.255.255   YOUR-IP7       1
+    >route print
+    ===========================================================================
+    IPv4 таблица маршрута
+    ===========================================================================
+    Активные маршруты:
+    Сетевой адрес           Маска сети      Адрес шлюза       Интерфейс  Метрика
+                0.0.0.0          0.0.0.0        YOUR-IP5       YOUR-IP6   4227
+            10.38.0.0    255.255.248.0         On-link        YOUR-IP6   4482
+            YOUR-IP6  255.255.255.255         On-link        YOUR-IP6   4482
+            10.38.7.255  255.255.255.255         On-link        YOUR-IP6   4482
+            224.0.0.0        240.0.0.0         On-link        YOUR-IP6   4482
+        255.255.255.255  255.255.255.255         On-link        YOUR-IP6   4482
+    ===========================================================================
+    Постоянные маршруты:
+        Сетевой адрес            Маска    Адрес шлюза      Метрика
+            YOUR-IP1  255.255.255.255   YOUR-IP7       1
+    >route add -p YOUR-IP3 mask 255.255.255.255 YOUR-IP6 metric 35
+    >route print
+    ===========================================================================
+    IPv4 таблица маршрута
+    ===========================================================================
+    Активные маршруты:
+    Сетевой адрес           Маска сети      Адрес шлюза       Интерфейс  Метрика
+                0.0.0.0          0.0.0.0        YOUR-IP5       YOUR-IP6   4227
+            10.38.0.0    255.255.248.0         On-link        YOUR-IP6   4482
+            YOUR-IP6  255.255.255.255         On-link        YOUR-IP6   4482
+            10.38.7.255  255.255.255.255         On-link        YOUR-IP6   4482
+        YOUR-IP3  255.255.255.255         On-link        YOUR-IP6   4261
+            224.0.0.0        240.0.0.0         On-link        YOUR-IP6   4482
+        255.255.255.255  255.255.255.255         On-link        YOUR-IP6   4482
+    ===========================================================================
+    Постоянные маршруты:
+        Сетевой адрес            Маска    Адрес шлюза      Метрика
+            YOUR-IP1  255.255.255.255   YOUR-IP7       1
+        YOUR-IP3  255.255.255.255       YOUR-IP6      35
+    >route change YOUR-IP3 mask 255.255.255.255 YOUR-IP5 metric 35
+    >route print
+    ===========================================================================
+    IPv4 таблица маршрута
+    ===========================================================================
+    Активные маршруты:
+    Сетевой адрес           Маска сети      Адрес шлюза       Интерфейс  Метрика
+                0.0.0.0          0.0.0.0        YOUR-IP5       YOUR-IP6   4227
+            10.38.0.0    255.255.248.0         On-link        YOUR-IP6   4482
+            YOUR-IP6  255.255.255.255         On-link        YOUR-IP6   4482
+            10.38.7.255  255.255.255.255         On-link        YOUR-IP6   4482
+        YOUR-IP3  255.255.255.255        YOUR-IP5       YOUR-IP6   4261
+            224.0.0.0        240.0.0.0         On-link        YOUR-IP6   4482
+        255.255.255.255  255.255.255.255         On-link        YOUR-IP6   4482
+    ===========================================================================
+    Постоянные маршруты:
+        Сетевой адрес            Маска    Адрес шлюза      Метрика
+            YOUR-IP1  255.255.255.255   YOUR-IP7       1
+    >route add -p YOUR-IP3 mask 255.255.255.255 YOUR-IP5 metric 35
+    >route print
+    ===========================================================================
+    IPv4 таблица маршрута
+    ===========================================================================
+    Активные маршруты:
+    Сетевой адрес           Маска сети      Адрес шлюза       Интерфейс  Метрика
+                0.0.0.0          0.0.0.0        YOUR-IP5       YOUR-IP6   4227
+            10.38.0.0    255.255.248.0         On-link        YOUR-IP6   4482
+            YOUR-IP6  255.255.255.255         On-link        YOUR-IP6   4482
+            10.38.7.255  255.255.255.255         On-link        YOUR-IP6   4482
+        YOUR-IP3  255.255.255.255        YOUR-IP5       YOUR-IP6   4261
+    ===========================================================================
+    Постоянные маршруты:
+        Сетевой адрес            Маска    Адрес шлюза      Метрика
+            YOUR-IP1  255.255.255.255   YOUR-IP7       1
+        YOUR-IP3  255.255.255.255        YOUR-IP5      35
+
+1с, решение проблем
+    Task:
+    Во время установки 1C 8.3 выходит сообщение об ошибке с кодом 1311.
+    Decision:
+    Поик - regedit - HLM>SYSTEM>CurrentControlSet>Control>NIls>Codepage - выбрать 1252 - изменить в нем значение с "c_1252.nls" на "c_1251.nls" - перезагрузиться - заново установить 1С
+    Task:
+    В 1 кабинете ошибка:
+    лицензия не обнаружена
+    в другом кабинете посмотрел, там другая ошибка: 
+    Не найдена лицензия, ключ защиты не обнаружен.
+    Decision:
+    Подключился к серверу, запустил программу HASP License Manager for Win32 (рядом с часами), load смотрю, IPX-unload, TCP/IP-load, NetBios-Load,  перезагрузил комп, HASP License Manager for Win32, load смотрю, IPX-unload, TCP/IP-load, NetBios-unload, нажимаю load, all, теперь в NetBios-Load - все запустилось.
+    Task:
+    не правиальный путь к файлу \\we\programm.. 0*000035, не найдена сеть    
+    Decision:
+    Reboot server
+    Task:
+    В одном рабочем месте ошибка: 
+    лицензия не обнаружена
+    во втором рабочем месте другая ошибка 
+    Не найдена лицензия, ключ защиты не обнаружен.
+    Decision:
+    HASP License Manager for Win32 (рядом с часами), load, IPX-unload, TCP/IP-load, NetBios-Load, 
+	перезагрузил комп
+    HASP License Manager for Win32, load, IPX-unload, TCP/IP-load, NetBios-unload, нажимаю load, all и в NetBios-Load тоже
+
+1c, установка и настройка ПО
+    Task:
+    Установить 1С в 1 кабинете или просто обновить 1С
+    Decision:
+    1С - тонкий клиент - Сетап от администратора - добавление (изменить) - добавл в сущ - наименов любое - галочку на Сервере 1С предприятия - кластер (w-1c-app:1741) - инф база имя (YOUR-DB) - тонкий клиент - версия 1С -(8.3... - будет меняться) - запуск - инциалы, пароль - меняем на нужный пароль
+    Task:
+    переименовать пользователя (кадры) в 1с 
+    Decision:
+    из под учетки бухгалтера в 1с выбрать администрирование и польз, меняем имя.
+
+1с, Interview
+    Task:
+    Написать программный код (наСервере) изменения всех элементов справочника "Номенклатура", добавить к наименованию слово " проверено". 
+    Выборку элементов произвести через запрос.
+    Задание выполнить в демонстрационной базе 1С:Управление торговлей, версии 11.4.
+    В результате решения предоставить внешнюю печатную форму.    
+    Decision:
+    Сделать печатную форму для документа «Реализация товаров и услуг» со следующими данными:
+    Шапка:
+        Организация
+        Покупатель
+        Телефон покупателя
+    Таблица
+    Номер по порядку
+        Наименование товара
+        Количество
+        Цена
+        Сумма
+        Вес
+        Объем
+    В итогах вывести поля
+        Сумма
+        Вес
+        Объем
+
+С VS C++, установка, настройка ПО и первый запуск
+    Task:
+    Первый запуск на языке Си
+    Decision:
+    Начало (Welcome) - проекты - создаем проект - проект без Qt - приложение на языке Си - qmake - ok - проекты - запуск - запуск в терминале - ок - запуск (зеленый треугольник внизу или ctrl+r)
+    Task:
+    Установка OpenGl
+    Task:
+    Настроим утилиту для OpenGl в ubuntu 20.04
+    Decision:
+    $ sudo apt-get update
+    $ sudo apt-get install libglu1-mesa-dev freeglut3-dev mesa-common-dev
+    Task:
+    Первый запуск OpenGl
+    Decision:$ vim main.cpp
+    $ cat main.cpp
+      #include <GL/glut.h>
+      void displayMe(void)
+      {
+          glClear(GL_COLOR_BUFFER_BIT);
+          glBegin(GL_POLYGON);
+              glVertex3f(0.5, 0.0, 0.5);
+              glVertex3f(0.5, 0.0, 0.0);
+              glVertex3f(0.0, 0.5, 0.0);
+              glVertex3f(0.0, 0.0, 0.5);
+          glEnd();
+          glFlush();
+      }
+      int main(int argc, char** argv)
+      {
+          glutInit(&argc, argv);
+          glutInitDisplayMode(GLUT_SINGLE);
+          glutInitWindowSize(400, 300);
+          glutInitWindowPosition(100, 100);
+          glutCreateWindow("Hello world!");
+          glutDisplayFunc(displayMe);
+          glutMainLoop();
+          return 0;
+      }
+    $ g++ main.cpp -o firstOpenGlApp -lglut -lGLU -lGL
+    $ ./firstOpenGlApp
+    Task:
+    Установка Qt Creator под Windows
+    Decision:
+        https://visualstudio.microsoft.com/ru/downloads/ -> Инструменты для Visual Studio 2022 -> Инструменты сборки для Visual Studio 2022 -> aka.ms
+    C:\Users\...\Downloads\qt C++ installer> vs_buildtools.exe --layout offline --lang en-us --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended
+        ...\offline\vs_setup.exe
+        https://developer.microsoft.com/en-US/windows/downloads/windows-sdk/-> Getting started -> https://go.microsoft.com/fwlink/?linkid=2173746-> ...\22000.194.210911-1543.co_release_svc_prod1_WindowsSDK.iso -> Извлечь в текущую папку -> ...\22000.194.210911-1543.co_release_svc_prod1_WindowsSDK\Installers\X64 Debuggers And Tools-x64_en-us.exe -> ...\22000.194.210911-1543.co_release_svc_prod1_WindowsSDK\Installers\X86 Debuggers And Tools-x86_en-us.exe
+        https://cmake.org/download/-> Binary distributions: -> Windows x64 Installer: Installer tool has changed. Uninstall CMake 3.4 or lower first! -> https://github.com/Kitware/CMake/releases/download/v3.22.0/cmake-3.22.0-windows-x86_64.msi
+        ...\cmake-3.22.0-windows-x86_64.msi -> Add CMake to the system PATH for all users
+        https://www.qt.io/offline-installers -> Windows Host -> \qt-opensource-windows-x86-5.12.11.exe -> Select Components -> Qt 5.12 -> MSVC 2017 32-bit -> MSVC 2017 64-bit -> Launch QT Creator -> Компьютер -> Свойства -> Дополнительные параметры системы -> Переменные среды ->  Системные переменные -> Path -> Изменить -> Создать -> C:\Qt\Qt5.12.11\Tools\QtCreator\bin -> Пуск -> QT Creator Community -> Инструменты -> Параметры
+    Task:
+    Установка Qt Creator под Ubuntu 20.04
+    Decision:
+    https://www.qt.io/download-qt-installer - Download:
+    $ chmod u+x qt-unified-linux-x64-4.1.1-online.run
+    $ ./qt-unified-linux-x64-4.1.1-online.run
+    нужно выбрать компоненты
+    Task:
+    Компиляция программ с помощью команд ./configure и make. Давайте что-нибудь скомпилируем. Для этого нам понадобятся некоторые инструменты, такие как компилятор, компоновщик и утилита make . Практически во всех системах Linux используется один и тот же компилятор языка C с именем gcc (GNU C Compiler). Проверить его присутствие в системе можно так
+    Decision:
+    $ which gcc
+        /usr/bin/gcc
+    Task:
+    Получение исходного кода
+    Ckомпилируем программу с названием diction из проекта GNU. Эта маленькая удобная программка проверяет качество и стиль содержимого текстовых файлов. А поскольку она невелика, она легко компилируется.
+    Следуя соглашениям, мы сначала создадим каталог src для исходного кода и затем загрузим в него исходный код с помощью команды ftp
+    Decision:
+    $ mkdir src
+    $ cd src/
+    /src$ ftp ftp.gnu.org
+        Name (ftp.gnu.org:server): anonymous
+        ...
+        230 Login successful.
+        Remote system type is UNIX.
+        Using binary mode to transfer files.
+    ftp> cd gnu/diction
+        250 Directory successfully changed.
+    ftp> ls
+        200 PORT command successful. Consider using PASV.
+        150 Here comes the directory listing.
+        -rw-r--r--    1 3003     65534       68940 Aug 28  1998 diction-0.7.tar.gz
+        -rw-r--r--    1 3003     65534       90957 Mar 04  2002 diction-1.02.tar.gz
+        -rw-r--r--    1 3003     65534      141062 Sep 17  2007 diction-1.11.tar.gz
+        -rw-r--r--    1 3003     65534         189 Sep 17  2007 diction-1.11.tar.gz.sig
+        226 Directory send OK.
+    ftp> get diction-1.11.tar.gz
+    ftp> bye
+        221 Goodbye.
+    Task:
+    Поскольку мы сами управляем процессом компиляции исходного кода, поместим его в каталог ~/src. Исходный код, устанавливаемый дистрибутивом, помещается в каталог /usr/src, а исходный код, предназначенный для использования множеством пользователей, обычно устанавливается в /usr/local/src.
+    Исходный код обычно распространяется в виде сжатого tar-файла. Подключившись к FTP-сайту, мы получили список доступных tar-файлов и выбрали для загрузки самую свежую версию. При помощи команды get программы ftp скопировали файл с сервера FTP на локальную машину.
+    После загрузки tar-файла его нужно распаковать. Программа diction , подобно всем программам из проекта GNU, следует определенным стандартам упаковки исходного кода. Большая часть других исходных кодов, доступных в экосистеме Linux, также следует этому стандарту. Одним из элементов стандарта является создание каталога с деревом исходных текстов и именем project-x.xx после распаковывания tar-файла, то есть с именем, содержащим имя проекта и номер версии. Такая схема упрощает установку нескольких версий одной и той же программы. Однако перед распаковыванием хорошо бы исследовать организацию дерева. При распаковывании некоторых проектов каталог не создается, а файлы помещаются непосредственно в текущий каталог, что может вызвать неразбериху и путаницу в хорошо организованном каталоге src. Чтобы избежать этого, пользуйтесь следующей командой для исследования содержимого tar-файла
+    Decision:
+    /src$ tar tzvf diction-1.11.tar.gz | head
+        -rw-r--r-- michael/user  35068 2007-07-30 14:47 diction-1.11/COPYING
+        -rw-r--r-- michael/user   9416 2007-08-03 01:03 diction-1.11/INSTALL
+        -rw-r--r-- michael/user   3920 2007-08-03 04:05 diction-1.11/Makefile.in
+        -rw-r--r-- michael/user   1448 2007-08-30 04:20 diction-1.11/README
+        -rw-r--r-- michael/user    152 2007-08-30 02:08 diction-1.11/NEWS
+        -rwxr-xr-x michael/user 144080 2007-08-30 02:06 diction-1.11/configure
+        -rwxr-xr-x michael/user  13184 2007-08-03 01:03 diction-1.11/install-sh
+        -rw-r--r-- michael/user   2621 2007-03-30 15:45 diction-1.11/de
+        -rw-r--r-- michael/user  24830 2007-03-30 15:45 diction-1.11/en
+        -rw-r--r-- michael/user  25043 2007-03-30 15:45 diction-1.11/en_GB
+    /src$ tar xzf diction-1.11.tar.gz
+    /src$ ls -l
+        total 144
+        drwxrwxr-x 3 s s   4096 Jan  3 20:55 diction-1.11
+        -rw-rw-r-- 1 s s 141062 Jan  3 20:47 diction-1.11.tar.gz
+    Task:
+    Исследование дерева исходных текстов
+    Decision:
+    /src$ cd diction-1.11
+    /src/diction-1.11$ ls -l
+        config.guess  de            diction.spec.in  getopt.c      misc.c  sentence.c
+        config.h.in   de.po         diction.texi.in  getopt.h      misc.h  sentence.h
+        config.sub    diction.1.in  en               getopt_int.h  NEWS    style.1.in
+        configure     diction.c     en_GB            INSTALL       nl      style.c
+        configure.in  diction.pot   en_GB.po         install-sh    nl.po   test
+        COPYING       diction.spec  getopt1.c        Makefile.in   README
+    /src/diction-1.11$ ls *.c
+        diction.c  getopt1.c  getopt.c  misc.c  sentence.c  style.c
+    /src/diction-1.11$ ls *.h
+        getopt.h  getopt_int.h  misc.h  sentence.h
+    Decision:
+    /src/diction-1.11$ ls /usr/include
+        aio.h        fnmatch.h       mcheck.h        pty.h          sysexits.h
+        aliases.h    fstab.h         memory.h        pwd.h          syslog.h
+        alloca.h     fts.h           misc            python3.8      tar.h
+        argp.h       ftw.h           mlocate         rdma           termio.h
+        argz.h       gcalc-2         mntent.h        re_comp.h      termios.h
+        ar.h         gci-2           monetary.h      regex.h        tgmath.h
+        arpa         gconv.h         mqueue.h        regexp.h       thread_db.h
+        asm-generic  getopt.h        mtd             reglib         threads.h
+        assert.h     GL              net             resolv.h       time.h
+        byteswap.h   glob.h          netash          rpc            ttyent.h
+        c++          gnumake.h       netatalk        rpcsvc         uchar.h
+        clif.h       gnu-versions.h  netax25         sched.h        ucontext.h
+        complex.h    grp.h           netdb.h         scsi           ulimit.h
+        cpio.h       gshadow.h       neteconet       search.h       unistd.h
+        crypt.h      iconv.h         netinet         semaphore.h    utime.h
+        ctype.h      ifaddrs.h       netipx          setjmp.h       utmp.h
+        dirent.h     inttypes.h      netiucv         sgtty.h        utmpx.h
+        dlfcn.h      iproute2        netpacket       shadow.h       values.h
+        drm          KHR             netrom          signal.h       video
+        elf.h        langinfo.h      netrose         sound          wait.h
+        endian.h     lastlog.h       nfs             spawn.h        wchar.h
+        envz.h       libdrm          nl_types.h      stab.h         wctype.h
+        err.h        libgen.h        nss.h           stdc-predef.h  wordexp.h
+        errno.h      libintl.h       obstack.h       stdint.h       X11
+        error.h      libsync.h       openvpn         stdio_ext.h    x86_64-linux-gnu
+        execinfo.h   limits.h        paths.h         stdio.h        xcb
+        fcntl.h      link.h          poll.h          stdlib.h       xen
+        features.h   linux           printf.h        string.h       xf86drm.h
+        fenv.h       locale.h        proc_service.h  strings.h      xf86drmMode.h
+        finclude     malloc.h        protocols       sudo_plugin.h  xorg
+        fmtmsg.h     math.h          pthread.h       syscall.h
+    Task:
+    Сборка программ
+    Давайте запустим configure . Так как эта программа находится не там, где командная оболочка обычно ищет выполняемые файлы, нужно явно сообщить ей местоположение программы, добавив в команду префикс ./ . Он указывает, что программа находится в текущем рабочем каталоге
+    Decision:
+    /src/diction-1.11$ ./configure
+        ...
+        configure: creating ./config.status
+        config.status: creating Makefile
+        config.status: creating diction.1
+        config.status: creating diction.texi
+        config.status: creating diction.spec
+        config.status: creating style.1
+        config.status: creating test/rundiction
+        config.status: creating config.h
+    /src/diction-1.11$ cat Makefile
+    ...
+    CC=     gcc
+    ...
+    diction:    diction.o sentence.o misc.o getopt.o getopt1.o
+            $(CC) -o $@ $(LDFLAGS) diction.o sentence.o misc.o \
+            getopt.o getopt1.o $(LIBS)
+    ...
+    .c.o:
+            $(CC) -c $(CPPFLAGS) $(CFLAGS) $<
+            ...
+    #{{{ dependencies
+    diction.o:  diction.c config.h getopt.h misc.h sentence.h
+    getopt.o:   getopt.c getopt.h getopt_int.h
+    getopt1.o:  getopt1.c getopt.h getopt_int.h
+    misc.o: misc.c config.h misc.h
+    sentence.o: sentence.c config.h misc.h sentence.h
+    style.o:    style.c config.h getopt.h misc.h sentence.h
+    #}}}
+    Task:
+    давайте запустим make и соберем наши программы:
+    Decision:
+    /src/diction-1.11$ make
+    /src/diction-1.11$ ls
+        config.guess   de.po            diction.texi.in  INSTALL      README
+        config.h       diction          en               install-sh   sentence.c
+        config.h.in    diction.1        en_GB            Makefile     sentence.h
+        config.log     diction.1.in     en_GB.po         Makefile.in  sentence.o
+        config.status  diction.c        getopt1.c        misc.c       style
+        config.sub     diction.o        getopt1.o        misc.h       style.1
+        configure      diction.pot      getopt.c         misc.o       style.1.in
+        configure.in   diction.spec     getopt.h         NEWS         style.c
+        COPYING        diction.spec.in  getopt_int.h     nl           style.o
+        de             diction.texi     getopt.o         nl.po        test
+    Task:
+    Мы только что скомпилировали первые программы из исходного кода! Но, исключительно ради любопытства, запустим make еще раз
+    Decision:
+    /src/diction-1.11$ make
+        make: Nothing to be done for 'all'.
+    Task:
+    Во всем виновата make . Вместо того чтобы просто собрать все заново, make собирает только то, что нужно собрать. Так как все целевые файлы уже присутствуют в каталоге, make решила, что ничего больше делать не требуется. Продемонстрировать это можно, удалив одну из собранных целей и запустив make снова.
+    Decision:
+    /src/diction-1.11$ rm getopt.o
+    /src/diction-1.11$ make
+        ...
+        gcc -o diction -g diction.o sentence.o misc.o \
+            getopt.o getopt1.o
+        gcc -o style -g style.o sentence.o misc.o \
+            getopt.o getopt1.o -lm
+    Task:
+    Воспользуемся программой touch , чтобы «обновить» один из файлов с исходным кодом, и посмотрим, к чему это приведет
+    Decision:
+    /src/diction-1.11$ ls -l diction getopt.c
+        -rwxrwxr-x 1 s s 68128 Jan  3 21:22 diction
+        -rw-r--r-- 1 s s 33125 Mar 30  2007 getopt.c
+    /src/diction-1.11$ touch getopt.c
+    /src/diction-1.11$ ls -l diction getopt.c
+        -rwxrwxr-x 1 s s 68128 Jan  3 21:22 diction
+        -rw-r--r-- 1 s s 33125 Jan  3 21:24 getopt.c
+    /src/diction-1.11$ make
+        gcc -c -I. -DSHAREDIR=\"/usr/local/share\" -DLOCALEDIR=\"/usr/local/share/locale\" -g -O2 -pipe -Wno-unused -Wshadow -Wbad-function-cast -Wmissing-prototypes -Wstrict-prototypes -Wcast-align -Wcast-qual -Wpointer-arith -Wcast-align -Wwrite-strings -Wmissing-declarations -Wnested-externs -Wundef -pedantic -fno-common getopt.c
+        gcc -o diction -g diction.o sentence.o misc.o \
+            getopt.o getopt1.o
+        gcc -o style -g style.o sentence.o misc.o \
+            getopt.o getopt1.o -lm
+    /src/diction-1.11$ ls -l diction getopt.c
+        -rwxrwxr-x 1 s s 68128 Jan  3 21:24 diction
+        -rw-r--r-- 1 s s 33125 Jan  3 21:24 getopt.c
+    Task:
+    Установка программ
+    Старательно упакованный исходный код часто включает специальную цель для make , которая называется install (установить). Эта цель выполняет установку готового программного продукта в системный каталог. Обычно это каталог /usr/local/bin, традиционное место для установки программного обеспечения, собранного в локальной системе. Однако этот каталог, как правило, недоступен рядовым пользователям для записи, поэтому, чтобы выполнить установку, вам потребуются привилегии суперпользователя. После установки проверим готовность программы к использованию
+    Decision:
+    /src/diction-1.11$ sudo make install
+    /src/diction-1.11$ which diction
+        /usr/local/bin/diction
+    Task:
+    Установка g++
+    Decision:
+    $ sudo apt install build-essential
+    $ g++ --version
+        g++ (Ubuntu 9.3.0-10ubuntu2) 9.3.0
+        Copyright (C) 2019 Free Software Foundation, Inc.
+        This is free software; see the source for copying conditions.  There is NO
+        warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    Task:
+    Первый запуск
+    Decision:
+    $ vim hello.cc
+    $ cat hello.cc
+        #include <iostream>
+        using namespace std;
+        int main()
+        {
+            cout << "Hello, World!";
+            return 0;
+        }
+    $ ls -l
+        итого 28
+        -rw-rw-r-- 1     100 Jul 20 20:13 hello.cc
+    $ g++ -o hello hello.cc
+    $ ls -l
+        итого 48
+        -rwxrwxr-x 1   17160 Jul 20 20:13 hello
+        -rw-rw-r-- 1     100 Jul 20 20:13 hello.cc
+    $ ./hello
+        Hello, World!
+    Decision:
+    $ vim test.cpp
+    $ cat test.cpp
+        fint main(){
+        }
+    $ g++ test.cpp -o test
+        test.cpp:1:1: error: ‘fint’ does not name a type; did you mean ‘int’?
+            1 | fint main(){
+              | ^~~~
+              | int
+    $ vim test.cpp
+    $ cat test.cpp
+        int main(){
+        }
+    $ g++ test.cpp -o test
+    $ ls
+        test  test.cpp
+    $ gdb --annotate=3 test
+        GNU gdb (Ubuntu 9.1-0ubuntu1) 9.1
+        Copyright (C) 2020 Free Software Foundation, Inc.
+        License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+        This is free software: you are free to change and redistribute it.
+        There is NO WARRANTY, to the extent permitted by law.
+        Type "show copying" and "show warranty" for details.
+        This GDB was configured as "x86_64-linux-gnu".
+        Type "show configuration" for configuration details.
+        For bug reporting instructions, please see:
+        <http://www.gnu.org/software/gdb/bugs/>.
+        Find the GDB manual and other documentation resources online at:
+            <http://www.gnu.org/software/gdb/documentation/>.
+        For help, type "help".
+        Type "apropos word" to search for commands related to "word"...
+        Reading symbols from test...
+        (No debugging symbols found in test)
+        ��pre-prompt
+        (gdb)
+        ��prompt
+    run
+        ��post-prompt
+        Starting program: /home/as/Документы/C++/C++ Open GL/test/test
+        ��starting
+        ��exited 0
+        [Inferior 1 (process 8426) exited normally]
+        ��thread-exited,id="1",group-id="i1"
+        ��stopped
+        ��pre-prompt
+        (gdb)
+        ��prompt
+    quit
+        ��post-prompt
+    Task:
+    Теперь попробуем добавить что-нибудь в программе. Чтобы добавить какой-нибудь текст, нужно подключить библиотеку iostream
+    Decision:
+    $ vim test.cpp
+    $ cat test.cpp
+        #include <iostream>
+        int main(){
+            std::cout<<"Hello"<<std::endl;
+        }
+    $ g++ test.cpp -o test
+    $ gdb --annotate=3 test
+        Copyright (C) 2020 Free Software Foundation, Inc.
+        License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+        This is free software: you are free to change and redistribute it.
+        There is NO WARRANTY, to the extent permitted by law.
+        Type "show copying" and "show warranty" for details.
+        This GDB was configured as "x86_64-linux-gnu".
+        Type "show configuration" for configuration details.
+        For bug reporting instructions, please see:
+        <http://www.gnu.org/software/gdb/bugs/>.
+        Find the GDB manual and other documentation resources online at:
+            <http://www.gnu.org/software/gdb/documentation/>.
+        For help, type "help".
+        Type "apropos word" to search for commands related to "word"...
+        Reading symbols from test...
+        (No debugging symbols found in test)
+        ��pre-prompt
+        (gdb)
+        ��prompt
+    run
+        ��post-prompt
+        Starting program: /home/as/Документы/C++/C++ Open GL/test/test
+        ��starting
+        Hello
+        ��exited 0
+        [Inferior 1 (process 8581) exited normally]
+        ��thread-exited,id="1",group-id="i1"
+        ��stopped
+        ��pre-prompt
+        (gdb)
+        ��prompt
+    q
+        ��post-prompt
+    Decision:
+    $ vim test.cpp
+    $ cat test.cpp
+        #include <iostream>
+        using namespace std;
+        int main(){
+            int i=1;
+            float f=1.1123;
+            char c='f';
+            cin>>i;
+            cin>>f;
+            cin>>c;
+            cout<<i<<endl;
+            cout<<f<<endl;
+            cout<<c<<endl;
+        }
+    $ g++ test.cpp -o test
+    $ gdb --annotate=3 test
+        GNU gdb (Ubuntu 9.1-0ubuntu1) 9.1
+        Copyright (C) 2020 Free Software Foundation, Inc.
+        License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+        This is free software: you are free to change and redistribute it.
+        There is NO WARRANTY, to the extent permitted by law.
+        Type "show copying" and "show warranty" for details.
+        This GDB was configured as "x86_64-linux-gnu".
+        Type "show configuration" for configuration details.
+        For bug reporting instructions, please see:
+        <http://www.gnu.org/software/gdb/bugs/>.
+        Find the GDB manual and other documentation resources online at:
+            <http://www.gnu.org/software/gdb/documentation/>.
+        For help, type "help".
+        Type "apropos word" to search for commands related to "word"...
+        Reading symbols from test...
+        (No debugging symbols found in test)
+        ��pre-prompt
+        (gdb)
+        ��prompt
+    run
+        ��post-prompt
+        Starting program: /home/as/Документы/C++/C++ Open GL/test/test
+        ��starting
+        32
+        15.04
+        g
+        32
+        15.04
+        g
+        ��exited 0
+        [Inferior 1 (process 9164) exited normally]
+        ��thread-exited,id="1",group-id="i1"
+        ��stopped
+        ��pre-prompt
+        (gdb)
+        ��prompt
+    q
+        ��post-prompt
+    Task:
+    Создание плитки пятнашек
+    Decision:
+    Создать->приложение (qt quick)->application empty->qmake->ok->/->add new->qt->файл qml->ok
+        Tile.qml:
+    Rectangle {
+        id: root
+        color: "lightgreen"
+        radius: 10
+        border.color: "black"
+        border.width: 1
+        Text {
+            id: _firstText
+            anchors.centerIn: root
+            text: "1"
+            font {
+                pointSize: Math.min(root.width, root.height) / 3
+                bold: true
+            }
+        }
+    }
+        main.qml:
+    Window {
+        id: root
+        width: 640
+        height: 480
+        visible: true
+        title: qsTr("Hello World")
+        Tile {
+            width: root.width / 4
+            height: root.height / 4
+        }
+    }
+    Task:
+    C:\Users\...\OneDrive\Документы\Projects\Cpp\Test\CMakeLists.txt:3: ошибка: The CMAKE_CXX_COMPILER: cl is not a full path and was not found in the PATH. To use the JOM generator with Visual C++, cmake must be run from a shell that can use the compiler cl from the command line.  This environment is unable to invoke the cl compiler.  To fix this problem, run cmake from the Visual Studio Command Prompt (vcvarsall.bat). Tell CMake where to find the compiler by setting either the environment variable "CXX" or the CMake cache entry CMAKE_CXX_COMPILER to the full path to the compiler, or to the compiler name if it is in the PATH.
+    :-1: ошибка: Процесс CMake завершился с Решением 1.
+    Decision:
+        Панель управления -> visual studio 2022 -> Удаление программы -> my.visualstudio.com-> Build Tools for Visual Studio 2019 (version 16.9) -> Download
+    C:\Users\...\Downloads\qt C++ installer> vs_buildtools.exe --layout offline --lang en-us --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended
+        ...\offline\vs_setup.exe
+    Task:
+        qrc:/main.qml:13:9: Unable to assign [undefined] to double
+        qrc:/main.qml:12:9: Unable to assign [undefined] to QColor
+        QQmlApplicationEngine failed to load component
+        qrc:/main.qml:3 module "StyleSettings" is not installed
+    Task:
+    Подгрузим нашу папку StyleSettings в qml
+    Decision:
+        main.cpp
+    ...
+        QQmlApplicationEngine engine;
+        engine.addImportPath(":/qml");
+        const QUrl url(QStringLiteral("qrc:/main.qml")
+    ...
+
+        main.qml
+    import QtQuick 2.12
+    import QtQuick.Window 2.12
+    import StyleSettings 1.0
+    Window {
+        width: 640
+        height: 480
+        visible: true
+        title: qsTr("Hello World")
+        Rectangle {
+            id: _background
+            z: -100
+            anchors.fill: parent
+            color: Style.backgroundColor
+            opacity: Style.emphasisOpacity
+        }
+        /*Style {
+            id: _style
+        }*/
+        Component.onCompleted: {
+            console.log(Style)
+        }
+    }
+
+        qmdir
+    module StyleSettings
+    singleton Style 1.0 Style.qml
+        Addressbook.pro
+    ...
+        # Additional import path used to resolve QML modules in Qt Creators code model
+        QML_IMPORT_PATH += $$PWD/qml
+    ...
+    Source:
+    1. https://linuxconfig.org/how-to-install-g-the-c-compiler-on-ubuntu-20-04-lts-focal-fossa-linux
+    2. http://www.codebind.com/linux-tutorials/install-opengl-ubuntu-linux/
+    3. https://prognote.ru/articles/how-to-install-qt-5-on-linux-ubuntu
+    4. https://www.youtube.com/watch?v=2Scwa8KuNQU&t=79s
+    
+C++, Web Server on CPU
+    Task:
+    To create a CPU-based web server. here I am learning how to create a web server on the CPU
+    Decision:
+    запустить QT creator - открыть проект с расширением .pro - указать правильный путь в библиотеку OpenCL в расширении .pro - запустить проект - после запуска запустить любой браузер - в адресную строку ввести адрес вашей локальной машины с портом 8080 - например так: IpAddr1:8080 - узнать ip адрес командой ipconfig
+    Task:
+    После того как написали программу сервера на классическм процессоре, подключим CPU ядра
+    Decision:
+        https://developer.nvidia.com/opencl - OpenCL Multi Threads - Download - Windows (x64) - излечь - C:\Users\david\Downloads\NVIDIA GPU Computing SDK\OpenCL\common\inc\CL - Копируем CL - Вставляем в наш проект - C:\Users\david\Downloads\NVIDIA GPU Computing SDK\OpenCL\common\lib\x64\ - Копируем OpenCL.lib - вставляем в наш проект - Поиск - opencl.dll - C:\Windows\SysWOW64 - коипруем OpenCL.dll и вставляем в наш проект \build-main-Desktop_Qt_5_12_11_MSVC2017_32bit-Debug\debug\-
+    ...
+    //#pragma comment (lib, "Mswsock.lib")
+    #pragma comment(lib, "OpenCL.lib")
+    #include "CL\cl.h"
+    struct TPot{
+    ...
+    Task:
+    :-1: error: LNK1104: cannot open file 'OpenCL.lib'
+    Decision:
+        main.pro
+    ...
+    CONFIG -= app_bundle
+    LIBS += C:\Users\...\Documents\Projects\Cpp\Git\CPP-WebServer0\main\OpenCL.lib
+    # You can make your code fail to compile if it uses deprecated APIs
+    Decision:
+    https://github.com/David138it/MyPortfolio/Skills/Engineer-Isu/Cpp/WebServerOnCpu/
+    Source:
+    1. https://www.youtube.com/playlist?list=PLlqeq-isbP97wcBzq4YhOfaEHY59gGyQx
+
+C++, Entertainment
+    Task:
+    Часы
+    Decision:
+    $ cat Clock.cpp
+    #include<GL/glut.h>
+    #include<cmath>
+    #include<ctime>
+    void display(){
+            glClear(GL_COLOR_BUFFER_BIT);
+            glBegin(GL_LINES);
+        for(int i=0; i<12; ++i){
+            float x=sin(2*M_PI/12*i);
+            float y=cos(2*M_PI/12*i);
+            glVertex2f(400*x, 400*y);
+            glVertex2f(380*x, 380*y);
+        }
+        time_t t=time(0);
+        tm *lt=localtime(&t);//kosiyak
+        int h=lt -> tm_hour;
+        int m=lt -> tm_min;
+        int s=lt -> tm_sec;
+        float x=sin(2*M_PI*(h*60+m)/12/60);
+            float y=cos(2*M_PI*(h*60+m)/12/60);
+            glVertex2f(0, 0);
+            glVertex2f(250*x, 250*y);
+        x=sin(2*M_PI*m/60);
+            y=cos(2*M_PI*m/60);
+            glVertex2f(0, 0);
+            glVertex2f(350*x, 350*y);
+        x=sin(2*M_PI*s/60);
+            y=cos(2*M_PI*s/60);
+            glVertex2f(0, 0);
+            glVertex2f(370*x, 370*y);
+        glEnd();
+            glutSwapBuffers();
+    }
+    void timer(int=0){
+            display();
+            glutTimerFunc(10,timer,0);
+    }
+    int main(int argc, char **argv){
+        glutInit(&argc, argv);
+            glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+            glutInitWindowSize(400,400);
+            glutInitWindowPosition(20,1050-400-20);
+            glutCreateWindow("Clock");
+            glClearColor(0,0,0,1.0);
+            glMatrixMode(GL_PROJECTION);
+            glLoadIdentity();
+            glOrtho(-400,400,-400,400,-400,400);
+            glutDisplayFunc(display);
+            timer();
+            glutMainLoop();
+    }
+    $ g++ Clock.cpp -o main -lglut -lGLU -lGL
+    $ ./main
+    Task:
+    Лабиринт с помощью двумерных массивов
+    Decision:
+    #include <iostream>
+    #include <math.h>
+    #include <clocale>
+    using namespace std;
+    int main()
+    {
+        setlocale(LC_CTYPE, "rus");
+        int mas[33][20] = {
+                            {1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,}, 
+                            {1,2,1,0,0,1,0,1,2,2,2,1,1,1,1,0,0,0,0,1,},
+                            {1,2,1,1,0,1,0,1,2,1,2,2,2,2,1,0,1,1,0,1,},
+                            {1,2,2,2,2,2,2,1,2,1,1,1,1,2,1,0,0,1,0,1,},
+                            {1,1,1,1,1,1,2,1,2,1,0,0,1,2,1,1,0,1,0,1,},
+                            {1,0,0,1,0,0,2,2,2,1,1,0,0,2,0,0,0,1,0,1,},
+                            {1,0,1,1,0,1,1,1,1,1,0,0,1,2,1,1,1,1,0,1,},
+                            {1,0,0,0,0,0,0,0,0,1,1,1,1,2,1,0,0,0,0,1,},
+                            {1,1,1,1,1,1,0,1,1,1,2,2,2,2,1,0,1,1,1,1,},
+                            {1,1,0,0,0,1,0,0,1,1,2,1,1,1,1,0,0,0,0,1,},
+                            {1,0,0,1,0,0,0,0,0,1,2,2,2,2,1,1,1,1,0,1,},
+                            {1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,0,0,0,0,1,},
+                            {1,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,1,1,1,1,},
+                            {1,2,1,1,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,},
+                            {1,2,1,0,0,0,1,2,2,2,1,0,0,0,0,0,1,1,0,1,},
+                            {1,2,1,1,1,1,1,2,1,2,1,1,1,0,1,0,0,0,0,1,},
+                            {1,2,1,2,2,2,1,2,1,2,2,2,1,1,1,1,1,1,1,1,},
+                            {1,2,1,2,1,2,1,2,1,0,1,2,2,2,2,2,2,2,2,1,},
+                            {1,2,1,2,1,2,1,2,1,0,1,1,1,1,1,1,1,1,2,1,},
+                            {1,2,1,2,1,2,1,2,1,0,0,0,0,0,0,0,0,0,2,1,},
+                            {1,2,1,2,1,2,2,2,1,0,1,1,1,1,1,1,0,1,2,1,},
+                            {1,2,1,2,1,1,1,1,1,0,0,0,1,0,1,0,0,1,2,1,},
+                            {1,2,1,2,2,1,0,0,1,1,1,0,0,0,1,0,1,1,2,1,},
+                            {1,2,1,1,2,1,1,0,0,0,0,0,1,0,1,0,0,1,2,1,},
+                            {1,2,1,1,2,1,0,0,1,1,1,1,1,1,1,1,1,1,2,1,},
+                            {1,2,1,1,2,1,1,0,1,2,2,2,2,2,2,2,2,2,2,1,},
+                            {1,2,1,1,2,1,0,0,1,2,1,1,1,1,1,1,1,1,1,1,},
+                            {1,2,1,1,2,1,0,1,1,2,1,1,1,1,1,1,1,1,2,2,},
+                            {1,2,1,1,2,1,0,0,1,2,1,1,2,2,2,2,2,2,2,1,},
+                            {1,2,1,1,2,1,0,1,1,2,1,1,2,1,1,1,1,1,1,1,},
+                            {1,2,1,1,2,1,0,0,1,2,1,1,2,1,0,0,0,1,0,1,},
+                            {1,2,2,2,2,1,0,1,1,2,2,2,2,0,0,1,0,0,0,1,},
+                            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,}
+        };
+        for (int i = 0; i < 33; i++)
+        {
+            for (int j = 0; j < 20; j++)
+            {
+                if (mas[i][j] == 1)
+                {
+                    cout <<"j";
+                    cout <<"j";
+                } else{
+                     cout << "  ";
+                }
+            }
+            cout << endl;
+        }
+        return 0;
+    }    
+    Task:
+    The matrix
+    Decision:
+    #include <GL/glut.h>
+    #include <iostream>
+    using namespace std;
+    struct Ch{
+        Ch(char ach=' ', int alive=0):
+            ch(ach),
+            live(alive)
+        {}
+        char ch;
+        int live;
+    };
+    const int W=852/9;
+    const int H=480/15;
+    Ch screen[W][H];
+    void display(){
+        glClear(GL_COLOR_BUFFER_BIT);
+        for(int y=0; y<H; ++y){
+            for(int x=0; x<W; ++x){
+                glRasterPos2f(x*9, (y+1)*15);
+                glColor3f(0, screen[x][y].live/10000.0, 0);
+                glutBitmapCharacter(GLUT_BITMAP_9_BY_15, screen[x][y].ch);
+            }
+        }
+        glutSwapBuffers();
+    }
+    void timer(int=0){
+            for(int y=0; y<H; ++y){
+                for(int x=0; x<W; ++x){
+                if(screen[x][y].live>0){
+                    --screen[x][y].live;
+                }
+            }
+        }
+        int x=rand()%W;
+        for(int y=0; y<H; ++y){
+            if(screen[x][y].live<=0){
+                screen[x][y].ch=rand()%256;
+                screen[x][y].live=10000;
+                break;
+            }
+        }
+        glutPostRedisplay();
+        glutTimerFunc(0, timer, 0);
+    }
+    int main(int argc, char **argv){
+        glutInit(&argc, argv);
+        glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+        glutInitWindowSize(852, 480);
+        glutInitWindowPosition(0, 86);
+        glutCreateWindow("Metrix Code");
+        glClearColor(0, 0, 0, 1.0);
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(0, 852, 480, 0, -1, 1);
+        glutDisplayFunc(display);
+        timer();
+        glutMainLoop();
+        /*for(unsigned wchar i=' '; i<500; ++i){
+            wcout<<(wchar)i;
+        }*/
+    }
+    Task:
+    Анимация с мышью
+    Decision:
+    #include <GL/glut.h>
+    #include <cstdlib>
+    #include <cmath>
+    using namespace std;
+    int x=0, y=0;
+    bool down=false;
+    const int N=100;
+    struct P{
+        float x, y, vx, vy, r, g, b;
+    }p[N];
+    void display(){
+        glClear(GL_COLOR_BUFFER_BIT);
+        glPointSize(5);
+        glBegin(GL_POINTS);
+        for(int i=0; i<N; ++i){
+            glColor3f(p[i].r, p[i].g, p[i].b);
+            glVertex2f(p[i].x, p[i].y);
+        }
+        glEnd();
+        glutSwapBuffers();
+    }
+    void timer(int=0){
+        display();
+        for(int i=0; i<N; ++i){
+            p[i].x+=p[i].vx;
+            p[i].y+=p[i].vy;
+            if (down){
+                float d=sqrt((p[i].x-x)*(p[i].x-x)+(p[i].y-y)*(p[i].y-y));
+                p[i].x+=5*(x-p[i].x)/d;
+                p[i].y+=5*(y-p[i].y)/d;
+            }
+        }
+        glutTimerFunc(10, timer, 0);
+    }
+    void mouse(int button, int state, int ax, int ay){
+        x=ax;
+        y=ay;
+        down=state==GLUT_DOWN;
+    }
+    void motion(int ax, int ay){
+        x=ax;
+        y=ay;
+    }
+    int main(int argc, char **argv){
+        for(int i=0; i<N; ++i){
+            p[i].x=rand()%480;
+            p[i].y=rand()%480;
+            p[i].vx=rand()%480/100.0-2.4;
+            p[i].vy=rand()%480/100.0-2.4;
+            p[i].r=rand()%200/200.0;
+            p[i].g=rand()%200/200.0;
+            p[i].b=rand()%200/200.0;
+        }
+        glutInit(&argc, argv);
+        glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+        glutInitWindowSize(480, 480);
+        glutInitWindowPosition(20, 1050-480-20);
+        glutCreateWindow("Knight tour");
+        glClearColor(0, 0, 0, 1.0);
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(0, 480, 480, 0, -1, 1);
+        glutDisplayFunc(display);
+        timer();
+        glutMouseFunc(mouse);
+        glutMotionFunc(motion);
+        glutMainLoop();
+    }
+    Task:
+    Моделирование гравитации
+    Decision:
+    #include<GL/glut.h>
+    #include<cmath>
+    struct Particle{
+        float x, y, vx, vy, m;
+    };
+    const int N=4;
+    Particle particles[N];
+    void display(){
+            glClear(GL_COLOR_BUFFER_BIT);
+            glBegin(GL_POINTS);
+        for(int i=0; i<N; ++i){
+            glVertex2f(particles[i].x, particles[i].y);
+        }
+            glEnd();
+            glutSwapBuffers();
+    }
+    void timer(int=0){
+        for(int i=0; i<N; ++i){
+            Particle &p0=particles[i];
+            for(int j=0; j<N; ++j){
+                if(j==i){
+                    continue;
+                }
+                const Particle &p=particles[j];
+                float d=sqrt((p0.x-p.x)*(p0.x-p.x)+
+                        (p0.y-p.y)*(p0.y-p.y));
+                if(d>3){
+                    p0.vx+=0.0007*p.m/d/d*(p.x-p0.x)/d;
+                                    p0.vy+=0.0007*p.m/d/d*(p.y-p0.y)/d;
+                }
+            }
+            p0.x+=p0.vx;
+            p0.y+=p0.vy;
+
+        }
+            display();
+            glutTimerFunc(1,timer,0);
+    }
+    int main(int argc, char **argv){
+        particles[0].x=100;
+        particles[0].y=100;
+        particles[0].vx=0;
+        particles[0].vy=0;
+        particles[0].m=1000;
+            particles[1].x=130;
+            particles[1].y=100;
+            particles[1].vx=0;
+            particles[1].vy=-0.1;
+            particles[1].m=7;
+            particles[2].x=30;
+            particles[2].y=100;
+            particles[2].vx=0;
+            particles[2].vy=0.1;
+            particles[2].m=10;
+            particles[3].x=25;
+            particles[3].y=100;
+            particles[3].vx=0;
+            particles[3].vy=0.11;
+            particles[3].m=0.1;
+        glutInit(&argc, argv);
+            glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+            glutInitWindowSize(200,200);
+            glutInitWindowPosition(20,810);
+            glutCreateWindow("Gravitation");
+            glClearColor(0,0,0,1.0);
+            glMatrixMode(GL_PROJECTION);
+            glLoadIdentity();
+            glOrtho(0,200,200,0,-1,1);
+            glutDisplayFunc(display);
+            timer();
+            glutMainLoop();
+    }
+    Task:
+    Вращающийся куб
+    Decision:
+    #include <GL/glut.h>
+    //#include <GL/freeglut.h>
+    void display(){
+        glClear(GL_COLOR_BUFFER_BIT);
+        glRotatef(1,1,1,0);
+        glBegin(GL_LINE_STRIP);
+        glVertex3f(-50, -50, -50);
+        glVertex3f(50, -50, -50);
+        glVertex3f(50, 50, -50);
+        glVertex3f(-50, 50, -50);   
+        glVertex3f(-50, -50, -50);
+        glEnd();
+            glBegin(GL_LINE_STRIP);
+            glVertex3f(-50, -50, 50);
+            glVertex3f(50, -50, 50);
+            glVertex3f(50, 50, 50);
+            glVertex3f(-50, 50, 50); 
+            glVertex3f(-50, -50, 50);
+            glEnd();
+            glBegin(GL_LINES);
+            glVertex3f(-50, -50, 50);
+            glVertex3f(-50, -50, -50);
+            glVertex3f(50, -50, 50);
+            glVertex3f(50, -50, -50); 
+            glVertex3f(50, 50, 50);
+        glVertex3f(50, 50, -50);
+        glVertex3f(-50, 50, 50);
+        glVertex3f(-50, 50, -50);
+            glEnd();
+
+        glutSwapBuffers();
+    }
+    void timer(int=0){
+        display();
+    glutTimerFunc(10, timer, 0);
+    }
+    int main(int argc, char **argv){
+        glutInit(&argc, argv);
+        glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+        glutInitWindowSize(200, 200);
+        glutInitWindowPosition(20, 810);
+        glutCreateWindow("Cube");
+        glClearColor(0,0,0,1.0);
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(-100, 100, -100, 100, -100, 100);
+        glutDisplayFunc(display);
+        timer();
+        glutMainLoop();
+    }
+    Source:
+    1. https://www.youtube.com/playlist?list=PL30625C8F5ADD5BB4
+
+С++, Address Book
+    Task:
+    . here I am learning how to create a program with a graphical application Address Book - a telephone directory using Model View Controller
+    Decision:
+    https://github.com/David138it/MyPortfolio/Skills/Engineer-Isu/Cpp/AddressBook/    
+    Task:
+    Я заранее создал список имен c телефонными номерами в файле file.txt. 
+    Нужно создать такую программу, что бы при вводе имени на консоле выдавался номер нужного человека. Сделаю я это с помощью вектора.
+    Decision:
+    #include<iostream>
+    #include<fstream>
+    #include<vector>
+    #include<string>
+    using namespace std;
+    class Number{
+    public:
+        string name;
+        string number;
+        Number (const Number &v):
+            name(v.name),
+            number(v.number){}
+        Number(){}
+        const Number &operator=(const Number &v){
+            name=v.name;
+            number=v.number;
+            return v;
+        }       
+    };
+    int main(){
+        fstream f("file.txt");
+        vector<Number> telBook;
+        while(true){
+            Number t;
+            f>>t.name;
+            if(f.eof()){
+                break;
+            }
+            f>>t.number;
+            if(f.eof()){
+                break;
+            }
+            telBook.push_back(t);
+        }
+        while(true){
+            cout<<"Введите имя (или стоп)";
+            string name;
+            cin>>name;
+            if(name=="стоп"){
+                break;
+            }
+            for(int i=0;i<telBook.size(); ++i){
+                if(telBook[i].name==name){
+                    cout<<name<<" "<<telBook[i].number<<endl;
+                }
+            }
+        }
+    }
+    Source:
+    1. https://www.youtube.com/playlist?list=PLvItDmb0sZw_l5qKMLTjePXX485CWKVNe
+
+С++, Работа со строками и числами
+    Task:
+    Составить программу, печатающую таблицу факториалов от 0 до 7. В программе должна быть создана и использована функция, вычисляющая факториал своего аргумента
+    Decision:
+    #include<stdio.h>
+    /*void main()
+    {
+        int n;
+        for (int i=1;i<=7;i++)
+        {
+            //printf("%d\n",i);
+            f=f*i;
+            printf("%d!\t%d\n",i,f);
+        }
+    }*/
+    int fact(int n, int j)
+    {
+        /*n=n*j;
+        return n;*/
+        return n*j;
+    }
+    void main(void)
+    {
+        int f=1, i;
+        for (i=1;i<=7;i++)
+        {
+            f=fact(f,i);
+            printf("%d!\t%d\n",i,f);
+        }
+    }
+    Task:
+    Составить программу вычисления факториала n! = 1*2*3*...*n тремя способами - с использованием цикла while, цикла do-while и цикла for.
+    Decision:
+    #include<stdio.h>
+    void main()
+    {
+      int n,j=1,i=1;
+      printf("Введите число: ");scanf("%d",&n);
+      while (i<=n)
+      {
+        j*=i;
+        i++;
+      }
+      printf("%d!=%d\n",n,j);
+    } 
+    Decision:
+    #include<stdio.h>
+    void main()
+    {
+      int n,j,i;
+      printf("Введите число: ");scanf("%d",&n);
+      for (j=1,i=1; i<=n; i++)
+      {       
+        j*=i;
+      }
+      printf("%d!=%d\n",n,j);
+    }
+    Decision:
+    #include<stdio.h>
+    void main()
+    {
+      int n,j=1,i=1;
+      printf("Введите число: ");scanf("%d",&n);
+      do
+      {
+        j*=i; i++;
+      }
+      while (i<=n);
+      printf("%d!=%d\n",n,j);
+    } 
+    Task:
+    Написать программу, которая формирует единичную матрицу и выводит ее на экран
+    Decision:
+    #include<stdio.h>
+    #include<string.h>
+    void main()
+    {
+        int i,j,M[5][5];
+        for(i=0;i<5;i++){
+            for(j=0;j<5;j++){
+                if(i==j){
+                    M[i][j]=1;
+                } else{
+                    M[i][j]=0;
+                }
+            }
+        }
+        for(i=0;i<5;i++){
+            for(j=0;j<5;j++){
+                printf("%d",M[i][j]);
+            }
+            printf("\n");
+        }
+    }
+    Task:
+    Добавление и удаление имен в списке
+    Decision:
+    #include <iostream>
+    #include <cmath>
+    #include <fstream>
+    #include <cstring>
+    #include <vector>
+    using namespace std;
+    int main() {
+        int q;
+        string w;
+        vector <string> name;
+        for (;true;){ // besconechni cikl
+            cout<<"1-dobavit\n"<<"2-udalit\n"<<"3-pechay\n";
+            cin>>q;
+            if(q==1){
+                cout<<"vvedite imya:";
+                cin>>w;
+                name.push_back(w);
+            }
+            else{
+                if(q==2){
+                    cout<<"vvedite imya:";
+                    cin>>q;
+                    name.erase(name.begin() + (q-1));
+                }
+                else{
+                    if(q==3){
+                        for(int i=0;i<name.size();i++){
+                            cout<<i+1<<" "<<name[i]<<endl;
+                        }
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+    Task:
+    Заполнить матрицу 6*6 случайными целыми числами в диапазоне от 0 до 200. Вывести матрицу на экран в виде таблицы. После этого вывести матрицу в транспонированном виде. 
+    Decision:
+    #include<stdio.h>
+    #include<stdlib.h>
+    void main()
+    {
+        int i,j,m[6][6];
+        for(i=0;i<6;i++)
+        {
+            for(j=0;j<6;j++)
+            {
+                m[i][j]=rand()%200;
+                printf("%d\t",m[i][j]);
+            }
+            printf("\n");
+        }
+        printf("\n");
+            for(i=0;i<6;i++)
+            {
+                    for(j=0;j<6;j++)
+                    {
+                printf("%d\t",m[j][i]);
+                    }
+                    printf("\n");
+            }
+    }
+    Decision:
+    #include<stdio.h>
+    #include<stdlib.h>
+    void main()
+    {
+        int i,j,m[6][6];
+        for(i=0;i<6;i++)
+        {
+            for(j=0;j<6;j++)
+            {
+                m[i][j]=rand()%200;
+                printf("%d\t",m[i][j]);
+            }
+            printf("\n");
+        }
+        /*printf("\n");
+            for(j=0;j<6;j++)
+            {
+                    for(i=0;i<6;i++)
+                    {
+                printf("%d\t",m[i][j]);
+                    }
+                    printf("\n");
+            }*/
+    }
+    Decision:
+    #include<stdio.h>
+    void main()
+    {
+        int i,j, matrix[6][6];
+        for(i=0;i<6;i++)
+        {
+            for(j=0;j<6;j++)
+            {
+                printf("x");
+            }
+            printf("\n");
+        }
+    }
+    Task:
+    Заполнить вещественный массив из 20 элементов случайными вещественными числами в диапазoне от - 3.0 до +3.0. Вывести на экран пронумерованный столбец значений элементов массива. Определить и вывести номер и значение наибольшего элемента массива.
+    Decision:
+    #include<stdio.h>
+    #include<stdlib.h>
+    void main()
+    {
+        double arr[20];
+        int i;
+        srand(time(0));
+        for(i=0;i<20;i++){
+            arr[i]=-3.0+6.0*rand()/(float)RAND_MAX;
+            printf("%d %5.2lf\n",i+1,arr[i]);
+        }
+        printf("\n");
+        float max=arr[0];
+        int number;
+        for(i=0;i<20;i++){
+            if (max<arr[i])
+            {
+                max=arr[i];
+                number=i+1;
+            }
+        }
+        printf("%5.2lf\t%d\n",max,number);
+    }    
+    Decision:
+    #include<stdio.h>
+    #include<stdlib.h>
+    void main()
+    {
+        float arr[20];
+        int i;
+        for(i=0;i<20;i++){
+            arr[i]=rand()%(3+3+1)-3;
+            printf("%d %5.2lf\n",i+1,arr[i]);
+        }
+        printf("\n");
+        float max=arr[0];
+        for(i=0;i<20;i++){
+            if (max<arr[i])
+            {
+                max=arr[i];
+            }
+        }
+        printf("%lf\n",max);
+    }    
+    Decision:
+    #include<stdio.h>
+    #include<stdlib.h>
+    void main()
+    {
+        float arr[20];
+        int i;
+        for(i=0;i<20;i++){
+            arr[i]=rand()%(3+3+1)-3;
+            printf("%d %5.2lf\n",i,arr[i]);
+        }
+    } 
+    Decision:
+    #include<stdio.h>
+    #include<stdlib.h>
+    void main()
+    {
+        float arr[20];
+        int i;
+        for(i=0;i<20;i++){
+            arr[i]=rand()%(3+3+1)-3;
+            printf("Array=%5.2lf\n",arr[i]);
+        }
+    } 
+    Task:
+    Пользуясь только указателями, заполнить массив десятью целыми случайными числами в диапазоне от 0 до 10. Вывести пронумерованный массив значений в столбец на экран. После этого напечатать номера, значения и адреса тех элементов, которые оказались четными. Использовать операцию %.
+    Decision:
+    #include<stdio.h>
+    #include<stdlib.h>
+    void main()
+    {
+        int i, arr[10];
+        for(i=0; i<10; i++){
+            arr[i]=rand()%11;
+            printf("%d\t%d\n",i+1,*(arr+i));
+        }
+    }    
+    Decision:
+    #include<stdio.h>
+    #include<stdlib.h>
+    void main()
+    {
+        int i, arr[10];
+        for(i=0; i<10; i++){
+            arr[i]=rand()%11;
+            if ((arr[i]%2)==0)
+            {
+                printf("%d\t%d\t%p\n",i+1,*(arr+i),arr+i);
+            }
+        }
+    }    
+    Decision:
+    #include<stdio.h>
+    #include<stdlib.h>
+    void main()
+    {
+        int i, arr[10];
+        for(i=0; i<10; i++){
+            arr[i]=rand()%11;
+            printf("%d\n",arr[i]);
+        }
+    }    
+    Decision:
+    #include<stdio.h>
+    #include<stdlib.h>
+    void main()
+    {
+        int i, arr[10];
+        for(i=0; i<10; i++){
+            arr[i]=rand()%11;
+            printf("%d\t%d\t%p\n",i+1,*(arr+i),arr+i);
+        }
+    }    
+    Task:
+    Генерация псевдослучайных чисел
+    Decision:
+    #include <iostream>
+    #include <fstream>
+    #include <cmath>
+    #include <vector>
+    #include <ctime>
+    #include <cstdlib>
+    using namespace std;
+    int main() {
+           time_t now = time(NULL); // сколько секунд прошло с 01.01.1970 до текущего момента
+            srand(now);
+        cout << rand() << endl; // генерация и печать случайного числа от 0 до   RAND_MAX
+        return 0;
+    }
+    Task:
+    Разработаем программу, в которой создадим одномерный динамический массив, заполненный случайными числами.
+    Decision:
+    #include <iostream>
+    #include <ctime>
+    using namespace std;
+    int main()
+    {
+        srand(time(0)); // генерация случайных чисел
+            int *ptrarray = new int [10]; // создание динамического массива вещественных чисел на десять элементов
+            for (int count = 0; count < 10; count++)
+                    ptrarray[count] = (rand() % 10 + 1) / int((rand() % 10 + 1)); //заполнение массива случайными числами с масштабированием от 1 до 10
+            cout << "array = ";
+            for (int count = 0; count < 10; count++)
+                    cout << ptrarray[count] << "    ";
+            delete [] ptrarray; // высвобождение памяти
+            cout << endl;
+        return 0;
+    }
+    Task:
+    Заполнить выделенную память случайными целыми числами двумя способами:
+    1. работая с выделенной памятью как с обычным массивом (переменными с индексом),
+    2. используя только указатели. В обоих случаях вывести результат на экран.
+    Освободить выделенную память и снова вывести массив на экран.
+    Decision:
+    #include <iostream>
+    using namespace std;
+    int main()
+    {
+        //Распределить динамически память под N чисел целого типа, где N – значение, вводимое с клавиатуры.
+        int N, *block, i;
+        cin >> N;
+        block = new int[N];
+        cout << block << endl;
+        /*Заполнить выделенную память случайными целыми числами двумя способами (В обоих случаях вывести результат на экран):
+        а) работая с выделенной памятью как с обычным массивом (переменными с индексом)*/
+        for (i=0; i<N; i++)
+        {
+            block[i]=rand();
+            cout << block[i] << endl;
+        }
+        //б) используя только указатели.
+        for (int i=0; i<N; i++)
+        {
+            *(block+i)=rand();
+            cout << *(block+i) << endl;
+        }
+        //Освободить выделенную память
+        delete block;
+        // и снова вывести массив на экран
+        for (int i=0; i<N; i++)
+        {
+            cout << block[i] << "   ";
+        }
+        return 0;
+    }
+    Task:
+    Минимум и максимум. Вывести из массива минимум и еще минимум
+    Decision:
+    #include <iostream>
+    #include <stdlib.h>
+    using namespace std;
+    int main()
+    {
+        system("chcp 1251>0");
+        const int arraysize = 5;
+        int a [arraysize] = {18, 3, 4, 7, 7};
+        int min=a[0], k=0, min2=a[1], k2=1, q;
+        if (min>min2){
+            q=min;
+            min=min2;
+            min2=q;
+
+            q=k;
+            k=k2;
+            k2=q;
+        }
+
+        for (int i = 2; i < arraysize; i++){
+            if (a[i]<min){
+                min2=min;
+                k2=k;
+                min=a[i];
+                k=i;
+            }
+            else{
+                if(a[i]<min2){
+                    min2=a[i];
+                    k2=i;
+                }
+
+            }
+        }
+         cout << "min2=" << min2 << endl;
+         cout << "k2=" << k2 << endl;
+         cout << "min=" << min << endl;
+         cout << "k=" << k << endl;
+        return 0;
+    }
+    Task:
+    Keyboard. For this letter of the English alphabet, you need to print the letter on the right on a standard keyboard. At the same time, the keyboard is closed, i.e. to the right of the letter «p» is the letter «a», from the letter «l» is the letter «z», and from the letter «m» — the letter
+    Input: Первая строка входного файла INPUT.TXT содержит один символ — маленькую букву английского алфавита.
+    Output: В выходной файл OUTPUT.TXT следует вывести букву стоящую справа от заданной буквы, с учетом замкнутости клавиатуры.
+    Decision:
+    #include<iostream>
+    #include<fstream>
+    #include<cmath>
+    using namespace std;
+    ifstream in("input.txt");
+    ofstream out("output.txt");
+    int main()
+    {
+        const char massive=26;
+        char a[massive]={
+            'q','w','e','r','t','y','u','i','o','p','a',
+            's','d','f','g','h','j','k','l','z','x','c',
+            'v','b','n','m'
+        };
+        char symbol;
+        in>>symbol;
+        if(symbol=='m'){
+            out<<a[0];
+        }
+        else{
+            for(int i=0; i<massive; i++){
+                if(symbol==a[i]){
+                    out<<a[i+1];
+                }
+
+            }
+        }
+        return 0;
+    }    
+    Task:
+    Поиск числа в отсортированном массиве
+    Decision:
+    $ cat Cpp-SearchingForANumberInASortedArray.cpp
+    #include<iostream>
+    #include<fstream>
+    using namespace std;
+    int main(){        
+        fstream f("Cpp-SearchingForANumberInASortedArray.txt");
+        const int n=100;
+        int a[n];
+        for (int i=0; i<n; ++i){
+            f>>a[i];
+        }
+        int x;
+        cout<<"VVedite iskonoe chislo";
+        cin>>x;
+        for (int i=0; i<n; ++i){
+            if (x==a[i]){
+                cout<<"chislo" << x << " nahoditsia po indeksu "
+                    <<i;
+                break;
+            }
+        }
+    }
+    $ cat Cpp-SearchingForANumberInASortedArray.txt
+    23
+    3234
+    45345
+    34
+    534
+    5
+    345
+    34
+    54
+    35
+    34
+    5
+    345
+    34
+    534
+    5
+    34
+    55
+    435
+    4
+    45
+    34
+    534
+    5
+    34
+    5
+    34
+    43545
+    34
+    5345
+    34
+    5
+    345
+    34454323
+    3
+    2
+    2
+    3
+    1
+    34234
+    23
+    324
+    23
+    43
+    4
+    234
+    23
+    423
+    4
+    324
+    23
+    432
+    4
+    234
+    23
+    4
+    234
+    23
+    423
+    4
+    23
+    423
+    4
+    234
+    23
+    4
+    234
+    23
+    4
+    23
+    423
+    4
+    23
+    423
+    4
+    23
+    423
+    4
+    23
+    423
+    465
+    43
+    4
+    654
+    6
+    456
+    45
+    645
+    6
+    456
+    5
+    656
+    4
+    56
+    46
+    457
+    6
+    7
+    454
+    Task:
+    Склонение слов
+    Decision:
+    #include <iostream>
+    using namespace std;
+    int main(){
+        cout<<"Введите кoличество пирожков: ";
+        int n;
+        cin>>n;
+        cout<<"Я собираюсь съесть "<<n;
+            int o=n%100;
+        if((o>10)&&(o<20)){
+            cout<<" .";
+        }
+        else{
+            switch(o%10){
+                case 0:
+                    cout<<" пирожков.";
+                    break;
+                case 1:
+                    cout<<" пирожок.";
+                    break;
+                case 2:
+                case 3:
+                case 4:
+                    cout<<" пирожка.";
+                    break;
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                    cout<<" пирожков.";
+                    break;
+            }
+        }
+        cout<<endl; 
+    }
+    Source:
+    1. https://acmp.ru/index.asp?main=tasks
+
+С++, Работа с графиками
+    Task:
+    Две функции, синус и косинус, должны отображаться на одном графике при изменении аргумента функции в диапазоне от 0 до 10 радиан. Графики должны представлять собой ломаные линии, проходящие через узловые точки. Шаг узлов должен быть задан с помощью графического интерфейса. Необходимо выполнить полную разметку осей (ординат и абсцисс). Каждая функция должна использовать свой собственный стиль строки. Необходимо организовать рисование подписи к графику.
+    Decision:
+    https://github.com/David138it/MyPortfolio/Skills/Engineer-Isu/Cpp/Graphics/
+    Task:
+    Составить программу, принимающую с клавиатуры декартовы координаты точки и печатающую сферические координаты. 
+    Преобразование координат должно быть выполнено функцией типа void по формулам
+    Decision:
+    #include<stdio.h>
+    #include<math.h>
+    /*void sphere(double x, double y, double z, double *r, double *q, double *fi)
+    {
+        int a;
+        *r=sqrt(x*x+y*y+z*z);
+        *q=acos(z/(*r));
+        if (x!=0){
+            *fi=atan(y/x);
+        }
+    }
+    void main(void)
+    {
+        double x, y, z, r, q, fi;
+        printf("x=");scanf("%lf",&x);
+        printf("y=");scanf("%lf",&y);
+        printf("z=");scanf("%lf",&z);
+        sphere(x, y, z, &r, &q, &fi);
+        printf("%lf\n%lf\n%lf\n",r,q,fi);
+    }*/
+    const double pi=3.1415927;
+    void sphere(double x, double y, double z, double *r, double *q, double *fi)
+    {
+        int a;
+        *r=sqrt(x*x+y*y+z*z);
+        *q=acos(z/(*r))*180.0/pi;
+        if (x!=0){
+            *fi=atan(y/x)*180.0/pi;
+        }
+    }
+    void main(void)
+    {
+        double x, y, z, r, q, fi;
+        printf("x=");scanf("%lf",&x);
+        printf("y=");scanf("%lf",&y);
+        printf("z=");scanf("%lf",&z);
+        sphere(x, y, z, &r, &q, &fi);
+        printf("%lf\n%lf\n%lf\n",r,q,fi);
+    }
+    Task:
+    нам нужно создать функцию, которая принимает в качестве аргументов полярные координаты точки p и ф и передает в вызывающую эту функцию программу декартовы координаты точки Х и У, вычисляемые по формулам: *X=p*Cos(ф), Y=p*Sin(ф)
+    Decision:
+    #include<stdio.h>
+    #include<math.h>
+    const double pi180=3.1415927/180;
+    void DECART(double r, double f, double *x, double *y)
+    {
+        *x=r*sin(f*pi180);
+        *y=r*cos(f*pi180);
+    }
+    void main()
+    {
+        double r,f,x,y;
+        scanf("%lf %lf",&r,&f);
+        DECART(r,f,&x,&y);
+        printf("%lf %lf",x,y);
+    }
+    Task:
+    Для вводимого с консоли значения вещественной переменной а, напечатать таблицу значений функций вида:
+    sin(a)=...
+    arccos(a)==...
+    ехр(a).==...
+    ln(a)=^...
+    ceil(a)=...
+    floor(a)=...
+    sqrt(a)=…
+    pow(2,a)=...
+    На месте a должно отображаться число, введенное с клавиатуры, на месте ... - значение соответствующей функции. 
+    Decision:
+    #include<stdio.h>
+    #include<curses.h>
+    #include<math.h>
+    const float Pi=3.1415927;
+    void main()
+    {
+      float a;
+      a=30.0;
+      printf("Напишите число: "); scanf("%f",&a);
+      printf("sin(a)=%4.2lf\n",sin(a*Pi/180.0));
+      printf("arccos(a)=%4.2lf\n",acos(a*Pi/180.0));
+      printf("exp(a)=%4.2lf\n",exp(a));
+      printf("ln(a)=%4.2lf\n",log(a));
+      printf("ceil(a)=%4.1lf\n",ceil(a));
+      printf("floor(a)=%4.1lf\n",floor(a));
+      printf("sqrt(a)=%4.2lf\n",sqrt(a));
+      printf("pow(2,a)=%4.2lf\n",pow(2,a));
+      getch();
+    } 
+    Task:
+    Используя математическую функцию tan, напечатать таблицу тангенсов и котангенсов в виде:
+    a      tg(a)   ctg(a)
+    30.0  ...      ...
+    45.0 ...       ...
+    60.0 ...       ...
+    На месте ... должны быть напечатаны соответствующие значения тригонометрических функций с тремя значащими цифрами в дробной части.
+    Decision:
+    #include<stdio.h>
+    #include<curses.h>
+    #include<math.h>
+    const float Pi=3.1415927;
+    void main()
+    {
+      float a;
+      a=30.0;
+      printf("a\ttg(a)\tctg(a)\n");
+      printf("%4.1f\t%4.2lf\t%4.2lf\n",a,tan(a*Pi/180.0),1/tan(a*Pi/180.0));
+      printf("%4.1f\t%4.2lf\t%4.2lf\n",a+15,tan((a+15)*Pi/180.0),1/tan((a+15)*Pi/180.0));
+      printf("%4.1f\t%4.2lf\t%4.2lf\n",a+30,tan((a+30)*Pi/180.0),1/tan((a+30)*Pi/180.0));
+      getch();
+    } 

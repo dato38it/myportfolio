@@ -1,0 +1,7 @@
+SELECT ABONEMENT.Chitatel, ABONEMENT.Sotrudnik, COUNT(ABONEMENT.Book);
+    FROM 'LIB_IGU!Abonement' ABONEMENT;
+    GROUP BY ABONEMENT.Chitatel, ABONEMENT.Sotrudnik;
+    ORDER BY ABONEMENT.Chitatel, ABONEMENT.Sotrudnik;
+    INTO CURSOR SYS(2015)
+DO (_GENXTAB) WITH 'Query',.t.,.t.,.t.,,,,.t.,0,.t.
+BROWSE NOMODIFY

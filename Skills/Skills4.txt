@@ -1,0 +1,905 @@
+Mail for feedback: David138it@gmail.com
+
+English Interview Engineer Admin
+    Task:
+    Необходимо установить драйвер для неизвестного устройства (нет данных о необходимом драйвере). Предложите на ваш взгляд способы решения задачи. 
+    Task:
+    В DNS внезапно пропала A запись хоста. Системные администраторы не удаляли её. Ваши предположения, что могло послужить причиной этого?
+    Task:
+    Как применить групповые политики к компьютеру?
+    Decision:
+    -Передать запрос на системного администратора
+    -Перезагрузить компьютер, при условии, что он подключен к ЛВС предприятия. 2. Выполнить команду "gpupdate /force" от имени привелигированного пользователя.
+    -Выполнить команду "gpupdate /force" от имени привелигированного пользователя.
+    -Нет правильного ответа
+    Task:
+    Модель OSI в целом, на каком уровне какие протоколы работают и их особенности
+    Task:
+    За что отвечает файлик hosts
+    Decision:
+    -Разрешает доступ к ресурсам
+    -Задает приоритет перед DNS
+    -Позволяет попасть на сайт
+    Task:
+    Компьютер включен, загружен, подключен к сети, работает корректно, но не «пингуется», в чем может быть причина?
+    Decision:
+    +Брандмауэр (firewall) блокирует ICMP-трафик.
+    Task:
+    Как удаленно штатными средствами подключиться с одного компьютера под управлением ОС Windows к другому компьютеру под управлением ОС Windows в ЛВС без использования Интернет?
+    Decision:
+    -При помощи программы «Подключение к удаленному рабочему столу» (mstsc).
+    -Без интернета это сделать невозможно
+    -Установить TeamViewer и подключиться
+    Task:
+    Для чего нужен UAC?
+    Decision:
+    -Для работы usb-службы
+    -Для удаленного подключения к компьютеру
+    -Для обеспечения безопасности, ограничения и контроля действий пользователя
+    Task:
+    Как посмотреть устновленные сертификаты компьютера в ОС Windows?
+    Decision:
+    -При помощи соответствующей оснастки консоли mmc
+    -Через event log
+    -Через управление компьютера, в разделе дисковая подсистема
+    Task:
+    Как добавить подпись по умолчанию ко всем исходящим письмам в MS Office Outlook?
+    Decision:
+    -Через параметры Outlook - Раздел "Почта" - "Подпись", выбрать подпись по умолчанию для новых сообщений, ответов и пересылаемых сообщений
+    -Панель управления - Раздел "Почта" - "Подпись", выбрать подпись по умолчанию для новых сообщений, ответов и пересылаемых сообщений
+    -Через клиент Outlook, кнопка "Подпись", выбрать подпись по умолчанию для новых сообщений, ответов и пересылаемых сообщений
+    Task:
+    Что делать, если процесс MS Office Word, MS Office Outlook или MS Office Excel постоянно зависает?
+    Decision:
+    -Закрыть все приложения, перезагрузить компьютер и запустить все заново
+    -Отключить в расширенных настройках использование аппаратного графического ускорителя
+    -Включить в расширенных настройках использование аппаратного графического ускорителя
+    -Вызвать системного администратора
+    Task:
+    Исходя из опыта работы с Exchange как оптимально настроить хранение и очистку (если необходимо) transaction logs?
+    Task:
+    Контроллер домена с ролью Schema master безвозвратно утерян. Ваши действия? На сколько это важно? Что не будет работать до восстановления этой роли?
+    Task:
+    Какими инструментами производится patch management? Какими вы пользовались? Если работали с SCCM сервером – какие преимущества дает этот продукт в данном вопросе?
+    Task:
+    В каких случаях стоит прибегать к incremental backup, а в каких differential.
+    Task:
+    Необходимо установить причину возникновения bsod. Опишите последовательность действий для определения причины появления bsod.
+    Task:
+    Расскажите в нескольких предложениях для чего используется Event viewer. В каких случаях вы бы стали его использовать.
+    Task:
+    отличие Ansible ot Puppet, другие Системы управления конфигурациями
+    Task:
+    Какой ip-адрес не существует?
+    Decision:
+    -192.168.34.23
+    -110.120.15.93
+    -13.1.0.109
+    -14.8.256.12
+    Task:
+    Как посмотреть открытые порты локального компьютера?
+    Decision:
+    -netstat
+    -ping
+    -tracert
+    Task:
+    Как проще всего удаленно проверить, открыт ли порт на компьютере?
+    Decision:
+    -ping
+    -telnet-клиент
+    -tracert
+    Task:
+    Что такое сигнал в Unix? Для чего применяются? В чем разница между 1, 9 и 15 сигналом?
+    Task:
+    Как работает traceroute?  
+    Task:
+    Какие инструменты для диагностики IP сети вы знаете?
+    Task:
+    Что такое DNS? Зачем он нужен? Какие есть инструменты для диагностики?
+    Task:
+    Какие типы RAID вы знаете? В чем их отличия?
+    Task:
+    Что такое системный вызов, какие они бывают, какой командой их можно посмотреть
+    Task:
+    Что такое hard link? в чем разница между Hard link и symbolic link. примеры их практического применения?
+    Task:
+    Что такое айнода? какая информация там хранится
+    Task:
+    какие состояния процессов вы знаете, что означает соястояние процесса «D» ?
+    Task:
+    что такое зомби процесс, можно ли самостоятельно сделать зомби? Убьет ли 9ка зомби
+    Task:
+    Что такое файловый дескриптор, какая информация там хранится
+    Task:
+    утилиты df и du что показывают, чем отличаются  
+    Task:
+    Как изменить язык по умолчанию экрана приветствия Windows?
+    Decision:
+    -Переустановить ОС, так как экран язык экрана приветствия можно задать только при установке
+    -Через настройки BIOS
+    -Через региональные настройки изменить язык по умолчанию текущего пользователя, после чего скопировать параметры для экрана 
+    -Нет правильного ответа
+    Task:
+    Что вы знаете о CloudLinux?
+    Task:
+    Какие типы виртуализации вам известны?
+    Task:
+    Чем отличается OpenVZ и KVM?
+    Task:
+    Выберите правильные утверждения
+    Decision:
+    +Управляемые базы данных относятся к PaaS
+
+English Interview Developer
+    Task:
+    Зачем нужна работа с ветками при разработке ПО?
+    Decision:
+    -Существует стабильная версия кода и ее необходимо сохранить
+    -Идет параллельная разработка новой функциональности разными программистами
+    -Отсутствие риска изменения своей части кода из-за чужих изменений
+    -Возможность по разному реализовать одну и ту же идею и в дальнейшем сравнить
+    Task:
+    Укажите верные утверждения о списках:
+    Decision:
+    -Изменяемая коллекция данных
+    -Индексируемая коллекция
+    -Состоит из любых элементов
+    Task:
+    Укажите верные утверждения о кортежах:
+    Decision:
+    -Неизменяемая коллекция данных
+    -Индексируемая коллекция
+    -Состоит из любых элементов
+    Task:
+    В чем отличие списка от кортежа?
+    Decision:
+    Список - изменяем, кортеж - нет
+    Task:
+    Какое слово зарезервировано для обозначения анонимной функции?
+    Decision:
+    lambda    
+    Task:
+    Как происходит процесс присваивания в Python?
+    Decision:
+    Данные связываются ссылками на объекты
+    Task:
+    Какой из операторов возвращает данные после выполнения функции?
+    Decision:
+    return
+    Task:
+    Чем отличаются set и frozenset?
+    Decision:
+    -set изменяемые множества, frozenset – неизменяемые
+    Task:
+    Какой тип исключения получим, если попытаемся обратится к несуществующей переменной?
+    Decision:
+    NameError: name 'g' is not defined
+    Task:
+    Какой тип исключения получим, если попытаемся сложить список со строкой или строку с множеством?
+    Decision:
+    TypeError: can only concatenate str (not "list") to str
+    Task:
+    Какой тип исключения получим, если попытаемся открыть несуществующий файл?
+    Decision:
+    FileNotFoundError: [Errno 2] No such file or directory: '1231231'
+    Task:
+    Какой тип исключения получим, если попытаемся обратится к несуществующему индексу у строки или у списка?
+    Decision:
+    IndexError: list index out of range
+    Task:
+    Какой тип исключения получим, если попытаемся обратится к несуществующему ключу у словаря?
+    Decision:
+    KeyError: 'b'
+    Task:
+    При помощи какого метода можно переставить пишущую каретку?
+    Decision:
+    seek
+    Task:
+    При помощи какого метода можно прочитать одну строчку текстового файла?
+    Decision:
+    readline
+    Task:
+    Какую роль выполняет контекстный менеджер?
+    Decision:
+    Позволяет закрывать файл по завершению работы вне зависимости от наличия ошибок внутри конструкции менеджера
+    Task:
+    Какая ошибка не допускает даже запуск программного кода?
+    Decision:
+    Синтаксическая ошибка
+    Task:
+    Какое исключение в Python является базовым?
+    Decision:
+    BaseException
+    Task:
+    Какой тип исключения получим, если попытаемся обратится к несуществующей переменной?
+    Decision:
+    NameError
+    Task:
+    Какой тип исключения получим, если попытаемся вычесть число из строки?
+    Decision:
+    TypeError
+    Task:
+    Какой тип исключения получим, если попытаемся число поделить на 0?
+    Decision:
+    ZeroDivisionError    
+    Task:
+    Можно ли превратить псевдокод в язык программирования?
+    Decision:
+    -Да, если написать соответственный интерпретатор, выполняющий этот код
+    Task:
+    Для чего используют блок-схемы?
+    Decision:
+    -Для визуализации работы алгоритма
+    Task:
+    Почему нет универсального псевдокода?
+    Decision:
+    Для каждой ситуации удобнее использовать свой вариант псевдокода
+    Task:
+    Какие виды структур алгоритмов различают?
+    Decision:
+    -Линейная
+    -Разветвленная
+    -Циклическая
+    Task:
+    В основу какой технологии были положены структуры алгоритмов?
+    Decision:
+    Структурного программирования
+    Task:
+    Что такое алгоритм?
+    Decision:
+    Формально описанная последовательность действий
+    Task:
+    Что такое псевдокод?
+    Decision:
+    Неформальный язык для описания элементов программ
+    Task:
+    Какие типы базовых операций различают?
+    Decision:
+    -Арифметические
+    -Операции сравнения
+    -Логические
+    Task:
+    Что такое операция?
+    Decision:
+    Действие или их совокупность для достижения определенной цели
+    Task:
+    Какой элемент ветвления выполняет все неконтролируемые ситуации?
+    Decision:
+    else
+    Task:
+    Что такое условное ветвление?
+    Decision:
+    Базовая конструкция, обеспечивающая выполнение команд программы при истинности логического утверждения
+    Task:
+    Каким образом алгоритм сортировки по ведрам сортирует данные от меньшего к большему?
+    Decision:
+    Распределяет данные по небольшим контейнерам, сортирует эти контейнеры, а затем скрепляет по порядку
+    Task:
+    Каким образом алгоритм пузырьковой сортировки сортирует данные от большего к меньшему?
+    Decision:
+    Путем сравнения каждого индекса массива со следующим по порядку. Если значение на следующем индексе больше, меняет их местами
+    Task:
+    Зачем используются циклы в работе с массивами?
+    Decision:
+    Для эффективного перебора каждого индекса массива
+    Task:
+    Что такое набор данных?
+    Decision:
+    Множество элементов, объединенных в целое для решения задачи
+    Task:
+    Что такое массив?
+    Decision:
+    Непрерывное хранилище однотипной информации
+    Task:
+    Какие символы строки подсчитываются при помощи функции len()?
+    Decision:
+    Все символы
+    Task:
+    Строка - это
+    Decision:
+    неизменяемый тип данных    
+    Task:
+    Укажите верные утверждения о множествах:
+    Decision:
+    -Изменяемая коллекция данных
+    -Неиндексируемая коллекция
+    -Состоит только из уникальных элементов
+    Task:
+    Какой метод отсортирует список?
+    Decision:
+    sort
+    Task:
+    Какой метод вернет элемент по указанному индексу и одновременно удалит его из списка?
+    Decision:
+    pop
+    Task:
+    Как можно создать пустое множество и сохранить его в переменную s?
+    Decision:
+    s = set()
+    Task:
+    Как можно создать пустой словарь и сохранить его в переменную s?
+    Decision:
+    - s = {}
+    - s = dict()
+    Task:
+    Инструменты VCS имеют два основных типа удаленной архитектуры:
+    Decision:
+    -Централизованный
+    -Распределенный
+    Task:
+    В чем заключается ключевое отличие распределенной модели от централизованной?
+    Decision:
+    Распределенная модель сохраняет полную копию исходного кода на каждой копии VCS
+    Task:
+    Какие системы можно отнести к примерам централизованной модели архитектуры:
+    Decision:
+    -SVN
+    -CVS
+    Task:
+    Какие системы можно отнести к примерам распределенной модели архитектуры
+    Decision:
+    -GIT
+    -Mercurial
+    Task:
+    Выберите относящиеся к Git определения
+    Decision:
+    -Система с открытым исходным кодом
+    -Считается современным стандартом в разработке ПО
+    Task:
+    Проект кода может состоять из нескольких репозиториев?
+    Decision
+    Да
+    Task:
+    Зачем нужна работа с ветками при разработке ПО?
+    Decision:
+    -Существует стабильная версия кода и ее необходимо сохранить
+    -Идет параллельная разработка новой функциональности разными программистами
+    -Отсутствие риска изменения своей части кода из-за чужих изменений
+    -Возможность по разному реализовать одну и ту же идею и в дальнейшем сравнить
+
+English Interview Sql
+    Task:
+    У Вас есть MySQL-сервер, который обслуживает запросы большого числа пользователей. В какой-то момент Вы обнаруживаете, что на сервере периодически увеличивается значение переменной 'Aborted_connects', при этом в логах MySQL-сервера не появляются новые сообщения. Что может вызывать подобное поведение? Каковы будут Ваши шаги по устранению данной проблемы?
+    Task:
+    У Вас есть 2 датацентра, соединенные сетью. Опишите, как Вы бы организовали инфраструктуру БД для нового сервиса, в том числе репликацию, мониторинг и резервное копирование. Каковы будут Ваши действия в случае отказа одного из дата-центров?
+    Task:
+    СУБД - настройка репликации в Postgress или Mysql
+    Task:
+    индексы в СУБД, что такое, какие бывают их плюсы и минусы
+
+English Interview Web
+  Task:
+  Нагрузка на сайт так высока, что мощности одного сервера вас не хватает. Ваши действия?
+  Task:
+  Необходимо развернуть инфраструктуру для WordPress сайта. Какие технологии и подходы вы выберете, если в дальнейшем будет требоваться делать эту процедуру регулярно для других сайтов?
+  Task:
+  Необходимо организовать мониторинг работоспособности WordPress сайта. Что для этих целей вы предлагаете использовать? Опишите, какие технологии вы бы выбрали и как они работают. 
+  Task:
+  Необходимо организовать процедуру бекапа WordPress сайта. Опишите ваши действия, как вы будете это делать. Приведите пример скрипта, который автоматически с заданной периодичностью делает необходимые бекапы. 
+  Task:
+  Сайт под DDOS атакой. Ваши действия.
+  Task:
+  Какие популярные web-серверы существуют под Linux?
+  Task:
+  Какие MPM Apache вы знаете? В двух словах опишите их преимущества.
+  Task:
+  Какие возможны режимы работы PHP в связке с web-сервером?
+  Task:
+  отличие Nginx от Apache, - подсказка- асинхронный принцип работы Nginx-а, ( одно из основных отличий от Apache и др. серверов приложений)
+
+English Rule 
+    Task:
+    Be  
+    Decision:
+    - You talk about state, not action (Вы говорите о состоянии, а не о действии), You talk about state (not action) in the past (Вы говорите о состоянии (а не о действии) в прошлом)
+    - He is a job seeker (Он соискатель)
+    - am/is/are, was/were    
+    Task:
+    Present Simple
+    Decision:
+    - You talk about facts or everyday, usual actions (Вы говорите о фактах или повседневных, обычных действиях), You talk in the future about schedules (Вы говорите в будущем о расписании)
+    - You were hungry yesterday (Ты вчера был голоден), He was at the employer's yesterday (Он был у работодателя вчера)
+    - V/Vs, do/does+V
+    Task:
+    Present Continuous
+    Decision:
+    - You talk about the action which is happening now (Вы говорите о действии, которое происходит сейчас), You complain about smth (Вы жалуетесь на что-то) 
+    - She is eating an apple now (Она сейчас ест яблоко), You're always eating apples (Ты всегда ешь яблоки)
+    - am/is/are+Ving
+    Task:
+    Past Simple
+    Decision:
+    - Что сделал, You talk about a finished action in the past (Вы говорите о законченном действии в прошлом)
+    - you ate apples yesterday (ты вчера съел яблоки)
+    - Ved/v2, did+V
+    Task:
+    Past Continuous
+    Decision:
+    - Что делал, You talk about an action which was happening at a certain time in the past (Вы говорите о действии, которое происходило в определенное время в прошлом)
+    - When I called (что сделал) her, you were eating (что делал) an apple (Когда я позвонил ей, ты ела яблоко)
+    - Don't use these verbs in PC: like, love, belive, have, know, prefer, understand, want, need. Use Past Simple
+    - was/were+Ving
+    Task:
+    Present Perfect
+    Decision:
+    - The action in the past has a result now (Действие в прошлом имеет результат сейчас), You give the news or new information (Вы сообщаете новости или новую информацию), A period of time continues from the past until now (Период времени продолжается от прошлого до настоящего времени)
+    - You have eaten everything. You are sick. (Ты съел все. ты болен.), You have just eaten five apples! (Ты только что съел пять яблок!), You have eaten five apples this week (На этой неделе ты съел пять яблок)
+    - have/has+Ved/V3     
+    Task:
+    Present Perfect continuous
+    Decision:
+    Task:
+    Future Simple
+    Decision:
+    - You decide to do smth at the moment of speaking (Вы решаете сделать что-то в момент выступления), You talk about plans (Ты говоришь о планах), The situation now is showing us what is going to happen in the future (Ситуация сейчас показывает нам, что произойдет в будущем), we can use both Be going to and Future Simple to predict the future (мы можем использовать как Be going to, так и Future Simple для прогнозирования будущего), we use Be going to when something now tells us what is going to happen in the future (мы используем Be going to, когда что-то сейчас говорит нам, что произойдет в будущем), we use Future Simple to say things we think, guess or know about the future.we may not have an evidence in the present telling us what the Future is going to be (мы используем Future Simple, чтобы сказать то, что мы думаем, догадываемся или знаем о будущем.у нас может не быть доказательств в настоящем, говорящих нам, каким будет будущее)
+    - I'm hungry, I'll eat an apple. (Я голоден, я съем яблоко), She's going to eat an apple (Она собирается съесть яблоко), See those clouds? It's going to rain (Видишь эти облака? Будет дождь), I think the weather will be nice later. (Я думаю, что позже погода будет хорошей), they're playing very well. they're going to win (они играют очень хорошо. они собираются победить), you'll never finish that book (ты никогда не закончишь эту книгу)
+    - Will+V, Be going to+V   
+    Task:
+    Future Continuous
+    Decision:
+    - we can use when the action will be happening at a certain time or during a certainperiod of time n the future (мы можем использовать, когда действие будет происходить в определенное время или в течение определенного периода времени в будущем)
+    - you will be sleeping on the plane (ты будешь спать в самолете)
+    - Will be+Ving, would be + Ving     
+    Task:
+    First Conditions
+    Decision:
+    - we can use when to talk about a possible situation in the future and its result (мы можем использовать, когда говорить о возможной ситуации в будущем и ее результате)
+    - if you step on my foot, it will hurt (если ты наступишь мне на ногу, будет больно), if you step on my foot, it's going to hurt (если ты наступишь мне на ногу, будет больно)
+    - condition (if) + present simple (V/Vs,do/does+V) result, will/be going to, modals (модальный глагол), imperatives (повелительное наклонение)
+    Task:
+    Second Conditions
+    Decision:  
+    - we can use when to talk about an unreal present or future situation and its result (мы можем использовать, когда говорить о нереальной настоящей или будущей ситуации и ее результате)
+    - if I had a job, I would rent a flat (если бы у меня была работа, я бы снял квартиру), if he didn't have a headache, he would go to the party (если бы у него не болела голова, он бы пошел на вечеринку)
+    - condition (if) + past simple (Ved/v2,did+V,Что сделал) result, would+V, could/might+V, would='d
+    Task:
+    There is, Was will be, Is going to be
+    Decision:
+    - You say that smth or somebody is or isn't somewhere (Если что-то где-то лежит, весит, стоит, находится, это все заменяет одна конструкция: there is/are)
+    - There is an apple on the table, There was an apple on the table
+    - there+be+smth   
+    Task:
+    used to
+    Decision:
+    - раньше это действие происходило, а теперь - нет; We use used to only for the past. You can’t say “I use to…” (present) (Мы используем "раньше" только для прошлого; Вы не можете сказать: "Я привык..." (настоящее время)); We don’t use used to for actions that happened only once (Мы не используем used to для действий, которые произошли только один раз); We can always use Past Simple instead of used to (Мы всегда можем использовать Past Simple вместо привычного)
+    - I went to Italy in 2012. not I used to go to Italy in 2009 (Я ездил в Италию в 2012 году. Раньше я не ездил в Италию в 2009 году), I used to have a dog called Tilly. = I had a dog called Tilly (Раньше у меня была собака по имени Тилли. = У меня была собака по кличке Тилли)
+    Task:
+    be able
+    Decision:   
+    - вообще переводится как "быть способным"; Запомните, что в случае, когда вам удалось что-то сделать всего один раз, could использовать нельзя, а в отрицаниях нет разницы, Можно использовать оба варианта;
+    - Future: You’ll be able to get a taxi outside the station (Ты сможешь взять такси у станции); Perfect: He has never been able to sing (Он никогда не умел петь); Past: Смог (один раз), I was able to find some useful books (Я смог найти несколько полезных книг); I couldn’t find the book = I wasn’t able to find the book; I’d like: She’d like to be able to swim (Она бы хотела уметь плавать); Тянучки: He enjoys being able to swim (Ему нравится уметь плавать); Полутянучки: I love being able to swim / to be able to swim (Мне нравится уметь плавать); После обычных глаголов: I want to be able to swim (Я хочу уметь плавать)
+    - be able to V    
+    Task:
+    Passive Voice
+    Decision:
+    - Name Passive voice страдательный залог; Rule We use the passive when we don’t know or it isn’t important who does the action (Мы используем пассивный, когда мы не знаем или не важно, кто совершает действие)
+    - I am loved (Меня любят), The dishes are washed (Посуда помыта)
+    - be + V3/Ved
+    Task:
+    Special Features
+    Decision:   
+    - Passive Voice can be used with, If you have to say who did the action, use by.
+    - It must be done today, The letter should be sent now, The students are taught by a teacher.
+    - modals (modal + be + V3/ed), going to (is/am/are going to + be + V3/ed), verbs like, want, need, have to, etc. (want + to be + V3/ed) (с любыми нетянучками)
+    Task:
+    Future in the Past
+    Decision:  
+    - Bob thought that he would be a doctor (Боб думал, что будет доктором)
+    - will - would
+    Task:
+    countable/uncountable
+    Decision:
+    - many / a lot of/lots of / much - много
+    - a few / some / a little - немного, несколько
+    - few / little - мало
+    - not any - вообще нет
+    Task:
+    артикль А
+    Decision:
+    - с исчисляемыми сущ в ед числе (a dog)
+    - с неисчисляемыми сущ, когда имеем ввиду порции (I'll buy you an ice-cream)
+    - В паре прил+сущ (a big bag)
+    - когда упоминаем о чем то впервые (I read an interesting book)
+    - в значении "какой-нибудь", "какой-то" (she saw a man outside)
+    Task:
+    артикль THE
+    Decision:
+    - когда этот предмет уже упоминался раньше (yesterday I bought a car. the car works very well)
+    - когда в самом предложении уточняется, какой именно предмет имеется ввиду (the coffee you bought wasn't good)
+    - когда говорящим понятно, о каком объекте идет речь, даже если оно не упоминался ранее. В этом случае артикль можно заменть на слова этот, мой, твой (look at the people)
+    - когда говорим о чм то уникальном, единственном в своем роде (the sun, the world)
+    Task:
+    Which step have you reached today?
+    Decision:
+    - I won't do it
+    - I can't do it
+    - I want to do it
+    - How do I do it?
+    - I'll try to do it
+    - I can do it
+    - I will do it
+    - Yes, I did it
+    Task: 
+    Say and tell В чем разница? 
+    Decision:
+    - когда просто говорим что-то, то используем глагол say (She said (that) she would call Jim);
+    - когда говорим что-то кому-то, то говорим say to smb или tell smb (She told me (that) she would call Jim.);
+    Task:
+    Who-questions
+    Decision:
+    - who lives with Ricardo (Кто живет с Рикардо )
+    - who does Ricardo live with (С кем живет Рикардо )
+    Task:
+    Правильное составление предложений
+    Decision:
+    verb+preposition+Ving - глагол+предлог+Ving
+    GO+preposition=...
+    - for: a walk / a swim / a run
+    - on: a date / a vacanation / a cruise
+    - to: church / school / bed
+    - to the: toilet / hospital / cinema
+    GO...
+    - go: home, downtown, shopping, swimming, dancing, fishing, sailing (парусный спорт)
+    - go to: church, sleep, school, extremes (крайности), University, bed, prison (тюрьма), war, Madrid, Asia
+    - go on: holidays, a cruise, a trip (поездка), a date, a journey (путешествие), strike (удар), stage (этап)
+    - go fo: a walk, a swim, a drive, a run, a dip (макать)
+    - go to a: party, conference, concert, restaurant, bar, festival
+    - go to the: bathroom, doctor, bank, supermarket, airport
+    Task:
+    Irregular verbs
+    Decision:
+    -ругаться, материться,клясться (swear, swore, sworn)
+    -трясти(сь), (hands) жать руку (shake, shook, shaken)
+    -вести, приводить (lead, led, led)
+    -иметь дело, решить (задачу) (deal, dealt, dealt)
+    -запрещать (forbid, forbade, forbidden)
+    -повесить, висеть (hang, hung, hung) 
+    -звонить (ring, rang, rung)
+    -вонять (stink, stank/stunk, stunk)
+    -бить (beat, beat, beaten)
+    -кусать (bite, bit, bitten)
+    -приносить (bring, brought, brought)
+    -ловить (catch, caught, caught)
+    -стоить (cost, cost, cost)
+    -резать (cut, cut, cut)
+    -падать (fall, fell, fallen)
+    -кормить  (feed, fed, fed)
+    -драться, бороться, ссориться (fight, fought, fought)
+    -прятаться (hide, hid, hidden)
+    -ударять (hit, hit, hit)
+    -держать (hold, held, held)
+    -болеть, ушибить, причинить боль (hurt, hurt, hurt)
+    -хранить (keep, kept, kept)
+    -уезжать, уходить, покидать (leave, left, left)
+    -давать взаймы (lend, lent, lent)
+    -позволять (let, let, let)
+    -лежать (lie, lay, lain)
+    -иметь ввиду (mean, meant, meant)
+    -класть (put, put, put)
+    -продавать (sell, sold, sold)
+    -посылать (send, sent, sent)
+    -тратить, проводить (spend, spent, spent)
+    -воровать (steal, stole, stolen)
+    -бросать (throw, threw, thrown)
+    -быть (be, wes/were, been)
+    -становиться (become, became, become)   
+    -начинать (begin, began, begun)   
+    -ломать (break, broke, broken)  
+    -строить (build, built, built) 
+    -покупать (buy, bought, bought)
+    -мочь, уметь (can, could, -)   
+    -выбирать (choose, chose, chosen)   
+    -приходить, приезжать (come, came, come)   
+    -делать (do, did, done)  
+    -рисовать (карандашом) (draw, drew, drawn)   
+    -пить (drink, drank, drunk) 
+    -водить машину (drive, drove, driven) 
+    -есть (eat, ate, eaten) 
+    -чувствовать (feel, felt, felt)   
+    -находить (find, found, found)   
+    -быть впору (fit, fit, fit) 
+    -летать (fly, flew, flown)  
+    -забывать (forget, forgot, forgotten)   
+    -прощать (forgive, forgave, forgiven) 
+    -замерзать (freeze, froze, frozen)  
+    -получать (get, got, got) 
+    -давать (give, gave, given)  
+    -идти, ехать (go, went, gone)   
+    -расти (grow, grew, grown)
+    -иметь (have, had, had)   
+    -слышать (hear, heard, heard) 
+    -знать (know, knew, known)   
+    -терять (lose, lost, lost)  
+    -делать (make, made, made)  
+    -встречать (meet, met, met)
+    -платить (pay, paid, paid) 
+    -читать (read, read, read)  
+    -ездить (верхом) (ride, rode, ridden) 
+    -бежать (run, ran, run)  
+    -сказать (say, said, said) 
+    -видеть (see, saw, seen)  
+    -стрелять (shut, shot, shot)   
+    -показывать (show, showed, shown) 
+    -петь (sing, sang, sung) 
+    -сидеть (sit, sat, sat)  
+    -спать (sleep, slept, slept) 
+    -говорить (speak, spoke, spoken)   
+    -стоять (stand, stood, stood)  
+    -плавать (swim, swam, swum) 
+    -брать (take, took, taken) 
+    -преподавать, учим кого-то (teach, taught, taught) 
+    -рассказывать (tell, told, told) 
+    -думать (think, thought, thought) 
+    -понимать (understand, understood, understood) 
+    -просыпаться (wake, woke, woken) 
+    -носить (одежду) (wear, wore, worn) 
+    -выигрывать (win, wan, wun) 
+    -писать (write, wrote, written) 
+
+English Dialogue
+   Task:
+   Checking in (Как пройти регистрацию)
+   Decision:
+   - good afternoon. where are you flyng today?
+   - I'm flying to Georgia
+   - may I see you passport please?
+   - yes, here you are
+   - I'm sorry but / unfortunately, your flight has been delayed until p.m.
+   - Oh, well, that's not too bad
+   - are you checking any bags today?
+   - yes, I have one suitcase to check and one bag to carry on
+   - have you left your bags unattended at any time?
+   - no, I've always had my bags with me
+   - ok. that's good. right now, you have a middle seat. would you prefer a window seat or an aisle seat?
+   - an aisle seat, please
+   - ok, here's your boarding pass
+   - thanks
+   - your flight to Georgia departs from gate B25. the light boards at 5.30. have a nice flight.
+   - ok, thank you
+   Task:
+   In a restaurant
+   Decision:
+   - good evening. do you have a reservation/
+   - yes, a table for two. My name is ...
+   - come this way. are you ready to order?
+   - yes, I'll have the tuna, please
+   - would you like that with fries or a salad
+   - fries, please
+   - what would you like to drink
+   - a glass of wine, please
+   - here you are, enjoy your meal
+   - i'm sorry, but i asked you tuna, not salmon
+   - no problem, i'll change it
+   - can i have th check please
+   - sure
+   - I think, there's a mistake in the check. I had a glass of wine, no a bottle
+   - please forgive me. I'll give a new one
+   Task:
+   Shopping
+   Decision:
+   - Hi. Can I help you?
+   - Do you have any (potatoes)?
+   - Yes I do
+   - How much is it/are they?
+   - 3 dolllars a kilo'  
+   - I'd like 5 kilos, please
+   - Here you are
+   - Thanks
+   Task:
+   Buying coffee
+   Decision:
+   - hello, can I have a coffee, please
+   - would you like a cappuccino, americano, espresso
+   - cappuccino please
+   - small, medium, large
+   - large, please
+   - would you like some milk or sugar
+   - no, thank you
+   - here you are. Anything else?
+   - Yes, can i have a muffin please
+   - blueberry, chocolate or banana
+   - chocolate, please
+   - eat in or take away?
+   - take away, please
+   - that's 3,75$, please
+   - here's 4$. keep the change
+   - thank you
+   Task:
+   Are you free on friday?
+   Decision:
+   - are you free on friday/ are you doing anything on friday
+   - it depends on the situation, why
+   - how about going to the cinema
+   - sorry, i can't. i'm busy
+   - oh, I see. what about this saturday
+   - sounds great
+   - what time shall i pick you up
+   - at 6 in the evening
+   - Great! Do you like italian food
+   - sure
+   - let's have dinner before we go
+   - i'd love to
+   - see you on saturday 
+
+Helpdesk, Interview
+    Task:
+    (formal; 140-190 words) Your company provided some bad service for an end-customer; it was also done later than promised.
+    In your letter, you should:
+    1. Explain why work delivery delaying for a week because of technical complexity and thorough testing
+    2. Explain why 5 of 30 services (let’s say VMs or some web-services) were down for more than 2 hours last night
+    3. Describe the deliverable package (source code, documentation, test plans, etc.)
+    4. Inform about full delivery and offer free monitoring of the whole infrastructure
+    Task:
+    Вопрос клиента: 
+    "Мне необходимо продлить сервер и мой домен с сертификатом. Не помню у кого сервер арендовал. Подскажите что для этого сделать? Сайт sos38.ru"
+    Необходимо дать клиентоориентированный ответ из той информации, что получится получить.
+
+Применение материалов и компонентов для создания устройств
+	Task:
+	Основные формулы квантовой механики, используемые в наноэлектронике
+	Task:
+	Получите выражения для плотностей потока вероятности прошедших j2^(+), падающих j1^(+) и отраженных j1^(-) частиц при прохождении частицы над потенциальной ступенькой
+	Task:
+	Изучение сериальных закономерностей в спектре водорода, экспериментальное измерение длин волн серии Бальмера атома водорода, определение значения постоянной Ридберга
+	Task:
+	Квантовая частица в одномерной потенциальной яме. Проведение вычислительного эксперимента по изучению влияния параметров одномерной потенциальной ямы на уровни энергии, волновые функции и распределение электронной плотности для связанных состояний электрона
+	Task:
+	Изучение спектров атомов щелочных металлов
+	Task:
+	Спектральные линии щелочных металлов. нахождение положения линий в видимой области излучения паров натрия и измерение дублетного расщепления каждой линии.
+	Task:
+	Определение энергии диссоциации молекулы йода по спектру поглощения. Знакомство со структурой молекулярных спектров, типами энергии молекул, определение энергии диссоциации молекул йода по электронно-колебательному спектру поглощения и основных параметров этого спектра
+	Task:
+	Изучение простого эффекта Зеемана. Исследование расщепления спектральных линий в магнитном поле и определение спектроскопическим методом удельного заряда электрона и напряженности магнитного поля. Исследование поперечного эффекта Зеемана. Определение удельного заряда электрона.  Дисперсия и разрешающая способность интерферометра Фабри-Перо. Распределение интенсивности между расщеплёнными компонентами и построение контура спектральной линии. Измерение напряжённости магнитного поля.
+	Task:
+	Изучение спектрального состава излучения гелий-неонового лазера
+	Task:
+	Освоить методику градуировки теплового узла ростовой установки и изучить особенности выращивания монокристаллов из расплава методом Чохральского
+	Task:
+	Освоить методику градуировки теплового узла
+	Task:
+	Выращивание монокристаллов методом Чохральского. Изучение особенностей выращивания монокристаллов фторида лития из расплава методом Чохральского
+	Task:
+	Градуировка теплового узла ростовой установки. Выращивание монокристаллов фторида лития методом Чохральского на ростовой установке РЕДМЕТ - 10М. Ознакомиться с особенностями выращивания монокристаллов хлорида натрия из расплава методом Чохральского на открытом воздухе. Выращивание монокристаллов хлорида натрия на лабораторном стенде методом Чохральского на открытом воздухе.
+	Task:
+	Фотолюминесцентная спектроскопия: измерение спектров люминесценции твердых тел. Ознакомление с методом фотолюминесцентной спектроскопии путем измерения спектров люминесценции твердых тел при их облучении фотонами в ультрафиолетовой области спектра
+	Task:
+	Измерения электрофизических параметров полупроводника. определить тип проводимости, удельного электрического сопротивления (УЭС), подвижности и времени жизни носителей заряда (ННЗ) в образцах полупроводникового кремния и освоить базовые теоретические основы применяемых методов
+	Task:
+	Фотостимулированная люминесценция кристаллов BaFBr:Eu. Ознакомление с механизмом фотостимулированной люминесценции. Получение опыта работы на научной установке
+	Task:
+	Люминесценция кристаллов при возбуждении рентгеновским излучением (Рентгенолюминесценция). Ознакомление с механизмом возникновения свечения материалов при воздействии высокоэнергетичного фотонного излучения.Измерить спектры излучения кристаллов фторидов в ультрафиолетовой и видимой области спектра
+	Task:
+	Исследование примесных центров с помощью электронного парамагнитного резонанса. Ознакомление с методом электронного парамагнитного резонанса (ЭПР), изучение работы ЭПР - радиоспектрометра, получение спектров ЭПР исследуемых веществ, практическое закрепление вопросов квантовой механики, связанных с квантованием углового момента и спина
+	Task:
+	Изучение методов гамма-спектрометрии на примере измерения сцинтилляционных характеристик кристалла NaI-Tl. изучение основных характеристик сцинтилляционного детектора на основе кристалла NaI-Tl. Основными задачами работы являются: подготовка гамма-спектрометрического тракта к работе; изучение работы спектрометрического усилителя ORTEC 570; изучение программного комплекса Angamma для регистрации амплитудных спектров импульсов; измерение основных сцинтилляционных свойств кристалла NaI-Tl. Изучение зависимости амплитуды спектра от коэффициента усиления. Изучение зависимости амплитуды спектра от напряжения на ФЭУ. Изучение зависимости амплитуды спектра от shaping time усилителя. Анализ файла данных. Анализ полученных данных. Определение неизвестного источника гамма-излучения по калибровочному спектру, полученному с помощью источника 137Cs. Зависимость энергетического разрешения сцинтиллятора от поглощенной энергии
+	Task:
+	Люминесценция кристаллов при возбуждении рентгеновским излучением (Рентгенолюминесценция). Ознакомится с механизмом возникновения свечения материалов при воздействии высокоэнергетичного фотонного излучения. Измерить спектры излучения кристаллов фторидов в ультрафиолетовой и видимой области спектра
+	Task:
+	Термолюминесцентная дозиметрия: измерение поглощенной дозы ионизирующего излучения. освоить методику измерения поглощенной дозы ионизирующего излучения с использованием твердотельных монокристаллических детекторов ДТГ-4. Изучение кривых термовысвечивания. Определение поглощенной дозы.  
+
+Излучение и распространение радиоволн
+    Decision:
+    Декаметровые радиоволны отражаются на высотах 80-400км
+    Decision:
+    Концентрация свободных электронов в максимуме ионизации ионосфере составляет 10^6 см^(-3)
+    Decision:
+    Групповая скорость радиоволны при вертикальном зондировании ионосферы меньше скорости света
+    Decision:
+    Максимальная дальность скачка радиоволны при отражении от ионосферы составляет 4000 км
+    Decision:
+    Глубокая засветка теневой зоны при односкачковом распространении декаметровых радиоволн может быть за счет рассеяния на ионосферных неоднородностях
+    Decision:
+    Лучи Педерсена распространяются в окрестностях максимума ионосферной ионизации
+    Decision:
+    Дифракция радиовоон вдоль поверхности Земли более эффективна в киллометровом диапозоне
+    Decision:
+    Орбиты GPS спутников находятся на высотах, порядка 20000 км
+    Decision:
+    Подповерхностное зондирование на большие глубины более эффективно с помощью радиоволн километрового диапазона
+    Decision:
+    Чем больше рабочая частота декаметрового радиосигнала, тем больше дальность зоны молчания
+    Task:
+	Радар некогерентного рассеяния (НР). Познакомиться с методом НР для изучения ионосферы. Ознакомиться с приборами и методами обработки полученных сигналов.
+    Decision:
+    Нам подробно рассказывали о методе НР, показывали принятые сигналы до обработки и после. Были представлены различные презентации с результатами данных и их графиками. Показали спектр сигнала НР, из которого можно легко определить различные параметры, такие как температура ионов и электронов, ионный состав и скорость дрейфа плазмы.
+	Мы увидели, что данный метод является достаточно эффективным и может использоваться в различных целях, например, можно увидеть поведение ионосферы и предсказать её влияние на спутники.
+	Вывод: Данная работа показала, что ионосфера нуждается в подробном изучении, так как есть множество факторов, по-разному влияющих на неё. Существуют различные инструменты по изучению ионосферы, например, множество различных радаров. В данной работе использовался радар НР. С помощью этой установки были получены спектры НР, на основе которых мы получили необходимую информацию о среде
+    Task:
+    GPS радиозондирование ионосферы. Познакомиться с GPS радиозондированием ионосферы. Ознакомиться с приборами. Проанализировать наблюдаемые эффекты.
+    Decision:
+    нам показали оборудование GPS, которое принимает сигнал со спутников, программу, которая показывает расположение видимых спутников. Поднявшись на крышу здания ИСЗФ, мы увидели антенну GPS.
+    Далее, мы работали в программе Grapher 7 и, ознакомившись с полученными данными, строили по ним графики зависимости групповой скорости от времени (слева) и зависимость фазовой скорости от времени (справа).
+    Затем построили график траектории движения спутника, используя данные азимута и угла места.
+    Построили график глобального электронного содержания за год.
+    Ознакомились с динамикой глобального и регионального электронного содержания, рассчитанными по данным станции CODG
+    Наблюдали на карте Земли на разных участках изменение электронной концентрации от времени.
+    На данном примере я верно определил, что в местах повышения концентрации электронов наблюдалась вспышка на Солнце.
+    В данной работе мы увидели, как хорошо наблюдается зависимость ионной и электронной концентрации от солнечной активности. С увеличением солнечной активности увеличивается полное электронное содержание. Данный способ радиозондирования хорошо показывает изменение концентрации ионов и электронов в ионосфере и является полезным для её изучения.
+    Task:
+    Ионозонд вертикального зондирования ионосферы. Познакомиться с методом вертикального зондирования ионосферы, ознакомиться с приборами, обработать полученные данные и проанализировать их.
+    Decision:
+    нам рассказали о приборах зондирования и показали их. Мы ознакомились с приёмником, передатчиком и блоком управления и обработки данных.
+    Нам продемонстрировали полученные ионограммы, на которых хорошо видны E- и F-слои.
+    Передатчик излучает фаза-манипулированный код, и на приёмник приходит отражённый сигнал, совпадающий с плазменной частотой. Прибор работает всё время и строит ионограммы каждые 15 минут.
+    На графике можно увидеть раздвоенный F-слой. Это происходит из-за обыкновенной и необыкновенной мод (о- и х-компоненты). Так же на графике присутствует сигнал, похожий на F-слой, который находится выше. Этот сигнал называется кратником (сигнал, отражённый от земли и снова от ионосферы, он возвращается на приёмник с двойной задержкой).
+    Далее, мы интерактивно обрабатывали данные, работая с ионограммами. Можно проследить изменение ионосферы в течение суток.
+    Из результатов обработки были получены такие данные:
+    Слой F2: критическая частота - 6,9 МГц в 10:00 UT, max высота - 380 км в 18:00 UT.
+    Слой E: критическая частота - 3,3 МГц в 05:45 UT, max высота - 111 км в 02:45 UT.
+    На ионограммах можно наглядно увидеть отражённые сигналы и границу ионосферы. Но на самом деле истинная граница рассчитывается немного по-другому, учитывая некоторые параметры, и поэтому нужно вручную обрабатывать полученные данные, и тогда можно найти истинные значения. Данная работа является полезной, так как она достаточно детально показывает, как изменяется ионосфера, и с помощью неё можно получить необходимые нам параметры.
+
+Радиоэлектроника
+    Task:
+    Какой электронный прибор называется полупроводниковым диодом?
+    Task:
+    Сравните токи через полупроводниковый диод при прямом и обратном смещении по порядку величин. Объясните различие.
+    Task:
+    Что такое ток насыщения диода?
+	Task:
+	RC - генератор. Исследование частотных характеристик усилителя и моста Вина. Наблюдение колебаний генератора. Определение колебательной характеристики усилителя с инерционной нелинейностью и без нее. Наблюдение влияния инерционной нелинейности на генерацию. Наблюдение процесса установления колебаний на фазовой плоскости
+	Task:
+	Воздействие гармонического сигнала на RС-цепи. Для заданной RС цепи рассчитать формулы для амплитудно-частотной и фазочастотной характеристик. Номиналы элементов цепей задаются преподавателем. Определить амплитудно- и фазочастотную характеристики экспериментально. Для этого на макете собрать требуемую цепь и подать на вход сигнал от низкочастотного генератора. В качестве индикатора применять осциллограф. Построить графически в логарифмическом масштабе рассчитанные и экспериментальные амплитудно-частотные и фазочастотные характеристики. При построении в логарифмическом масштабе иметь в виду, что рассчитанные точки уже вычислены в логарифмическом масштабе, то есть на шкале   они равно отстоят друг от друга. Сравнить результаты расчета и эксперимента. 
+	Task:
+	ГЕНЕРАТОР КВАЗИГАРМОНИЧЕСКИХ КОЛЕБАНИЙ С РЕЗОНАНСНЫМ КОНТУРОМ. В работе изучается воздействие обратных связей на резонансный усилитель и условия возбуждения колебаний (генерация). Исследование влияния обратной связи на усиление и полосу пропускания. Изучение мягкого и жесткого режимов возбуждения. Проверка условия баланса амплитуд. Наблюдение процесса установления колебаний на фазовой плоскости.
+	Task:
+	Изучение импульсных характеристик транзисторов
+	Цель работы - изучение переходных процессов в транзисторе; исследование зависимости длительности нарастания и спада тока коллектора от параметров прибора и схемы; определение влияния барьерной ёмкости коллектора Ск на переходные процессы; измерение длительности времени рассасывания неосновных носителей базы и установление связи этого явления с процессом рекомбинации в базе.
+	Task:
+	Изучение импульсных частотных характеристик диодов. изучение переходных процессов в диоде, определение времени жизни неосновных носителей тока базы диода, сопротивление базы, контактной разности потенциалов. Переключение диода из прямого направления в обратное. Включение и выключение диода. Частотные свойства диодов.
+	Task:
+	Обратные связи в усилителе. Исследовать влияние последовательной обратной связи на свойства усилителя. Исследовать влияние параллельной обратной связи на свойства усилителя. Проверить зависимость влияния обратной связи различного типа от сопротивления генератора. Пронаблюдать стабилизирующее действие отрицательной обратной связи.
+	Task:
+	Составной транзистор. Исследование основных параметров составного транзистора, включенного по схеме  с общим эмиттером, определение коэффициента передачи тока, входного и выходного сопротивления  и предельной частоты усиления.
+	Task:
+	ПРЕОБРАЗОВАНИЕ ЧАСТОТЫ. АМПЛИТУДНАЯ МОДУЛЯЦИЯ И АМПЛИТУДНОЕ ДЕТЕКТИРОВАНИЕ. Реализовать преобразование частоты. Установить оптимальный режим преобразования. Снять характеристику преобразования в оптимальном режиме. Выделить линейный участок характеристики преобразователя. Снять семейство статических модуляционных характеристик. Получить динамическую модуляционную характеристику. Снять статическую детекторную характеристику - зависимость Io(U~), где U~ - амплитуда переменного напряжения на входе детектора, Io - постоянный ток, возникающий в детекторе. Пронаблюдать амплитудное детектирование. 
+	Task:
+	Резонанс в последовательном и паралльлном контуре. Исследовать резонансные свойства последовательного контура. Исследовать резонансные свойства параллельного контура. 
+	Task:
+	Резонанвское усиление и умножение частоты. Исследование усилительных свойств резонансного усилителя в различных режимах. Проверка влияния режима усиления на коэффициент полезного действия. Изучение умножения частоты. 
+	Task:
+	Спектр сигналов
+	Task:
+	Три схемы включения транзистора
+	Task:
+	Усиление сигналов и умножение частоты. Исследование процессов усиления в линейном и нелинейном режимах, изучение процесса умножения частоты. Получение оптимальных режимов. Исследуйте работу резонансного усилителя в линейном и нелинейном режимах. Исследуйте работу умножителя частоты при постоянной величине амплитуды импульса тока стока или при постоянной амплитуде входного сигнала (по указанию преподавателя).
+	Task:
+	Какова роль полевого транзистора в схеме линейного усилителя?
+	Почему в качестве нагрузки в линейном усилителе применяются резистор, колебательный контур?
+	Как выбрать рабочую точку на характеристике усилительного элемента линейного усилителя?
+	Каковы преимущества нелинейных усилителей?
+	Какова связь между формой напряжения на входе и выходе нелинейного резонансного усилителя?
+	Какова роль избирательной нагрузки в схемах нелинейных усилителей?
+	Как выбрать рабочую точку на характеристике усилительного элемента нелинейного усилителя?
+	Изобразить схемы усилителей и умножителей частоты.
+	С какой целью применяются усилители?
+	С какой целью применяются умножители частоты?
+	Как выбрать оптимальный режим работы усилителя?
+	Как выбрать оптимальный режим работы умножителя частоты?
+	Какова роль нелинейного элемента в схеме умножителя частоты?
+	Какова роль избирательной нагрузки в схеме умножителя частоты?
+	Как получить осциллограмму тока, протекающего через колебательный контур?
+	Какое влияние оказывает выбор напряжения смещения на работу умножителя частоты?
+	Decision:
+	Для того чтобы в спектре тока появились гармоники, саму форму этого сигнала надо сделать несинусоидальной, используя для этого нелинейный или параметрический элемент.
+	Для выделения нужной гармоники из сложного спектра тока можно использовать фильтр, в простейшем варианте – параллельный колебательный контур, настроенный на частоту нужной гармоники.
+	Положение рабочей точки выбирается на середине линейного участка сток-затворной характеристики, аппроксимированной отрезками прямых линий.
+	Таким образом, усилительные каскады, работающие в нелинейном режиме, обладают большим КПД.
+	Несмотря на то, что усилитель работает в нелинейном режиме и форма тока имеет вид косинусоидальных импульсов, выходное напряжение имеет практически синусоидальную (квазигармоническую) форму, т.к. контур в нагрузке каскада, настроенный на несущую частоту, подавляет все высшие гармоники.
+	Изменение резонансных свойств контура достигается с помощью кнопки "Rш", которая подключает шунтирующий резистор (Rш=10 кОм) параллельно LC контуру, уменьшая его добротность.
+	Положение рабочей точки выбирается так, чтобы угол отсечки был равен 90°. Для этого устанавливается Есм=u0 (напряжение отсечки на графике кусочно-линейной аппроксимации стокзатворной характеристики).
+	Task:
+	Усилитель на транзисторе. Определение параметров транзистора. Исследовать влияние нагрузки на свойства усилителя. 
+	Task:
+	ЧАСТОТНАЯ МОДУЛЯЦИЯ И ЧАСТОТНОЕ ДЕТЕКТИРОВАНИЕ
+	1. Снять статическую модуляционную характеристику - зависимость частоты генератора от управляющего напряжения смещения. Смещение регулируется, как и в остальных работах, потенциометром макета и измеряется вольтметром, также входящим в макет. Переменное модулирующее напряжение при выполнении этого задания не подается.
+	Частота генератора при каждом значении напряжения смещения измеряется измерителем частоты или с помощью фигур Лиссажу. Колебания с исследуемого генератора и с лабораторного генератора подаются соответственно на Х и Y входы осциллографа. Строится статическая модуляционная характеристика - зависимость частоты генератора от напряжения смещения. На полученной характеристике выделяется участок линейного хода, пригодный для модуляции.
+	2. Проконтролировать наличие паразитной амплитудной модуляции. Для этого снять и построить график зависимости амплитуды выходного напряжения от смешения. Сопоставив с результатами задания 1, сделать вывод, на сколько процентов меняется амплитуда в пределах линейного хода модуляционной характеристики.
+	3. Снять статическую детекторную характеристику частотного детектора - зависимость постоянного тока на выходе детектора от частоты поданного на его вход сигнала. Частота входного сигнала подается с исследуемого ЧМ генератора. Его частота изменяется смещением. При этом непосредственно отсчитывается смещение, а соответствующая частота определяется по графику задания 1. Измерения следовало бы проводить с постоянной амплитудой сигнала генератора. Однако, как уже отмечалось, это условие может нарушаться из-за паразитной амплитудной модуляции. Поэтому, прежде чем строить график детекторной характеристики, следует по результатам задания 2 оценить, насколько менялась амплитуда в диапазоне частот, соответствующем детекторной характеристике. Если отклонение превышает 15%, в результаты измерений следует внести поправку, то есть если амплитуда генератора на какой-то частоте увеличивается в k раз, нужно уменьшить результат измерения тока детектора на этой частоте во столько же раз.
+	После внесения соответствующих поправок, если они необходимы, строится график детекторной характеристики L(f).
+	4. Пронаблюдать частотную модуляцию и детектирование. Установить смещение, соответствующее середине линейного участка детекторной характеристики. Подать на затворы полевых транзисторов генератора ЧМ модулирующее напряжение с лабораторного генератора. При этом следует иметь в виду, что модулирующая частота должна быть гораздо меньше несущей.
+	Пронаблюдать на осциллографе частотно-модулированные колебания на входе детектора и восстановленные низкочастотные на его выходе. Отметить и зарисовать, как изменяется картина на выходе детектора при изменении девиации частоты (амплитудой модулирующего напряжения) и отстройке несущей (величиной напряжения смещения).
+	Task:
+	Определение времени жизни неосновных носителей заряда
+	Цель работы - измерение времени жизни неосновных носителей заряда методом модуляции проводимости точечного контакта. Измерения проводятся на образцах германия при комнатной температуре.
+	В работе рассмотрен вопрос о времени жизни неосновных носителей заряда и изложена теория механизма рекомбинации через локальные 

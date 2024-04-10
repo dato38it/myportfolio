@@ -1,0 +1,4 @@
+# Data collection
+
+<p><strong>Task</strong>:<br />Write a program that asks the user for data and adds this data to a file "output.txt"</p>
+<p><strong>Decision</strong>:<br />In the program, I created a list of keys '_ip1_', '_ip2_', '_sName_', '_sNumb_', '_tNumb_'. These are the values that will need to be replaced. Then the program asks what data needs to be replaced with - IP addresses, station names, station number and transmitter. These values are stored in the values variable. Then the program reads the information in the file "template.txt " and changes the file data. In the file I added values that will need to be replaced - '_ip1_', '_ip2_', '_sName_', '_sNumb_', '_tNumb_'. Then I just save the changes to a separate file "output.txt "</p>
