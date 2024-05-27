@@ -1,0 +1,404 @@
+Task:
+Вам дан английский текст. Закодируйте его с помощью азбуки Морзе. Каждая буква заменяется на последовательность точек и тире. В качестве тире используйте обычный дефис «-», а в качестве точки — точку «.». Например, буква «g» превратится в трёхсимвольную строку «--.». Ниже в переменной morze для вашего удобства хранится словарь соответствия английских букв коду Морзе. Входные данные Весь текст записан в единственной строке. Текст состоит из английских букв и пробелов, других символов в тексте нет. В тексте не может быть двух или более пробелов подряд. Выходные данные Выведите каждое слово исходного текста, закодированное азбукой Морзе, на отдельной строке. Количество строк в ответе должно совпадать с количеством слов в исходном тексте. Между закодированными буквами ставится ровно один пробел. Например, слово «Help» превратится в «.... . .-.. .--.». Обратите внимание, что строчные и заглавные буквы кодируются одинаково.
+Decision:
+$ cat test.py            
+morze = {'a': '•—', 'b': '—•••', 'c': '—•—•', 'd': '—••',
+        'e': '•', 'f': '••—•', 'g': '——•', 'h': '••••',
+        'i': '••', 'j': '•———', 'k': '—•—', 'l': '•—••',
+        'm': '——', 'n': '—•', 'o': '———', 'p': '•——•',
+        'q': '——•—', 'r': '•—•', 's': '•••', 't': '—',
+        'u': '••—', 'v': '•••—', 'w': '•——', 'x': '—••—',
+        'y': '—•——', 'z': '——••'}
+text= input()
+text= text.lower()
+i=0
+for key in text:
+    i=i+1
+    if key == ' ': 
+        print('') 
+        i=0
+    else:
+        if i>=2: 
+                print (' ', end='')
+        val = str(morze[key])
+        print (val, end='')  
+$ python3 test.py
+I want cheeseburger
+••
+•—— •— —• —
+—•—• •••• • • ••• • —••• ••— •—• ——• • •—• 
+Task:
+Мне нужно написать программу, которая считывает возраст человека. Программа сначала запрашивает год рождения.
+Decision:
+$ cat Cpp-AgeDetermination.cpp
+#include <iostream>
+using namespace std;
+int age(int current_date, int current_month, int current_year, int birth_date, int birth_month, int birth_year)
+{
+  //если дата рождения больше текущей даты рождения тогда не считайте в этом месяце и добавьте 30 к дате так как вычесть дату и получить оставшиеся дни
+  int month[]={31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+  if (birth_date > current_date)
+  {
+    current_month = current_month - 1;
+    current_date = current_date + month[birth_month-1];
+  }
+  //если месяц рождения превышает текущий месяц, то  Не считайте в этом году и добавьте 12 к месяц, чтобы мы могли вычесть и выяснить различия
+  if (birth_month > current_month)
+  {
+    current_year = current_year - 1;
+        current_month = current_month + 12;
+  }
+    // вычислить дату, месяц, год
+    int calculated_date = current_date - birth_date;
+    int calculated_month = current_month - birth_month;
+    int calculated_year = current_year - birth_year;
+  // печать нынешнего возраста
+    cout<<"Present Age:"<<endl;
+    cout<<"Years: "<<calculated_year<<" Months: "<<calculated_month<<" Days: "<<calculated_date<<endl;
+  return 0;
+}
+int main()
+{
+  int current_date, current_month, current_year, birth_date, birth_month, birth_year;
+  //код пользователя
+  cout<<"Today:"<<endl;
+  cout<<"DD: ";
+  cin>>current_date;
+  cout<<"MM: ";
+  cin>>current_month;
+  cout<<"YYYY: ";
+  cin>>current_year;
+  //рождение дд // мм // гггг
+  cout<<"You'r Birthday:"<<endl;
+  cout<<"DD: ";
+  cin>>birth_date;
+    cout<<"MM: ";
+  cin>>birth_month;
+    cout<<"YYYY:";
+  cin>>birth_year;
+  age(current_date, current_month, current_year, birth_date, birth_month, birth_year);
+  system("pause");
+  return 0;
+}
+$ cat Py-AgeDetermination.py
+def age(current_date, current_month, current_year, birth_date, birth_month, birth_year):
+    #если дата рождения больше текущей даты рождения тогда не считайте в этом месяце и добавьте 30 к дате так как вычесть дату и получить оставшиеся дни
+    month =[31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    if (birth_date > current_date):
+        current_month = current_month - 1
+        current_date = current_date + month[birth_month-1]
+    #если месяц рождения превышает текущий месяц, то Не считайте в этом году и добавьте 12 к месяц, чтобы мы могли вычесть и выяснить различия
+    if (birth_month > current_month):
+        current_year = current_year - 1;
+        current_month = current_month + 12;
+    # вычислить дату, месяц, год
+    calculated_date = current_date - birth_date;
+    calculated_month = current_month - birth_month;
+    calculated_year = current_year - birth_year;
+    # печать нынешнего возраста
+    print("Present Age:")
+    print("Years:", calculated_year, "Months:", calculated_month, "Days:", calculated_date)
+print("Today:")
+# код пользователя
+current_date = int(input("DD: "))
+current_month = int(input("MM: "))
+current_year = int(input("YYYY: "))
+# рождение дд // мм // гггг
+print("You'r Birthday:")
+birth_date = int(input("DD: "))
+birth_month = int(input("MM: "))
+birth_year = int(input("YYYY: "))
+age(current_date, current_month, current_year, birth_date, birth_month, birth_year)
+$ python3 Py-AgeDetermination.py
+Today:
+DD: 18
+MM: 07
+YYYY: 2022
+You'r Birthday:
+DD: 23
+MM: 09
+YYYY: 1992
+Present Age:
+Years: 29 Months: 9 Days: 25
+$ g++ Cpp-AgeDetermination.cpp -o output
+$ ./output
+Today:
+DD: 18
+MM: 07
+YYYY: 2022
+You'r Birthday:
+DD: 23
+MM: 09
+YYYY:1992
+Present Age:
+Years: 29 Months: 9 Days: 25
+Task:
+Создайте конвертер валют, который получает данные из национального банка с помощью json и выводит данные о стоимости рубля к доллару, евро и юаню. Запустите программу через терминал.
+Decision:
+$ cat Cpp-CurrencyConverter.cpp
+#include <iostream>
+using namespace std;
+int main()
+{
+  float dollar, euro, yuan;
+  cout<<"current dollar data: ";
+  cin>>dollar;
+        cout<<"current euro data: ";
+  cin>>euro;
+        cout<<"current yuan data: ";
+  cin>>yuan;
+  //cout<<dollar<<" "<<euro<<" "<<yuan<<" "<<endl;
+  cout<<"1) Convert to dollars, Euros, yuan"<<endl<<"2) Transfer from dollars, Euros, yuan"<<endl<<"Choose your actions: ";
+  int choise;
+  cin>>choise;
+  //cout<<choise; 
+  if (choise==1){
+    float ruble, resultDollar, resultEuro, resultYuan;
+    cout<<"Enter the number of rubles: ";
+    cin>>ruble;
+    resultDollar=ruble/dollar;
+    resultEuro=ruble/euro;
+    resultYuan=ruble/yuan;
+    cout<<"The result of your transfer = "<<resultDollar<<endl<<"The result of your transfer = "<<resultEuro<<endl<<"The result of your transfer = "<<resultYuan<<endl;
+  } else if (choise==2) {
+    float d, e, y, resultDollar, resultEuro, resultYuan;
+    cout<<"Enter the number of dollars: ";
+    cin>>d;
+    cout<<"Enter the number of euroes: ";
+    cin>>e;
+    cout<<"Enter the number of yuans: ";
+    cin>>y;
+    resultDollar=d*dollar;
+    resultEuro=e*euro;
+    resultYuan=y*yuan;
+    cout<<"The result of your transfer = "<<resultDollar<<endl<<"The result of your transfer = "<<resultEuro<<endl<<"The result of your transfer = "<<resultYuan<<endl;
+  } else {
+    cout<<"Error! Enter only 1 or 2: "<<endl;
+    exit(0);
+  }
+  //system("pause");
+  return 0;
+}
+$ cat Py-CurrencyConverter.py 
+from pprint import pprint
+import requests
+data = requests.get('https://www.cbr-xml-daily.ru/daily_json.js').json()
+dictionaryU=data['Valute']['USD']
+dictionaryE=data['Valute']['EUR']
+dictionaryC=data['Valute']['CNY']
+'''
+lists=[dictionaryU, dictionaryE, dictionaryC]
+for index in lists:
+  print(index)
+'''
+'''
+print(dictionaryU['Value'],dictionaryU['Name'])
+print(dictionaryE['Value'],dictionaryE['Name'])
+print(dictionaryC['Value'],dictionaryC['Name'])
+'''
+'''
+dollar=float(input("Enter the dollar rate: "))
+euro=float(input("Enter the euro exchange rate: "))
+yuan=float(input("Enter the yuan exchange rate: "))
+'''
+dollar=dictionaryU['Value']
+euro=dictionaryE['Value']
+yuan=dictionaryC['Value']
+print("Dollar exchange rate: ",dollar)
+print("Euro exchange rate: ",euro)
+print("Yuan exchange rate: ",yuan)
+print("1) Convert to dollars, Euros, yuan\n2) Transfer from dollars, Euros, yuan\n")
+choise=int(input("Choose your actions:\n"))
+if choise==1:
+  ruble=float(input("Enter the number of rubles: "))
+  resultDollar=ruble/dollar
+  resultEuro=ruble/euro
+  resultYuan=ruble/yuan
+  print("The result of your transfer = ", '{:.2f}'.format(resultDollar))
+  print("The result of your transfer = ", '{:.2f}'.format(resultEuro))
+  print("The result of your transfer = ", '{:.2f}'.format(resultYuan))
+elif choise==2:
+  d=float(input("Enter the number of dollars: "))
+  e=float(input("Enter the number of euroes: "))  
+  y=float(input("Enter the number of yuans: "))
+  resultDollar=d*dollar
+  resultEuro=e*euro
+  resultYuan=y*yuan
+  print("The result of your transfer = ", '{:.2f}'.format(resultDollar))
+  print("The result of your transfer = ", '{:.2f}'.format(resultEuro))
+  print("The result of your transfer = ", '{:.2f}'.format(resultYuan))
+else:
+  print("Error! Enter only 1 or 2")
+  exit(0)
+$ python3 Py-CurrencyConverter.py
+Dollar exchange rate:  61.3101
+Euro exchange rate:  62.5695
+Yuan exchange rate:  92.1636
+1) Convert to dollars, Euros, yuan
+2) Transfer from dollars, Euros, yuan
+Choose your actions:
+1
+Enter the number of rubles: 500
+The result of your transfer =  8.16
+The result of your transfer =  7.99
+The result of your transfer =  5.43
+$ python3 Py-CurrencyConverter.py
+Dollar exchange rate:  61.3101
+Euro exchange rate:  62.5695
+Yuan exchange rate:  92.1636
+1) Convert to dollars, Euros, yuan
+2) Transfer from dollars, Euros, yuan
+Choose your actions:
+2
+Enter the number of dollars: 1000
+Enter the number of euroes: 900
+Enter the number of yuans: 100
+The result of your transfer =  61310.10
+The result of your transfer =  56312.55
+The result of your transfer =  9216.36
+$ python3 Py-CurrencyConverter.py
+Dollar exchange rate:  61.3101
+Euro exchange rate:  62.5695
+Yuan exchange rate:  92.1636
+1) Convert to dollars, Euros, yuan
+2) Transfer from dollars, Euros, yuan
+Choose your actions:
+3
+Error! Enter only 1 or 2
+$ g++ Cpp-CurrencyConverter.cpp -o output
+$ ./output
+current dollar data: 61.3101
+current euro data: 62.5695
+current yuan data: 92.1636
+1) Convert to dollars, Euros, yuan
+2) Transfer from dollars, Euros, yuan
+Choose your actions: 1
+Enter the number of rubles: 500
+The result of your transfer = 8.15526
+The result of your transfer = 7.99111
+The result of your transfer = 5.42514
+$ ./output
+current dollar data: 61.3101
+current euro data: 62.5695
+current yuan data: 92.1636
+1) Convert to dollars, Euros, yuan
+2) Transfer from dollars, Euros, yuan
+Choose your actions: 2
+Enter the number of dollars: 1000
+Enter the number of euroes: 900
+Enter the number of yuans: 100
+The result of your transfer = 61310.1
+The result of your transfer = 56312.6
+The result of your transfer = 9216.36
+$ ./output
+current dollar data: 61.3101
+current euro data: 62.5695
+current yuan data: 92.1636
+1) Convert to dollars, Euros, yuan
+2) Transfer from dollars, Euros, yuan
+Choose your actions: 3
+Error! Enter only 1 or 2:
+Task:
+Создайте простой калькулятор, который запускается через терминал.
+Decision:
+$ cat Cpp-Calculator.cpp
+#include <iostream>
+using namespace std;
+int main()
+{
+  string repeat="y";
+  while (repeat == "y"){
+      int numb1, numb2;
+      cout<<("Enter number1: ");
+      cin>>numb1;
+      cout<<("Enter number2: ");
+      cin>>numb2;
+      char operation;
+      cout<<("Enter the operation: ");
+      cin>>operation;
+      if (operation == '+')
+          cout<<(numb1 + numb2)<<endl;
+      else if (operation == '-')
+          cout<<(numb1 - numb2)<<endl;
+      else if (operation == '*')
+          cout<<(numb1 * numb2)<<endl;
+      else if (operation == '/'){
+          if (numb2 == 0)
+              cout<<("You cant divide by zero!")<<endl;
+          else
+              cout<<(numb1 / numb2)<<endl;
+      }else{
+          cout<<("Invalid operation")<<endl;
+      }
+      cout<<("Do you want to continue? (y/n): ");
+      cin>>repeat;
+      if (repeat == "n"){
+          break;
+      }
+      while (repeat!="y" && repeat!="n"){
+          cout<<("Please enter the correct answer (y/n): ");
+          cin>>repeat;
+      }
+  }
+  return 0;
+}
+$ cat Py-Calculator.py
+repeat="y"
+while repeat == "y":
+    numb1, numb2 = int(input("Enter number1: ")), int(input("Enter number2: "))
+    operation = input("Enter the operation: ")
+    if operation == '+':
+        print(numb1 + numb2)
+    elif operation == '-':
+        print(numb1 - numb2)
+    elif operation == '*':
+        print(numb1 * numb2)
+    elif operation == '/':
+        if numb2 == 0:
+            print('You cant divide by zero!')
+        else:
+            print(numb1 / numb2)
+    else:
+        print('Invalid operation')
+    repeat = input("Do you want to continue? (y/n): ")
+    if repeat == "n":
+        break
+    while (repeat!="y" and repeat!="n"):
+        repeat = input("Please enter the correct answer (y/n): ")
+$ python3 Py-Calculator.py
+Enter number1: 16
+Enter number2: 0
+Enter the operation: /
+You cant divide by zero!
+Do you want to continue? (y/n): t
+Please enter the correct answer (y/n): t
+Please enter the correct answer (y/n): y
+Enter number1: 16
+Enter number2: 1
+Enter the operation: t
+Invalid operation
+Do you want to continue? (y/n): y
+Enter number1: 16
+Enter number2: 1
+Enter the operation: -
+15
+Do you want to continue? (y/n): n
+$ g++ Cpp-Calculator.cpp -o output
+$ ./output
+Enter number1: 16
+Enter number2: 0
+Enter the operation: /
+You cant divide by zero!
+Do you want to continue? (y/n): t
+Please enter the correct answer (y/n): t
+Please enter the correct answer (y/n): y
+Enter number1: 16
+Enter number2: 1
+Enter the operation: t
+Invalid operation
+Do you want to continue? (y/n): y
+Enter number1: 16
+Enter number2: 1
+Enter the operation: -
+15
+Do you want to continue? (y/n): n

@@ -1,0 +1,5 @@
+module Base
+BaseListView 1.0 BaseListView.qml
+BaseListGelegate 1.0 BaseListGelegate.qml
+BaseText 1.0 BaseText.qml
+ImageBubble 1.0 ImageBubble.qml

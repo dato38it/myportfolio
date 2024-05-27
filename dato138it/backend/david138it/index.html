@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>dato38it</title>
+</head>
+<body>
+    <!--HEADER-->
+    <header class="header fixed" id="header">
+        <div class="container">
+            <div class="header__nav">
+                <p><a href="#aboutMe">Обо мне</a></p>
+                <p><a href="#experience">Опыт работы</a></p>
+            </div>
+        </div>
+    </header>
+    <!--SECTIONS CARDS-->
+    <section>
+        <div class="container">
+            {% if content.count > 0 %}
+            <div class="cards">
+                <div class="card__content" id="page__fixed">
+                    <h2 class="card_hidden" id="aboutMe" onclick="card__hidden(this)">Обо мне</h2>
+                    <div style="display:none; text-align:left; &{head};">
+                        <ul>
+                            <li>
+                                <strong>О себе:</strong> Давид. Инженер-программист. 31 год. г. Иркутск. Я специалист в области информационных технологий. У меня более 5 лет опыта в администрировании серверов различных ОС и в разработки скриптов, ПО и БД. В текущем месте работы внедряю специализированные программные обеспечения, ввожу в эксплуатацию технику - принтеры, сканеры, компьютеры и администрирую сервера и виртуальные машины на windows. Для саморазвития я в свободное время читаю и перевожу техническую документацию на английском языке, программирую на Python и C++, администрирую свой веб-сервер и разрабатываю сайт-портфолио. Мне интересно работать в команде, активно развиваться в программировании и изучать новые технологии. 
+                            </li>
+                            <li>
+                                <strong>Навыки:</strong> Виртуализация, Linux, Html, Css, Sql, Clouds, Windows, C++, Bash, Python, English, Docker.
+                            </li>
+                            <li>
+                                <strong>Обратная связь:</strong> dato38it@yandex.ru, @dato138it.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                {% for portfolio in content %}
+                <div class="card__content" id="experience" style="text-align: left;">                    
+                    {{portfolio.progress|safe}}
+                    <p class="card_hidden" onclick="card__hidden(this)">Show</p>
+                    <div style="display:none;" style=&{head};>{{portfolio.description|safe}}</div>
+                </div>
+                {% endfor %}
+            </div> 
+            {% endif %}
+        </div>
+    </section> 
+    <!-- JS -->
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
