@@ -1,0 +1,180 @@
+Task:
+Install VirtualBox
+Decision:
+$ sudo dnf config-manager --add-repo=https://download.virtualbox.org/virtualbox/rpm/el/virtualbox.repo
+$ sudo rpm --import https://www.virtualbox.org/download/oracle_vbox.asc
+$ sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+$ sudo dnf install binutils kernel-devel kernel-headers libgomp make patch gcc glibc-headers glibc-devel dkm
+$ sudo dnf search virtualbox
+$ sudo dnf install VirtualBox-7.0
+$ sudo usermod -aG vboxusers $USER
+$ newgrp vboxusers
+$ wget https://download.virtualbox.org/virtualbox/7.0.10/Oracle_VM_VirtualBox_Extension_Pack-7.0.10-158379.vbox-extpack
+$ sudo VBoxManage extpack install Oracle_VM_VirtualBox_Extension_Pack-7.0.10-158379.vbox-extpack
+Task:
+Использовать Virtualbox
+Decision:
+$ VBoxManage list ostypes
+...
+ID:          Windows2012_64
+Description: Windows 2012 (64-bit)
+Family ID:   Windows
+Family Desc: Microsoft Windows
+64 bit:      true
+...
+$ VBoxManage createvm --name "Windows2012" --ostype "Windows2012_64" --register --basefolder /vboximages/
+$ vboxmanage modifyvm Windows2012 --memory 2048 --vram 128
+$ vboxmanage modifyvm Windows2012 --nic1 bridged
+$ vboxmanage createhd --filename /vboximages/Windows2012/Windows2012_DISK.vdi --size 75000 --format VDI 
+$ vboxmanage storagectl Windows2012 --name "SATA Controller" --add sata --controller IntelAhci
+$ vboxmanage storageattach Windows2012 --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium /vboximages/Windows2012/Windows2012_DISK.vdi
+$ vboxmanage storagectl Windows2012 --name "IDE Controller" --add ide --controller PIIX4
+$ vboxmanage storageattach Windows2012 --storagectl "IDE Controller" --port 1 --device 0 --type dvddrive --medium /iso/Server2012.iso
+$ vboxmanage modifyvm Windows2012 --boot1 dvd --boot2 disk --boot3 none --boot4 none
+$ vboxmanage modifyvm Windows2012 --vrde on
+$ vboxmanage modifyvm Windows2012 --vrdemulticon on --vrdeport 10001
+$ vboxmanage modifyvm Windows2012 --graphicscontroller vboxsvga
+$ vboxmanage sharedfolder add Windows2012 --name "Загрузки" --hostpath /Загрузки/ --automount
+$ vboxmanage startvm --type gui Windows2012 &
+Task:
+Перенос виртуальной машины VirtualBox в KVM
+Decision:
+$ vboxmanage list hdds
+UUID:           90d93e42-c567-4ff4-8ab8-5a21971604dc
+Parent UUID:    base
+State:          created
+Type:           normal (base)
+Location:       /vboximages/Windows2012/Windows2012_DISK.vdi
+Storage format: VDI
+Capacity:       75000 MBytes
+Encryption:     disabled
+$ VBoxManage clonehd /vboximages/Windows2012/Snapshots/\{41cf81da-b2f5-4dfe-9afb-e5c0d5f0d301\}.vdi /vboximages/Windows2012/Windows12static.vdi --format VDI --variant Fixed
+$ sudo qemu-img convert -f vdi /vboximages/Windows2012/Windows12static.vdi -O qcow2 /images/Windows12.qcow2
+$ sudo virt-install --osinfo list
+...
+win2k12r2
+...
+$ sudo virt-install \
+--name Windows12 \
+--ram 2048 \
+--vcpus=2 \
+--import \
+--disk path=/images/Windows12.qcow2,format=qcow2 \
+--vnc \
+--noautoconsole \
+--os-variant win2k12r2 \
+--accelerate \
+--network bridge=br0
+$ virt-viewer --connect qemu:///system --wait Windows12
+Task:
+Настройка Virtualbox. Добавьте сетевой адаптер (Host-only) через гипервизор. Настройте статический ip адрес в виртуальной машине на этом интерфейсе, в качестве dns и gateway укажите адрес хоста.
+Decision:
+Virtualbox-Файл-Настройки-Сеть-Добавить новую Нат сеть-Ok-настроить-виртуальный адаптер хоста-Инструменты-Менеджер сетей хоста-Создать-DHCP-+Включен-Редос-Настроить-Сеть-Тип подключения-Виртуальный адаптер хоста-vboxnet0-ок-запустить
+Task:
+так как сеть мы в virtualbox подключили через nat, тогда нам нужно пробросить порт в virtualbox.
+Decision:
+VirtualBox -> дополнительно проброс портов -> + -> Если я подkлючaюсь на свою машину на любой адрес (если несколько адресов на моей машине), то допустим на порт хоста 2222 (надо чтобы этот порт был открыт физически на вашей реальной машине), назовем его ssh to ubuntu (имя), и я хочу пробрасывать это на любой адрес моей машины с убунту на порт гостя 22 (ssh слушает порт 22).
+запускаем putty -> я могу подключиться на адрес 127.0.0.1 в host name на порт 2222 -> подлючаемся
+ifconfig
+Task:
+Настройка гостевых дополнений Centos 8 в Virtualbox
+Decision:
+# dnf -y update
+# dnf -y install perl make bzip2
+# dnf -y install kernel-headers
+# dnf -y install gcc
+# dnf -y install elfutils-libelf-devel
+# dnf -y install kernel-devel-$(uname -r)
+# poweroff
+    https://www.virtualbox.org/wiki/Testbuilds-> https://www.virtualbox.org/download/testcase/VBoxGuestAdditions_6.1.29-148369.iso -> Virtualbox -> Centos 8 Server -> Настройки -> Носители -> Атрибуты -> Выбрать файл диска... -> VBoxGuestAdditions_6.1.29-148369.iso -> ok -> Запустить
+# cd /media
+# mkdir cdrom
+# mount /dev/cdrom /media/cdrom/
+    mount: /media/cdrom: WARNING: device write-protected, mounted read-only.
+# ls cdrom/
+    AUTORUN.INF  OS2                      VBoxDarwinAdditionsUninstall.tool  VBoxWindowsAdditions.exe
+    autorun.sh   runasroot.sh             VBoxLinuxAdditions.run             VBoxWindowsAdditions-x86.exe
+    cert         TRANS.TBL                VBoxSolarisAdditions.pkg           windows11-bypass.reg
+    NT3x         VBoxDarwinAdditions.pkg  VBoxWindowsAdditions-amd64.exe
+# cd cdrom/
+# sh VBoxLinuxAdditions.run
+    Verifying archive integrity... All good.
+    Uncompressing VirtualBox 6.1.29 Guest Additions for Linux........
+    VirtualBox Guest Additions installer
+    Copying additional installer modules ...
+    Installing additional modules ...
+    VirtualBox Guest Additions: Starting.
+    VirtualBox Guest Additions: Building the VirtualBox Guest Additions kernel
+    modules.  This may take a while.
+    VirtualBox Guest Additions: To build modules for other installed kernels, run
+    VirtualBox Guest Additions:   /sbin/rcvboxadd quicksetup <version>
+    VirtualBox Guest Additions: or
+    VirtualBox Guest Additions:   /sbin/rcvboxadd quicksetup all
+    VirtualBox Guest Additions: Kernel headers not found for target kernel
+    4.18.0-348.2.1.el8_5.x86_64. Please install them and execute
+      /sbin/rcvboxadd setup
+    modprobe vboxguest failed
+    The log file /var/log/vboxadd-setup.log may contain further information.
+# uname -r
+    4.18.0-348.2.1.el8_5.x86_64
+# ls /usr/src/kernels/
+    4.18.0-348.el8.x86_64
+# dnf -y install "kernel-devel-uname-r == $(uname -r)"
+# ls /usr/src/kernels
+    4.18.0-348.2.1.el8_5.x86_64  4.18.0-348.el8.x86_64
+# ls
+    AUTORUN.INF  OS2                      VBoxDarwinAdditionsUninstall.tool  VBoxWindowsAdditions.exe
+    autorun.sh   runasroot.sh             VBoxLinuxAdditions.run             VBoxWindowsAdditions-x86.exe
+    cert         TRANS.TBL                VBoxSolarisAdditions.pkg           windows11-bypass.reg
+    NT3x         VBoxDarwinAdditions.pkg  VBoxWindowsAdditions-amd64.exe
+# sh VBoxLinuxAdditions.run
+    Verifying archive integrity... All good.
+    Uncompressing VirtualBox 6.1.29 Guest Additions for Linux........
+    VirtualBox Guest Additions installer
+    Removing installed version 6.1.29 of VirtualBox Guest Additions...
+    Copying additional installer modules ...
+    Installing additional modules ...
+    VirtualBox Guest Additions: Starting.
+    VirtualBox Guest Additions: Building the VirtualBox Guest Additions kernel
+    modules.  This may take a while.
+    VirtualBox Guest Additions: To build modules for other installed kernels, run
+    VirtualBox Guest Additions:   /sbin/rcvboxadd quicksetup <version>
+    VirtualBox Guest Additions: or
+    VirtualBox Guest Additions:   /sbin/rcvboxadd quicksetup all
+    VirtualBox Guest Additions: Building the modules for kernel
+    4.18.0-348.2.1.el8_5.x86_64.
+    ValueError: File context for /opt/VBoxGuestAdditions-6.1.29/other/mount.vboxsf already defined
+# reboot
+Task:
+Настройка гостевых дополнений Kali linux в Virtualbox
+Decision:
+    https://www.virtualbox.org/wiki/Testbuilds -> https://www.virtualbox.org/download/testcase/VBoxGuestAdditions_6.1.29-148369.iso-> Virtualbox -> Kali Linux -> Настройки -> Носители -> Атрибуты -> Выбрать файл диска... -> VBoxGuestAdditions_6.1.29-148369.iso -> ok -> Запустить
+$ ls /media
+cdrom  cdrom0  sf_Downloads
+$ sudo su
+# mount /dev/cdrom /media/cdrom
+    mount: /media/cdrom0: WARNING: source write-protected, mounted read-only.
+# cd /media/cdrom
+# ls
+    AUTORUN.INF  OS2                      VBoxDarwinAdditionsUninstall.tool  VBoxWindowsAdditions.exe
+    autorun.sh   runasroot.sh             VBoxLinuxAdditions.run             VBoxWindowsAdditions-x86.exe
+    cert         TRANS.TBL                VBoxSolarisAdditions.pkg           windows11-bypass.reg
+    NT3x         VBoxDarwinAdditions.pkg  VBoxWindowsAdditions-amd64.exe
+# sh VBoxLinuxAdditions.run
+$ sudo usermod -aG vboxsf server
+$ sudo adduser kali vboxsf                                      100 ⨯
+    Adding user `kali' to group `vboxsf' ...
+    Adding user kali to group vboxsf
+    Done.
+$ sudo reboot
+$ cd /media/sf_Downloads
+$ touch test.txt
+$ ls
+     AnyDesk.exe             'installer 1c'          SteamSetup.exe                          test.txt
+     ChromeSetup.exe         'installer qt C++'      sublime_text_build_4121_x64_setup.exe   tsetup-x64.3.2.5.exe
+     desktop.ini              Lessons               'System Volume Information'              virtualbox
+    'Firefox Installer.exe'   Skype-8.78.0.159.exe  'Telegram Desktop'                       Yandex.exe
+$ ls test.txt
+    test.txt
+Source:
+https://www.youtube.com/user/itsemaev

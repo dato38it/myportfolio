@@ -1,0 +1,12 @@
+SELECT Books.b_full_name, Chitateli.ch_name, Authors.au_otchestvo,;
+  Abonement.sotrudnik;
+ FROM  lib_igu!authors INNER JOIN lib_igu!books;
+    INNER JOIN lib_igu!abonement;
+    INNER JOIN lib_igu!chitateli ;
+   ON  Chitateli.ch_kod = Abonement.chitatel ;
+   ON  Books.b_kode = Abonement.book ;
+   ON  Authors.au_kod = Books.b_author;
+ WHERE Abonement.book = "B_00005";
+ GROUP BY Authors.au_kod, Authors.au_familiya, Authors.au_otchestvo,;
+  Books.b_full_name;
+ ORDER BY Authors.au_otchestvo

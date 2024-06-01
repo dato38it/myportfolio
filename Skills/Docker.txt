@@ -1,0 +1,459 @@
+Task:
+Delete an image, container, and volume
+Decision:
+$ docker images
+$ docker system prune
+$ docker images
+REPOSITORY              TAG            IMAGE ID       CREATED         SIZE
+php                     latest         dc8b9808febc   13 hours ago    414MB
+dt/webservers   lamp           dc8b9808febc   13 hours ago    414MB
+lamp_web-server         latest         dc8b9808febc   13 hours ago    414MB
+dpage/pgadmin4          latest         YOUR-ID8   4 days ago      382MB
+postgres                12             YOUR-ID9   2 weeks ago     373MB
+ubuntu                  20.04          20fffa419e3a   7 weeks ago     72.8MB
+phpmyadmin/phpmyadmin   5.0.2          125749bd47bf   22 months ago   469MB
+mysql                   8.0.19         0c27e8e5fcfa   2 years ago     546MB
+php                     7.4.3-apache   d753d5b380a1   2 years ago     414MB
+$ docker system prune -a
+$ docker images
+$ docker ps -a
+$ docker volume ls
+DRIVER    VOLUME NAME
+local     YOUR-ID13
+local     YOUR-ID14
+local     YOUR-ID15
+local     YOUR-ID16
+local     YOUR-ID17
+local     docker-mysqlphpmyadmin_dbdata
+local     docker-postresqlpgadmin_db-data
+local     docker_db-data
+local     lamp_mysql-data
+local     postgreslpgadmin_db-data
+$ docker volume r-t YOUR-ID13 YOUR-ID14 YOUR-ID15 YOUR-ID16 YOUR-ID17 docker-mysqlphpmyadmin_dbdata docker-postresqlpgadmin_db-data docker_db-data lamp_mysql-data postgreslpgadmin_db-data
+$ docker volume ls
+Task:
+Создадим новый проект. Для этого создаем файл docker-compose.yml. В ссылке https://hub.docker.com/_/mariadb есть инструкция для compose - копируем и вставлем по этой инструкции. после в директории, где расположен этот файл запустим ее. Потом надо будет в браузере локальной машины запустить 127.0.0.1:6080
+Decision:
+$ ls
+docker-compose.yml  Dockerfile
+$ cat Dockerfile
+FROM ubuntu
+RUN apt-get update && apt-get install -y cowsay && ln -s /usr/games/cowsay /usr/bin/cowsay
+ENTRYPOINT ["cowsay"]
+$ cat docker-compose.yml
+version: '3.1'
+services:
+db:
+  image: mariadb
+  restart: always
+  environment:
+    MYSQL_ROOT_PASSWORD: YOUR-PASSWORD
+adminer:
+  image: adminer
+  restart: always
+  ports:
+    - 6080:8080
+$ docker -v
+$ docker-compose -v
+$ docker-compose up
+$ docker-compose up -d
+$ docker-compose ps
+      Name                Command          State           Ports        
+------------------------------------------------------------------------
+docker_adminer_1   entrypoint.sh docker-   Up      0.0.0.0:6080->8080/tc
+                   php-e ...                       p,:::6080->8080/tcp  
+docker_db_1        docker-entrypoint.sh    Up      3306/tcp             
+                   mysqld
+Decision:
+В винде тот же самый файл и те же команды запуска. Единственное, чтоб узнать ip адрес машины, для запуска в браузере напишем команду - docker-machine ip default. и в браузере уже по этому адресу запускаем проект
+Task:
+Уменьшить размер образа - файловая система UnionFS и слои. Посмотрим список образов, которые у нас есть локально и команду историю образа. Создадим образ и проверим его историю. Тут каждая команда в отдельном слое
+Decision:
+$ docker images
+REPOSITORY        TAG       IMAGE ID       CREATED       SIZE
+thost/myapp   latest    52bf88faf371   2 days ago    147MB
+thost/myapp   <none>    c26a6cad11ba   2 days ago    147MB
+bitnami/apache    latest    6edfa339f61e   3 days ago    176MB
+adminer           latest    7707fd9b142f   4 days ago    89.8MB
+docker_adminer    latest    7707fd9b142f   4 days ago    89.8MB
+docker_db         latest    992bce5ed710   12 days ago   401MB
+mariadb           latest    992bce5ed710   12 days ago   401MB
+ubuntu            latest    7e0aa2d69a15   12 days ago   72.7MB
+$ docker history adminer
+IMAGE          CREATED       CREATED BY                                      SIZE      COMMENT
+7707fd9b142f   4 days ago    /bin/sh -c #(nop)  EXPOSE 8080                  0B        
+<missing>      4 days ago    /bin/sh -c #(nop)  CMD ["php" "-S" "[::]:808…   0B        
+<missing>      4 days ago    /bin/sh -c #(nop)  USER adminer                 0B        
+<missing>      4 days ago    /bin/sh -c #(nop)  ENTRYPOINT ["entrypoint.s…   0B        
+<missing>      4 days ago    /bin/sh -c #(nop) COPY file:5ff0be587f5dd916…   482B      
+<missing>      4 days ago    /bin/sh -c set -x && curl -fsSL https://gith…   1.15MB    
+<missing>      4 days ago    /bin/sh -c #(nop)  ENV ADMINER_SRC_DOWNLOAD_…   0B        
+<missing>      4 days ago    /bin/sh -c #(nop)  ENV ADMINER_DOWNLOAD_SHA2…   0B        
+<missing>      4 days ago    /bin/sh -c #(nop)  ENV ADMINER_VERSION=4.8.0    0B        
+<missing>      4 days ago    /bin/sh -c #(nop) COPY multi:3020a2cf8da93de…   3.12kB    
+<missing>      4 days ago    /bin/sh -c set -x && apk add --no-cache --vi…   6.35MB    
+<missing>      4 days ago    /bin/sh -c #(nop) WORKDIR /var/www/html         0B        
+<missing>      4 days ago    /bin/sh -c addgroup -S adminer && adduser -S…   5.05kB    
+<missing>      4 days ago    /bin/sh -c #(nop)  STOPSIGNAL SIGINT            0B        
+<missing>      4 days ago    /bin/sh -c echo "upload_max_filesize = 128M"…   113B      
+<missing>      4 days ago    /bin/sh -c #(nop)  CMD ["php" "-a"]             0B        
+<missing>      4 days ago    /bin/sh -c #(nop)  ENTRYPOINT ["docker-php-e…   0B        
+<missing>      4 days ago    /bin/sh -c docker-php-ext-enable sodium         48.2kB    
+<missing>      4 days ago    /bin/sh -c #(nop) COPY multi:efd917b98407edb…   6.74kB    
+<missing>      4 days ago    /bin/sh -c set -eux;  apk add --no-cache --v…   62.7MB    
+<missing>      4 days ago    /bin/sh -c #(nop) COPY file:ce57c04b70896f77…   587B      
+<missing>      4 days ago    /bin/sh -c set -eux;   apk add --no-cache --…   10.4MB    
+<missing>      4 days ago    /bin/sh -c #(nop)  ENV PHP_SHA256=ab97f22b12…   0B        
+<missing>      4 days ago    /bin/sh -c #(nop)  ENV PHP_URL=https://www.p…   0B        
+<missing>      4 days ago    /bin/sh -c #(nop)  ENV PHP_VERSION=7.4.18       0B        
+<missing>      3 weeks ago   /bin/sh -c #(nop)  ENV GPG_KEYS=42670A7FE4D0…   0B        
+<missing>      3 weeks ago   /bin/sh -c #(nop)  ENV PHP_LDFLAGS=-Wl,-O1 -…   0B        
+<missing>      3 weeks ago   /bin/sh -c #(nop)  ENV PHP_CPPFLAGS=-fstack-…   0B        
+<missing>      3 weeks ago   /bin/sh -c #(nop)  ENV PHP_CFLAGS=-fstack-pr…   0B        
+<missing>      3 weeks ago   /bin/sh -c set -eux;  mkdir -p "$PHP_INI_DIR…   0B        
+<missing>      3 weeks ago   /bin/sh -c #(nop)  ENV PHP_INI_DIR=/usr/loca…   0B        
+<missing>      3 weeks ago   /bin/sh -c set -eux;  addgroup -g 82 -S www-…   4.68kB    
+<missing>      3 weeks ago   /bin/sh -c apk add --no-cache   ca-certifi-ca…   3.54MB    
+<missing>      3 weeks ago   /bin/sh -c #(nop)  ENV PHPIZE_DEPS=autoconf …   0B        
+<missing>      3 weeks ago   /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B        
+<missing>      3 weeks ago   /bin/sh -c #(nop) ADD file:8ec69d882e7f29f06…   5.61MB    
+$ vim Dockerfile
+$ cat Dockerfile
+FROM ubuntu
+RUN apt-get update && apt-get install -y cowsay && ln -s /usr/games/cowsay /usr/bin/cowsay
+ENTRYPOINT ["cowsay"]
+$ docker build -t dkatest .
+...
+Successfully built 52bf88faf371
+Successfully tagged dkatest:latest
+$ docker images
+REPOSITORY        TAG       IMAGE ID       CREATED       SIZE
+thost/myapp   latest    52bf88faf371   2 days ago    147MB
+dkatest           latest    52bf88faf371   2 days ago    147MB
+thost/myapp   <none>    c26a6cad11ba   2 days ago    147MB
+bitnami/apache    latest    6edfa339f61e   3 days ago    176MB
+adminer           latest    7707fd9b142f   4 days ago    89.8MB
+docker_adminer    latest    7707fd9b142f   4 days ago    89.8MB
+mariadb           latest    992bce5ed710   12 days ago   401MB
+docker_db         latest    992bce5ed710   12 days ago   401MB
+ubuntu            latest    7e0aa2d69a15   12 days ago   72.7MB
+$ docker history dkatest
+IMAGE          CREATED       CREATED BY                                      SIZE      COMMENT
+52bf88faf371   2 days ago    /bin/sh -c #(nop)  ENTRYPOINT ["cowsay"]        0B        
+c43d3a9413c9   2 days ago    /bin/sh -c apt-get update && apt-get install…   73.9MB    
+7e0aa2d69a15   12 days ago   /bin/sh -c #(nop)  CMD ["/bin/bash"]            0B        
+<missing>      12 days ago   /bin/sh -c mkdir -p /run/systemd && echo 'do…   7B        
+<missing>      12 days ago   /bin/sh -c [ -z "$(apt-get indextargets)" ]     0B        
+<missing>      12 days ago   /bin/sh -c set -xe   && echo '#!/bin/sh' > /…   811B      
+<missing>      12 days ago   /bin/sh -c #(nop) ADD file:5c44a80f547b7d68b…   72.7MB
+Task:
+Давайте изменим Dockerfile, чтобы каждая команда начиналась на новых уровнях и в конце добавим удаление всех файлов, которая насоздавала команда. Переформируем навый образ и посмотрим на размер. Вернем в этом файле команды и добавим удаление. Также создаем образ и просмотрим размер.
+Decision:
+$ vim Dockerfile
+$ cat Dockerfile
+FROM ubuntu
+RUN apt-get update
+RUN apt-get install -y cowsay
+RUN ln -s /usr/games/cowsay /usr/bin/cowsay
+RUN r-t -rf /var/lib/apt/lists/*
+ENTRYPOINT ["cowsay"]
+$ docker build -t dkamanyrun .
+...
+Successfully built 944e60e98ca0
+Successfully tagged dkamanyrun:latest
+$ docker images
+REPOSITORY        TAG       IMAGE ID       CREATED         SIZE
+dkamanyrun        latest    944e60e98ca0   9 seconds ago   147MB
+thost/myapp   latest    52bf88faf371   2 days ago      147MB
+dkatest           latest    52bf88faf371   2 days ago      147MB
+thost/myapp   <none>    c26a6cad11ba   2 days ago      147MB
+bitnami/apache    latest    6edfa339f61e   3 days ago      176MB
+adminer           latest    7707fd9b142f   4 days ago      89.8MB
+docker_adminer    latest    7707fd9b142f   4 days ago      89.8MB
+mariadb           latest    992bce5ed710   12 days ago     401MB
+docker_db         latest    992bce5ed710   12 days ago     401MB
+ubuntu            latest    7e0aa2d69a15   12 days ago     72.7MB
+$ vim Dockerfile
+$ cat Dockerfile
+FROM ubuntu
+RUN apt-get update \
+      && apt-get install -y cowsay \
+      && ln -s /usr/games/cowsay /usr/bin/cowsay \
+      && r-t -rf /var/lib/apt/lists/*
+ENTRYPOINT ["cowsay"]
+$ docker build -t dkaonerun .
+...
+Successfully built af8ceb4756cc
+Successfully tagged dkaonerun:latest
+$ docker images
+REPOSITORY        TAG       IMAGE ID       CREATED          SIZE
+dkaonerun         latest    af8ceb4756cc   14 seconds ago   119MB
+dkamanyrun        latest    944e60e98ca0   4 minutes ago    147MB
+thost/myapp   latest    52bf88faf371   2 days ago       147MB
+dkatest           latest    52bf88faf371   2 days ago       147MB
+thost/myapp   <none>    c26a6cad11ba   2 days ago       147MB
+bitnami/apache    latest    6edfa339f61e   3 days ago       176MB
+adminer           latest    7707fd9b142f   4 days ago       89.8MB
+docker_adminer    latest    7707fd9b142f   4 days ago       89.8MB
+mariadb           latest    992bce5ed710   12 days ago      401MB
+docker_db         latest    992bce5ed710   12 days ago      401MB
+ubuntu            latest    7e0aa2d69a15   12 days ago      72.7MB
+Task:
+Образы занимают места на диске и если они вам уже не нужны, то сначала удаляем контейнеры, а затем все образы
+Decision:
+$ docker images
+REPOSITORY        TAG       IMAGE ID       CREATED         SIZE
+dkaonerun         latest    af8ceb4756cc   2 minutes ago   119MB
+dkamanyrun        latest    944e60e98ca0   6 minutes ago   147MB
+thost/myapp   latest    52bf88faf371   2 days ago      147MB
+dkatest           latest    52bf88faf371   2 days ago      147MB
+thost/myapp   <none>    c26a6cad11ba   2 days ago      147MB
+bitnami/apache    latest    6edfa339f61e   3 days ago      176MB
+docker_adminer    latest    7707fd9b142f   4 days ago      89.8MB
+adminer           latest    7707fd9b142f   4 days ago      89.8MB
+docker_db         latest    992bce5ed710   12 days ago     401MB
+mariadb           latest    992bce5ed710   12 days ago     401MB
+ubuntu            latest    7e0aa2d69a15   12 days ago     72.7MB
+$ docker r-t -v $(docker ps -aq -f status=exited)
+f3258c7f0edb
+4e4079f3befe
+cce4d69b3f3f
+d6562c779f1a
+c596a54cccb4
+386a76086449
+eae5e2c135a5
+$ docker r-ti $(docker images -q) --force
+Source:
+https://stepik.org/course/1612/syllabus
+Task:
+Here I am using Docker Compose to create a PostgreSQL container and access it using pgAdmin 4, the PostgreSQL admin web interface. You also need to access the PostgreSQL database server running in a Docker container from the Datagrid IDE.
+Decision:
+$ mkdir PostgreslPgadmin
+$ cd PostgreslPgadmin/
+$ vim docker-compose.yml
+$ cat docker-compose.yml
+version: "2.3"
+services:
+demo-container-db:
+  image: postgres:12
+  mem_limit: 1536MB
+  mem_reservation: 1G
+  environment:
+    POSTGRES_USER: YOUR-USERNAME
+    POSTGRES_PASSWORD: YOUR-PASSWORD
+  ports:
+  - "5442:5432"
+  networks:
+  - TestNetwork
+  volumes:
+  - db-data:/var/lib/postgresql/data
+demo-pgadmin4:
+  image: dpage/pgadmin4
+  environment:
+    PGADMIN_DEFAULT_EMAIL: YOUR-MAIL
+    PGADMIN_DEFAULT_PASSWORD: YOUR-PASSWORD
+  ports:
+  - "8889:80"
+  networks:
+  - TestNetwork
+networks:
+TestNetwork:
+  driver: bridge
+volumes:
+db-data:
+$ docker-compose up -d
+$ sudo netstat -tlpn
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 0.0.0.0:5442            0.0.0.0:*               LISTEN      732/docker-proxy
+tcp        0      0 0.0.0.0:8889            0.0.0.0:*               LISTEN      752/docker-proxy
+tcp6       0      0 :::5442                 :::*                    LISTEN      739/docker-proxy
+tcp6       0      0 :::8889                 :::*                    LISTEN      759/docker-proxy
+$ docker images
+REPOSITORY              TAG            IMAGE ID       CREATED         SIZE
+...
+dpage/pgadmin4          latest         YOUR-ID8   4 days ago      382MB
+postgres                12             YOUR-ID9   2 weeks ago     373MB
+$ docker container ls
+CONTAINER ID   IMAGE            COMMAND                  CREATED         STATUS         PORTS                                            NAMES
+YOUR-ID10   dpage/pgadmin4   "/entrypoint.sh"         3 minutes ago   Up 3 minutes   443/tcp, 0.0.0.0:8889->80/tcp, :::8889->80/tcp   postgreslpgadmin_demo-pgadmin4_1
+YOUR-ID11   postgres:12      "docker-entrypoint.s…"   3 minutes ago   Up 3 minutes   0.0.0.0:5442->5432/tcp, :::5442->5432/tcp        postgreslpgadmin_demo-container-db_1
+$ docker inspect YOUR-ID10
+...
+                  "NetworkID": "YOUR-ID12",
+                  "EndpointID": "YOUR-ID13",
+                  "Gateway": "YOUR-IP",
+                  "IPAddress": "YOUR-IP1",
+                  "IPPrefixLen": 16,
+                  "IPv6Gateway": "",
+                  "GlobalIPv6Address": "",
+                  "GlobalIPv6PrefixLen": 0,
+                  "MacAddress": "YOUR-MACIP1",
+                  "DriverOpts": null
+              }
+          }
+      }
+  }
+]
+$ firefox http://localhost:8889 &
+Mail logins - Servers - register - server - name - TestServer - port - 5432 - username - YOUR-USERNAME - password - YOUR-PASSWORD - save password - hostname - YOUR-IP1 - save
+$ docker-compose down
+$ docker ps -a
+CONTAINER ID   IMAGE                    COMMAND                  CREATED             STATUS                           PORTS     NAMES
+YOUR-ID   dt/apache:v1     "/bin/sh -c 'apache2…"   About an hour ago   Exited (137) About an hour ago             ecstatic_tesla
+$ docker images -a
+REPOSITORY              TAG            IMAGE ID       CREATED             SIZE
+...
+dpage/pgadmin4          latest         YOUR-ID8   4 days ago          382MB
+postgres                12             YOUR-ID9   2 weeks ago         373MB
+ubuntu                  20.04          20fffa419e3a   7 weeks ago         72.8MB
+Source:
+https://linuxhint.com/lamp_server_docker/
+https://www.youtube.com/playlist?list=PLTd7y0vdxhK643dY-Th-fQvyNP46eW7CU    
+https://linuxhint.com/postgresql_docker/
+https://www.youtube.com/playlist?list=PL7-fzhJ95xrPJUSzziEsymILf0bKusiLZ
+Task:
+Связь Dockerfile и docker-compose. Используем docker-compose и Dockerfile для запуска контейнеров. Создадим папку, которая будет относиться к образу базы данных и в нем создаем Dockerfile. В нем указываем какой образ нужно использовать (mariadb), в docker-compose добавляем ключ build и image можно убрать. Создаем новую директорию с сервисом adminer. Тут все по аналогии нужно делать, как в базе данных делали. И в терминале пробуем запустить. Потом перестроим наш проект, после запускаем и смотрим в браузере 127.0.0.1:6080.
+Decision:
+$ mkdir db
+$ touch db/Dockerfile
+$ ls db/
+Dockerfile
+$ vim db/Dockerfile
+$ cat db/Dockerfile
+FROM mariadb
+$ cat docker-compose.yml
+version: '3.1'
+services:
+db:
+image: mariadb
+restart: always
+environment:
+  MYSQL_ROOT_PASSWORD: YOUR-PASSWORD
+adminer:
+image: adminer
+restart: always
+ports:
+  - 6080:8080
+$ vim docker-compose.yml
+$ cat docker-compose.yml
+version: '3.1'
+services:
+db:
+build: ./db
+restart: always
+environment:
+  MYSQL_ROOT_PASSWORD: YOUR-PASSWORD
+adminer:
+image: adminer
+restart: always
+ports:
+  - 6080:8080
+$ mkdir adminer
+$ vim adminer/Dockerfile
+$ cat adminer/Dockerfile
+FROM adminer
+$ vim docker-compose.yml
+$ cat docker-compose.yml
+version: '3.1'
+services:
+db:
+build: ./db
+restart: always
+environment:
+  MYSQL_ROOT_PASSWORD: YOUR-PASSWORD
+adminer:
+build: ./adminer
+restart: always
+ports:
+  - 6080:8080
+$ ls
+adminer  db  docker-compose.yml  Dockerfile
+$ r-t -rf Dockerfile
+$ ls
+adminer  db  docker-compose.yml
+$ docker-compose build
+Building db
+Sending build context to Docker daemon  2.048kB
+Step 1/1 : FROM mariadb
+ ---> 992bce5ed710
+Successfully built 992bce5ed710
+Successfully tagged docker_db:latest
+Building adminer
+Sending build context to Docker daemon  2.048kB
+Step 1/1 : FROM adminer
+ ---> 7707fd9b142f
+Successfully built 7707fd9b142f
+Successfully tagged docker_adminer:latest
+$ docker-compose up
+Recreating docker_db_1      ... done
+Recreating docker_adminer_1 ... done
+Attaching to docker_adminer_1, docker_db_1
+Task:
+Теперь в Dockerfile мы можем вносить изменения. Добавим новый ключ volum (хранилище данных). Здесь же, в hub.docker.com, ищем раздел where to store Data и копируем директорию. Создаем директорию в проекте, где будет располагаться база данных. Теперь удаляем предыдущий контейнер с базой данных, пересобираем, запускаем и откроем директорию с базой данных. Тут мы увидим, что теперь база данных находится не в контейнере, а у нас локально. Теперь если удалить этот контейнер, все данные, которые мы внесил останутся на месте.
+Decision:
+$ vim docker-compose.yml
+$ cat docker-compose.yml
+version: '3.1'
+services:
+db:
+build: ./db
+restart: always
+environment:
+  MYSQL_ROOT_PASSWORD: YOUR-PASSWORD
+volumes:
+  - ./databases:/var/lib/mysql
+adminer:
+build: ./adminer
+restart: always
+ports:
+  - 6080:8080
+$ mkdir databases
+$ ls
+adminer  databases  db  docker-compose.yml
+$ docker-compose r-t db
+Going to remove docker_db_1
+Are you sure? [yN] y
+Removing docker_db_1 ... done
+$ docker-compose build
+Building db
+Sending build context to Docker daemon  2.048kB
+Step 1/1 : FROM mariadb
+ ---> 992bce5ed710
+Successfully built 992bce5ed710
+Successfully tagged docker_db:latest
+Building adminer
+Sending build context to Docker daemon  2.048kB
+Step 1/1 : FROM adminer
+ ---> 7707fd9b142f
+Successfully built 7707fd9b142f
+Successfully tagged docker_adminer:latest
+$ docker-compose up
+Starting docker_adminer_1 ... done
+Creating docker_db_1      ... done
+Attaching to docker_adminer_1, docker_db_1
+$ ls databases/
+aria_log.00000001  ibdata1      multi-master.info
+aria_log_control   ib_logfile0  mysql
+ib_buffer_pool     ibtmp1       perfor-tance_schema
+В браузере откроем adminer и создадим базу данных
+$ ls databases/
+1st@002dtest@0020basa  ib_buffer_pool  multi-master.info
+2nd@002dtest@0020basa  ibdata1         mysql
+aria_log.00000001      ib_logfile0     perfor-tance_schema
+aria_log_control       ibtmp1  
+Task:
+Соединение контейнеров между собой mariadb + php. Рассмотрим 1 из способов соединения между 2мя контейнерами. Мы будем использовать 2 готовых образа - mysql(mariadb) и образ, который содержит php библиотеку управления базой данных. Устанавливаем образ базы данных, для этого ищем образы hub.docker.com и hub.docker.com. ищем в инструкции установку и вместо name и password придумываем свое имя и пароль. После чего проверяем работает ли контейнер. link - установление соединения. Тут docker получает информацию о том, что нам нужно установить соединение между новым контейнером (adminer), который будет создан на базе образа adminer, и существующим контейнером mysqlserver. ссылку на mysqlserver должна быть обозначена - db. Для этого docker создает в файле новый контейнер adminer /etc/hosts, запись db, указывающий ip адрес mysqlserver. Это позволяет нам пользоваться имененм данного хоста. И в браузере локальной машины откроем php сервер с адресом 127.0.0.1:8080.
+Decision:
+$ docker run -p 127.0.0.1:3306:3306  --name mysqlserver -e MYSQL_ROOT_PASSWORD=YOUR-PASSWORD -d mariadb
+Digest: sha256:36288c675a192bd0a8a99cd6ba0780e31df85f0bfd0cbb204837cd108be3d236
+Status: Downloaded newer image for mariadb:latest
+113a0a7ca5a94ba2c25a50df62eea41ca15e309d65dbba71e456e35d85c5e631
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                      NAMES
+113a0a7ca5a9   mariadb   "docker-entrypoint.s…"   2 minutes ago   Up 2 minutes   127.0.0.1:3306->3306/tcp   mysqlserver
+$ docker run --link mysqlserver:db -p 8080:8080 adminer
+...
+Digest: sha256:a3e73e13e4f3f1bd1007d7a5d75a6bd23846c3252b71ab7a5817de9ffec04826
+Status: Downloaded newer image for adminer:latest
+[Thu May  6 01:28:31 2021] PHP 7.4.18 Development Server (http://[::]:8080) started

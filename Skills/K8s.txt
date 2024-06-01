@@ -1,0 +1,7 @@
+Task:
+Как автоматически деплоить helm cart?
+Decision:
+k8s add-on helm operator + argocd/fluxcd
+k8s add-on github action + terraform + helm provider 
+Source:
+https://www.youtube.com/playlist?list=PLg5SS_4L6LYuu1RAT4l1tCkZrJzkIaNgL

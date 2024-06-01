@@ -1,0 +1,1836 @@
+Task:
+вордовский файл после печати в содержании выводит ошибку:
+ошибка не распределена
+Decision:
+- ссылки обновить таблицу
+Task:
+ПРОГРАММА-Документы-...
+произошла ошибка:
+Документ "...[КОД1;КОД2]" зарегистрирован, но не загружен в редакторе ms word. исключить документ "...[КОД1;КОД2]" из списка зарегистрирован? 
+Если проигнорировать ошибку, отроется файл, попробовать изменить этот файл и закрыть то выйдет следующая ошибка
+run-time error '53'
+file not found: Uni_wordCallback.dll
+Decision:
+- перенести файлы C:\ПУТЬККЛИЕНТСКОЙПРОГРАММЕ\Uni_word*.dll в C:\windows\system32. Запустить свойства ярлыка C:\ПУТЬККЛИЕНТСКОЙПРОГРАММЕ\ВНЕШНЯЯБАЗА2.exe, ПРОГРАММА-Документы, открыть файл, параметры, дополнительно-шаблоны пользователя, изменить, указать путь C:\ПУТЬККЛИЕНТСКОЙПРОГРАММЕ\
+Task:
+Зайти в графическую настройку с командной строки в Ubuntu
+Столкнулся у себя с такой проблемой в декстопной версии Ubuntu, что пропали в панели меню настройки, а мне захотелось изменить в настроках фона фотографию.
+Decision:
+- Зайти в настройки можно с помощью командной строки
+$ gnome-control-center
+Task:
+Не удалось получить доступ к местоположению:
+Error mounting /dev/sdb1 at /run/media/...: Filesystem type ntfs3, ntfs not configured in kernel
+Decision:
+$ sudo yum install epel-release
+$ sudo yum install ntfs-3g
+Source:
+https://itisgood.ru/2019/03/26/kak-smontirovat-disk-ntfs-na-centos-rhel-scientific-linux/
+Task:
+WslRegisterDistribution failed with error: 0x8007019e
+The Windows Subsystem for Linux optional component is not enabled. Please enable it and try again.
+See https://aka.ms/wslinstall for details.
+Press any key to continue...
+Decision:
+- панель управление - Включение или отключение компонентов Windows - Подсистема Windows для Linux + - Ok - reboot - Пуск - Ubuntu 20.04
+Task:
+СУФД флешка просит форматнуть
+Decision:
+CMD, chkdisk F:/r, на всяк случ скопир в диск Д (flash seettd), идем в бухг, вставл флешку, пуск, криптопроксп, сервис, обхор, сначала верхн, потом нижн, смотрим, чтоб не было такого (отсут, недоступ) у нас было: ключ под ... не доступен, ок, прогу, установить связь ведерации, ок, порт суфд 
+Task:
+Не работает ПОРТАЛ из-за такой ошибки: 
+Часы спешат. Не удалось установить защищенное соединение с доменом ecs.sudrf.ru из-за неверных настроек системных часов и календаря
+NET.ERR_CERT_DATE_INVALID
+Decision:
+Изменить время на сервере контроллера домена или заменить батарейку в сервере 
+Task:
+	В Windows 8.1 не найдено обновлений, хоть и последний раз обновлялся 2 года назад.
+	Decision:
+	гугл -> update puble windows 8.1 64 bit -> скачиваем winFuture8.1x64...exe -> обновляемся.
+Task:
+После установки Linux на Windows, Windows показывает неправильное время
+Decision:
+Win+R ->regedit -> HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInfor-tation -> Щелкаем правой кнопкой мыши в правой части окна -> новый параметр DWORD(32) -> имя — RealTimeIsUniversal -> щелкаем по новому параметру два раза -> значение 1 -> Перезагружаемся
+Task:
+Для воспроизведения видео вам может потребоваться установить необходимые видеокодеки
+Decision:
+$ sudo dnf update -y
+$ sudo dnf config-manager --set-enabled crb
+$ sudo dnf install -y epel-release epel-next-release
+$ dnf repolist
+$ sudo dnf install -y https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-9.noarch.rpm
+$ sudo dnf install -y https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-9.noarch.rpm
+$ sudo dnf install -y ffmpeg ffmpeg-devel
+$ ffmpeg -version
+Source:
+https://setiwik.ru/kak-vklyuchit-repozitoriy-epel-v-centos-9-stream/
+https://setiwik.ru/kak-ustanovit-ffmpeg-na-centos-9-stream/?ysclid=lkordttfyw687770645
+https://docs.microsoft.com/ru-ru/windows/wsl/
+Task:
+$ sudo apt-get update
+  Get:1 http://security.ubuntu.com/ubuntu focal-security InRelease [114 kB]
+  Hit:2 http://ppa.launchpad.net/deadsnakes/ppa/ubuntu focal InRelease
+  Hit:3 http://archive.ubuntu.com/ubuntu focal InRelease
+  Get:4 http://archive.ubuntu.com/ubuntu focal-updates InRelease [114 kB]
+  Hit:5 http://apt.postgresql.org/pub/repos/apt focal-pgdg InRelease
+  Get:6 http://archive.ubuntu.com/ubuntu focal-backports InRelease [108 kB]
+  Fetched 336 kB in 2s (163 kB/s)
+  Traceback (most recent call last):
+    File "/usr/lib/cnf-update-db", line 8, in <module>
+      from CommandNotFound.db.creator import DbCreator
+    File "/usr/lib/python3/dist-packages/CommandNotFound/db/creator.py", line 12, in <module>
+      import apt_pkg
+  ModuleNotFoundError: No module named 'apt_pkg'
+  Reading package lists... Done
+  E: Problem executing scripts APT::Update::Post-Invoke-Success 'if /usr/bin/test -w /var/lib/command-not-found/ -a -e /usr/lib/cnf-update-db; then /usr/lib/cnf-update-db > /dev/null; fi'
+  E: Sub-process returned an error code
+Decision:
+$ sudo update-alternatives --config python3
+  There are 2 choices for the alternative python3 (providing /usr/bin/python3).
+    Selection    Path                 Priority   Status
+  ------------------------------------------------------------
+  * 0            /usr/bin/python3.10   2         auto mode
+    1            /usr/bin/python3.10   2         manual mode
+    2            /usr/bin/python3.8    1         manual mode
+Press <enter> to keep the current choice[*], or type selection number: 2
+  update-alternatives: using /usr/bin/python3.8 to provide /usr/bin/python3 (python3) in manual mode
+$ sudo apt-get update
+  Hit:1 http://ppa.launchpad.net/deadsnakes/ppa/ubuntu focal InRelease
+  Hit:2 http://apt.postgresql.org/pub/repos/apt focal-pgdg InRelease
+  Get:3 http://security.ubuntu.com/ubuntu focal-security InRelease [114 kB]
+  Hit:4 http://archive.ubuntu.com/ubuntu focal InRelease
+  Get:5 http://archive.ubuntu.com/ubuntu focal-updates InRelease [114 kB]
+  Get:6 http://archive.ubuntu.com/ubuntu focal-backports InRelease [108 kB]
+  Fetched 336 kB in 3s (132 kB/s)
+  Reading package lists... Done
+Task:
+в 404 Консультант ошибка: программа не запускается, или пишет при обновлении: ошибка 36, испорчен файл \thost\const\base\socn\socn.dt2
+Decision:
+ок, появл сообщ про сис админ, ок, вывод с ошибкой кода 0х000736, диспетчер, процессы, завершили задачи v.32... и cons все, грузится.
+Task:
+я попробовал другой плеер установить, например, Media Player Classi-c. После установки и запуска видеофайла, он просто был остановлен. Не хотел воспроизводиться.
+Decision:
+вид -> настройки -> вывод ->DirectShow -> Видео Mixing Render 9 (без рендера).
+Task:
+После установки операционной системы Windows 8.1, столкнулся с такой проблемой, что видеофайлы открываются с ошибками. Например, когда я открыл файл с помощью Windows Media Player, выдавал такую ошибку: 
+"Проигрывателю Windows Media не удается воспроизвести файл. Возможно, проигрывателем Windows Media не поддерживается типфайла или кодек, использованный для сжатия файла".
+Decision:
+- установил кодек K-line в официальном сайте. -> Запускаем программу кодек -> Media Foundation -> выбираем нужные расширения, например, mp4, avi и т.д.
+Task:
+Я использую Ubuntu 20.04 LTS в качестве дистрибутива. Сегодня я включил его, и процесс загрузки упал до оболочки BusyBox, и в итоге я получил сообщение initramfs.А сколько я помню, я не сделал ничего плохого. Я не отключал его принудительно. Вчера все работало отлично! Когда я его сегодня включил, то попал в оболочку BusyBox:
+  BusyBox v1.30.1 (Ubuntu 1:1.30.1-4ubuntu6.2) built-in shell (ash)
+  Enter 'help' for a list of built-in commands.
+(initramfs)
+Я не могу пройти дальше этого экрана. Также он не показывает, в чем именно проблема. Я вижу только пустую оболочку busybox. Я не знал, что мне делать в этот момент, поэтому я просто передал команду «exit», чтобы посмотреть, что произойдет. А потом я увидел настоящую ошибку:
+(initramfs) exit
+  /dev/sda1 contains a file system with errors, check forced.
+  Inode 4326476 extent tree (at level 1) could be narrower, IGNORED.
+  /dev/sda1: Inode 4326843 extent tree (at level 1) could be narrower, IGNORED.
+  /dev/sda1: Inode 4327012 extent tree (at level 1) could be narrower, IGNORED.
+  /dev/sda1: Inode 4329004 extent tree (at level 1) could be narrower, IGNORED.
+  /dev/sda1: Inodes that were part of a corrupted orphan linked list found.
+  /dev/sda1: UNEXPECTED INCONSISTENCY; RUN fsck MANUALLY.
+          (i.e., without -a or -p options)
+  fsck exited with status code 4.
+  The root filesystem on /dev/sda1 requires a manual fsck.
+  BusyBox v1.30.1 (Ubuntu 1:1.30.1-4ubuntu6.1) built-in shell (ash)
+  Enter 'help' for a list of built-in commands.
+(initramfs)
+Decision:
+В файловой системе этого раздела есть ошибки.
+Для тех, кто задается вопросом, BusyBox — это программный пакет, который объединяет множество стандартных утилит UNIX в один небольшой исполняемый файл. Он обеспечивает замену большинства утилит, которые вы обычно найдете в GNU fileutils, shellutils и т.д. Initramfs — это начальная файловая система RAM, основанная на tmpfs. Она содержит инструменты и скрипты, необходимые для монтирования файловых систем перед вызовом двоичного файла init в реальной корневой файловой системе.
+Чтобы устранить ошибку initramfs в Ubuntu, вам необходимо восстановить файловую систему в поврежденном разделе с помощью команды «fsck»:
+(initramfs) fsck /dev/sda1 -y
+Теперь она начнет автоматически исправлять все ломаные блоки в файловой системе.
+Через пару минут вы увидите следующий результат:
+  /dev/sda1: ***** FILE SYSTEM WAS MODIFIED *****
+  /dev/sda1: 497733/30531584 files (1.5% non-contiguous), ........
+Теперь введите «reboot» и нажмите ENTER, чтобы перезагрузить систему!
+(initramfs) reboot
+Task:
+При входе в сетевую учетную запись выходит ошибка:
+не доверительные отношения
+Decision:
+Можно просто кабель вытащить и вставить, но эта ошибка повторяется снова.
+У меня есть программа Password Chager, которая блокирует адиминистратора. У меня эта программа установлена через флешку. Итак запустим через биос флешку.
+Заходим в меню Password ищем Password Chager, сначала блокируем администратора или admin, чтобы проверить сможем ли зайти или нет, save, перезагружаемся и вводим учетную запись админа ...\Admin, видим что запрещено админу входить.  Вместо троеточия это нужно написать свое доменное имя нынешнего компьютера, которое вы использовали до этого. Перезапускаем программу  Password Chager через биос. убираем блокировку для админа, убираем галочку. Перезагружаемся, тот же вход от ...\Admin. И в домене меняем через свойство компьютера на рабочую группу work, перезагружаемся, Заходим через ...\Admin, и обратно добавляем домен наш. Перезагружаемся, и заходим уже под нужную доменную учетную запись,  (не Админ). Теперь не должно быть проблем с не доверительными отношениями.
+Task:
+Ошибка после ввода пароля в программе у всех пользователей - "Не отвечает программа"
+ВНЕШНЯЯБАЗА2.exe не работает
+На одном из объектов автоматизации второй раз за месяц происходит процесс переполнения внешней базы документооборота C:\ПУТЬКБАЗЕ\ВНЕШНЯЯБАЗА1.GDB. База данных увеличивается в размерах с 1.8 Гб до 115Гб за три дня. После проведения инженером филиала процедуры Бэкап/Рестор внешняя база возвращается к прежнему размеру. Данная проблема наблюдается второй раз за месяц с периодичностью в две недели.
+Task:
+Отключить службы Firebird, Сделать backup/restore базы ВНЕШНЯЯБАЗА1.GDB, запустив скрипты 
+1. backup.bat 
+2. restore.bat
+после чего сохранится файл ВНЕШНЯЯБАЗА1.GDB в КУДАСОХРАНЯТЬИЗМЕНЕНИЯ. Файл заменить на файл в сервере, который занимал 120 гб. Посмотреть лог файлы:
+1. retranslator.log
+2. retranslator_2022-01-11_15-23-40-694.log
+3. retranslator_2022-01-24_16-36-09-627.log
+4. retranslator_2022-01-24_16-36-16-806.log
+Decision:
+$ cat backup.bat
+@ echo on
+SET ISC_USER=ИМЯПОЛЬЗОВАТЕЛЯБАЗЫ
+SET ISC_PASSWORD=ПАРОЛЬКБАЗЕ
+SET dbpath=localhost:C:\ПУТЬКБАЗЕ\ВНЕШНЯЯБАЗА1.GDB
+SET fbpath=C:\ПУТЬFIREBIRD\Firebird_1_5\bin\
+SET bbpath=C:\КУДАСОХРАНЯТЬИЗМЕНЕНИЯ\
+"%fbpath%gfix" -shut -force 5 "%dbpath%"
+"%fbpath%gbak" -b -v -g -y "%bbpath%%date%.log" "%dbpath%" "%bbpath%ВНЕШНЯЯБАЗА1_%date%.gbk"
+@ pause
+$ cat restore.bat
+@ echo on
+SET ISC_USER=ИМЯПОЛЬЗОВАТЕЛЯБАЗЫ
+SET ISC_PASSWORD=ПАРОЛЬКБАЗЕ
+SET fbpath=C:\ПУТЬFIREBIRD\Firebird_1_5\bin\
+SET bbpath=localhost:C:\КУДАСОХРАНЯТЬИЗМЕНЕНИЯ\
+"%fbpath%gbak.exe" -c -v -r -y "c:\КУДАСОХРАНЯТЬИЗМЕНЕНИЯ\%date%_fix.log" "c:\КУДАСОХРАНЯТЬИЗМЕНЕНИЯ\ВНЕШНЯЯБАЗА1_backup.gbk" "%bbpath%ВНЕШНЯЯБАЗА1_fix.GDB" 
+@ pause
+$ cat retranslator.log
+...
+INF|09.12.2022 16:27:36 Сообщения в очереди "viv.client.КОДОА.1" отсутствуют
+INF|09.12.2022 16:32:39 Отправка запроса id="ИДЕНТИФИКАТОРПРОЦЕССА1", type_id=ИДЕНТИФИКАТОРТИП ...
+ERR|09.12.2022 16:33:37 Out of memory.
+E.ClassName=EOutOfMemory
+Sender.ClassName=TWorkThread
+...
+INF|11.12.2022 22:28:27 Отправка запроса id="ИДЕНТИФИКАТОРПРОЦЕССА2", type_id=ИДЕНТИФИКАТОРТИП ...
+ERR|11.12.2022 22:28:53 При отправке запроса id="ИДЕНТИФИКАТОРПРОЦЕССА2" произошла неустранимая ошибка чтения из БД, запрос отклонён. Текст ошибки:
+Unsuccessful execution caused by a system error that precludes
+successful execution of subsequent statements.
+I/O error for file "C:\ПУТЬКБАЗЕ\ВНЕШНЯЯБАЗА1.GDB".
+Error while trying to write to file.
+Недостаточно места на диске.
+...
+Decision:
+при обработке одного запроса id="ИДЕНТИФИКАТОРПРОЦЕССА1", type_id=ИДЕНТИФИКАТОРТИП происходит нехватка памяти, что далее приводит к сбою функционирования. Вероятно в запросе большое вложение. Для дальнейшего анализа смотрим БД ВНЕШНЯЯБАЗА2.gdb, в которой покажет технические ошибки состояния базы ВНЕШНЯЯБАЗА2.gdb.
+Для их устранения также сделать бэкап/ресторе БД ВНЕШНЯЯБАЗА2.gdb. Далее понаблюдать за ситуацией с размером БД ВНЕШНЯЯБАЗА2.GDB, чтобы он весил не больше 19 Гб.
+Task:
+После того как в виртуальной машине Centos настроил Docker контейнер и презагрузил сам физический сервер с Centos, произошла бесконечная загрузка и как когда стрелками нажимал, появилась следующая ошибка в момент загрузки сервера:
+Dependency failed for /var
+Dependency failed for D-Bus System Message Bus
+staring file system check on dev/disk/by-uuid/UUID1
+failed to start file system check on dev/disk/UUID1
+See 'systemctl status "systemd-fsck@dev-disk-by\\xzduuid-UUID1"'
+Decision:
+Для решения данной проблемы нужнозагрузиться с LiveCd (Ubuntu) и запустить Fsck для проверки и восстановления файловой системы
+$ ls /dev/disk/by-uuid/UUID1
+/dev/disk/by-uuid/UUID1
+$ systemctl status "systemd-fsck@dev-disk-by\\UUID1.service" > test.txt
+$ cat test.txt 
+○ systemd-fsck@dev-disk-by\xZduuid-8f07e18e\xZd9d1a\xZd4dab\xZd8904\xZda86e0c2058b4.service
+Loaded: bad-setting (Reason: Unit systemd-fsck@dev-disk-by\xZduuid-8f07e18e\xZd9d1a\xZd4dab\xZd8904\xZda86e0c2058b4.service has a bad unit file setting.)
+Active: inactive (dead)
+Docs: man:systemd-fsck@.service(8)
+Nov 15 12:50:19 ubuntu systemd[1]: systemd-fsck@dev-disk-by\xZduuid-8f07e18e\xZd9d1a\xZd4dab\xZd8904\xZda86e0c2058b4.service: Unit configuration has fatal error, unit will not be started.
+Nov 15 12:52:01 ubuntu systemd[1]: /lib/systemd/system/systemd-fsck@.service:11: Failed to resolve unit specifiers in 'File System Check on %f', ignoring: Invalid argument
+Nov 15 12:52:01 ubuntu systemd[1]: /lib/systemd/system/systemd-fsck@.service:23: Failed to resolve unit specifiers in %f: Invalid argument
+Nov 15 12:52:01 ubuntu systemd[1]: systemd-fsck@dev-disk-by\xZduuid-8f07e18e\xZd9d1a\xZd4dab\xZd8904\xZda86e0c2058b4.service: Unit configuration has fatal error, unit will not be started.
+Nov 15 12:52:30 ubuntu systemd[1]: /lib/systemd/system/systemd-fsck@.service:11: Failed to resolve unit specifiers in 'File System Check on %f', ignoring: Invalid argument
+Nov 15 12:52:30 ubuntu systemd[1]: /lib/systemd/system/systemd-fsck@.service:23: Failed to resolve unit specifiers in %f: Invalid argument
+Nov 15 12:52:30 ubuntu systemd[1]: systemd-fsck@dev-disk-by\xZduuid-8f07e18e\xZd9d1a\xZd4dab\xZd8904\xZda86e0c2058b4.service: Unit configuration has fatal error, unit will not be started.
+Nov 15 12:53:50 ubuntu systemd[1]: /lib/systemd/system/systemd-fsck@.service:11: Failed to resolve unit specifiers in 'File System Check on %f', ignoring: Invalid argument
+Nov 15 12:53:50 ubuntu systemd[1]: /lib/systemd/system/systemd-fsck@.service:23: Failed to resolve unit specifiers in %f: Invalid argument
+Nov 15 12:53:50 ubuntu systemd[1]: systemd-fsck@dev-disk-by\xZduuid-8f07e18e\xZd9d1a\xZd4dab\xZd8904\xZda86e0c2058b4.service: Unit configuration has fatal error, unit will not be started.
+$ df -h
+...
+/dev/sdb1            916G  339G  531G  39% /media/ubuntu/UUID1
+...
+$ sudo parted /dev/sdb1 'print'
+Model: Unknown (unknown)
+Disk /dev/sdb1: 1000GB
+Sector size (logical/physical): 512B/4096B
+Partition Table: loop
+Disk Flags: 
+Number  Start  End     Size    File system  Flags
+1      0.00B  1000GB  1000GB  ext4
+$ sudo umount /dev/sdb1
+$ sudo fsck /dev/sdb1
+fsck from util-linux 2.37.2
+e2fsck 1.46.5 (30-Dec-2021)
+/dev/sdb1 contains a file system with errors, check forced.
+Pass 1: Checking inodes, blocks, and sizes
+Inode 40895771 extent tree (at level 2) could be narrower.  Optimize<y>? yes
+...
+Inode 41156677 extent tree (at level 2) could be narrower.  Optimize<y>? yes
+Inodes that were part of a corrupted orphan linked list found.  Fix<y>? yes
+Inode 56623165 was part of the orphaned inode list.  FIXED.
+...
+Inode 56623196 was part of the orphaned inode list.  FIXED.
+Pass 1E: Optimizing extent trees
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+Block bitmap differences:  -(4172736--4172783) -(7917568--7917588) -(22880252--22881251) -(22910443--22912073) -(164069760--164069882) -(164070454--164070541)
+Fix<y>? yes
+Free blocks count wrong for group #127 (2152, counted=2200).
+...
+Fix<y>? yes
+Free inodes count wrong (61050243, counted=61050252).
+Fix<y>? yes
+/dev/sdb1: ***** FILE SYSTEM WAS MODIFIED *****
+/dev/sdb1: 4724/61054976 files (4.8% non-contiguous), 92947008/244190390 blocks
+$ sudo fsck -N /dev/sdb1
+fsck from util-linux 2.37.2
+[/usr/sbin/fsck.ext4 (1) -- /dev/sdb1] fsck.ext4 /dev/sdb1 
+$ sudo fsck -y /dev/sdb1
+fsck from util-linux 2.37.2
+e2fsck 1.46.5 (30-Dec-2021)
+/dev/sdb1: clean, 4724/61054976 files, 92947008/244190390 blocks
+$ sudo fsck -f /dev/sdb1
+fsck from util-linux 2.37.2
+e2fsck 1.46.5 (30-Dec-2021)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/sdb1: 4724/61054976 files (4.8% non-contiguous), 92947008/244190390 blocks
+$ sudo reboot
+Task:
+После добавления сетевых папок через Kerberos на следующий месяц, все сетевые папки на ПК перестали работать. Для решения проблемы нужно обновлять билеты через kdestroy и kinit:
+Decision:
+$ smbclient -L thost -k
+gse_get_client_auth_token: gss_init_sec_context failed with [ Miscellaneous failure (see text): encryption type 0 not supported](2529639062)
+gensec_spnego_client_negTokenInit_step: gse_krb5: creating NEG_TOKEN_INIT for cifs/tusertsrvdoc failed (next[(null)]): NT_STATUS_LOGON_FAILURE
+session setup failed: NT_STATUS_LOGON_FAILURE
+$ klist
+Ticket cache: FILE:/tmp/krb5cc_17
+Default principal: tuser@tdomain.RU
+Valid starting Expires Service principal
+01.01.1970 08:00:00 01.01.1970 08:00:00 krbtgt/tdomain.RU@tdomain.RU
+$ date
+Вт окт 6 14:46:12 +08 2020
+$ kdestroy
+$ kinit
+$ klist
+Ticket cache: FILE:/tmp/krb5cc_17
+Default principal: tuser@tdomain.RU
+Valid starting Expires Service principal
+06.10.2020 14:46:51 07.10.2020 00:46:51 krbtgt/tdomain.RU@tdomain.RU
+renew until 13.10.2020 14:46:29
+Decision:
+- Проблема решена, но билет кеширования, нужно было обновлять постоянно. Поэтому, на мой взгляд, проще подключать сетевые папки через automount без Kerberos.
+Task:
+# dnf -y install kernel-devel-$(uname -r)
+Last metadata expiration check: 0:52:33 ago on Thu 14 May 2020 03:36:35 AM EDT.
+No match for argument: kernel-devel-4.18.0-147.el8.x86_64
+Error: Unable to find a match: kernel-devel-4.18.0-147.el8.x86_64
+Decision:
+# dnf -y install kernel-devel
+Task:
+Во время установки 1C 8.3 выходит сообщение об ошибке с кодом 1311.
+Decision:
+Поик - regedit - HLM>SYSTEM>CurrentControlSet>Control>NIls>Codepage - выбрать 1252 - изменить в нем значение с "c_1252.nls" на "c_1251.nls" - перезагрузиться - заново установить 1С
+Task:
+В 1 кабинете ошибка:
+лицензия не обнаружена
+в другом кабинете посмотрел, там другая ошибка: 
+Не найдена лицензия, ключ защиты не обнаружен.
+Decision:
+Подключился к серверу, запустил программу HASP License Manager for Win32 (рядом с часами), load смотрю, IPX-unload, TCP/IP-load, NetBios-Load,  перезагрузил комп, HASP License Manager for Win32, load смотрю, IPX-unload, TCP/IP-load, NetBios-unload, нажимаю load, all, теперь в NetBios-Load - все запустилось.
+Task:
+не правиальный путь к файлу \\we\programm.. 0*000035, не найдена сеть    
+Decision:
+Reboot server
+Task:
+В одном рабочем месте ошибка: 
+лицензия не обнаружена
+во втором рабочем месте другая ошибка 
+Не найдена лицензия, ключ защиты не обнаружен.
+Decision:
+HASP License Manager for Win32 (рядом с часами), load, IPX-unload, TCP/IP-load, NetBios-Load, 
+перезагрузил комп
+HASP License Manager for Win32, load, IPX-unload, TCP/IP-load, NetBios-unload, нажимаю load, all и в NetBios-Load тоже
+Task:
+После отключения света в здании служба OracleServiceНАЗВАНИЕСИСТЕМЫ не запускается. При подключении к БСР клиента на сервере выходит следующая ошибка:
+ОШИБКА ORA-01033. ORACLE INITIALIZATION OR SHUTDOWN IN PROGRESS
+Не помогает перезапуск службы ORACLE и перезагрузка сервера.
+Также пробовали подключиться и настроить базу в командной строке через sql plus. После ввода команды выдает ошибку:
+C:\>sqlplus
+Enter user-name: СОКРАЩЕННОЕОЕИМЯПОЛЬЗОВАТЕЛЯ as ПОЛНОЕИМЯПОЛЬЗОВАТЕЛЯ
+SQL> alter pluggable database all open;
+alter pluggable database all open
+*
+ERROR at line 1:
+ORA-00940: invalid ALTER command
+Нужно сделать рестарт базы
+Decision:
+C:\>sqlplus /nolog
+SQL> connect СОКРАЩЕННОЕОЕИМЯПОЛЬЗОВАТЕЛЯ/pass@НАЗВАНИЕСИСТЕМЫ as ПОЛНОЕИМЯПОЛЬЗОВАТЕЛЯ
+ERROR:
+ORA-01017: invalid username/password; logon denied
+SQL> conn СОКРАЩЕННОЕОЕИМЯПОЛЬЗОВАТЕЛЯ/oracle@НАЗВАНИЕСИСТЕМЫ as ПОЛНОЕИМЯПОЛЬЗОВАТЕЛЯ
+SQL> startup mount
+ORA-01081: cannot start already-running ORACLE - shut it down first
+SQL> shutdown immediate
+ORA-01109: database not open
+Database dismounted.
+ORACLE instance shut down.
+SQL> startup mount
+SQL> col file format a5;
+SQL> col name format a20;
+SQL> col status format a10;
+SQL> select file#,name,status from v$datafile;
+ FILE# NAME                 STATUS
+---------- -------------------- ----------
+   1 C:\ORACLE\ORADATA\GA SYSTEM
+     S\SYSTEM01.DBF
+   2 C:\ORACLE\ORADATA\GA ONLINE
+     S\UNDOTBS01.DBF
+   3 C:\ORACLE\ORADATA\GA ONLINE
+     S\CWMLITE01.DBF
+   4 C:\ORACLE\ORADATA\GA ONLINE
+     S\DRSYS01.DBF
+ FILE# NAME                 STATUS
+---------- -------------------- ----------
+   5 C:\ORACLE\ORADATA\GA ONLINE
+     S\EXAMPLE01.DBF
+   6 C:\ORACLE\ORADATA\GA ONLINE
+     S\INDX01.DBF
+   7 C:\ORACLE\ORADATA\GA ONLINE
+     S\ODM01.DBF
+   8 C:\ORACLE\ORADATA\GA ONLINE
+ FILE# NAME                 STATUS
+---------- -------------------- ----------
+     S\TOOLS01.DBF
+   9 C:\ORACLE\ORADATA\GA ONLINE
+     S\USERS01.DBF
+  10 C:\ORACLE\ORADATA\GA ONLINE
+     S\XDB01.DBF
+  11 C:\ORACLE\ORADATA\GA ONLINE
+     S\TBLS_BSR.ORA
+ FILE# NAME                 STATUS
+---------- -------------------- ----------
+  12 C:\ORACLE\ORADATA\GA ONLINE
+     S\DELO_D.DAT
+  13 C:\ORACLE\ORADATA\GA ONLINE
+     S\DELO_I.DAT
+  14 C:\ORACLE\ORADATA\GA ONLINE
+     S\DELO_O.DAT
+  15 C:\ORACLE\ORADATA\GA ONLINE
+     S\KADR_D.DAT
+ FILE# NAME                 STATUS
+---------- -------------------- ----------
+  16 C:\ORACLE\ORADATA\GA ONLINE
+     S\KADR_I.DAT
+  17 C:\ORACLE\ORADATA\GA ONLINE
+     S\KADR_O.DAT
+  18 C:\ORACLE\ORADATA\GA ONLINE
+     S\ARCH_D.DAT
+  19 C:\ORACLE\ORADATA\GA ONLINE
+ FILE# NAME                 STATUS
+---------- -------------------- ----------
+     S\ARCH_I.DAT
+  20 C:\ORACLE\ORADATA\GA ONLINE
+     S\EDS_D.DAT
+  21 C:\ORACLE\ORADATA\GA ONLINE
+     S\EDS_I.DAT
+  22 C:\ORACLE\ORADATA\GA ONLINE
+     S\EDS_O.DAT
+ FILE# NAME                 STATUS
+---------- -------------------- ----------
+  23 C:\ORACLE\ORADATA\GA ONLINE
+     S\.ORA
+  24 C:\ORACLE\ORADATA\GA SYSTEM
+     S\SYSTEM02.ORA
+  25 C:\ORACLE\ORADATA\GA SYSTEM
+     S\SYSTEM03.ORA
+25 rows selected.
+SQL> recover datafile 1;
+SQL> select file#,name,status from v$datafile;
+ FILE# NAME                 STATUS
+---------- -------------------- ----------
+   1 C:\ORACLE\ORADATA\GA SYSTEM
+     S\SYSTEM01.DBF
+   2 C:\ORACLE\ORADATA\GA ONLINE
+     S\UNDOTBS01.DBF
+   3 C:\ORACLE\ORADATA\GA ONLINE
+     S\CWMLITE01.DBF
+   4 C:\ORACLE\ORADATA\GA ONLINE
+     S\DRSYS01.DBF
+ FILE# NAME                 STATUS
+---------- -------------------- ----------
+   5 C:\ORACLE\ORADATA\GA ONLINE
+     S\EXAMPLE01.DBF
+   6 C:\ORACLE\ORADATA\GA ONLINE
+     S\INDX01.DBF
+   7 C:\ORACLE\ORADATA\GA ONLINE
+     S\ODM01.DBF
+   8 C:\ORACLE\ORADATA\GA ONLINE
+ FILE# NAME                 STATUS
+---------- -------------------- ----------
+     S\TOOLS01.DBF
+   9 C:\ORACLE\ORADATA\GA ONLINE
+     S\USERS01.DBF
+  10 C:\ORACLE\ORADATA\GA ONLINE
+     S\XDB01.DBF
+  11 C:\ORACLE\ORADATA\GA ONLINE
+     S\TBLS_BSR.ORA
+ FILE# NAME                 STATUS
+---------- -------------------- ----------
+  12 C:\ORACLE\ORADATA\GA ONLINE
+     S\DELO_D.DAT
+  13 C:\ORACLE\ORADATA\GA ONLINE
+     S\DELO_I.DAT
+  14 C:\ORACLE\ORADATA\GA ONLINE
+     S\DELO_O.DAT
+  15 C:\ORACLE\ORADATA\GA ONLINE
+     S\KADR_D.DAT
+ FILE# NAME                 STATUS
+---------- -------------------- ----------
+  16 C:\ORACLE\ORADATA\GA ONLINE
+     S\KADR_I.DAT
+  17 C:\ORACLE\ORADATA\GA ONLINE
+     S\KADR_O.DAT
+  18 C:\ORACLE\ORADATA\GA ONLINE
+     S\ARCH_D.DAT
+  19 C:\ORACLE\ORADATA\GA ONLINE
+ FILE# NAME                 STATUS
+---------- -------------------- ----------
+     S\ARCH_I.DAT
+  20 C:\ORACLE\ORADATA\GA ONLINE
+     S\EDS_D.DAT
+  21 C:\ORACLE\ORADATA\GA ONLINE
+     S\EDS_I.DAT
+  22 C:\ORACLE\ORADATA\GA ONLINE
+     S\EDS_O.DAT
+ FILE# NAME                 STATUS
+---------- -------------------- ----------
+  23 C:\ORACLE\ORADATA\GA ONLINE
+     S\.ORA
+  24 C:\ORACLE\ORADATA\GA SYSTEM
+     S\SYSTEM02.ORA
+  25 C:\ORACLE\ORADATA\GA SYSTEM
+     S\SYSTEM03.ORA
+25 rows selected.
+SQL> alter database open;
+Task:
+В ПОДСИСТЕМА не грузятся на сайт 200 дел. Смотрим лог файл:
+$ cat importer.log.xml
+...
+<Error ReadableDateTime="23.01.2023 12:51:31" FileTimeUtc="133189230912753002">
+<Message>Îøèáêà ïðè âûïîëíåíèè çàïðîñà:
+BEGIN BSR.PK_BSR.CTX_Sinxronize; END;
+Òåêñò îøèáêè:
+ORA-20000: Oracle Text error:
+DRG-50857: oracle error in dreii0fsh
+ORA-01653: unable to extend table BSR.DR$CTX_SRH$I by 8192 in tablespace SYSTEM
+ORA-06512: at "CTXSYS.DRUE", line 157
+ORA-06512: at "CTXSYS.CTX_DDL", line 1328
+ORA-06512: at "BSR.PK_BSR", line 313
+ORA-06512: at line 1
+</Message>
+<Details>System.Exception: Îøèáêà ïðè âûïîëíåíèè çàïðîñà:
+BEGIN BSR.PK_BSR.CTX_Sinxronize; END;
+Òåêñò îøèáêè:
+ORA-20000: Oracle Text error:
+DRG-50857: oracle error in dreii0fsh
+ORA-01653: unable to extend table BSR.DR$CTX_SRH$I by 8192 in tablespace SYSTEM
+ORA-06512: at "CTXSYS.DRUE", line 157
+ORA-06512: at "CTXSYS.CTX_DDL", line 1328
+ORA-06512: at "BSR.PK_BSR", line 313
+ORA-06512: at line 1
+&#xD;
+ â ImpFunktions.Database.DbaseIns(String cmdString)&#xD;
+ â ImpFunktions.Importer.synchronize()</Details>
+</Error>
+пуск - все программы - oracle orahome92 - enterprize manager console - ок - databases - gas -  system - oracle - storage - tablespaces
+Проблема из за того, что у Вас закончилось свободное оракловое ТП SYSTEM и Tbls_bsr, которые надо увеличить вручную путем добавления DATA файла. "Флаг" в чек боксе Авторасширение не поможет.
+Decision:
+Обязательно делайте бэкап перед любыми действиями с базой. Дважды щелкните ЛКМ табличное пространство SYSTEM и добавьте в него второй файл. Oracle автоматически подставит расширение ORA. Исправьте его на DBF перед сохранением. 
+system - add datafile - name - SYSTEM04.ORA - file size - 4096MB - storage - automatically extend datafile when full - increment - 10240KB - value - 32767MB - ok - перезапустить службу BSRImport - В админке обновлять авоматический импорт из СДП
+Task:
+Можно сделать это в командной строке, добавив дополнительный файл данных к табличному пространству и изменив размер текущего файла данных, Некоторые версии Oracle не позволяют такого!
+Decision:
+ALTER TABLESPACE USERS ADD DATAFILE '/u01/oradata/orcl/users02.dbf' size 25m;
+ALTER DATABASE DATAFILE '/u01/oradata/orcl/users01.dbf' resize 50M;
+Необходимо добавить новый датафайл к табличному пространству SYSTEM.
+Task:
+Ошибка: DM
+Unsuccessful execution caused by a system error that precludes successful execution of subsquent statements.
+Decision:
+Перезапуск службы FireBird
+Task:
+$ sudo apt-get -y install postgresql
+E: Could not get lock /var/lib/dpkg/lock-frontend. It is held by process 4927 (unattended-upgr)
+N: Be aware that removing the lock file is not a solution and may break your system.
+E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it?
+Decision:
+$ ps aux | grep -i apt
+root        4891  0.0  0.0   2616   536 ?        Ss   19:52   0:00 /bin/sh /usr/lib/apt/apt.systemd.daily install
+root        4896  0.0  0.0   2616  1652 ?        S    19:52   0:00 /bin/sh /usr/lib/apt/apt.systemd.daily lock_is_held install
+ubuntu      6172  0.0  0.0  19396   660 pts/1    S+   19:56   0:00 grep --color=auto -i apt
+$ sudo killall apt apt-get
+apt: no process found
+apt-get: no process found
+$ ps aux | grep -i apt
+ubuntu      6233  0.0  0.0  19396   660 pts/1    S+   19:59   0:00 grep --color=auto -i apt
+$ sudo apt -y install postgresql
+Task:
+$ sudo sh -c 'echo "deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
+...                                   
+Err:12 http://ppa.launchpad.net/wireshark-dev/stable/ubuntu focal
+...
+All packages are up to date.
+W: Failed to fetch http://ppa.launchpad.net/wireshark-dev/stable/ubuntu/dists/focal/InRelease  Temporary failure resolving 'ppa.launchpad.net'
+W: Some index files failed to download. They have been ignored, or old ones used instead.
+Decision:
+$ cat /etc/apt/sources.list.d/pgadmin4.list
+deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/focal pgadmin4 main
+$ sudo vim /etc/apt/sources.list.d/pgadmin4.list
+$ cat /etc/apt/sources.list.d/pgadmin4.list
+#deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/focal pgadmin4 main
+$ sudo apt-get clean
+$ sudo apt-get update
+...                   
+Reading package lists... Done
+$ sudo sh -c 'echo "deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
+Task:
+Ошибки в время установки и настройки postgresql
+Skipping acquire of configured file 'main/binary-i386/Packages' as repository 'http://apt.postgresql.org/pub/repos/apt focal-pgdg InRelease' doesn't support architecture 'i386'
+$ sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+$ wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+OK
+$ sudo apt-get update
+...                    
+Reading package lists... Done
+N: Skipping acquire of configured file 'main/binary-i386/Packages' as repository 'http://apt.postgresql.org/pub/repos/apt focal-pgdg InRelease' doesn't support architecture 'i386'
+Decision:
+$ cat /etc/apt/sources.list.d/pgdg.list
+deb http://apt.postgresql.org/pub/repos/apt focal-pgdg main
+$ sudo vim /etc/apt/sources.list.d/pgdg.list
+$ cat /etc/apt/sources.list.d/pgdg.list
+deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main
+$ sudo apt-get update
+...                                      
+Reading package lists... Done
+Task:
+Could not get lock /var/lib/dpkg/lock-frontend. It is held by process 4927 (unattended-upgr). Be aware that removing the lock file is not a solution and may break your system. Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it?
+$ sudo apt-get -y install postgresql
+E: Could not get lock /var/lib/dpkg/lock-frontend. It is held by process 4927 (unattended-upgr)
+N: Be aware that removing the lock file is not a solution and may break your system.
+E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it?
+Decision:
+$ ps aux | grep -i apt
+root        4891  0.0  0.0   2616   536 ?        Ss   19:52   0:00 /bin/sh /usr/lib/apt/apt.systemd.daily install
+root        4896  0.0  0.0   2616  1652 ?        S    19:52   0:00 /bin/sh /usr/lib/apt/apt.systemd.daily lock_is_held install
+ubuntu      6172  0.0  0.0  19396   660 pts/1    S+   19:56   0:00 grep --color=auto -i apt
+$ sudo killall apt apt-get
+apt: no process found
+apt-get: no process found
+$ ps aux | grep -i apt
+ubuntu      6233  0.0  0.0  19396   660 pts/1    S+   19:59   0:00 grep --color=auto -i apt
+$ sudo apt -y install postgresql
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+...
+Selecting previously unselected package libjson-perl.
+Task:
+Failed to fetch http://ppa.launchpad.net/wireshark-dev/stable/ubuntu/dists/focal/InRelease  Temporary failure resolving 'ppa.launchpad.net'. Some index files failed to download. They have been ignored, or old ones used instead.
+$ sudo curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add
+% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                               Dload  Upload   Total   Spent    Left  Speed
+100  3935  100  3935    0     0    633      0  0:00:06  0:00:06 --:--:--   824
+OK
+$ sudo sh -c 'echo "deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
+Hit:1 http://archive.ubuntu.com/ubuntu focal InRelease
+Hit:2 http://ru.archive.ubuntu.com/ubuntu bionic InRelease
+Get:11 https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/focal pgadmin4/main all Packages [1957 B]                                     
+Err:12 http://ppa.launchpad.net/wireshark-dev/stable/ubuntu focal InRelease                                                              
+Temporary failure resolving 'ppa.launchpad.net'
+Fetched 338 kB in 10s (33.3 kB/s)
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+All packages are up to date.
+W: Failed to fetch http://ppa.launchpad.net/wireshark-dev/stable/ubuntu/dists/focal/InRelease  Temporary failure resolving 'ppa.launchpad.net'
+W: Some index files failed to download. They have been ignored, or old ones used instead.
+Decision:
+$ cat /etc/apt/sources.list.d/pgadmin4.list
+deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/focal pgadmin4 main
+$ sudo vim /etc/apt/sources.list.d/pgadmin4.list
+$ cat /etc/apt/sources.list.d/pgadmin4.list
+#deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/focal pgadmin4 main
+$ sudo apt-get clean
+$ sudo apt-get update
+...                   
+Reading package lists... Done
+$ sudo sh -c 'echo "deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
+...
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+All packages are up to date.
+Task:
+$ sudo mysql -u root
+[sudo] password for ar:
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
+Decision:
+$ sudo service mysql status
+ * MySQL is stopped.
+$ sudo service mysql start
+ * Starting MySQL database server mysqld                                                                                su: warning: cannot change directory to /nonexistent: No such file or directory
+                                                                                                               [ OK ]
+$ sudo service mysql status
+ * /usr/bin/mysqladmin  Ver 8.0.28-0uu0.20.04.3 for Linux on x86_64 ((uu))
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+Server version          8.0.28-0uu0.20.04.3
+Protocol version        10
+Connection              Localhost via UNIX socket
+UNIX socket             /var/run/mysqld/mysqld.sock
+Uptime:                 24 sec
+Threads: 2  Questions: 8  Slow queries: 0  Opens: 436  Flush tables: 3  Open tables: 27  Queries per second avg: 0.333
+$ sudo mysql -u root
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 12
+Server version: 8.0.28-0uu0.20.04.3 (uu)
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+Task:
+DrWeb занимает много места.
+Decision:
+Удалить полностью drWeb утиилитой drWeb remober
+Task:
+Часть информации на флэшке превратилась в иероглифы
+Decision:
+Свойства флешки - Сервис - Проверить - Проверить диск
+Total Commander - Конфигурация - Настройки - Содержимое панелей - Показывать скрытые файлы
+Total Commander - Флешка - FOUND.000 - Перенести файлы CHK в диск C
+unCHKfree - выбрать папку с файлами CHK - восстановить файлы и разложить их по папкам с расширениями - Старт
+Source:
+Как посмотреть скрытые файлы в Total Commander - https://recovery-file.ru/obzory/total-commander-skrytye-fajly-2.html
+Столкнулся с проблемой, что часть информации на флэшке превратилась в иероглифы. Виноват ли компьютер? - https://dzen.ru/a/ZA8v-BiRSDJBA0dS
+Task:
+ЭБ, загрузка файлов TFP, не загружаются файлы .тхт
+Decision:
+Чистим Кэш, настр, приват, очист истор, галочку на кеш, ок перезапуск мазилы, готово. на след день этот план не сработал, обновил сам браузер. тоже не работает. это косяк с сертификатом ЭБ. нужно просто перезаходить, так чтобы был выбор Бухгалтера и Директора, сброс соединения, закрыть мазилу, открыть мазилу. зашли по умолчанию и если не грузит файлы, главное меню, по умол заходит на НТТРс, в главном меню НТТР. если не загружается заходим в НТТР.
+Task:
+Пришло сообщение с казачейства, что организациям, использующим пользовательские сертификаты с электронного бюджета, нужно заменеить сертификат сервера "Континент TLS VPN клиент" в настройках ПО "Континент TLS клиент" в связи истечением срока
+Decision:
+В письме есть ссылка на сертификат и инструкция. инструкция не сильно мне помогла, так как отличаются сами программы Континент TLS клиент. Решил таким путем: пуск, Континент TLS клиент, управление сертификатами, серверные сертификаты, видми наш lk.budjet.gov.ru, открыть хранилище, доверительные корневые сертификаты, сертификаты, удаляем старый сертификат, импортировать, ищем новый и скаченный сертификат, устанавливаем,и ок и должен появиться новый сертификат в нашем окне. проверяем подлинность.
+Task:
+Истек срок лицензии в CryptoPro.csp 4.0
+Decision:
+Заходим в regedit, в правке ищем ключ. 
+[-HKEY_CLASSES_ROOT\CLSID\{C8B655BB-28A0-4BB6-BDE1-D0826457B2DF}]
+Удаляем ключ в реестре. Запускаем сетап. Устанавливаем с пунктом исправить
+И проверяем срок лицензиии в CryptoPro.csp
+Decision:
+CryptoPro.csp, управление компонентами, и добавляем серийный номер - 
+40400-00000-UKAC2-00QP8-MT29G
+организацию и пользователя указываем случайного
+Task:
+Установил приложение на Windows 10 Oracle Virtual Box 7. И при запуске Virtual Box компьютер каждый раз перезагружается и пишет: 
+код остановки: SYSTEM SERVICE EXCEPTION, что вызвало проблему: CProCtrl.4.0.0.19.sys.
+Decision:
+Обновить версию криптопро скачав на сайте https://cryptopro.ru/products/csp/downloads
+Task:
+$ sftp -p tport tuser@tip
+ssh: connect to host 0.0.8.185 port 22: Connection timed out
+Connection closed. 
+Connection closed
+Decision:
+$ sftp -P tport tuser@tip
+Task:
+$ sudo vim /etc/ssh/sshd_config
+$ cat /etc/ssh/sshd_config
+...
+#Port 22
+Port tport
+...
+$ sudo systemctl restart sshd
+Job for ssh.service failed because the control process exited with error code.
+See "systemctl status ssh.service" and "journalctl -xeu ssh.service" for details.
+$ sudo systemctl status sshd
+× ssh.service - OpenBSD Secure Shell server
+ Loaded: loaded (/lib/systemd/system/ssh.service; enabled; vendor preset: enabled)
+ Active: failed (Result: exit-code) since Fri 2024-05-10 14:53:04 CEST; 11s ago
+ Docs: man:sshd(8)
+ man:sshd_config(5)
+Process: 2642 ExecStartPre=/usr/sbin/sshd -t (code=exited, status=0/SUCCESS)
+Process: 2644 ExecStart=/usr/sbin/sshd -D $SSHD_OPTS (code=exited, status=255/EXCEPTION)
+Main PID: 2644 (code=exited, status=255/EXCEPTION)
+CPU: 71ms
+may 10 14:53:04 thost systemd[1]: Stopping OpenBSD Secure Shell server...
+may 10 14:53:04 thost systemd[1]: ssh.service: Deactivated successfully.
+may 10 14:53:04 thost systemd[1]: Stopped OpenBSD Secure Shell server.
+may 10 14:53:04 thost systemd[1]: Starting OpenBSD Secure Shell server...
+may 10 14:53:04 thost systemd[1]: ssh.service: Main process exited, code=exited, status=255/EXCEPTION
+may 10 14:53:04 thost systemd[1]: ssh.service: Failed with result 'exit-code'.
+may 10 14:53:04 thost systemd[1]: Failed to start OpenBSD Secure Shell server.
+$ sudo journalctl -e
+may 10 14:53:04 thost systemd[1]: Failed to start OpenBSD Secure Shell server.
+may 10 14:53:16 thost sudo[2646]:   dato : TTY=pts/0 ; PWD=/home/dato ; USER=root ; COMMAND=/usr/bin/systemctl status sshd
+may 10 14:53:16 thost sudo[2646]: pam_unix(sudo:session): session opened for user root(uid=0) by dato(uid=1002)
+may 10 14:53:55 thost sudo[2646]: pam_unix(sudo:session): session closed for user root
+may 10 14:54:37 thost sudo[2656]:   dato : TTY=pts/0 ; PWD=/home/dato ; USER=root ; COMMAND=/usr/bin/journalctl -eu sshd
+may 10 14:54:37 thost sudo[2656]: pam_unix(sudo:session): session opened for user root(uid=0) by dato(uid=1002)
+may 10 14:54:38 thost sudo[2656]: pam_unix(sudo:session): session closed for user root
+may 10 14:55:02 thost CRON[2662]: pam_unix(cron:session): session opened for user root(uid=0) by (uid=0)
+may 10 14:55:02 thost CRON[2664]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+may 10 14:55:02 thost CRON[2662]: pam_unix(cron:session): session closed for user root
+may 10 14:55:06 thost sudo[2666]:   dato : TTY=pts/0 ; PWD=/home/dato ; USER=root ; COMMAND=/usr/bin/journalctl -e
+may 10 14:55:06 thost sudo[2666]: pam_unix(sudo:session): session opened for user root(uid=0) by dato(uid=1002)
+Decision:
+$ sudo semanage port -a -t ssh_port_t -p tcp tport
+$ sudo systemctl restart sshd
+$ sudo systemctl status sshd
+Source:
+Принудительный контроль доступа - SElinux - https://basis.gnulinux.pro/ru/latest/basis/45/45._%D0%9F%D1%80%D0%B8%D0%BD%D1%83%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9_%D0%BA%D0%BE%D0%BD%D1%82%D1%80%D0%BE%D0%BB%D1%8C_%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF%D0%B0_-_SElinux.html
+Task:
+$ cat /var/log/messages | grep "SELinux is preventing"
+cat: /var/log/messages: No such file or directory
+Decision:
+$ cat /etc/rsyslog.d/50-default.conf
+...
+#*.=info;*.=notice;*.=warn;\
+#   auth,authpriv.none;\
+#   cron,daemon.none;\
+#   mail,news.none     -/var/log/messages
+...
+$ sudo vim /etc/rsyslog.d/50-default.conf
+$ cat /etc/rsyslog.d/50-default.conf
+...
+*.=info;*.=notice;*.=warn;\
+auth,authpriv.none;\
+cron,daemon.none;\
+mail,news.none     -/var/log/messages
+...
+$ sudo service rsyslog restart
+$ sudo cat /var/log/messages | grep "SELinux is preventing"
+Source:
+How to enable /var/log/messages in Ubuntu - https://www.goline.ch/2022/06/22/enable-var-log-messages-on-ubuntu/?ysclid=lwfxsmvtnz512781325
+Task:
+$ npm run start
+...
+Invalid options object. Dev Server has been initialized using an options object that does not match the API schema.
+- options.allowedHosts[0] should be a non-empty string.
+Decision:
+$ vim node_modules/react-scripts/config/webpackDevServer.config.js
+$ cat node_modules/react-scripts/config/webpackDevServer.config.js
+...
+allowedHosts: disableFirewall ? 'all' : [allowedHost],
+headers: {
+...
+},
+allowedHosts: [
+ //Ваш список разрешенных хостов здесь
+'tip'
+],
+...
+$ npm install http-proxy-middleware
+$ vim package.json
+$ cat package.json | grep proxy
+...
+"proxy": "http://tip:8000",
+...
+$ npm run start
+$ npm run build
+$ sudo npm install -g serve
+$ sudo ufw allow 3000
+$ serve -s build
+Source:
+Configure the proxy manually - https://bobbyhadz.com/blog/react-could-not-proxy-request-to-localhost
+DRF & React Portfolio Website - https://www.youtube.com/playlist?list=PLPSM8rIid1a06M7kDOE6WMTXc9CpBskBg
+Task:
+$ npm start
+...
+Proxy error: Could not proxy request /place from localhost:3000 to http://cloudubuntu:8000.
+See https://nodejs.org/api/errors.html#errors_common_system_errors for more information (ECONNREFUSED).
+Decision:
+$ deactivate
+$ cat package.json | grep proxy
+...
+"proxy": "http://tip:8000",
+...
+$ vim package.json
+$ cat package.json | grep proxy
+$ vim src/setupProxy.js
+$ cat src/setupProxy.js
+const {createProxyMiddleware} = require('http-proxy-middleware');
+module.exports = function (app) {
+app.use(
+'/api',
+createProxyMiddleware({
+ // 👇️ make sure to update your target
+ target: 'http://tip:3000',
+ changeOrigin: true,
+}),
+);
+Task:
+$ npm run build
+...
+Error: error:0308010C:digital envelope routines::unsupported
+at new Hash (node:internal/crypto/hash:80:19)
+at Object.createHash (node:crypto:139:10)
+at module.exports (/home/tuser/thost/frontend/node_modules/webpack/lib/util/createHash.js:90:53)
+at NormalModule._initBuildHash (/home/tuser/thost/frontend/node_modules/webpack/lib/NormalModule.js:401:16)
+at /home/tuser/thost/frontend/node_modules/webpack/lib/NormalModule.js:433:10
+at /home/tuser/thost/frontend/node_modules/webpack/lib/NormalModule.js:308:13
+at /home/tuser/thost/frontend/node_modules/loader-runner/lib/LoaderRunner.js:367:11
+at /home/tuser/thost/frontend/node_modules/loader-runner/lib/LoaderRunner.js:233:18
+at context.callback (/home/tuser/thost/frontend/node_modules/loader-runner/lib/LoaderRunner.js:111:13)
+at /home/tuser/thost/frontend/node_modules/babel-loader/lib/index.js:51:103 {
+opensslErrorStack: [
+'error:03000086:digital envelope routines::initialization error',
+'error:0308010C:digital envelope routines::unsupported'
+],
+library: 'digital envelope routines',
+reason: 'unsupported',
+code: 'ERR_OSSL_EVP_UNSUPPORTED'
+}
+Decision:
+$ sudo npm update
+$ sudo npm audit fix --force
+Task:
+$ sudo apt upgrade
+...
+E: Sub-process /usr/bin/dpkg returned an error code (1)
+Decision:
+$ sudo dpkg --configure -a
+$ sudo apt update
+$ sudo apt upgrade
+Source:
+Reconfigure dpkg Database - https://phoenixnap.com/kb/fix-sub-process-usr-bin-dpkg-returned-error-code-1
+Task:
+BusyBox v1.30.1 (Ubuntu 1:1.30.1-4ubuntu6.1) built-in shell (ash) 
+Enter 'help' for a list of built-in commands.
+(initramfs)
+Decision:
+(initramfs) exit
+/dev/sda1 contains a file system with errors, check forced.
+...
+/dev/sda1: UNEXPECTED INCONSISTENCY; RUN fsck MANUALLY.
+(i.e., without -a or -p options) 
+fsck exited with status code 4. 
+...
+(initramfs) fsck /dev/sda1 -y
+/dev/sda1: ***** FILE SYSTEM WAS MODIFIED *****
+...
+(initramfs) reboot
+(initramfs) exit
+Source:
+Как исправить ошибку Busybox Initramfs на Ubuntu - https://itisgood.ru/2020/08/07/kak-ispravit-oshibku-busybox-initramfs-na-ubuntu/
+Task:
+$ pip install psycopg2==2.9.9
+Collecting psycopg2==2.9.9
+...
+note: This error originates from a subprocess, and is likely not a problem with pip.
+ERROR: Failed building wheel for psycopg2
+Running setup.py clean for psycopg2
+Failed to build psycopg2
+ERROR: Could not build wheels for psycopg2, which is required to install pyproject.toml-based projects
+Decision:
+$ sudo apt-get install libpq-dev python3-dev
+$ pip install psycopg2==2.9.9
+Source:
+ERROR - https://stackoverflow.com/questions/74727501/error-could-not-build-wheels-for-psycopg2-which-is-required-to-install-pyproje
+Task:
+$ pip install psycopg2==2.9.9
+...
+Resolving the Python Error: legacy-install-failure
+Decision:
+$ pip install --upgrade pip
+$ pip install --upgrade setuptools wheel
+$ pip install psycopg2==2.9.9
+Source:
+Upgrade pip and other build tools - https://wpsauce.com/resolving-the-python-error-legacy-install-failure/
+Task:
+$ vim thost/settings.py
+$ cat thost/settings.py
+...
+DATABASES = {
+'default': {
+'ENGINE': 'django.db.backends.postgresql_psycopg2',
+'NAME': 'thost',
+'USER': 'tuser',
+'PASSWORD': 'tpassword',
+'HOST': 'localhost',
+'PORT': '5432',
+}
+}
+...
+$ python thost/manage.py migrate --run-syncdb
+...
+django.core.exceptions.ImproperlyConfigured: 'django.db.backends.potgresql_psycopg2' isn't an available database backend or couldn't be imported. Check the above exception. To use one of the built-in backends, use 'django.db.backends.XXX', where XXX is one of:
+'mysql', 'oracle', 'postgresql', 'sqlite3'
+Decision:
+$ vim thost/settings.py
+$ cat thost/settings.py
+...
+DATABASES = {
+'default': {
+...
+'ENGINE': 'django.db.backends.postgresql',
+...
+}
+}
+...
+$ python thost/manage.py migrate --run-syncdb
+Source:
+is not an available database backend - https://stackoverflow.com/questions/70995031/django-db-backends-posgresql-psycopg2-isnt-an-available-database-backend
+Task:
+$ sudo virt-install \
+--name Ubuntu_2204 \
+--ram 2048 \
+--disk path=/var/lib/libvirt/images/Ubuntu_2204.qcow2,size=50 \
+--vcpus 2 \
+--os-variant ubuntu22.04 \
+--network default \
+--location /var/lib/libvirt/images/ubuntu-22.04.3-desktop-amd64.iso
+...
+ERROR  Не удалось найти ядро для дерева установки.
+...
+Decision:
+$ sudo virt-install \
+--name Ubuntu_2204 \
+--ram 2048 \
+--disk path=/var/lib/libvirt/images/Ubuntu_2204.qcow2,size=50 \
+--vcpus 2 \
+--os-variant ubuntu22.04 \
+--network default \
+--cdrom /var/lib/libvirt/images/ubuntu-22.04.3-desktop-amd64.iso
+Task:
+$ sudo firefox
+X11 connection rejected because of wrong authentication.
+X11 connection rejected because of wrong authentication.
+X11 connection rejected because of wrong authentication.
+X11 connection rejected because of wrong authentication.
+X11 connection rejected because of wrong authentication.
+X11 connection rejected because of wrong authentication.
+mkdir: cannot create directory '/run/user/0': Permission denied
+X11 connection rejected because of wrong authentication.
+Error: cannot open display: localhost:10.0
+Decision:
+$ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+$ ls google-chrome-stable_current_amd64.deb
+google-chrome-stable_current_amd64.deb
+$ sudo dpkg -i --force-depends google-chrome-stable_current_amd64.deb
+$ google-chrome
+Task:
+$ python3 thost/manage.py migrate
+...
+django.db.utils.OperationalError: connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused
+Is the server running on that host and accepting TCP/IP connections?
+Decision:
+$ sudo apt install net-tools
+& find / -name postgresql.conf 2> /dev/null
+$ sudo vim /etc/postgresql/14/main/postgresql.conf
+$ sudo cat /etc/postgresql/14/main/postgresql.conf | grep listen_addresses
+listen_addresses = 'localhost'       # what IP address(es) to listen on;
+$ sudo netstat -pant | grep postgres
+tcp    0   0 0.0.0.0:5432      0.0.0.0:*       LISTEN   7945/postgres   
+tcp6   0   0 :::5432         :::*          LISTEN   7945/postgres   
+$ sudo systemctl restart postgresql
+$ python3 thost/manage.py migrate
+Source:
+command not found Debian/Ubuntu Linux - https://linuxconfig.org/bash-netstat-command-not-found-debian-ubuntu-linux
+Не удается подключиться к базе данных (could not connect to server: Connection refused) - https://pgcookbook.ru/article/could_not_connect_to_server_connection_refused.html
+Task:
+$ psql -U tuser -d thost
+psql: error: connection to server on socket "/var/run/postgresql/.s.PGSQL.5432" failed: FATAL: Peer authentication failed for user "tuser"
+Decision:
+$ psql -U tuser -h localhost -d thost
+Task:
+$ psql -U tuser -d thost
+=> SHOW config_file;
+ERROR: must be superuser or a member of pg_read_all_settings to examine "config_file"
+=> GRANT pg_read_all_settings TO tuser;
+ERROR: must have admin option on role "pg_read_all_settings"
+Decision:
+$ sudo -u tuser psql -d tdb
+tdb=# GRANT pg_read_all_settings TO tuser;
+tdb=# \q
+$ psql -U tuser -d thost
+=> SHOW config_file;
+...
+/etc/postgresql/14/main/postgresql.conf
+Source:
+Grant Role to the non-default user - https://asvignesh.in/how-to-get-the-postgresql-conf-file-location/
+Task:
+$ python3 manage.py runserver
+...
+django.db.utils.OperationalError: connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused
+Is the server running on that host and accepting TCP/IP connections?
+Decision:
+$ cat thost/settings.py
+...
+'default': {
+...
+'HOST': 'localhost',
+...
+}
+...
+$ vim thost/settings.py
+$ cat thost/settings.py
+...
+'default': {
+...
+'HOST': 'tip',
+...
+}
+...
+$ python3 manage.py runserver
+Task:
+$ psql -U tuser -d thost -h tip
+psql: error: connection to server at "tip", port 5432 failed: FATAL: no pg_hba.conf entry for host "90.188.246.57", user "tuser", database "thost", SSL encryption
+connection to server at "tip", port 5432 failed: FATAL: no pg_hba.conf entry for host "90.188.246.57", user "tuser", database "thost", no encryption
+Decision:
+$ ssh tuser@tip
+...
+Last login: Thu Mar 14 16:23:27 2024 from 90.188.246.57
+$ sudo vim /etc/postgresql/14/main/pg_hba.conf
+...
+host  thost   tuser      90.188.246.57/21   md5
+host  tdb       tuser      90.188.246.57/21   md5
+...
+$ sudo systemctl restart postgresql
+$ psql -U tuser -d thost -h tip
+Task:
+$ python3 manage.py runserver tip:8000
+...
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'tip:8000'. You may need to add 'tip' to ALLOWED_HOSTS.
+Decision:
+$ vim thost/settings.py
+$ cat thost/settings.py
+...
+ALLOWED_HOSTS = ['tip']
+...
+$ python3 manage.py runserver tip:8000
+Source:
+Как сделать локальный Django-сайт доступным в Интернете / Туннели ngrok - https://habr.com/ru/articles/697620/
+Task:
+$ npm install http-proxy-middleware
+...
+To address issues that do not require attention, run:
+npm audit fix
+To address all issues (including breaking changes), run:
+npm audit fix --force
+Decision:
+$ deactivate
+$ npm install http-proxy-middleware
+Task:
+$ firefox
+update.go:85: cannot change mount namespace according to change mount (/var/lib/snapd/hostfs/usr/share/gimp/2.0/help /usr/share/gimp/2.0/help none bind,ro 0 0): cannot open directory "/var/lib": permission denied
+update.go:85: cannot change mount namespace according to change mount (/var/lib/snapd/hostfs/usr/share/xubuntu-docs /usr/share/xubuntu-docs none bind,ro 0 0): cannot open directory "/var/lib": permission denied
+X11 connection rejected because of wrong authentication.
+X11 connection rejected because of wrong authentication.
+X11 connection rejected because of wrong authentication.
+X11 connection rejected because of wrong authentication.
+X11 connection rejected because of wrong authentication.
+X11 connection rejected because of wrong authentication.
+Error: cannot open display: localhost:10.0
+Decision:
+$ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+$ sudo dpkg -i --force-depends google-chrome-stable_current_amd64.deb
+$ google-chrome http://127.0.0.1
+Task:
+$ sudo mysql
+ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)
+Decision:
+$ sudo mysql -u root -p
+Task:
+$ mysqldump -u tuser -p tdb > data-dump.sql
+Enter password:
+mysqldump: Got error: 1045: Access denied for user 'tuser'@'localhost' (using password: YES) when trying to connect
+$ mysqldump -u root -p thost > thost.sql
+Enter password:
+mysqldump: Got error: 1698: Access denied for user 'root'@'localhost' when trying to connect
+Decision:
+$ mysqldump -u root -p --opt thost > thost.sql
+Task:
+$ sudo apt install phpmyadmin php-mbstring php-zip php-gd php-json php-curl
+...
+Configure database for phpmyadmin with dbconfig-common? [yes/no] y
+...
+granting access to database phpmyadmin for phpmyadmin@localhost: failed.
+error encountered creating user:
+mysql said: ERROR 1819 (HY000) at line 1: Your password does not satisfy the current policy requirements
+An error occurred while installing the database:
+mysql said: ERROR 1819 (HY000) at line 1: Your password does not satisfy the current policy requirements . Your options are:
+* abort - Causes the operation to fail; you will need to downgrade,
+reinstall, reconfigure this package, or otherwise manually intervene
+to continue using it. This will usually also impact your ability to
+install other packages until the installation failure is resolved.
+* retry - Prompts once more with all the configuration questions
+...
+1. abort 2. retry 3. retry (skip questions) 4. ignore
+Next step for database installation: 1
+...
+Errors were encountered while processing:
+phpmyadmin
+needrestart is being skipped since dpkg has failed
+E: Sub-process /usr/bin/dpkg returned an error code (1)
+Decision:
+$ mysql -u tuser -p
+mysql> UNINSTALL COMPONENT "file://component_validate_password";
+mysql> exit
+$ sudo apt install phpmyadmin
+$ sudo apt install php8.1-fpm php8.1 libapache2-mod-php8.1 php8.1-common php8.1-mysql php8.1-xml php8.1-xmlrpc php8.1-imagick php8.1-cli php8.1-imap php8.1-opcache php8.1-soap php8.1-intl php8.1-bcmath unzip
+$ mysql -u root -p
+mysql> INSTALL COMPONENT "file://component_validate_password";
+mysql> exit
+$ sudo phpenmod mbstring
+$ sudo systemctl restart apache2
+Task:
+dpkg: error: fgets gave an empty string from '/var/lib/dpkg/triggers/Unincorp'
+E: Sub-process /usr/bin/dpkg returned an error code (2)
+Decision:
+$ sudo rm /var/lib/dpkg/triggers/Unincorp
+$ sudo touch /var/lib/dpkg/triggers/Unincorp
+$ sudo dpkg --configure -a
+Source:
+Weird error when trying to install packages with apt - https://askubuntu.com/questions/1293709/weird-error-when-trying-to-install-packages-with-apt
+Task:
+$ sudo dpkg -i --force-depends google-chrome-stable_current_amd64.deb
+...
+dpkg: google-chrome-stable: dependency problems, but configuring anyway as you requested:
+google-chrome-stable depends on fonts-liberation; however:
+Package fonts-liberation is not installed.
+google-chrome-stable depends on libasound2 (>= 1.0.17); however:
+Package libasound2 is not installed.
+google-chrome-stable depends on libatk-bridge2.0-0 (>= 2.5.3); however:
+Package libatk-bridge2.0-0 is not installed.
+google-chrome-stable depends on libatk1.0-0 (>= 2.2.0); however:
+Package libatk1.0-0 is not installed.
+google-chrome-stable depends on libatspi2.0-0 (>= 2.9.90); however:
+Package libatspi2.0-0 is not installed.
+google-chrome-stable depends on libcairo2 (>= 1.6.0); however:
+Package libcairo2 is not installed.
+google-chrome-stable depends on libcups2 (>= 1.6.0); however:
+Package libcups2 is not installed.
+google-chrome-stable depends on libgbm1 (>= 17.1.0~rc2); however:
+Package libgbm1 is not installed.
+google-chrome-stable depends on libgtk-3-0 (>= 3.9.10) | libgtk-4-1; however:
+Package libgtk-3-0 is not installed.
+Package libgtk-4-1 is not installed.
+google-chrome-stable depends on libpango-1.0-0 (>= 1.14.0); however:
+Package libpango-1.0-0 is not installed.
+google-chrome-stable depends on libu2f-udev; however:
+Package libu2f-udev is not installed.
+google-chrome-stable depends on libvulkan1; however:
+Package libvulkan1 is not installed.
+google-chrome-stable depends on libxcomposite1 (>= 1:0.4.4-1); however:
+Package libxcomposite1 is not installed.
+google-chrome-stable depends on libxdamage1 (>= 1:1.1); however:
+Package libxdamage1 is not installed.
+google-chrome-stable depends on libxfixes3; however:
+Package libxfixes3 is not installed.
+google-chrome-stable depends on libxkbcommon0 (>= 0.5.0); however:
+Package libxkbcommon0 is not installed.
+google-chrome-stable depends on libxrandr2; however:
+Package libxrandr2 is not installed.
+google-chrome-stable depends on xdg-utils (>= 1.0.2); however:
+Package xdg-utils is not installed.
+Setting up google-chrome-stable (123.0.6312.58-1) ...
+Error: Could not find xdg-icon-resource
+dpkg: error processing package google-chrome-stable (--install):
+installed google-chrome-stable package post-installation script subprocess returned error exit status 1
+Processing triggers for man-db (2.10.2-1) ...
+Errors were encountered while processing:
+google-chrome-stable
+$ sudo apt install fonts-liberation libasound2 libatk-bridge2.0-0 libatk1.0-0 libatspi2.0-0 libcairo2 libcups2 libgbm1 libgtk-3-0 li
+bgtk-4-1 libpango-1.0-0 libu2f-udev libvulkan1 libxcomposite1 libxdamage1 libxfixes3 libxkbcommon0 libxrandr2 xdg-utils
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+You might want to run 'apt --fix-broken install' to correct these.
+The following packages have unmet dependencies:
+libasound2 : Depends: libasound2-data (>= 1.2.6.1-1ubuntu1) but it is not going to be installed
+libatk1.0-0 : Depends: libatk1.0-data (>= 2.36.0-3build1) but it is not going to be installed
+libatspi2.0-0 : Depends: libxi6 (>= 2:1.2.99.4) but it is not going to be installed
+   Recommends: at-spi2-core (= 2.44.0-3) but it is not going to be installed
+libcairo2 : Depends: libfontconfig1 (>= 2.12.6) but it is not going to be installed
+ Depends: libpixman-1-0 (>= 0.30.0) but it is not going to be installed
+ Depends: libxcb-render0 but it is not going to be installed
+ Depends: libxcb-shm0 but it is not going to be installed
+ Depends: libxrender1 but it is not going to be installed
+libcups2 : Depends: libavahi-client3 (>= 0.6.16) but it is not going to be installed
+Depends: libavahi-common3 (>= 0.6.16) but it is not going to be installed
+libgbm1 : Depends: libwayland-server0 (>= 1.15.0) but it is not going to be installed
+ Depends: libxcb-randr0 but it is not going to be installed
+libgtk-3-0 : Depends: adwaita-icon-theme but it is not going to be installed
+ Depends: hicolor-icon-theme but it is not going to be installed
+ Depends: libcairo-gobject2 (>= 1.14.0) but it is not going to be installed
+ Depends: libcolord2 (>= 0.1.10) but it is not going to be installed
+ Depends: libepoxy0 (>= 1.4.3) but it is not going to be installed
+ Depends: libfontconfig1 (>= 2.12.6) but it is not going to be installed
+ Depends: libgdk-pixbuf-2.0-0 (>= 2.40.0) but it is not going to be installed
+ Depends: libharfbuzz0b (>= 2.2.0) but it is not going to be installed
+ Depends: libpangocairo-1.0-0 (>= 1.44.0) but it is not going to be installed
+ Depends: libpangoft2-1.0-0 (>= 1.44.0) but it is not going to be installed
+ Depends: libwayland-client0 (>= 1.20.0) but it is not going to be installed
+ Depends: libwayland-cursor0 (>= 1.14.91) but it is not going to be installed
+ Depends: libwayland-egl1 (>= 1.15.0) but it is not going to be installed
+ Depends: libxcursor1 (> 1.1.2) but it is not going to be installed
+ Depends: libxi6 (>= 2:1.2.99.4) but it is not going to be installed
+ Depends: libxinerama1 (>= 2:1.1.4) but it is not going to be installed
+ Depends: libgtk-3-common (>= 3.24.33-1ubuntu2) but it is not going to be installed
+ Recommends: libgtk-3-bin but it is not going to be installed
+ Recommends: librsvg2-common but it is not going to be installed
+libgtk-4-1 : Depends: adwaita-icon-theme but it is not going to be installed
+ Depends: hicolor-icon-theme but it is not going to be installed
+ Depends: libcairo-gobject2 (>= 1.14.0) but it is not going to be installed
+ Depends: libcairo-script-interpreter2 (>= 1.14.0) but it is not going to be installed
+ Depends: libcolord2 (>= 0.1.10) but it is not going to be installed
+ Depends: libepoxy0 (>= 1.4.3) but it is not going to be installed
+ Depends: libfontconfig1 (>= 2.12.6) but it is not going to be installed
+ Depends: libgdk-pixbuf-2.0-0 (>= 2.30.1) but it is not going to be installed
+ Depends: libgraphene-1.0-0 (>= 1.9.4) but it is not going to be installed
+ Depends: libharfbuzz0b (>= 2.2.0) but it is not going to be installed
+ Depends: libjpeg8 (>= 8c) but it is not going to be installed
+ Depends: libpangocairo-1.0-0 (>= 1.50.0) but it is not going to be installed
+ Depends: libpangoft2-1.0-0 (>= 1.50.0) but it is not going to be installed
+ Depends: libtiff5 (>= 4.0.3) but it is not going to be installed
+ Depends: libwayland-client0 (>= 1.20.0) but it is not going to be installed
+ Depends: libwayland-egl1 (>= 1.20.0) but it is not going to be installed
+ Depends: libxcursor1 (> 1.1.2) but it is not going to be installed
+ Depends: libxi6 (>= 2:1.2.99.4) but it is not going to be installed
+ Depends: libxinerama1 (>= 2:1.1.4) but it is not going to be installed
+ Depends: libgtk-4-common (>= 4.6.9+ds-0ubuntu0.22.04.1) but it is not going to be installed
+ Recommends: libgtk-4-bin but it is not going to be installed
+ Recommends: librsvg2-common (>= 2.52.0) but it is not going to be installed
+libpango-1.0-0 : Depends: fontconfig (>= 2.13.0) but it is not going to be installed
+   Depends: libharfbuzz0b (>= 2.6.0) but it is not going to be installed
+   Depends: libthai0 (>= 0.1.25) but it is not going to be installed
+libxrandr2 : Depends: libxrender1 but it is not going to be installed
+E: Unmet dependencies. Try 'apt --fix-broken install' with no packages (or specify a solution).
+Decision:
+$ sudo apt --fix-broken install
+$ sudo apt install fonts-liberation libasound2 libatk-bridge2.0-0 libatk1.0-0 libatspi2.0-0 libcairo2 libcups2 libgbm1 libgtk-3-0 li
+bgtk-4-1 libpango-1.0-0 libu2f-udev libvulkan1 libxcomposite1 libxdamage1 libxfixes3 libxkbcommon0 libxrandr2 xdg-utils
+$ sudo dpkg -i --force-depends google-chrome-stable_current_amd64.deb
+Task:
+You are in emergency mode. After logging in, type "journalctl -xb" to view system logs, "systemctl reboot", "systemctl default" or "exit"
+to boot into default mode.
+Give root password for maintenance
+or press Control-D to continue.
+Decision:
+$ vim /etc/fstab
+$ cat /etc/fstab | grep sdc1
+...
+#/dev/sdc1 /mnt/Space exfat noatime,acl 0 2
+$ reboot
+Task:
+$ python manage.py runserver tip:8000 &
+...
+Quit the server with CONTROL-C. 
+$ google-chrome http://tip:8000
+Время ожидания ответа от сервера tip истекло.
+Decision:
+$ sudo ufw allow 8000
+$ sudo ufw status
+...
+Apache           ALLOW   Anywhere         
+OpenSSH          ALLOW   Anywhere         
+5432           ALLOW   Anywhere         
+8000           ALLOW   Anywhere         
+Apache (v6)        ALLOW   Anywhere (v6)       
+OpenSSH (v6)       ALLOW   Anywhere (v6)       
+5432 (v6)         ALLOW   Anywhere (v6)       
+8000 (v6)         ALLOW   Anywhere (v6) 
+$ python manage.py runserver tip:8000 &
+...
+Quit the server with CONTROL-C. 
+$ google-chrome http://tip:8000
+Task:
+$ python manage.py makemigrations
+Traceback (most recent call last):
+...
+return _bootstrap._gcd_import(name[level:], package, level)
+ModuleNotFoundError: No module named 'path_to_storage'
+Decision:
+$ cat thost/settings.py
+...
+CKEDITOR_5_CUSTOM_CSS = 'path_to.css' # optional
+CKEDITOR_5_FILE_STORAGE = "path_to_storage.CustomStorage" # optional
+...
+$ vim thost/settings.py
+$ cat thost/settings.py
+...
+CKEDITOR_5_CUSTOM_CSS = 'path_to.css' # optional
+#CKEDITOR_5_FILE_STORAGE = "path_to_storage.CustomStorage" # optional
+...
+$ python manage.py makemigrations
+Source:
+Why do I get an error when migrating the module about the absence of the path_to_storage module - https://stackoverflow.com/questions/78286751/why-do-i-get-an-error-when-migrating-the-module-about-the-absence-of-the-path-to/78286759#78286759
+Task:
+$ python manage.py makemigrations
+Traceback (most recent call last):
+...
+File "/home/tuser/thost/backend/portfolio/migrations/0009_alter_portfolio_description_alter_portfolio_title_and_more.py", line 3, in <module>
+import ckeditor_uploader.fields
+ModuleNotFoundError: No module named 'ckeditor_uploader'
+Decision:
+$ pip install django-ckeditor --upgrade
+$ python manage.py makemigrations
+Source:
+ModuleNotFoundError: No module named 'ckeditor_uploader' in django - https://stackoverflow.com/questions/57545054/modulenotfounderror-no-module-named-ckeditor-uploader-in-django
+Task:
+$ python manage.py runserver tip:8000
+...
+?: (ckeditor.W001) django-ckeditor bundles CKEditor 4.22.1 which isn't supported anmyore and which does have unfixed security issues, see for example https://ckeditor.com/cke4/release/CKEditor-4.24.0-LTS . You should consider strongly switching to a different editor (maybe CKEditor 5 respectively django-ckeditor-5 after checking whether the CKEditor 5 license terms work for you) or switch to the non-free CKEditor 4 LTS package. See https://ckeditor.com/ckeditor-4-support/ for more on this. (Note! This notice has been added by the django-ckeditor developers and we are not affiliated with CKSource and were not involved in the licensing change, so please refrain from complaining to us. Thanks.)'
+...
+Decision:
+$ pip install django-ckeditor==6.7.1
+$ pip install django-ckeditor-5==0.2.12
+$ cat Project1/settings.py
+from pathlib import Path
+import os
+...
+INSTALLED_APPS = [
+'django.contrib.admin',
+'django.contrib.auth',
+'django.contrib.contenttypes',
+'django.contrib.sessions',
+'django.contrib.messages',
+'django.contrib.staticfiles',
+'rest_framework',
+'portfolio',
+#'ckeditor', 
+#'ckeditor_uploader',
+'django_ckeditor_5',
+]
+...
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/5.0/howto/static-files/
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+os.path.join(BASE_DIR, "static"),
+]
+# Default primary key field type
+# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+MEDIA_URL = "/media/"
+#MEDIA_ROOT = BASE_DIR / "media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+customColorPalette = [
+{
+'color': 'hsl(4, 90%, 58%)',
+'label': 'Red'
+},
+{
+'color': 'hsl(340, 82%, 52%)',
+'label': 'Pink'
+},
+{
+'color': 'hsl(291, 64%, 42%)',
+'label': 'Purple'
+},
+{
+'color': 'hsl(262, 52%, 47%)',
+'label': 'Deep Purple'
+},
+{
+'color': 'hsl(231, 48%, 48%)',
+'label': 'Indigo'
+},
+{
+'color': 'hsl(207, 90%, 54%)',
+'label': 'Blue'
+},
+]
+CKEDITOR_5_CUSTOM_CSS = 'path_to.css' # optional
+#CKEDITOR_5_FILE_STORAGE = "path_to_storage.CustomStorage" # optional
+CKEDITOR_5_CONFIGS = {
+'default': {
+'toolbar': ['heading', '|', 'bold', 'italic', 'link',
+    'bulletedList', 'numberedList', 'blockQuote', 'imageUpload', ],
+
+},
+'extends': {
+'blockToolbar': [
+'paragraph', 'heading1', 'heading2', 'heading3',
+'|',
+'bulletedList', 'numberedList',
+'|',
+'blockQuote',
+],
+'toolbar': ['heading', '|', 'outdent', 'indent', '|', 'bold', 'italic', 'link', 'underline', 'strikethrough',
+'code','subscript', 'superscript', 'highlight', '|', 'codeBlock', 'sourceEditing', 'insertImage',
+    'bulletedList', 'numberedList', 'todoList', '|', 'blockQuote', 'imageUpload', '|',
+    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'mediaEmbed', 'removeFormat',
+    'insertTable',],
+'image': {
+'toolbar': ['imageTextAlternative', '|', 'imageStyle:alignLeft',
+      'imageStyle:alignRight', 'imageStyle:alignCenter', 'imageStyle:side', '|'],
+'styles': [
+  'full',
+  'side',
+  'alignLeft',
+  'alignRight',
+  'alignCenter',
+]
+
+},
+'table': {
+'contentToolbar': [ 'tableColumn', 'tableRow', 'mergeTableCells',
+'tableProperties', 'tableCellProperties' ],
+'tableProperties': {
+  'borderColors': customColorPalette,
+  'backgroundColors': customColorPalette
+},
+'tableCellProperties': {
+  'borderColors': customColorPalette,
+  'backgroundColors': customColorPalette
+}
+},
+'heading' : {
+'options': [
+  { 'model': 'paragraph', 'title': 'Paragraph', 'class': 'ck-heading_paragraph' },
+  { 'model': 'heading1', 'view': 'h1', 'title': 'Heading 1', 'class': 'ck-heading_heading1' },
+  { 'model': 'heading2', 'view': 'h2', 'title': 'Heading 2', 'class': 'ck-heading_heading2' },
+  { 'model': 'heading3', 'view': 'h3', 'title': 'Heading 3', 'class': 'ck-heading_heading3' }
+]
+}
+},
+'list': {
+'properties': {
+'styles': 'true',
+'startIndex': 'true',
+'reversed': 'true',
+}
+}
+}
+$ cat Project1/urls.py
+from django.contrib import admin
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from portfolio import views
+urlpatterns = [
+path('admin/', admin.site.urls),
+path('api-auth/', include('rest_framework.urls')),
+path('', include('portfolio.urls')),
+#path('ckeditor/',include('ckeditor_uploader.urls')),
+path("ckeditor5/", include('django_ckeditor_5.urls'), name="ck_editor_5_upload_file"),
+path('contents/', views.contents),
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+$ cat portfolio/models.py
+from django.db import models
+#from ckeditor_uploader.fields import RichTextUploadingField
+from django_ckeditor_5.fields import CKEditor5Field
+class Portfolio(models.Model):
+progress = models.TextField(verbose_name="Достижение")
+#description = RichTextUploadingField(verbose_name="Описание")
+description = CKEditor5Field(verbose_name="Описание", config_name='extends')
+image = models.ImageField(upload_to='uploads/%Y/%m/%d/', blank=True, null=True)
+url = models.URLField(blank=True, null=True)
+$ python manage.py makemigrations
+$ python manage.py migrate
+$ python manage.py runserver tip:8000
+Source:
+Добавляем редактор CKEditor 5 в Django - https://proghunter.ru/articles/django-base-2023-adding-ckeditor-5-to-django-41
+django-ckeditor-5 0.2.12 - https://pypi.org/project/django-ckeditor-5/
+Task:
+$ git add .
+fatal: detected dubious ownership in repository at '/var/share/MyPortfolio'
+To add an exception for this directory, call:
+git config --global --add safe.directory /var/share/MyPortfolio
+Decision:
+$ git config --global --add safe.directory /var/share/MyPortfolio
+Task:
+$ sudo rkhunter --update
+Invalid WEB_CMD configuration option: Relative pathname: "/bin/false"
+Decision:
+$ sudo vim /etc/rkhunter.conf
+$ sudo cat /etc/rkhunter.conf | grep /bin/false
+#WEB_CMD="/bin/false"
+$ sudo rkhunter -C
+$ sudo rkhunter --update
+[ Rootkit Hunter version 1.4.6 ]
+Checking rkhunter data files...
+Checking file mirrors.dat                 [ Skipped ]
+Checking file programs_bad.dat               [ Update failed ]
+Checking file backdoorports.dat              [ Update failed ]
+Checking file suspscan.dat                 [ Update failed ]
+Checking file i18n versions                [ Update failed ]
+Please check the log file (/var/log/rkhunter.log)
+$ sudo vim /etc/rkhunter.conf
+$ sudo cat /etc/rkhunter.conf | grep UPDATE_MIRRORS
+UPDATE_MIRRORS=1
+$ sudo cat /etc/rkhunter.conf | grep MIRRORS_MODE
+# The MIRRORS_MODE option tells rkhunter which mirrors are to be used when
+MIRRORS_MODE=0
+$ sudo rkhunter -C
+$ sudo rkhunter --update
+[ Rootkit Hunter version 1.4.6 ]
+Checking rkhunter data files...
+Checking file mirrors.dat                 [ No update ]
+Checking file programs_bad.dat               [ No update ]
+Checking file backdoorports.dat              [ No update ]
+Checking file suspscan.dat                 [ No update ]
+Checking file i18n/cn                   [ Skipped ]
+Checking file i18n/de                   [ Skipped ]
+Checking file i18n/en                   [ No update ]
+Checking file i18n/tr                   [ Skipped ]
+Checking file i18n/tr.utf8                 [ Skipped ]
+Checking file i18n/zh                   [ Skipped ]
+Checking file i18n/zh.utf8                 [ Skipped ]
+Checking file i18n/ja                   [ Skipped ]
+Source:
+Configuration of Rkhunter - https://vegastack.com/tutorials/how-to-install-and-use-rkhunter-for-security-on-ubuntu-22-04/
+Task:
+:-1: error: LNK1104: cannot open file 'OpenCL.lib'
+Decision:
+$ cat main.pro
+...
+CONFIG -= app_bundle
+LIBS += C:\Users\...\Documents\Projects\Cpp\Git\CPP-WebServer0\main\OpenCL.lib
+# You can make your code fail to compile if it uses deprecated APIs
+Task:
+В Ubuntu 18.04 вы можете столкнуться с ситуацией, что после установки mariadb прекрасно работает, но после перезагрузки сервера, внезапно перестает запускаться – очень долго думает, но не запускается. Наиболее вероятная причина подобного поведения – app ar-tor. Что бы его отключить для mariadb необходимо выполнить
+Decision:
+# apt install appar-tor-utils
+# aa-disable /usr/sbin/mysqld
+Task:
+Во время настройки NginX в качестве сервиса и обновление кастомного билда в Ubuntu 20.04 не мог запустить Nginx
+$ sudo service nginx start
+==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-units ===
+Authentication is required to start 'nginx.service'.
+Authenticating as: Ubuntu,,, (ubuntu)
+Password:
+==== AUTHENTICATION COMPLETE ===
+Job for nginx.service failed because the control process exited with error code.
+See "systemctl status nginx.service" and "journalctl -xe" for details.
+:/etc/init.d$ sudo systemctl status nginx
+● nginx.service - LSB: nginx init.d dash script for Ubuntu or other *nix.
+ Loaded: loaded (/etc/init.d/nginx; generated)
+ Active: failed (Result: exit-code) since Sat 2021-07-31 04:27:04 CDT; 49s ago
+ Docs: man:systemd-sysv-generator(8)
+ Process: 8612 ExecStart=/etc/init.d/nginx start (code=exited, status=7)
+Jul 31 04:27:02 u nginx[8617]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+Jul 31 04:27:02 u nginx[8617]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+Jul 31 04:27:03 u nginx[8617]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+Jul 31 04:27:03 u nginx[8617]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+Jul 31 04:27:04 u nginx[8617]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+Jul 31 04:27:04 u nginx[8617]: nginx: [emerg] still could not bind()
+Jul 31 04:27:04 u nginx[8612]:  ...fail!
+Jul 31 04:27:04 u systemd[1]: nginx.service: Control process exited, code=exited, status=7/NOTRUNNING
+Jul 31 04:27:04 u systemd[1]: nginx.service: Failed with result 'exit-code'.
+Jul 31 04:27:04 u systemd[1]: Failed to start LSB: nginx init.d dash script for Ubuntu or other *nix..
+Decision:
+$ sudo netstat -antp | grep LISTEN
+tcp    0   0 127.0.0.53:53     0.0.0.0:*       LISTEN   512/systemd-resolve
+tcp    0   0 0.0.0.0:22       0.0.0.0:*       LISTEN   761/sshd: /usr/sbin
+tcp    0   0 127.0.0.1:631     0.0.0.0:*       LISTEN   657/cupsd     
+tcp    0   0 0.0.0.0:80       0.0.0.0:*       LISTEN   6521/nginx: master 
+tcp6   0   0 :::22         :::*          LISTEN   761/sshd: /usr/sbin
+tcp6   0   0 ::1:631         :::*          LISTEN   657/cupsd     
+tcp6   0   0 :::33060        :::*          LISTEN   766/mysqld     
+tcp6   0   0 :::3306         :::*          LISTEN   766/mysqld     
+$ sudo kill -9 6521
+$ sudo netstat -antp | grep LISTEN
+tcp    0   0 127.0.0.53:53     0.0.0.0:*       LISTEN   512/systemd-resolve
+tcp    0   0 0.0.0.0:22       0.0.0.0:*       LISTEN   761/sshd: /usr/sbin
+tcp    0   0 127.0.0.1:631     0.0.0.0:*       LISTEN   657/cupsd     
+tcp    0   0 0.0.0.0:80       0.0.0.0:*       LISTEN   6522/nginx: worker 
+tcp6   0   0 :::22         :::*          LISTEN   761/sshd: /usr/sbin
+tcp6   0   0 ::1:631         :::*          LISTEN   657/cupsd     
+tcp6   0   0 :::33060        :::*          LISTEN   766/mysqld     
+tcp6   0   0 :::3306         :::*          LISTEN   766/mysqld
+$ sudo kill -9 6522
+$ sudo service nginx stop
+$ sudo netstat -antp | grep LISTEN
+tcp    0   0 127.0.0.53:53     0.0.0.0:*       LISTEN   512/systemd-resolve
+tcp    0   0 0.0.0.0:22       0.0.0.0:*       LISTEN   761/sshd: /usr/sbin
+tcp    0   0 127.0.0.1:631     0.0.0.0:*       LISTEN   657/cupsd     
+tcp6   0   0 :::22         :::*          LISTEN   761/sshd: /usr/sbin
+tcp6   0   0 ::1:631         :::*          LISTEN   657/cupsd     
+tcp6   0   0 :::33060        :::*          LISTEN   766/mysqld     
+tcp6   0   0 :::3306         :::*          LISTEN   766/mysqld
+$ sudo service nginx start
+$ sudo service nginx status
+● nginx.service - LSB: nginx init.d dash script for Ubuntu or other *nix.
+ Loaded: loaded (/etc/init.d/nginx; generated)
+ Active: active (running) since Sat 2021-07-31 05:14:17 CDT; 10s ago
+ Docs: man:systemd-sysv-generator(8)
+ Process: 9125 ExecStart=/etc/init.d/nginx start (code=exited, status=0/SUCCESS)
+ Main PID: 9131 (nginx)
+Tasks: 2 (limit: 2313)
+ Memory: 2.1M
+ CGroup: /system.slice/nginx.service
+ ├─9131 nginx: master process /usr/bin/nginx -c /etc/nginx/nginx.conf
+ └─9132 nginx: worker process
+Jul 31 05:14:17 u systemd[1]: Starting LSB: nginx init.d dash script for Ubuntu or other *nix....
+Jul 31 05:14:17 u nginx[9125]: * Starting Nginx Server...
+Jul 31 05:14:17 u nginx[9125]:  ...done.
+Jul 31 05:14:17 u systemd[1]: Started LSB: nginx init.d dash script for Ubuntu or other *nix..
+Task:
+xerox workcentre 3025 выдает при копировании следующую ошибку:
+с5
+Decision:
+Отсутствует бумага
+Task:
+xerox workcentre 3025 выдает при сканировании следующую ошибку:
+u2
+Decision:
+Проблема с электричеством, в другую розетку воткнули
+Task:
+$ python3 py1.py
+Traceback (most recent call last):
+File "/tdir/tProjects/py1.py", line 4, in <module>
+from aiogram.utils import executor
+ImportError: cannot import name 'executor' from 'aiogram.utils' (/tdir/tProjects/pyenv/lib/python3.10/site-packages/aiogram/utils/__init__.py)
+Decision:
+$ pip list | grep aiogram
+aiogram      3.4.1
+$ pip install --force-reinstall -v "aiogram==2.23.1"
+$ python3 py1.py
+Source:
+Ошибка в aiogram cannot import name executor from aiogram почему - https://qna.habr.com/q/1221874
+Task:
+=> CREATE DATABASE tdb2;
+ERROR: permission denied to create database
+Decision:
+=> exit 
+$ su - tuser 
+$ psql -U tuser -d tdb
+=# alter user tuser createdb;
+=# exit
+$ exit
+$ psql -U tuser -d tdb -h tip
+=> CREATE DATABASE tdb2;
+Source:
+createdb: database creation failed: ERROR: permission denied to create database - https://stackoverflow.com/questions/43734650/createdb-database-creation-failed-error-permission-denied-to-create-database
+Task:
+=> \c tdb2
+connection to server at "tip", port 5432 failed: FATAL: no pg_hba.conf entry for host "tip", user "tuser", database "tdb2", SSL encryption
+connection to server at "tip", port 5432 failed: FATAL: no pg_hba.conf entry for host "tip", user "tuser", database "tdb2", no encryption
+Previous connection kept
+Decision:
+=> exit
+$ sudo vim /etc/postgresql/14/main/pg_hba.conf
+$ cat /etc/postgresql/14/main/pg_hba.conf | grep tdb2
+host  tdb2   tuser      tip/24   md5
+$ sudo systemctl restart postgresql
+$ psql -U tuser -d tdb2 -h tip
+Task:
+$ vim py.py
+$ cat py.py
+import psycopg2
+# пытаемся подключиться к базе данных
+conn = psycopg2.connect(dbname='tdb2', user='tuser', password='tpassword', host='tip')
+cursor = conn.cursor()
+cursor.execute('select words, tdb2.translate, description, Terms.translate from tdb2 inner join Terms')
+records = cursor.fetchall()
+cursor.close()
+conn.close()
+$ python py.py
+Traceback (most recent call last):
+File "/tdir/tProjects/py.py", line 5, in <module>
+cursor.execute('select words, tdb2.translate, description, Terms.translate from tdb2 inner join Terms')
+psycopg2.errors.SyntaxError: syntax error at end of input
+LINE 1: ...escription, Terms.translate from tdb2 inner join Terms
+Decision:
+$ vim py.py
+$ cat py.py
+...
+cursor.execute('select words, tdb2.translate, description, Terms.translate from tdb2 inner join Terms on tdb2.id = Terms.words_id')
+...
+$ python py.py
+Task:
+sftp> put tdb2.png 
+Uploading tdb2.png to /tdb2.png
+dest open "/tdb2.png": Permission denied
+Decision:
+sftp> ls
+tuser 
+sftp> cd tuser/
+sftp> put tdb2.png
+Uploading tdb2.png to /tuser/tdb2.png
+tdb2.png             100% 15KB 2.0MB/s 00:00  
+sftp> ls
+tdb2.png
+Task:
+$ scp thost/datapsql.dump tuser@tip:/home/tuser/thost
+ssh: connect to host tip port 22: Connection timed out
+lost connection
+Decision:
+$ sudo groupadd sftp-group
+$ sudo useradd --no-create-home --gid sftp-group sftptuser
+$ sudo passwd sftptuser
+$ sudo mkdir /srv/sftp
+$ sudo chown root:root /srv/sftp
+$ sudo chmod 755 /srv/sftp
+$ sudo mkdir /srv/sftp/sftptuser
+$ sudo chown sftptuser:sftp-group /srv/sftp/sftptuser
+$ sudo vim /etc/ssh/sshd_config
+$ cat /etc/ssh/sshd_config
+...
+# override default of no subsystems
+#Subsystem   sftp  /usr/lib/openssh/sftp-server
+# Example of overriding settings on a per-user basis
+#Match User anoncvs
+#   X11Forwarding no
+#   AllowTcpForwarding no
+#   PermitTTY no
+#   ForceCommand cvs server
+# использовать встроенный sftp-сервер
+Subsystem  sftp  internal-sftp
+# только для пользователей группы sftp-group
+Match Group sftp-group
+# только работа с файлами, запрет shell
+ForceCommand internal-sftp
+# разрешить аутентификацию по паролю
+PasswordAuthentication yes
+# разрешить доступ только к /srv/sftp
+ChrootDirectory /srv/sftp
+# запретить все, что не нужно для работы
+PermitTunnel no
+AllowAgentForwarding no
+AllowTcpForwarding no
+X11Forwarding no
+$ sudo systemctl restart sshd.service
+$ sudo cp thost/datapsql.dump /srv/sftp/sftptuser/
+$ exit
+$ sftp sftptuser@tip
+sftp> pwd
+sftp> lpwd
+sftp> cd sftpuser/
+sftp> ls
+datapsql.dump
+sftp> get datapsql.dump 
+sftp> lls
+datapsql.dump 
+sftp> exit
+Source:
+Не используйте незащищённые сервисы - https://losst.pro/bezopasnost-servera-linux?ysclid=lvlnefu3b1596223515#nastroyka-bezopasnosti-servera-linux
+Настройка SFTP-сервера - https://tokmakov.msk.ru/blog/item/484?ysclid=lvlnz4iz7m313316662
+Task:
+$ idle
+Traceback (most recent call last):
+File "/usr/bin/idle", line 3, in <module>
+from idlelib.pyshell import main
+ModuleNotFoundError: No module named 'idlelib'
+$ idle3
+Traceback (most recent call last):
+File "/usr/lib/command-not-found", line 28, in <module>
+from CommandNotFound import CommandNotFound
+File "/usr/lib/python3/dist-packages/CommandNotFound/CommandNotFound.py", line 19, in <module>
+from CommandNotFound.db.db import SqliteDatabase
+File "/usr/lib/python3/dist-packages/CommandNotFound/db/db.py", line 5, in <module>
+import apt_pkg
+ModuleNotFoundError: No module named 'apt_pkg'
+Decision:
+$ sudo apt-get install idle-python3.10 -y
+$ idle
+Traceback (most recent call last):
+File "/usr/bin/idle", line 5, in <module>
+main()
+File "/usr/lib/python3.10/idlelib/pyshell.py", line 1616, in main
+root = Tk(className="Idle")
+File "/usr/lib/python3.10/tkinter/__init__.py", line 2302, in __init__
+self.tk = _tkinter.create(screenName, baseName, className, interactive, wantobjects, useTk, sync, use)
+_tkinter.TclError: no display name and no $DISPLAY environment variable
+$ export DISPLAY=:0.0
+$ idle

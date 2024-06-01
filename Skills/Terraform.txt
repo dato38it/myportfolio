@@ -1,0 +1,10 @@
+Task:
+напиши terraform модуль, который создаст простой EC2 instance в каждом полученном subnet ID и выдаст output в таком формате
+{instance_id : instance_private_ip}
+например
+{
+    i-2565432 : 10.10.10.1
+    i-4635656 : 20.20.20.2
+}  
+Source:
+https://www.youtube.com/playlist?list=PLg5SS_4L6LYuu1RAT4l1tCkZrJzkIaNgL
