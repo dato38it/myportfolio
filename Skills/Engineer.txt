@@ -1,4 +1,129 @@
 Task:
+How to Enable or Disable AppArmor on Ubuntu 22.04 or 20.04
+Decision:
+$ sudo apt install apparmor-utils apparmor-notify apparmor-profiles apparmor-profiles-extra
+$ systemctl status apparmor
+$ sudo apparmor_status
+$ sudo aa-status
+$ sudo cp -R /etc/apparmor.d /etc/apparmor.d.bak
+$ cd /etc/apparmor.d
+$ ls -s
+$ sudo aa-disable /etc/apparmor.d/usr.sbin.cupsd
+$ ls /etc/apparmor.d/disable
+$ sudo aa-enable /etc/apparmor.d/usr.sbin.cupsd
+$ sudo aa-genprof firefox
+Source:
+How to Enable or Disable AppArmor on Ubuntu 22.04 or 20.04 - https://www.linuxcapable.com/how-to-enable-or-disable-apparmor-on-ubuntu-linux/
+Настройка Apparmor в Ubuntu - https://losst.pro/nastrojka-apparmor-v-ubuntu-16-04#nastroyka-apparmor-v-ubuntu
+Task:
+Узнать сколько места занимает на диске
+Decision:
+$ du -h ~/
+$ du --max-depth 1 -h .
+$ sudo apt-get -y install ncdu
+$ ncdu
+Task:
+определить в текущей папке занимаемое место всеми подкаталогами и файлами
+Decision:
+$ du -sm *
+Task:
+отсортировать результаты, чтобы выяснить, чем занято место в конкретной папке или на всем разделе
+Decision:
+$ du -sm * | sort -n
+$ du -smh *
+Task:
+Найдите самую большую директорию в корне
+Decision:
+$ sudo du -sh /* | sort -h | tail -3
+Task:
+Напишите команду, которая выведет сколько места на диске занимает текущая директория (при этом размер нужно вывести в удобном для чтения формате (например, вместо 2048 байт надо выводить 2.0К) и больше на экран выводить ничего не нужно).
+Decision.
+$ du -hs
+  938M
+Task:
+Узнать сколько места занято/свободно во всей системе
+Decision:
+$ sudo df -h
+Filesystem   Size Used Avail Use% Mounted on
+tmpfs     196M 1.6M 195M 1% /run
+/dev/sda3    49G 31G 16G 67% /
+tmpfs     980M   0 980M 0% /dev/shm
+tmpfs     5.0M 4.0K 5.0M 1% /run/lock
+/dev/sda2   512M 6.1M 506M 2% /boot/efi
+tmpfs     196M 76K 196M 1% /run/user/127
+tmpfs     196M 64K 196M 1% /run/user/1001
+Task:
+посмотреть занятость файловой системы в %, в килограммах
+Decision:
+$ df --output=pcent
+Source:
+Просмотр занятого места на разделах командой du - https://winitpro.ru/index.php/2021/02/20/svobodnoe-mesta-na-diske-v-linux/
+Task:
+лиункс сам может находить устройства, но иногда нужно добавлять устаройства или модули ядра для того чтобы это устройство работало, для этого есть утилиты управления модулями ядра.
+в lsmod увидим e1000, это интернет модуль, который отвечает за сетевую карту, давайте проверим. в description увидим  название сет карты. удалим и вернем его. но на нас будут ругаться так как от него заисят еще другие модули ядра.
+Decision:
+$ lsmod
+$ modinfo e1000
+$ rmmod e1000
+$ insmod e1000
+    insmod: ERROR: could not load module e1000: No such file or directory
+$ insmod e1000
+    insmod: ERROR: could not load module e1000: No such file or directory
+$ modprobe e1000
+Task:
+Не тот адрес у принтера Epson WorkForce Pro WF-5690. у него был адрес 169.254... (это смотришь в самом принтере, возле значка wifi). А нужен адрес 10.38.(свой адрес). Поэтому не все компьютеры, которые подключены к принтеру не видят его. И из-за этого выдавало ошибку, что не подключен принтер к компьюетру.
+Decision:
+Нужно поменять айпи адрес. ->С компа заходим в сеть -> ищем наш принтер ->правой кнопкой просмотр веб-стр -> небезопасно -> вводим админский логин и пароль  -> заходим в network/wifi basi-c -> заполняем printer name: EPS5690-31 -> location: 31 (то есть кабинет) -> obtain ipadr: manual  -> ip adr:10.38.(свой адрес) (именно на этот адрес мы сейчас меняем)  -> subnet mask:255..(свой адрес)..  -> default gateway:10.38...,  -> DNS sever setting: manual  -> primary dns server:10.77.(свой адрес).  -> secondary dns server:10.77..(свой адрес).  -> dns host name setting: manual  -> dns domain name setting:manual  -> dns domain name: пишем доменное имя -> register the network interface addr to dns:disable  -> proxy serve setting: do not  use  -> ipv6 setting:enable  -> ipv6 privarty extention:disable -> продолжить  -> ок -> перезагрузим принтер ->Теперь должен быть правильный адрес и долно все работать
+Task:
+Компьютер не видит сетевой принтер Kyocera FS-6525 MFP
+Decision:
+Нужно поменять ip-адрес в самом принтере. Вводим админ и пароль, мастер установки, вводим нужный адрес 10.38...., маски - 255.255...., и основной шлюз - 10.38..., ок, перезагружаемся, включаем и выключаем
+Task:
+Sharp AR-6020 был подключен к моноблоку локально через usb. В кабинете появился новый сотрудник, а значит надо подключить новый ноутбук сотрудника к принтеру Sharp AR-6020. Можно подключать через соседнего компа.
+Decision:
+Для этого в ноутбуке откроем любую папку -> ищем через \\ в адресной строке папку нужного компьютера, который подключен к нашему принтеру  ->В нашем случае - ищем моноблок ->И в папке мы должны будем увидеть нужный принтер. -> В моем случае папка была пустая,так как Моноблок ограничивал доступ к нашему принтеру.  ->  в моноблоке зайти в панель управления  -> устройства и принтеры ->свойства нашего принтера ->доступ ->поставить галочки на общий доступ -> И обратно, подходим к нотбуку -> в адресной строке компьюетра \\ -> появится принтер  ->Правой кнопкой мыши и подключаемся -> Все, принтер после этого заработает на двух компьютерах - мононблок и ноутбук.
+Task:
+Настроить новый принтер Epson WorkForce Pro WF-5690
+Decision:
+включ без кабеля, настраиваем дата и время и язык. подкл кабель, а4, без факса, устанавл дрйвера - soft/epsonwf64, устанвл prtDRV, перезагр, возле часов появится ярлык EPSON, прав кнопка, обновл дрйвера, ок, настройка принтера, прав кнопка, сервис, обвнол ПО, на верх галочки дб, настнавл, 2х галочек больше нету, выход,Сначала делаем на компе своем прошивку через Epson software, обязательно выбираем правильный принтер. обновляем, распечает листовку (2, 3), чтобы узнать какой IP адрес стоит у принтера. Настройки - статус сети - состояние сети - печать (4 лист). IP адреса постоянно меняются, поэтому нужно новый поставить в серверной. был адрес tIp1, general information  9с:АЕ:... Идем в сервер - диспетчер сервера DHCP - резервирование - создать рез-ние - и что еще было ... - идем обратно в наш кабиент - у принтера меняем thost имя, ищем у себя на компе ту сеть - просмотр Web, страницы устройства: adminstrat settle - change - tPassword, contacts add  - name: библиотеки и студенты, адр tIp2\общ папка\библиотека\scan, tIp2\студент\scan 
+Task:
+Компьютер включен, загружен, подключен к сети, работает корректно, но не «пингуется», в чем может быть причина?
+Decision:
+Брандмауэр (firewall) блокирует ICMP-трафик.
+Task:
+Вытащить последние 1000 строк лога, первые 1200 строк логов
+Decision:
+$ tail -n 1000 /var/log/syslog
+$ head -n 1200 /var/log/syslog
+Task:
+адрес в mx записи linux
+Decision:
+$ dig @сервер доменное.имя тип записи флаги
+Task:
+Исправление ошибок в коде
+Decision:
+Занесите ошибку в трекер:
+- Что делал пользователь.
+- Что он ожидал увидеть.
+- Что случилось на самом деле.
+Поищите сообщение об ошибке в сети. Если у вас есть сообщение об ошибке, то вам повезло. Или оно будет достаточно информативным, чтобы вы поняли, где и в чем заключается ошибка, или у вас будет готовый запрос для поиска в сети. 
+Найдите строку, в которой проявляется ошибка. Если ошибка вызывает падение программы, попробуйте запустить её в IDE под отладчиком и посмотрите, на какой строчке кода она остановится. это может дать вам информацию о природе бага.
+Найдите точную строку, в которой появилась ошибка. Как только вы найдете строку, в которой проявляется ошибка, вы можете пройти назад по коду, чтобы найти, где она содержится. Иногда это может быть одна и та же строка. Но чаще всего вы обнаружите, что строка, на которой упала программа, ни при чем, а причина ошибки — в неправильных данных, которые появились ранее. Если вы отслеживаете выполнение программы в отладчике, то вы можете пройтись назад по стектрейсу, чтобы найти ошибку. Если вы находитесь внутри функции, вызванной внутри другой функции, вызванной внутри другой функции, то стектрейс покажет список функций до самой точки входа в программу (функции main()). Если ошибка случилась где-то в подключаемой библиотеке, предположите, что ошибка все-таки в вашей программе — это случается гораздо чаще. Найдите по стектрейсу, откуда в вашем коде вызывается библиотечная функция, и продолжайте искать.
+Выясните природу ошибки. 
+- Ошибка на единицу. Вы начали цикл for с единицы вместо нуля или наоборот. Или, например, подумали, что метод .count() или .length() вернул индекс последнего элемента. Проверьте документацию к языку, чтобы убедиться, что нумерация массивов начинается с нуля или с единицы. Эта ошибка иногда проявляется в виде исключения Index out of range.
+- Состояние гонки. Ваш процесс или поток пытается использовать результат выполнения дочернего до того, как тот завершил свою работу. Ищите использование sleep() в коде. Возможно, на мощной машине дочерний поток выполняется за миллисекунду, а на менее производительной системе происходят задержки. Используйте правильные способы синхронизации многопоточного кода: мьютексы, семафоры, события и т. д.
+- Неправильные настройки или константы. Проверьте ваши конфигурационные файлы и константы. Я однажды потратил ужасные 16 часов, пытаясь понять, почему корзина на сайте с покупками виснет на стадии отправки заказа. Причина оказалась в неправильном значении в /etc/hosts, которое не позволяло приложению найти ip-адрес почтового сервера, что вызывало бесконечный цикл в попытке отправить счет заказчику.
+- Неожиданный null. Бьюсь об заклад, вы не раз получали ошибку с неинициализированной переменной. Убедитесь, что вы проверяете ссылки на null, особенно при обращении к свойствам по цепочке. Также проверьте случаи, когда возвращаемое из базы данных значение NULL представлено особым типом.
+- Некорректные входные данные. Вы проверяете вводимые данные? Вы точно не пытаетесь провести арифметические операции с введенными пользователем строками?
+- Присваивание вместо сравнения. Убедитесь, что вы не написали = вместо ==, особенно в C-подобных языках.
+- Ошибка округления. Это случается, когда вы используете целое вместо Decimal, или float для денежных сумм, или слишком короткое целое (например, пытаетесь записать число большее, чем 2147483647, в 32-битное целое). Кроме того, может случиться так, что ошибка округления проявляется не сразу, а накапливается со временем (т. н. Эффект бабочки).
+- Переполнение буфера и выход за пределы массива. Проблема номер один в компьютерной безопасности. Вы выделяете память меньшего объема, чем записываемые туда данные. Или пытаетесь обратиться к элементу за пределами массива.
+- Программисты не умеют считать. Вы используете некорректную формулу. Проверьте, что вы не используете целочисленное деление вместо взятия остатка, или знаете, как перевести рациональную дробь в десятичную и т. д.
+- Конкатенация строки и числа. Вы ожидаете конкатенации двух строк, но одно из значений — число, и компилятор пытается произвести арифметические вычисления. Попробуйте явно приводить каждое значение к строке.
+- 33 символа в varchar(32). Проверяйте данные, передаваемые в INSERT, на совпадение типов. Некоторые БД выбрасывают исключения (как и должны делать), некоторые просто обрезают строку (как MySQL). Недавно я столкнулся с такой ошибкой: программист забыл убрать кавычки из строки перед вставкой в базу данных, и длина строки превысила допустимую как раз на два символа. На поиск бага ушло много времени, потому что заметить две маленькие кавычки было сложно.
+- Некорректное состояние. Вы пытаетесь выполнить запрос при закрытом соединении или пытаетесь вставить запись в таблицу прежде, чем обновили таблицы, от которых она зависит.
+- Особенности вашей системы, которых нет у пользователя. Например: в тестовой БД между ID заказа и адресом отношение 1:1, и вы программировали, исходя из этого предположения. Но в работе выясняется, что заказы могут отправляться на один и тот же адрес, и, таким образом, у вас отношение 1:многим.
+Task:
 Установка Subversion - система контроля версий
 Decision:
 # yum list | grep subversion
@@ -11,32 +136,6 @@ subversion-perl.x86_64 1.10.2-1.module_el8.0.0+45+75bba4f4 AppStream
 subversion-tools.x86_64 1.10.2-1.module_el8.0.0+45+75bba4f4 AppStream
 # yum -y install subversion
 # svnversion --version
-Task:
-Обновление рабочей копии
-Decision:
-svn update
-Task:
-Внесение изменений
-Decision:
-svn add
-svn delete
-svn copy
-svn move
-Task:
-Анализ изменений
-Decision:
-svn status
-svn diff
-svn revert
-Task:
-Слияние изменений, выполненных другими, с вашей рабочей копией
-Decision:
-svn update
-svn resolved
-Task:
-Фиксация изменений
-Decision:
-svn commit
 Task:
 Работаем с репозиторием
 Decision:
@@ -650,50 +749,50 @@ $ cat /proc/ioports
   0060-0060 : keyboard
   0064-0064 : keyboard
   0070-0071 : rtc_cmos
-    0070-0071 : rtc0
+0070-0071 : rtc0
   0080-008f : dma page reg
   00a0-00a1 : pic2
   00c0-00df : dma2
   00f0-00ff : fpu
   0170-0177 : 0000:00:01.1
-    0170-0177 : ata_piix
+0170-0177 : ata_piix
   01f0-01f7 : 0000:00:01.1
-    01f0-01f7 : ata_piix
+01f0-01f7 : ata_piix
   0376-0376 : 0000:00:01.1
-    0376-0376 : ata_piix
+0376-0376 : ata_piix
   03c0-03df : vga+
   03f6-03f6 : 0000:00:01.1
-    03f6-03f6 : ata_piix
+03f6-03f6 : ata_piix
 0cf8-0cff : PCI conf1
 0d00-ffff : PCI Bus 0000:00
   4000-403f : 0000:00:07.0
-    4000-4003 : ACPI PM1a_EVT_BLK
-    4004-4005 : ACPI PM1a_CNT_BLK
-    4008-400b : ACPI PM_TMR
-    4020-4021 : ACPI GPE0_BLK
+4000-4003 : ACPI PM1a_EVT_BLK
+4004-4005 : ACPI PM1a_CNT_BLK
+4008-400b : ACPI PM_TMR
+4020-4021 : ACPI GPE0_BLK
   4100-410f : 0000:00:07.0
-    4100-4108 : piix4_smbus
+4100-4108 : piix4_smbus
   d000-d00f : 0000:00:01.1
-    d000-d00f : ata_piix
+d000-d00f : ata_piix
   d010-d01f : 0000:00:02.0
-    d010-d01f : vmwgfx probe
+d010-d01f : vmwgfx probe
   d020-d027 : 0000:00:03.0
-    d020-d027 : e1000
+d020-d027 : e1000
   d040-d05f : 0000:00:04.0
   d100-d1ff : 0000:00:05.0
-    d100-d1ff : Intel 82801AA-ICH
+d100-d1ff : Intel 82801AA-ICH
   d200-d23f : 0000:00:05.0
-    d200-d23f : Intel 82801AA-ICH
+d200-d23f : Intel 82801AA-ICH
   d240-d247 : 0000:00:0d.0
-    d240-d247 : ahci
+d240-d247 : ahci
   d248-d24b : 0000:00:0d.0
-    d248-d24b : ahci
+d248-d24b : ahci
   d250-d257 : 0000:00:0d.0
-    d250-d257 : ahci
+d250-d257 : ahci
   d258-d25b : 0000:00:0d.0
-    d258-d25b : ahci
+d258-d25b : ahci
   d260-d26f : 0000:00:0d.0
-    d260-d26f : ahci
+d260-d26f : ahci
 Task:
 а если в памяти
 Decision:
@@ -713,20 +812,20 @@ $ cat /proc/iomem
 7fff0000-7fffffff : ACPI Tables
 80000000-fdffffff : PCI Bus 0000:00
   f0000000-f7ffffff : 0000:00:02.0
-    f0000000-f7ffffff : vmwgfx probe
+f0000000-f7ffffff : vmwgfx probe
   f8000000-f81fffff : 0000:00:02.0
-    f8000000-f81fffff : vmwgfx probe
+f8000000-f81fffff : vmwgfx probe
   f8200000-f821ffff : 0000:00:03.0
-    f8200000-f821ffff : e1000
+f8200000-f821ffff : e1000
   f8400000-f87fffff : 0000:00:04.0
-    f8400000-f87fffff : vboxguest
+f8400000-f87fffff : vboxguest
   f8800000-f8803fff : 0000:00:04.0
   f8804000-f8804fff : 0000:00:06.0
-    f8804000-f8804fff : ohci_hcd
+f8804000-f8804fff : ohci_hcd
   f8805000-f8805fff : 0000:00:0b.0
-    f8805000-f8805fff : ehci_hcd
+f8805000-f8805fff : ehci_hcd
   f8806000-f8807fff : 0000:00:0d.0
-    f8806000-f8807fff : ahci
+f8806000-f8807fff : ahci
 fec00000-fec00fff : Reserved
   fec00000-fec003ff : IOAPIC 0
 fee00000-fee00fff : Local APIC
@@ -758,10 +857,6 @@ $ dmesg | grep "irq 1[45]"
 [ 28.930069] ata3: PATA max UDMA/133 cmd 0x1f0 ctl 0x3f6 bmdma 0x2090 irq 14
 [ 28.930071] ata4: PATA max UDMA/133 cmd 0x170 ctl 0x376 bmdma 0x2098 irq 15
 Task:
-Сохраните листинг самых ресурсоемких процессов и прокомментируйте его.
-Task:
-Как посмотреть список открытых файлов запущенного процесса?
-Task:
 оценить загрузку CPU
 Decision:
 $ top
@@ -791,1413 +886,21 @@ readelf --dynamic /usr/bin/vim | grep NEEDED
  0x0000000000000001 (NEEDED)             Shared library: [libpython3.8.so.1.0]
  0x0000000000000001 (NEEDED)             Shared library: [libpthread.so.0]
  0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
-	Task:
-	Нужно создать еще одну сетевую папку для общего доступа в системе Windows Server 2012 r2
-	Decision:
-	создайте папку
-	Давайте теперь назначим на эту папку разрешения - кликаем по ней правой кнопкой мыши - выбираем пункт "Свойства"
-	Ставим галочку напротив надписи: открыть общий доступ к этой папке - добавить пользователей которые будут иметь доступ к этой папке с определенными правами - для того что бы выбрать конкретных пользователей из Active Directory нажмите вкладку "Разрешения"
-	Мы попали в настройки разрешения общего доступа, чтобы выбрать пользователя который будет иметь доступ, нажмите "Добавить".
-	Например, в AD мы создавали тестового пользователя с именем "Тест". Итак назначим учетной записи Тест полный доступ к этой папке, для этого введите имя "Тест" в поле выбираемых объектов после чего кликаем "Проверить имена". Так же добавляем еще один параметр для общего доступа, для этого нажмите ПКМ по папке и перейдите по пунктам: "Общий доступ" – "Отдельные люди" В появившимся окне в поле для ввода имени вводим "Тест" и кликаем "Добавить" (желательно в данной папке выставить пользователям права на Чтение и запись).
-	Как только пользователь определился в чек-боксе разрешить выставим "Полный доступ к данной папке" и нажмем "Ок" Идентичную операцию проделываем с Администраторами
-	Самое главное это путь к сетевой папке, для чего он нужен я расскажу чуть ниже, сейчас просто выберете "Свойства" сетевой папки и запомните "Сетевой путь"
-	Итак, можно проверить сетевую папку в другом компьютере (другого пользователя)
-	Task:
-	Добавить в исключения ip 10.99.10.42. У клиента после перезагрузки сбрасываются настройки
-	Decision:
-	dc-0-regedit-домены-thost-Accounts-thost1-IE11(Настройки)-Изменить (параметры)
-	Task:
-	Компьютер подключен к интернету с помощью USB 4G модема. В качестве примера будет рассмотрен МТС модем. Одно из необходимых условий функционирования – автоподключение интернета при запуске ОС. При обычном запуске ОС происходит загрузка рабочего стола (процесс explorer), затем запускается программа модема (обычно connect manager), затем выполняется автоподключение интернета. При запуске ОС без рабочего стола программа модема не запускается. Предложите на ваш взгляд способ решения автозапуска в случае отсутствия запуска рабочего стола при загрузке.
 Task:
-Замена неверного MAC на ПК
+Нужно создать еще одну сетевую папку для общего доступа в системе Windows Server 2012 r2
 Decision:
-C:\wMAC(v1.0.87D)>wMAC.exe c 1C57D81543AE
-...
-Following OUI is support:
-000B6Axxxxxx
-00138Fxxxxxx
-001966xxxxxx
-002522xxxxxx
-BC5FF4xxxxxx
-D05099xxxxxx
-0015B2xxxxxx
-803773xxxxxx
-00045Fxxxxxx
-7085C2xxxxxx
-DCFE07xxxxxx
-1CEEC9xxxxxx
-54B203xxxxxx
-A8A159xxxxxx
-8C0F6Fxxxxxx
-9C6B00xxxxxx
-ReturnCode:1
-              ########    ###    #### ##
-              ##         ## ##    ##  ##
-              ##        ##   ##   ##  ##
-              ######   ##     ##  ##  ##
-              ##       #########  ##  ##
-              ##       ##     ##  ##  ##
-              ##       ##     ## #### ########
-C:\wMAC(v1.0.87D)>wMAC.exe c 1CEEC91543AE
-...
-ReturnCode:0
-              ########     ###     ######   ######
-              ##     ##   ## ##   ##    ## ##    ##
-              ##     ##  ##   ##  ##       ##
-              ########  ##     ##  ######   ######
-              ##        #########       ##       ##
-              ##        ##     ## ##    ## ##    ##
-              ##        ##     ##  ######   ######
+- создайте папку
+- Давайте теперь назначим на эту папку разрешения - кликаем по ней правой кнопкой мыши - выбираем пункт "Свойства"
+- Ставим галочку напротив надписи: открыть общий доступ к этой папке - добавить пользователей которые будут иметь доступ к этой папке с определенными правами - для того что бы выбрать конкретных пользователей из Active Directory нажмите вкладку "Разрешения"
+- Мы попали в настройки разрешения общего доступа, чтобы выбрать пользователя который будет иметь доступ, нажмите "Добавить".
+- Например, в AD мы создавали тестового пользователя с именем "Тест". Итак назначим учетной записи Тест полный доступ к этой папке, для этого введите имя "Тест" в поле выбираемых объектов после чего кликаем "Проверить имена". Так же добавляем еще один параметр для общего доступа, для этого нажмите ПКМ по папке и перейдите по пунктам: "Общий доступ" – "Отдельные люди" В появившимся окне в поле для ввода имени вводим "Тест" и кликаем "Добавить" (желательно в данной папке выставить пользователям права на Чтение и запись).
+- Как только пользователь определился в чек-боксе разрешить выставим "Полный доступ к данной папке" и нажмем "Ок" Идентичную операцию проделываем с Администраторами
+- Самое главное это путь к сетевой папке, для чего он нужен я расскажу чуть ниже, сейчас просто выберете "Свойства" сетевой папки и запомните "Сетевой путь"
+- Итак, можно проверить сетевую папку в другом компьютере (другого пользователя)
 Task:
-Одна сеть работает с 1С, вторая сеть работает с ФИС. Фис взаимодествует с 1С, когда, например, нужно выгрузить из 1Ски сканированные заявления в ФИС. Но две сети не видели друг другa. Нужно использовать локальную сеть с VipNET координатором и через командную строку тут уже нужно будет посмотреть маршрут и прописать маршрут до ФИСа указав шлюз тот, по которому нету координатора
-tip - это tip сети фис или тот адрес который в браузере ввожу,
-tmask - tmask того адреса 0 или 255 в конце.
-tip.1 - адрес того шлюза где нет випнета
+Добавить в исключения ip 10.99.10.42. У клиента после перезагрузки сбрасываются настройки
 Decision:
-route print
-route add -p tip mask tmask tip.1
-route print
-Decision:
-C:\WINDOWS\system32>route -f
-C:\WINDOWS\system32>route print
-===========================================================================
-IPv4 таблица маршрута
-===========================================================================
-Активные маршруты:
-  Отсутствует
-Постоянные маршруты:
-  Отсутствует
-C:\WINDOWS\system32>route add -p tIp2 mask 255.255.255.255 tIp3
-C:\WINDOWS\system32>route print
-===========================================================================
-IPv4 таблица маршрута
-===========================================================================
-Активные маршруты:
-  Отсутствует
-Постоянные маршруты:
-  Сетевой адрес            Маска    tip.1      Метрика
-         tIp2  255.255.255.255   tIp3       1
-C:\WINDOWS\system32>route print
-===========================================================================
-IPv4 таблица маршрута
-===========================================================================
-Активные маршруты:
-Сетевой адрес           tmask      tip.1       Интерфейс  Метрика
-===========================================================================
-Постоянные маршруты:
-  Сетевой адрес            Маска    tip.1      Метрика
-         tIp2  255.255.255.255   tIp3       1
-C:\WINDOWS\system32>route add -p tIp1 mask 255.255.255.255 tIp5 metric 35
-C:\WINDOWS\system32>route print
-===========================================================================
-IPv4 таблица маршрута
-===========================================================================
-Активные маршруты:
-Сетевой адрес           tmask      tip.1       Интерфейс  Метрика
-     tIp1  255.255.255.255         On-link        tIp5   4261
-===========================================================================
-Постоянные маршруты:
-  Сетевой адрес            Маска    tip.1      Метрика
-         tIp2  255.255.255.255   tIp3       1
-     tIp1  255.255.255.255       tIp5      35
-C:\WINDOWS\system32>route change tIp1 mask 255.255.255.255 tIp4 metric 35
-C:\WINDOWS\system32>route print
-===========================================================================
-IPv4 таблица маршрута
-===========================================================================
-Активные маршруты:
-Сетевой адрес           tmask      tip.1       Интерфейс  Метрика
-     tIp1  255.255.255.255        tIp4       tIp5   4261
-===========================================================================
-Постоянные маршруты:
-  Сетевой адрес            Маска    tip.1      Метрика
-         tIp2  255.255.255.255   tIp3       1
-C:\WINDOWS\system32>route add -p tIp1 mask 255.255.255.255 tIp4 metric 35
-C:\WINDOWS\system32>route print
-===========================================================================
-IPv4 таблица маршрута
-===========================================================================
-Активные маршруты:
-Сетевой адрес           tmask      tip.1       Интерфейс  Метрика
-     tIp1  255.255.255.255        tIp4       tIp5   4261
-===========================================================================
-Постоянные маршруты:
-  Сетевой адрес            Маска    tip.1      Метрика
-         tIp2  255.255.255.255   tIp3       1
-     tIp1  255.255.255.255        tIp4      35
-Task:
-Я случайно добавил не тот адрес, чтобы удалить его со строки
-Decision:
-route delete tip, КОТОРОЙ МЫ ХОТИМ УДАЛИТЬ mask tmask tip.1
-Task:
-Если не работает сеть в компе
-Decision:
-смотрим IP в свойствах сети (должно быть 10.10.., а не 169 или 125), перезагруж, если таже проблема осталась гуглим - команда для сброса настроек IP (должны быть 3 команды):
-netsh WinSook reset
-netsh int ip reset c:\reset log.txt
-ipconfig /flush dns
- 	Task:
-Bash.
-	Создать скрипт для ротации логов, и не только логов, но и любых файлов. Автоматическое переименование и удаление осуществляется, если файл достигнет заданного размера
-	Decision:
-	#/bin/bash
-	@echo off
-	set file=query.log
-	set path=»c:\logs\»
-	set maxbytesize=268436480
-	set filescount=7
-	cd %path%
-	for /F «usebackq» %%A in (‘%file%’) do set size=%%~zA
-	if %size% LSS %maxbytesize% (
-	echo «we should do nothing»
-	) else (
-		setlocal ENABLEDELAYEDEXPANSION
-		set /a j=%filescount%-1
- 		del /f /q %file%.%filescount%
-		for /l %%i in (!j!,-1,0) do (
-			set /a k=%%i+1
-			ren %file%.%%i %file%.!k!
-		)
-		endlocal
-		ren %file% %file%.0
-	)
-	Decision:
-	Подготовим папку logs с файлами определенного размера query.log и скриптом log-rotation.txt
- 	Source:
-https://www.youtube.com/playlist?list=PLG-4IrwpAdz7tuB6A9EbDpIb3akCJ1hoe
-Task:
-Создайте скрипт, который будет создавать файл. После чего скрипт будет прописывать последнюю строчку из сообщений syslog в этот файл. Затем будет отправлять в syslog своё сообщение - «Logs collected».
-Decision:
-$ vim BASH-LogScript1.sh
-$ chmod +x BASH-LogScript1.sh
-$ cat BASH-LogScript1.sh
-#!/bin/bash
-touch LogFile
-tail -n 1 /var/log/messages > LogFile
-echo 'Logs collected' >> /var/log/messages
-$ sudo ./BASH-LogScript1.sh
-$ sudo cat /var/log/messages | grep 'Logs collected'
-  Logs collected
-Task:
-Настройте rsyslog, чтобы логи, посланные этим скриптом, сохранялись в отдельном файле «collect.log» в директории /var/log.
-Decision:
-$ logger -p local4.info "Logs Collected"
-$ sudo journalctl -p info | grep 'Logs Collected'
-  апр 28 09:21:31 i6.rt.ru ur[5962]: Logs Collected
-$ sudo vim /etc/rsyslog.conf
-$ cat /etc/rsyslog.conf
-....
-# Save boot messages also to boot.log
-local7.*                                                /var/log/boot.log
-local4.*                                                /var/log/collect.log
-...
-$ sudo systemctl restart rsyslog
-$ sudo ./BASH-LogScript1.sh
-$ sudo cat /var/log/collect.log
-  Apr 28 09:41:29 i6 ur[6135]: Logs Collected
-$ logger -p local4.info "Logs Collected"
-$ sudo cat /var/log/collect.log
-  Apr 28 09:41:29 i6 ur[6135]: Logs Collected
-  Apr 28 09:44:28 i6 ur[6162]: Logs Collected
-Task:
-Настройте ротацию этих логов, чтобы они сохранялись на протяжении месяца с еженедельной ротацией. Запустите скрипт и убедитесь, что все ранее проделанные шаги выполнили свою задачу.
-Decision:
-$ sudo vim /etc/logrotate.d/collect.conf
-$ cat /etc/logrotate.d/collect.conf
-/var/log/collect.log
-{
-  dateext
-  weekly
-  rotate 4
-}
-$ logrotate -d /etc/logrotate.d/collect.conf
-  WARNING: logrotate in debug mode does nothing except printing debug messages!  Consider using verbose mode (-v) instead if this is not what you want.
-  reading config file /etc/logrotate.d/collect.conf
-  Reading state from file: /var/lib/logrotate/logrotate.status
-  Allocating hash table for state file, size 64 entries
-  Handling 1 logs
-  rotating pattern: /var/log/collect.log
-  weekly (4 rotations)
-  empty log files are rotated, old logs are removed
-  considering log /var/log/collect.log
-  Creating new state
-      Now: 2022-04-28 10:14
-      Last rotated at 2022-04-28 10:00
-      log does not need rotating (log has been already rotated)
-$ sudo logrotate -f /etc/logrotate.d/collect.conf
-$ ls -l /var/log/colle*
-  -rw-------. 1 root root 112 апр 28 09:44 /var/log/collect.log-20220428
-$ sudo ./BASH-LogScript1.sh
-$ sudo journalctl -e
-  ...
-  апр 28 10:46:50 i6.rt.ru sudo[6584]:     ur : TTY=pts/1 ; PWD=/home/ur ; ur=root ; COMMAND=./BASH-LogScript1.sh
-  ...
-$ sudo tail -n 20 /var/log/messages
-  ...
-  Logs collected
-  ...
-$ logger -p local4.info "Logs Collected"
-$ sudo cat /var/log/collect.log
-  cat: /var/log/collect.log: No such file or directory
-$ sudo cat /var/log/collect.log-20220428
-  Apr 28 09:41:29 i6 ur[6135]: Logs Collected
-  Apr 28 09:44:28 i6 ur[6162]: Logs Collected
-  Apr 28 10:38:59 i6 ur[6437]: Logs Collected
-  Apr 28 10:49:34 i6 ur[6601]: Logs Collected
-$ sudo tail -n 20 /var/log/messages
-  ...
-  Apr 28 10:49:34 i6 ur[6601]: Logs Collected
-  ...
-Task:
-Создайте скрипт, который будет отправлять логи в syslog – This is normal log → debug, This is error → error и This is critical error → crit. Настройте syslog, чтобы записывал эти логи в соответствующие файлы - /var/log/mylog.debug, /var/log/mylog.crit, /var/log/mylog.error. Настройте ротацию этих логов, чтобы они ротировались 5 раз. debug и error должны ротировались ежедневно, debug с сжатием, а error без сжатия. crit должен ротироваться раз в неделю.
-Decision:
-$ sudo ./BASH-LogScript2.sh
-$ sudo cat /etc/rsyslog.conf
-# rsyslog configuration file
-...
-# Save boot messages also to boot.log
-local4.*                                                /var/log/collect.log
-local7.*                                                /var/log/boot.log
-# ### sample forwarding rule ###
-...
-#Target="remote_host" Port="XXX" Protocol="tcp")
-local1.*                                                /var/log/mylog.debug
-local2.*                                                                                          /var/log/mylog.error
-local3.*                                                                                          /var/log/mylog.crit
-$ ls /var/log/mylog.
-  mylog.crit-20220428      mylog.debug-20220428.gz  mylog.error-20220428     
-$ sudo cat /var/log/mylog.crit-20220428
-  Apr 28 11:46:30 i6 root[6943]: This is critical error -> crit
-$ sudo cat /var/log/mylog.error-20220428
-  Apr 28 11:46:30 i6 root[6942]: This is error -> error
-$ cat BASH-LogScript2.sh
-#!/bin/bash
-logger -p local1.debug "This is normal log -> debug"
-echo 'local1.*                                                /var/log/mylog.debug' >> /etc/rsyslog.conf
-
-logger -p local2.err "This is error -> error"
-echo 'local2.*                                                                                          /var/log/mylog.error' >> /etc/rsyslog.conf
-
-logger -p local3.crit "This is critical error -> crit"
-echo 'local3.*                                                                                          /var/log/mylog.crit' >> /etc/rsyslog.conf
-
-sudo systemctl restart rsyslog
-#sudo touch /etc/logrotate.d/mylogdebug.conf
-#sudo touch /etc/logrotate.d/mylogerror.conf
-#sudo touch /etc/logrotate.d/mylogcrit.conf
-echo '/var/log/mylog.debug
-{
-  dateext
-  daily
-  rotate 5
-  compress
-}' > /etc/logrotate.d/mylogdebug.conf
-sudo logrotate -f /etc/logrotate.d/mylogdebug.conf
-
-echo '/var/log/mylog.error
-{
-      dateext
-      daily
-      rotate 5
-  delaycompress
-}' > /etc/logrotate.d/mylogerror.conf
-sudo logrotate -f /etc/logrotate.d/mylogerror.conf
-
-echo '/var/log/mylog.crit
-{
-      dateext
-      weekly
-      rotate 5
-}' > /etc/logrotate.d/mylogcrit.conf
-sudo logrotate -f /etc/logrotate.d/mylogcrit.conf
-$ cat /etc/logrotate.d/mylog
-mylogcrit.conf   mylogdebug.conf  mylogerror.conf  
-$ cat /etc/logrotate.d/mylogdebug.conf
-/var/log/mylog.debug
-{
-  dateext
-  daily
-  rotate 5
-  compress
-}
-$ sudo cat /var/log/messages | grep 'This is '
-  Apr 28 11:34:58 i6 ur[6745]: This is error -> error
-  Apr 28 11:34:58 i6 ur[6746]: This is critical error -> crit
-  Apr 28 11:35:31 i6 root[6766]: This is error -> error
-  Apr 28 11:35:31 i6 root[6767]: This is critical error -> crit
-  Apr 28 11:40:00 i6 root[6828]: This is error -> error
-  Apr 28 11:40:00 i6 root[6829]: This is critical error -> crit
-  Apr 28 11:42:18 i6 root[6872]: This is error -> error
-  Apr 28 11:42:18 i6 root[6873]: This is critical error -> crit
-  Apr 28 11:44:04 i6 root[6903]: This is error -> error
-  Apr 28 11:44:04 i6 root[6904]: This is critical error -> crit
-  Apr 28 11:46:30 i6 root[6942]: This is error -> error
-  Apr 28 11:46:30 i6 root[6943]: This is critical error -> crit
-$ sudo journalctl -e | grep 'This is '
-  апр 28 11:34:58 i6.rt.ru ur[6744]: This is normal log -> debug
-  апр 28 11:34:58 i6.rt.ru ur[6745]: This is error -> error
-  апр 28 11:34:58 i6.rt.ru ur[6746]: This is critical error -> crit
-  апр 28 11:35:31 i6.rt.ru root[6765]: This is normal log -> debug
-  апр 28 11:35:31 i6.rt.ru root[6766]: This is error -> error
-  апр 28 11:35:31 i6.rt.ru root[6767]: This is critical error -> crit
-  апр 28 11:40:00 i6.rt.ru root[6827]: This is normal log -> debug
-  апр 28 11:40:00 i6.rt.ru root[6828]: This is error -> error
-  апр 28 11:40:00 i6.rt.ru root[6829]: This is critical error -> crit
-  апр 28 11:42:18 i6.rt.ru root[6871]: This is normal log -> debug
-  апр 28 11:42:18 i6.rt.ru root[6872]: This is error -> error
-  апр 28 11:42:18 i6.rt.ru root[6873]: This is critical error -> crit
-  апр 28 11:44:04 i6.rt.ru root[6902]: This is normal log -> debug
-  апр 28 11:44:04 i6.rt.ru root[6903]: This is error -> error
-  апр 28 11:44:04 i6.rt.ru root[6904]: This is critical error -> crit
-  апр 28 11:46:30 i6.rt.ru root[6941]: This is normal log -> debug
-  апр 28 11:46:30 i6.rt.ru root[6942]: This is error -> error
-  апр 28 11:46:30 i6.rt.ru root[6943]: This is critical error -> crit
-Task:
-Создайте файл /etc/allowedurs, в котором пропишите логин своего пользователя.
-Создайте скрипт, который сначала проверит, имеет ли данный текущий пользователь право запускать скрипт (пользователь должен быть в списке /etc/allowedurs). Если прав нету, то следует вывести на экран сообщение «This incident will be reported», а в syslog в секцию error написать «ur urname tried to run this script!». После запуска скрипт должен вывести содержимое директории /data/. После чего предложить пользователю указать имя файла и указать дату и время модификации для смены.
-Decision:
-$ sudo vim /etc/allowedurs
-[sudo] пароль для ur:
-$ cat /etc/allowedurs
-root
-it
-$ vim BASH-LogScript3.sh
-$ cat BASH-LogScript3.sh
-#!/bin/bash
-name1=$(whoami)
-#echo $name1
-cmd1=$(cat /etc/allowedurs | grep $name1)
-#echo $cmd1
-#for line1 in $(cat /etc/allowedurs)
-#do
-#    echo 'line1' $line1
-  #if [[ $name1 == $line1 ]];
-  #then
-  #    echo '+'
-  #else
-  #    echo '-'
-  #fi    
-#done
-if cat /etc/allowedurs | grep $name1
-then
-  echo '+'
-else
-  echo 'This incident will be reported'
-  logger -p local2.err "ur $name1 tried to run this script!"
-fi
-ls /data
-read -p "specify the file name: " rename
-read -p "specify the modification date and time for the shift: " date
-$ whoami
-  ur
-$ ./BASH-LogScript3.sh
-  This incident will be reported
-  testfile1  testfile2  testfile3  testfile4  testfile5
-  specify the file name: ur2
-  specify the modification date and time for the shift: 2019.10.12 19:15   
-$ sudo journalctl -e | grep 'tried to run this '
-  апр 28 16:23:20 i6.rt.ru ur[8491]: ur urname tried to run this script!
-  апр 28 16:24:51 i6.rt.ru ur[8513]: ur ur tried to run this script!
-  апр 28 16:26:52 i6.rt.ru ur[8534]: ur ur tried to run this script!
-  апр 28 16:30:09 i6.rt.ru ur[8556]: ur ur tried to run this script!
-  апр 28 16:33:16 i6.rt.ru ur[8567]: ur ur tried to run this script!
-  апр 28 16:34:36 i6.rt.ru ur[8591]: ur ur tried to run this script!
-Source:
-https://www.youtube.com/playlist?list=PLg5SS_4L6LYuu1RAT4l1tCkZrJzkIaNgL
-Task:
-Сделайте скрипт, который спросит имя пользователя и скажет, является ли пользователь администратором?
-Decision:
-#!/bin/bash
-read -p "Print urname: " user1
-user2=$(cat /etc/group | grep wheel | cut -d ':' -f 4)
-if [ "$user1" = "$user2" ]
-then
-  echo "He is Admin"
-else
-  echo "He is not Admin"
-fi
-Task:
-Сделайте скрипт, который будет спрашивать название и создавать файл, затем спрашивать права для этого файла и задавать их.
-Decision:
-#!/bin/bash
-read -p "Print name: " name
-touch $name
-read -p "What rights are needed? " rights
-chmod $rights $name
-Task:
-Напишите скрипт на bash, который будет определять в какую возрастную группу попадают пользователи. При запуске скрипт должен вывести сообщение "enter your name:" и ждать от пользователя ввода имени (используйте read, чтобы прочитать его). Когда имя введено, то скрипт должен написать "enter your age:" и ждать ввода возраста (опять нужен read). Когда возраст введен, скрипт пишет на экран "<Имя>, your group is <группа>", где <группа> определяется на основе возраста по следующим правилам:
-  младше либо равно 16: "child",
-  от 17 до 25 (включительно): "youth",
-  старше 25: "adult".
-После этого скрипт опять выводит сообщение "enter your name:" и всё начинается по новой. Если в какой-то момент работы скрипта будет введено пустое имя или возраст 0, то скрипт должен написать на экран "bye" и закончить свою работу.
-Decision:
-#!/bin/bash
-while [[ True ]]
-do
-  echo "enter your name:"
-  read name
-  if [[ $name == "" ]]
-  then
-      echo "bye"
-      break
-  fi
-  echo "enter your age:"
-  read age
-  if [[ $age == 0 ]]
-  then    
-      echo "bye"
-      break
-  elif [[ $age -le 16 ]]
-  then
-      echo "$name, your group is child"
-  elif [[ $age -ge 17 && $age -le 25 ]]
-  then
-      echo "$name, your group is youth"
-  else
-      echo "$name, your group is adult"
-  fi
-done
-Task:
-у пользователя root создайте cron, чтобы он каждую пятницу в 23:30 записывал содержимое директории /data и содержимое архива /backup/archive.tar в файл /var/log/reports/текущаядата.
-Decision:
-#!/bin/bash
-mkdir /var/log/reports
-ls -l /data > /var/log/reports/$(date +"%d.%m.%Y")
-tar -tf /backup/archive.tar >> /var/log/reports/$(date +"%d.%m.%Y")
-Task:
-Создайте пользователя backup и настройте для него cron, чтобы тот раз в день находил файлы старее 5 дней в директории /data и добавлял эти файлы в архив /backup/archive.tar, после чего удалял из исходной директории.
-Decision:
-#!/bin/bash
-if find /data/ -type f -mtime +5; then
-  cd /data
-  tar -cvf /backup/archive.tar testfile*
-  rm -rf /data/testfile*
-else
-      echo "No files"
-fi
-Task:
-Разрешите пользователю helpdesk1 запускать команду Sh-Interview-NewBackup от имени пользователя backup. Команда Sh-Interview-NewBackup должна создавать сжатый архив директории /data и сохранять его в домашней директории пользователя backup с датой в названии.
-Decision:
-$ sudo useradd backup1
-$ sudo passwd backup1
-  Изменение пароля пользователя backup1.
-  Новый пароль:
-  НЕУДАЧНЫЙ ПАРОЛЬ: Пароль должен содержать не менее 8 символов
-  Повторите ввод нового пароля:
-  passwd: данные аутентификации успешно обновлены.
-$ sudo mkdir /data
-$ sudo touch /data/testfile{1..5}
-$ ls -l /data/
-  итого 0
-  -rw-r--r--. 1 root root 0 апр 14 13:14 testfile1
-  -rw-r--r--. 1 root root 0 апр 14 13:14 testfile2
-  -rw-r--r--. 1 root root 0 апр 14 13:14 testfile3
-  -rw-r--r--. 1 root root 0 апр 14 13:14 testfile4
-  -rw-r--r--. 1 root root 0 апр 14 13:14 testfile5
-$ vim bash-script10
-$ cat bash-script10
-#/bin/bash
-#Разрешите пользователю helpdesk1 запускать команду Bash-GnuLinux-NewBackup от имени пользователя backup. Команда Sh-Interview-NewBackup должна создавать сжатый архив директории /data и сохранять его в домашней директории пользователя backup с датой в названии.
-#dt=$(date)
-#echo "$dt"
-#echo "$(date)"
-#for line in $(date)
-#do
-#    echo "$line"
-#done
-#touch testfile5$(date +%y%m%d)
-sudo tar -cjvf /home/backup1/testArchive$(date +%d%m%y).tar.gz /data/
-$ bash /home/ur/bash-script10
-  tar: Удаляется начальный `/' из имен объектов
-  /data/
-  /data/testfile5
-  /data/testfile1
-  /data/testfile3
-  /data/testfile2
-  /data/testfile4
-$ sudo r-t -rf /home/backup1/testArchive150422.tar.gz
-$ mv bash-script10 Bash-GnuLinux-NewBackup
-$ sudo cp Bash-GnuLinux-NewBackup /usr/bin/
-$ sudo cat /etc/sudoers
-  ...
-  ## Allow root to run any commands anywhere
-  root    ALL=(ALL)     ALL
-  sysadmin        ALL=(ALL)       ALL
-  netadmin        ALL=(root)      /usr/bin/nmtui
-  #helpdesk1       ALL=(ALL)   /usr/bin/passwd, !/usr/bin/passwd sysadmin, !/usr/bin/passwd root
-  ...
-$ sudo visudo
-$ sudo cat /etc/sudoers
-  ...
-  ## Allow root to run any commands anywhere
-  root    ALL=(ALL)     ALL
-  sysadmin        ALL=(ALL)       ALL
-  netadmin        ALL=(root)      /usr/bin/nmtui
-  #helpdesk1       ALL=(ALL)   /usr/bin/passwd, !/usr/bin/passwd sysadmin, !/usr/bin/passwd root
-  backup1     ALL=(ALL)    ALL
-  helpdesk1     ALL=(backup1)    /usr/bin/Bash-GnuLinux-NewBackup
-  ...
-$ su - helpdesk1
-$ su - backup1 -c "sudo Bash-GnuLinux-NewBackup"
-  sudo: a ter-tinal is required to read the password; either use the -S option to read from standard input or configure an askpass helper
-$ su - helpdesk1
-  Последний вход в систему: Пт апр 15 14:24:48 +08 2022 на pts/0
-$ su - backup1 Bash-GnuLinux-NewBackup
-  Последний вход в систему: Пт апр 15 14:27:43 +08 2022 на pts/0
-  tar: Удаляется начальный `/' из имен объектов
-  /data/
-  /data/testfile5
-  /data/testfile1
-  /data/testfile3
-  /data/testfile2
-  /data/testfile4
-$ exit
-  выход
-$ sudo ls -l /home/backup1/
-  итого 4
-  -rw-r--r--. 1 root    root    183 апр 15 14:28 testArchive150422.tar.gz
-Task:
-Cконструируем сценарий, вычисляющий сумму ежемесячных платежей по кредиту. Для передачи сценария программе bc в следующем примере используется встроенный документ. loan-calc : сценарий вычисления суммы ежемесячных платежей по кредиту
-Decision:
-#!/bin/bash
-PROGNAME=$(basename $0)
-usage () {
-  cat <<- EOF
-  Usage: $PROGNAME PRINCIPAL INTEREST MONTHS
-  Where:
-  PRINCIPAL is the amount of the loan.
-  INTEREST is the APR as a number (7% = 0.07).
-  MONTHS is the length of the loan's term.
-  EOF
-}
-if (($# != 3)); then
-  usage
-  exit 1
-fi
-principal=$1
-interest=$2
-months=$3
-bc <<- EOF
-  scale = 10
-  i = $interest / 12
-  p = $principal
-  n = $months
-  a = p * ((i * ((1 + i) ^ n)) / (((1 + i) ^ n) - 1))
-  print a, "\n"
-  EOF
-Task:
-Определить файл или директория ваши данные
-Decision:
-#!/bin/bash
-dir=/home/ik/* # your data
-for file in $dir
-do
-if [ -d "$file" ]
-then
-echo "$file - директория"
-elif [ -f "$file" ]
-then
-echo "$file - файл"
-else
-echo "Неизвестный файл"
-fi
-done
-Task:
-Бэкап архив всех файлов
-Decision:
-#!/bin/bash
-BACKUPFILE=backup
-archive=${1:-$BACKUPFILE}
-find . -mtime -1 -type f -print0 | xargs -0 tar rvf "$archive.tar"
-echo "Каталог $PWD заархивирован в файл \"$archive.tar\"."
-exit 0
-Task:
-Напишите сценарий, который выводит дату, время, список зарегистрировавшихся пользователей, и uptime системы и сохраняет эту информацию в системном журнале.
-Decision:
-$ vim Bash-GnuLinux-AboutUserLogFile.sh
-$ cat Bash-GnuLinux-AboutUserLogFile.sh
-#!/bin/bash
-echo "выводит число секунд прошедших с начала эпохи unix:"
-date '+%s'
-echo "выводит локальное время:"
-date '+%F %T'
-echo "список зарегистрировавшихся обычных пользователей, которые создаются с UID от UID_MIN до UID_MAX которые определены в файле /etc/login.defs:"
-awk '/^UID/{print $1"="$2}' /etc/login.defs
-echo "из файла /etc/passwd выбрать только тех пользователей у которых UID (третий столбик :) из этого диапазона:"
-eval $(awk '/^UID/{print $1"="$2}' /etc/login.defs)
-awk -v min=$UID_MIN -v max=$UID_MAX -F: '$3>=min && $3<=max {print $1}' /etc/passwd
-echo "uptime системы:"
-uptime -p
-$ ./Bash-GnuLinux-AboutUserLogFile.sh
-  выводит число секунд прошедших с начала эпохи unix:
-  1633836259
-  выводит локальное время:
-  2021-10-09 22:24:19
-  список зарегистрировавшихся обычных пользователей, которые создаются с UID от UID_MIN до UID_MAX которые определены в файле /etc/login.defs:
-  UID_MIN=1000
-  UID_MAX=60000
-  из файла /etc/passwd выбрать только тех пользователей у которых UID (третий столбик :) из этого диапазона:
-  ubuntu
-  uptime системы:
-  up 21 minutes
-$ cat Bash-GnuLinux-AboutUserLogFile.sh
-#!/bin/bash
-echo -e "Дата и Время:;$(date '+%F %T')\nПользователи:;$(eval $(awk '/^UID/{print $1"="$2}' /etc/login.defs) && awk -v min=$UID_MIN -v max=$UID_MAX -F: '$3>=min && $3<=max {print $1}' /etc/passwd)\nВремя работы (начало):;$(uptime -s)\nВремя работы (прошло):;$(uptime -p)" | column -t -s ";" | systemd-cat --identifier="задача3"
-$ ./Bash-GnuLinux-AboutUserLogFile.sh
-$ journalctl SYSLOG_IDENTIFIER="задача3"
-  -- Logs begin at Fri 2021-05-21 06:21:13 CDT, end at Sat 2021-10-09 22:33:30 CDT. --
-  Oct 09 22:25:25 ubuntu-VirtualBox задача3[2796]: Дата и Время:           2021-10-09 22:25:25
-  Oct 09 22:25:25 ubuntu-VirtualBox задача3[2796]: Пользователи:           ubuntu
-  Oct 09 22:25:25 ubuntu-VirtualBox задача3[2796]: Время работы (начало):  2021-10-09 22:02:57
-  Oct 09 22:25:25 ubuntu-VirtualBox задача3[2796]: Время работы (прошло):  up 22 minutes
-  Oct 09 22:26:23 ubuntu-VirtualBox задача3[2826]: Дата и Время:           2021-10-09 22:26:23
-  Oct 09 22:26:23 ubuntu-VirtualBox задача3[2826]: Пользователи:           ubuntu
-  Oct 09 22:26:23 ubuntu-VirtualBox задача3[2826]: Время работы (начало):  2021-10-09 22:02:57
-  Oct 09 22:26:23 ubuntu-VirtualBox задача3[2826]: Время работы (прошло):  up 23 minutes
-  Oct 09 22:29:41 ubuntu-VirtualBox задача3[2846]: Дата и Время:           2021-10-09 22:29:41
-  Oct 09 22:29:41 ubuntu-VirtualBox задача3[2846]: Пользователи:           ubuntu
-  Oct 09 22:29:41 ubuntu-VirtualBox задача3[2846]: Время работы (начало):  2021-10-09 22:02:57
-  Oct 09 22:29:41 ubuntu-VirtualBox задача3[2846]: Время работы (прошло):  up 26 minutes
-  Oct 09 22:31:48 ubuntu-VirtualBox задача3[2868]: Дата и Время:           2021-10-09 22:31:48
-  Oct 09 22:31:48 ubuntu-VirtualBox задача3[2868]: Пользователи:           ubuntu
-  Oct 09 22:31:48 ubuntu-VirtualBox задача3[2868]: Время работы (начало):  2021-10-09 22:02:57
-  Oct 09 22:31:48 ubuntu-VirtualBox задача3[2868]: Время работы (прошло):  up 28 minutes
-  Oct 09 22:33:30 ubuntu-VirtualBox задача3[2885]: Дата и Время:           2021-10-09 22:33:30
-  Oct 09 22:33:30 ubuntu-VirtualBox задача3[2885]: Пользователи:           ubuntu
-  Oct 09 22:33:30 ubuntu-VirtualBox задача3[2885]: Время работы (начало):  2021-10-09 22:02:57
-  Oct 09 22:33:30 ubuntu-VirtualBox задача3[2885]: Время работы (прошло):  up 30 minutes
-Task:
-Создайте функции просмотра информации о пользователе(1), создания пользователя(2), удаления пользователя (3). Используйте case и select для использования этих функций в виде меню.
-Decision:
-$ cat Bash-GnuLinux-AboutUser1.sh
-#/bin/bash
-aboutuser() {
-  read -p "About user: " line
-  cat /etc/passwd | grep -w $line
-}
-adduser(){
-  read -p "Add user: " name
-      #cut -d':' -f1 /etc/passwd | grep -w $name
-}
-deleteuser(){
-      read -p "Delete user: " name
-      #cut -d':' -f1 /etc/passwd | grep -w $name
-}
-user() {
-  select option in "About user" "Add user" "Delete user" "Exit"
-  do
-      case $option in
-          "About user") aboutuser ;;
-          "Add user") adduser ;;
-          "Delete user") deleteuser ;;
-          "Exit") break ;;
-          *) echo Wrong option ;;
-      esac
-  done
-}
-user
-$ ./Bash-GnuLinux-AboutUser1.sh
-1) About user
-2) Add user
-3) Delete user
-4) Exit
-#? 1
-About user: d
-d:x:1000:1000:,,,:/home/d:/bin/bash
-#? 4
-Task:
-Создайте скрипт, который запрашивает имя пользователя, а в ответ выводит информацию о пользователе – его uid, домашнюю директорию, список групп, в которых он состоит.
-После этого скрипт должен спросить, что следует поменять – uid, домашнюю директорию или группу.
-Если uid, то сначала проверить, доступен ли такой uid, если нет – то один раз предложить ввести заново.
-Если домашнюю директорию, то спросить, на какую директорию следует сменить, а также следует ли перемещать домашнюю директорию.
-После чего следует вывести на экран итоговую команду.
-Decision:
-$ cat Bash-GnuLinux-AboutUser.sh
-#/bin/bash
-read -p "Print username: " user
-#idd=$(id -u $user)
-id1=$(cat /etc/passwd | grep $user | cut -d ':' -f 4)
-home1=$(cat /etc/passwd | grep $user | cut -d ':' -f 6)
-group1=$(cat /etc/group | grep $user | cut -d ':' -f 1)
-echo "uid = $id1"
-echo "home = $home1"
-echo "group = $group1"
-read -p "What should be changed? (uid/home/group): " change
-#echo "$change"
-if [ $change == "uid" ]
-then
-  read -p "Write youser own version: " id2
-  if cut -d':' -f3 /etc/passwd | grep -w $id2
-  then
-      echo "there is such a user"
-  else
-      #echo "there is no such user"
-      read -p "Re-Enter. Write youser own version: " id2
-      if cut -d':' -f3 /etc/passwd | grep -w $id2
-          then
-                  echo "there is such a user"
-      fi
-  fi
-elif [ $change == "home" ]
-then
-  read -p "Write youser own version: " home2
-  if cut -d':' -f6 /etc/passwd | grep -w $home2
-      then
-      echo "Such a directory already exists"
-  else
-      echo "This is a unique home directory"
-  fi
-elif [ $change == "group" ]
-then
-  read -p "Write youser own version: " group2
-  if cut -d':' -f1 /etc/group | grep -w $group2
-  then
-      echo "+"
-  else
-      echo "-"
-  fi
-else
-  echo "command not found"
-fi
-$ ./Bash-GnuLinux-AboutUser.sh
-Print username: tuser
-uid = 1000
-home = /home/tuser
-group = dialout
-cdrom
-floppy
-sudo
-audio
-dip
-video
-plugdev
-netdev
-What should be changed? (uid/home/group): uid
-Write youser own version: 45435
-Re-Enter. Write youser own version: 34534
-Task:
-async-child : пример асинхронного выполнения (потомок)
-Decision:
-#!/bin/bash
-echo "Child: child is running..."
-sleep 5
-echo "Child: child is done. Exiting."
-Task:
-пример асинхронного выполнения (родитель)
-Decision:
-#!/bin/bash
-# async-parent : 
-echo "Parent: starting..."
-echo "Parent: launching child script..."
-async-child &
-pid=$!
-echo "Parent: child (PID= $pid) launched."
-echo "Parent: continuing..."
-sleep 2
-echo "Parent: pausing to wait for child to finish..."
-wait $pid
-echo "Parent: child is finished. Continuing..."
-echo "Parent: parent is done. Exiting."
-Task:
-программа вывода системной информации, управляемая с помощью меню
-Decision:
-#!/bin/bash
-# case-menu: 
-clear
-echo "
-Please Select:
-1. Display System Information
-2. Display Disk Space
-3. Display Home Space Utilization
-0. Quit
-"
-read -p "Enter selection [0-3] > "
-case $REPLY in
-  q|Q)    echo "Program terminated."
-          exit
-          ;;
-  a|A)    echo "Hostname: $HOSTNAME"
-          uptime
-          ;;
-  b|B)    df -h
-          ;;
-  c|C)    if [[ $(id -u) -eq 0 ]]; then
-              echo "Home Space Utilization (All Users)"
-              du -sh /home/*
-          else
-              echo "Home Space Utilization ($USER)"
-              du -sh $HOME
-          fi
-          ;;
-  *)      echo "Invalid entry." >&2
-          exit 1
-          ;;
-esac
-Task:
-простая программа получения информации о файле
-Decision:
-#!/bin/bash
-# file_info: 
-PROGNAME=$(basename $0)
-if [[ -e $1 ]]; then
-  echo -e "\nFile Type:"
-  file $1
-  echo -e "\nFile Status:"
-  stat $1
-else
-  echo "$PROGNAME: usage: $PROGNAME file" >&2
-  exit 1
-fi
-Task:
-сценарий для подсчета файлов по времени изменения
-Decision:
-#/bin/bash
-# hours : 
-usage () {
-  echo "usage: $(basename $0) directory" >&2
-}
-# Убедиться, что аргумент является каталогом
-if [[ ! -d $1 ]]; then
-  usage
-  exit 1
-fi
-# Инициализировать массив
-for i in {0..23}; do hours[i]=0; done
-# Собрать данные
-for i in $(stat -c %y "$1"/* | cut -c 12-13); do
-  j=${i/#0}
-  ((++hours[j]))
-  ((++count))
-done
-# Вывести данные
-echo -e "Hour\tFiles\tHour\tFiles"
-echo -e "----\t-----\t----\t-----"
-for i in {0..11}; do
-  j=$((i + 12))
-  printf "%02d\t%d\t%02d\t%d\n" $i ${hours[i]} $j ${hours[j]}
-done
-printf "\nTotal files = %d\n" $count
-Task:
-демонстрация подстановки процессов
-Decision:
-#/bin/bash
-# pro-sub : 
-while read attr links owner group size date time filename; do
-  cat <<- EOF
-      Filename:   $filename
-      Size:       $size
-      Owner:      $owner
-      Group:      $group
-      Modified:   $date $time
-      Links:      $links
-      Attributes: $attr
-  EOF
-done < <(ls -l | tail -n +2)
-Task:
-чтение полей из файла
-Decision:
-#!/bin/bash
-# read-ifs: 
-FILE=/etc/passwd
-read -p "Enter a username > " user_name
-file_info=$(grep "^$user_name:" $FILE)
-if [ -n "$file_info" ]; then
-  IFS=":" read user pw uid gid name home shell <<< "$file_info"
-  echo "User = '$user'"
-  echo "UID = '$uid'"
-  echo "GID = '$gid'"
-  echo "Full Name = '$name'"
-  echo "Home Dir. = '$home'"
-  echo "Shell = '$shell'"
-else
-  echo "No such user '$user_name'" >&2
-  exit 1
-fi
-Task:
-программа вывода системной информации, управляемая с помощью меню
-Decision:
-#!/bin/bash
-# read-menu: 
-clear
-echo "
-Please Select:
-1. Display System Information
-2. Display Disk Space
-3. Display Home Space Utilization
-0. Quit
-"
-read -p "Enter selection [0-3] > "
-if [[ $REPLY =~ ^[0-3]$ ]]; then
-  if [[ $REPLY == 0 ]]; then
-      echo "Program terminated."
-      exit
-  fi
-  if [[ $REPLY == 1 ]]; then
-      echo "Hostname: $HOSTNAME"
-      uptime
-      exit
-  fi
-  if [[ $REPLY == 2 ]]; then
-      df -h
-      exit
-  fi
-  if [[ $REPLY == 3 ]]; then
-      if [[ $(id -u) -eq 0 ]]; then
-          echo "Home Space Utilization (All Users)"
-          du -sh /home/*
-      else
-          echo "Home Space Utilization ($USER)"
-          du -sh $HOME
-      fi
-      exit
-  fi
-else
-  echo "Invalid entry." >&2
-  exit 1 fi
-Task:
-ввод секретного пароля
-Decision:
-#!/bin/bash
-# read-secret: 
-if read -t 10 -sp "Enter secret passphrase > " secret_pass; then
-  echo -e "\nSecret passphrase = '$secret_pass'"
-else
-  echo -e "\nInput timed out" >&2
-  exit 1
-fi
-Task:
-проверка ввода
-Decision:
-#!/bin/bash
-# read-validate: 
-invalid_input () {
-  echo "Invalid input '$REPLY'" >&2
-  exit 1
-}
-read -p "Enter a single item > "
-# пустой ввод (недопустимо)
-[[ -z $REPLY ]] && invalid_input
-# ввод множества элементов (недопустимо)
-(( $(echo $REPLY | wc -w) > 1 )) && invalid_input
-# введено допустимое имя файла?
-if [[ $REPLY =~ ^[-[:alnum:]\._]+$ ]]; then
-  echo "'$REPLY' is a valid filename."
-  if [[ -e $REPLY ]]; then
-      echo "And file '$REPLY' exists."
-  else
-      echo "However, file '$REPLY' does not exist."
-  fi
-  # введено вещественное число?
-  if [[ $REPLY =~ ^-?[[:digit:]]*\.[[:digit:]]+$ ]]; then
-      echo "'$REPLY' is a floating point number."
-  else
-      echo "'$REPLY' is not a floating point number."
-  fi
-  # введено целое число?
-  if [[ $REPLY =~ ^-?[[:digit:]]+$ ]]; then
-      echo "'$REPLY' is an integer."
-  else
-      echo "'$REPLY' is not an integer."
-  fi
-else
-  echo "The string '$REPLY' is not a valid filename."
-fi
-Task:
-Программа вывода страницы с информацией о системе
-Decision:
-#/bin/bash
-PROGNAME=$(basename $0)
-TITLE="System Information Report For $HOSTNAME"
-CURRENT_TIME=$(date +"%x %r %Z")
-TIME_STAMP="Generated $CURRENT_TIME, by $USER"
-report_uptime () {
-  cat <<- _EOF_
-      <H2>System Uptime</H2>
-      <PRE>$(uptime)</PRE>
-      _EOF_
-  return
-}
-report_disk_space () {
-  cat <<- _EOF_
-      <H2>Disk Space Utilization</H2>
-      <PRE>$(df -h)</PRE>
-      _EOF_
-  return
-}
-report_home_space () {
-  local format="%8s%10s%10s\n"
-  local i dir_list total_files total_dirs total_size user_name
-  if [[ $(id -u) -eq 0 ]]; then
-      dir_list=/home/*
-      user_name="All Users"
-  else
-      dir_list=$HOME
-      user_name=$USER
-  fi
-  echo "<H2>Home Space Utilization ($user_name)</H2>"
-  for i in $dir_list; do   
-      total_files=$(find $i -type f | wc -l)
-      total_dirs=$(find $i -type d | wc -l)
-      total_size=$(du -sh $i | cut -f 1)
-      echo "<H3>$i</H3>"
-      echo "<PRE>"
-      printf "$format" "Dirs" "Files" "Size"
-      printf "$format" "----" "-----" "----"
-      printf "$format" $total_dirs $total_files $total_size
-      echo "</PRE>"
-  done
-  return
-}
-usage () {
-  echo "$PROGNAME: usage: $PROGNAME [-f file | -i]"
-  return
-}
-write_html_page () {
-  cat <<- _EOF_
-  <HTML>
-      <HEAD>
-          <TITLE>$TITLE</TITLE>
-      </HEAD>
-      <BODY>
-          <H1>$TITLE</H1>
-          <P>$TIME_STAMP</P>
-          $(report_uptime)
-          $(report_disk_space)
-          $(report_home_space)    
-      </BODY>
-  </HTML>
-  _EOF_
-  return
-}
-# обработка параметров командной строки
-interactive=
-filename=
-while [[ -n $1 ]]; do
-  case $1 in
-  -f | --file)        shift
-              filename=$1
-              ;;
-  -i | --interactive) interactive=1
-              ;;
-  -h | --help)        usage
-              exit
-              ;;
-  *)          usage >&2
-              exit 1
-              ;;
-  esac
-  shift
-done
-# интерактивный режим
-if [[ -n $interactive ]]; then
-  while true; do
-  read -p "Enter name of output file: " filename
-      if [[ -e $filename ]]; then
-          read -p "'$filename' exists. Overwrite? [y/n/q] > "
-          case $REPLY in
-              Y|y)    break
-                  ;;
-              Q|q)    echo "Program terminated."
-                  exit
-                  ;;
-              *)  continue
-                  ;;
-          esac
-      fi
-  done
-fi
-# вывод страницы html
-if [[ -n $filename ]]; then
-  if touch $filename && [[ -f $filename ]]; then
-      write_html_page > $filename
-  else
-      echo "$PROGNAME: Cannot write file '$filename'" >&2
-      exit 1
-  fi
-else
-  write_html_page
-fi
-Task:
-сценарий для демонстрации распространенных видов ошибок
-Decision:
-#!/bin/bash
-# trouble: 
-number=1
-echo "number=$number" # ОТЛАДКА
-set -x # Включить трассировку
-if [ $number = 1 ]; then
-echo "Number is equal to 1."
-else
-echo "Number is not equal to 1."
-fi
-set +x # Выключить трассировку
-Task:
-программа вывода системной информации, управляемая с помощью меню
-Decision:
-#!/bin/bash
-# while-menu: 
-DELAY=3 # Время отображения результатов на экране (в секундах)
-while [[ $REPLY != 0 ]]; do
-clear
-cat <<- _EOF_
-Please Select:
-1. Display System Information
-2. Display Disk Space
-3. Display Home Space Utilization
-4. Quit
-_EOF_
-read -p "Enter selection [0-3] > "
-if [[ $REPLY =~ ^[0-3]$ ]]; then
-if [[ $REPLY == 1 ]]; then
-echo "Hostname: $HOSTNAME"
-uptime
-sleep $DELAY
-fi
-if [[ $REPLY == 2 ]]; then
-df -h
-sleep $DELAY
-fi
-if [[ $REPLY == 3 ]]; then
-if [[ $(id -u) -eq 0 ]]; then
-echo "Home Space Utilization (All Users)"
-du -sh /home/*
-else
-echo "Home Space Utilization ($USER)"
-du -sh $HOME
-fi
-sleep $DELAY
-fi
-else
-echo "Invalid entry."
-sleep $DELAY
-fi
-done
-echo "Program terminated."
-Task:
-программа вывода системной информации, управляемая с помощью меню
-Decision:
-#!/bin/bash
-# while-menu2: 
-DELAY=3 # Время отображения результатов на экране (в секундах)
-while true; do
-clear
-cat <<- _EOF_
-Please Select:
-1. Display System Information
-2. Display Disk Space
-3. Display Home Space Utilization
-4. Quit
-_EOF_
-read -p "Enter selection [0-3] > "
-if [[ $REPLY =~ ^[0-3]$ ]]; then
-if [[ $REPLY == 1 ]]; then
-echo "Hostname: $HOSTNAME"
-uptime
-sleep $DELAY
-continue
-fi
-if [[ $REPLY == 2 ]]; then
-df -h
-sleep $DELAY
-continue
-fi
-if [[ $REPLY == 3 ]]; then
-if [[ $(id -u) -eq 0 ]]; then
-echo "Home Space Utilization (All Users)"
-du -sh /home/*
-else
-echo "Home Space Utilization ($USER)"
-du -sh $HOME
-fi
-sleep $DELAY
-continue
-fi
-if [[ $REPLY == 0 ]]; then
-break
-fi
-else
-echo "Invalid entry."
-sleep $DELAY
-fi
-done
-echo "Program terminated."
-Task:
-Напишите bash-скрипт, сохраняющий подробное описание объектов, расположенных в каталоге /home/de13ma, но не принадлежащих пользователю de13ma (владелец не de13ma) в файл description.txt. В задаче есть допущение что имя файла или группы не может содержать слово de13ma.
-Decision:
-$ cat Linux-Description4.sh
-#!/bin/bash
-ls -l /home/de13ma | grep -v "de13ma" > /tdir/description.txt
-Task:
-Напишите bash-скрипт, сохраняющий все запущенные процессы пользователя de13ma в файл processes.txt. В задаче есть допущение что имя процесса не может содержать слово de13ma.
-Decision:
-$ cat Linux-Processes4.sh
-#!/bin/bash
-ps -fu de13ma > processes.txt
-Task:
-Записать строку в конец файла linux 
-Decision:
-$ cat testfile
-Hey
-$ cat testscript.sh
-#!/bin/bash
-echo USERSPASSWORD | sudo -S sudo sh -c "echo 'bro' >> /home/dato/testdir/testfile"
-$ ./testscript.sh
-$ ./testscript.sh
-$ cat testfile
-Hey
-bro
-bro
-Source:
-https://jeka.by/ask/165/bash-add-string-in-file/
-Task:
-Напишите скрипт на bash, который принимает на вход два аргумента и выводит на экран строку следующего вида:
-Arguments are: $1=первый_аргумент $2=второй_аргумент
-Decision:
-$ cat Linux-StandartStreams.sh
-#/bin/bash
-var1=$1
-var2=$2
-echo "Arguments are:" \$1=$var1 \$2=$var2
-Task:
-Напишите скрипт на bash, который принимает на вход один аргумент (целое число от 0 до бесконечности), который будет обозначать число студентов в аудитории. В зависимости от значения числа нужно вывести разные сообщения.
-Соответствие входа и выхода должно быть таким:
-  0 -->  No students
-  1 -->  1 student
-  2 -->  2 students
-  3 -->  3 students
-  4 -->  4 students
-  5 и больше --> A lot of students
-Decision:
-$ cat Linux-StandartStreams2.sh
-#!/bin/bash
-number=student
-case $1 in
-0) result="No ${number}s";;
-1) result="$1 ${number}";;
-[2-4]) result="$1 ${number}s";;
-*) result="A lot of ${number}s";;
-esac
-echo "$result"
-Task:
-Предположим, вы пишете скрипт на bash и хотите использовать в нем конструкцию if в следующем фрагменте:
-  if [[ ... ]]
-  then
-      echo "True"
-  fi
-Вы можете вписать вместо "..." (внутри [[ ]] и не забудьте про пробелы после [[ и перед ]]!) любое из перечисленных ниже условий.
-1) $# -ge 0
-2) $var1 == $var2 && $var1 != $var2
-3) -e $0
-4) -z " "
-5) -s $0
-6) $var1 == $var2 || $var1 != $var2
-Однако мы просим вас выбрать только те из них, при которых echo напечатает на экран True вне зависимости от того, с какими параметрами был запущен ваш скрипт и какие в нем есть переменные.
-#Например, условие 0 -eq 0 подходит, т.к. ноль всегда равен нулю вне зависимости от аргументов и переменных внутри скрипта и на экран будет напечатано True.  В то же время условие $var1 -eq 0 не подходит, так как в переменной var1 как может быть записан ноль (тогда будет напечатано True), так его может и не быть (тогда ничего напечатано не будет).
-Decision:
-$ cat Linux-StandartStreams1.sh
-#!/bin/bash
-if [[ $# -ge 0 ]] # -ge больше или равно
-then
-  echo "True1"
-fi
-if [[ $var1 == $var2 && $var1 != $var2 ]]
-then
-  echo "True2"
-fi
-if [[ -e $0 ]] # -e <путь> путь существует
-then
-  echo "True3"
-fi
-if [[ -z " " ]] # -z <строка> строка пуста
-then
-  echo "True4"
-fi
-if [[ -s $0 ]] # -s <путь> размер файла больше 0
-then
-  echo "True5"
-fi
-if [[ $var1 == $var2 || $var1 != $var2 ]]
-then
-  echo "True6"
-fi
-Task:
-Создайте файл со списком пользователей. С помощью for выведите на экран текст: «Creating new ur: uradd имя_пользователя».
-Decision:
-$ cat Linux-CreatingNewUser.sh
-#/bin/bash
-cut -d':' -f1 /etc/passwd >> testfile4
-for line in $(cat testfile4)
-do echo "Creating new ur: uradd $line"
-done
-Task:
-Определить, что является файлом, а что папкой в заданном каталоге
-Decision:
-$ cat Linux-LsLtAFileOrADirectory.sh
-#!/bin/bash
-dir=/home/*
-for file in $dir
-do
-if [ -d "$file" ]
-then
-echo "$file - директория"
-elif [ -f "$file" ]
-then
-echo "$file - файл"
-else
-echo "Неизвестный файл"
-fi
-done
-Task:
-Что делает следующий скрипт:
-#!/bin/bash
-Filial="CH"
-EXT="VF_CHR"
-Period="201502" 
-DIRIN="/home/siu01/ITC/${Filial}/2015/02"
-FNAME="${Filial}_${Period}"
-rm -f ${FNAME}.*
-for FN in `find ${DIRIN} -type f -name '*'${EXT} | grep -E '_TrunkB.*'${EXT}'|_02.*'${EXT} | sort`
-do
-echo ${FN} >> ${FNAME}.txt
-cat ${FN} | awk -F "," 'substr($7,2,6)=="800505" || substr($7,2,6)=="800777" {print $0}' >> ${FNAME}.dat1
-done
-cat ${FNAME}.dat1 | sort -u | sort -t "," -k 7 > ${FNAME}.dat
-rm -f ${FNAME}.dat1
-cat ${FNAME}.dat | awk -F "," -v fl=${Filial} \
-'{if(substr($7,2,6)=="800505") {DUR += $9; Q++;}} END {printf "%-5s\t%5s\t%10s\n",fl,Q,DUR}' >> 800505_${Period}.txt
-cat ${FNAME}.dat | awk -F "," -v fl=${Filial} \
-'{if(substr($7,2,6)=="800777") {DUR += $9; Q++;}} END {printf "%-5s\t%5s\t%10s\n",fl,Q,DUR}' >> 800777_${Period}.txt
-	Task:
-Работа с дисками.
-	Нужно обойти восстановление при загрузке Windows 7. Во время запуска появляется восстановление загрузки. Даже когда запускаем в бут меню с обычной загрузки.
-	Decision:
-	    Иногда достаточно просто вставить установочный диск Windows 7  -> перезагрузить компьютер  -> нажать любую клавишу при появлении запроса  -> выберать ваши языковые настройки ->Далее  -> Ремонт вашего компьютера -> в командной строке открыли доступ к папке с файлами, которые следует заменить C:\Windows\System32\Config
-	cd windows 
-	cd system32
-	cd config
-	dir
-Было 5 файлов с окончанием .gbck, и 5 файлов без какого-либо завершения. Это следующие файлы: DEFAULT, SAM, SECURITY, SOFTWARE и SYSTEM ->Переименуйте все файлы без завершения в .bak один за другим. просто так: ren COMPONENTS COMPONENTS.bak (вы должны сделать это для остальных 4 файлов) ->Переименуйте все .gbck в один без завершения. просто так: ren COMPONENTS.gbck COMPONENTS (вы должны сделать это для остальных 4 файлов)  -> Введите dir , чтобы увидеть, были ли имена файлов именно такими, как вы ожидаете  -> Перезагрузите компьютер.
-Но в моем случае не было установочного диска Windows 7 -> Зато у меня есть загрузочная флешка, с помощью которой можно устаналивать, например, винду, или есть программа акронис с помощью которого можно упралятть жестким диском (удалять разделы, добавлять), или есть прорграмма тотал командер, в нашем случае, как раз, она и нужна, чтобы заменить конфиги windows - system32 - config - выделяем Default, SAM, Security, software, system - это нужно удалить, не выделенные оставляем - и вставляем в папку regpack удаленныефайлы, windows - system32 - config - Regpack - перезагружаемся.
-	Task:
-	Windows 10 запускается с ошибкой UNMOUNTABLE BOOT VOLUME
-	Decision:
-	загрузившись с загрузочной флешки или диска с Windows 10 (8 и 7 тоже подойдут, несмотря на установленную десятку, для быстрой загрузки с флешки проще всего использовать Boot Menu) - клавиши Shift+F10 - на экране установки, должна появиться командная строка. Если не появится, на экране выбора языка выберите «Далее», а на втором экране внизу слева – «Восстановление системы» и найдите в средствах восстановления пункт «Командная строка».
-	diskpart
-	list volume
-	в результате команды вы увидите список разделов на ваших дисках. Обратите внимание на букву раздела, на котором установлена Windows 10, она может отличаться от привычной буквы C во время работы в среде восстановления, в моем случае на скриншоте это буква D
-	exit
-	chkdsk D: /r
-	закройте командную строку - перезагрузите компьютер с жесткого диска
-	Task:
-	Был такой случай, что компьютер не видит мою флешку. Хотя вчера я прекрасно работал с флешкой. Сначала проверил, работает ли флешка в других USB-портах. Потом вставил флешку в другой компьютер и он загрузился. Получается, что один компьютер видит флешку, а другой — нет.
-	Decision:
-	Вставляю флешку в компьютер -> Мой компьютер -> Управление дисками -> видим диски С и диск без имени — это флешка -> Изменить имя диска -> в открывшемся окне система предложит букву диску (обычно «i» ) -> ок
-	Task:
-	После запуска любой программы (чат, Фемида) выходит такая ошибка:
-	«Ошибочный образ C:\Program Files\Windows Portable Devices\netapi.dll не предназначен для выполнения под управлением Windows или содержит ошибку» 
-	Decision:
-	> sfc /scannow
-	> shutdown /r
+- dc-0-regedit-домены-thost-Accounts-thost1-IE11(Настройки)-Изменить (параметры)
 Task:
 Перемещение папки /var на другой физический диск
 Decision:
@@ -2271,11 +974,26 @@ sdc           8:32   0 931,5G  0 disk
 Source:
 http://sysengineering.ru/notes/peremeschenie-papok-linux-na-drugoy-disk?ysclid=lisfix46x1712981898
 https://losst.pro/kakuyu-fajlovuyu-sistemu-vybrat-dlya-linux?ysclid=lishte72fq279374732
-Task:
-Анализ занятого места и его освобождение
-Decision:
-$ sudo apt-get -y install ncdu
-$ ncdu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Task:
 Поиск процессов, которые "держат" удаленные файлы
 Decision:
@@ -2285,15 +1003,6 @@ $ lsof | grep deleted
   ...
   Web\x20Co 4259 4279 ProfilerC           ubuntu   68r      REG                0,1     19462      49425 /memfd:mozilla-ipc (deleted)
   Web\x20Co 4259 4279 ProfilerC           ubuntu   69r      REG                0,1      9566      49427 /memfd:mozilla-ipc (deleted)
-Task:
-Найдите самую большую директорию в корне
-Decision:
-$ sudo du -sh /* | sort -h | tail -3
-Task:
-Напишите команду, которая выведет сколько места на диске занимает текущая директория (при этом размер нужно вывести в удобном для чтения формате (например, вместо 2048 байт надо выводить 2.0К) и больше на экран выводить ничего не нужно).
-Decision.
-$ du -hs
-  938M
 Task:
 Как очистить раздел от мусора в командной строке?
 Decision:
@@ -2320,16 +1029,6 @@ Task:
 Как вариант, если к компьютеру подключено только первое устройство, можно скопировать его содержимое в обычный файл, который впоследствии использовать для восстановления или копирования
 Decision:
 # dd if=/dev/sdc of=flash_drive.img
-Task:
-Подсчет занимаемого места
-определить в текущей папке занимаемое место всеми подкаталогами и файлами
-Decision:
-$ du -sm *
-Task:
-отсортировать результаты, чтобы выяснить, чем занято место в конкретной папке или на всем разделе
-Decision:
-$ du -sm * | sort -n
-$ du -smh *
 Task:
 Просмотр списка смонтированных файловых систем
 Для монтирования файловых систем вывести список файловых систем, смонтированных в настоящий момент
@@ -2816,7 +1515,7 @@ Decision:
   Creating filesystem with 51200 1k blocks and 12824 inodes
   Filesystem UUID: 8f4688cc-def1-44aa-9fc5-7c1793fda09c
   Superblock backups stored on blocks:
-          8193, 24577, 40961
+      8193, 24577, 40961
   Allocating group tables: done
   Writing inode tables: done
   Creating journal (4096 blocks): done
@@ -3004,14 +1703,14 @@ Decision:
   I/O size (minimum/optimal): 512 bytes / 512 bytes
 [tuser1@thost1 Centos]#  mkfs.xfs /dev/sdb2
   meta-data=/dev/sdb2              isize=512    agcount=2, agsize=6400 blks
-           =                       sectsz=512   attr=2, projid32bit=1
-           =                       crc=1        finobt=1, sparse=1, rmapbt=0
-           =                       reflink=1
+       =                       sectsz=512   attr=2, projid32bit=1
+       =                       crc=1        finobt=1, sparse=1, rmapbt=0
+       =                       reflink=1
   data     =                       bsize=4096   blocks=12800, imaxpct=25
-           =                       sunit=0      swidth=0 blks
+       =                       sunit=0      swidth=0 blks
   naming   =version 2              bsize=4096   ascii-ci=0, ftype=1
   log      =internal log           bsize=4096   blocks=1368, version=2
-           =                       sectsz=512   sunit=0 blks, lazy-count=1
+       =                       sectsz=512   sunit=0 blks, lazy-count=1
   realtime =none                   extsz=4096   blocks=0, rtextents=0
 [tuser1@thost1 Centos]#  mount /dev/sdb2 /mnt/
 [tuser1@thost1 Centos]#  df -h
@@ -3076,8 +1775,8 @@ Decision:
   sda           8:0    0   50G  0 disk
   ├─sda1        8:1    0    1G  0 part /boot
   └─sda2        8:2    0   49G  0 part
-    ├─cl-root 253:0    0   47G  0 lvm  /
-    └─cl-swap 253:1    0  2.1G  0 lvm  [SWAP]
+├─cl-root 253:0    0   47G  0 lvm  /
+└─cl-swap 253:1    0  2.1G  0 lvm  [SWAP]
   sdb           8:16   0    1G  0 disk
   sdc           8:32   0    1G  0 disk
   sr0          11:0    1 58.3M  0 rom  /run/media/cs/VBox_GAs_6.1.29
@@ -3114,95 +1813,95 @@ Command (m for help): w
   Calling ioctl() to re-read partition table.
   Syncing disks.
 [tuser1@thost1 Centos]#  sudo pvcreate /dev/sdb1
-    Physical volume "/dev/sdb1" successfully created.
+Physical volume "/dev/sdb1" successfully created.
 [tuser1@thost1 Centos]#  sudo pvs
-    PV         VG Fmt  Attr PSize   PFree
-    /dev/sda2  cl lvm2 a--  <49.00g      0
-    /dev/sdb1     lvm2 ---  200.00m 200.00m
+PV         VG Fmt  Attr PSize   PFree
+/dev/sda2  cl lvm2 a--  <49.00g      0
+/dev/sdb1     lvm2 ---  200.00m 200.00m
 [tuser1@thost1 Centos]#  sudo pvdisplay /dev/sdb1
-    "/dev/sdb1" is a new physical volume of "200.00 MiB"
-    --- NEW Physical volume ---
-    PV Name               /dev/sdb1
-    VG Name
-    PV Size               200.00 MiB
-    Allocatable           NO
-    PE Size               0
-    Total PE              0
-    Free PE               0
-    Allocated PE          0
-    PV UUID               Zh9vy1-BMtC-NwkZ-uelY-PTFf-XEO8-nINDjc
+"/dev/sdb1" is a new physical volume of "200.00 MiB"
+--- NEW Physical volume ---
+PV Name               /dev/sdb1
+VG Name
+PV Size               200.00 MiB
+Allocatable           NO
+PE Size               0
+Total PE              0
+Free PE               0
+Allocated PE          0
+PV UUID               Zh9vy1-BMtC-NwkZ-uelY-PTFf-XEO8-nINDjc
 [tuser1@thost1 Centos]#  sudo vgcreate myvg /dev/sdb1
-    Volume group "myvg" successfully created
+Volume group "myvg" successfully created
 [tuser1@thost1 Centos]#  sudo vgs
-    VG   #PV #LV #SN Attr   VSize   VFree
-    cl     1   2   0 wz--n- <49.00g      0
-    myvg   1   0   0 wz--n- 196.00m 196.00m
+VG   #PV #LV #SN Attr   VSize   VFree
+cl     1   2   0 wz--n- <49.00g      0
+myvg   1   0   0 wz--n- 196.00m 196.00m
 [tuser1@thost1 Centos]#  sudo vgdisplay myvg
-    --- Volume group ---
-    VG Name               myvg
-    System ID
-    Format                lvm2
-    Metadata Areas        1
-    Metadata Sequence No  1
-    VG Access             read/write
-    VG Status             resizable
-    MAX LV                0
-    Cur LV                0
-    Open LV               0
-    Max PV                0
-    Cur PV                1
-    Act PV                1
-    VG Size               196.00 MiB
-    PE Size               4.00 MiB
-    Total PE              49
-    Alloc PE / Size       0 / 0
-    Free  PE / Size       49 / 196.00 MiB
-    VG UUID               jAA7BR-mEHr-V2F8-yu8A-Bzoq-POr1-VSdD2q
+--- Volume group ---
+VG Name               myvg
+System ID
+Format                lvm2
+Metadata Areas        1
+Metadata Sequence No  1
+VG Access             read/write
+VG Status             resizable
+MAX LV                0
+Cur LV                0
+Open LV               0
+Max PV                0
+Cur PV                1
+Act PV                1
+VG Size               196.00 MiB
+PE Size               4.00 MiB
+Total PE              49
+Alloc PE / Size       0 / 0
+Free  PE / Size       49 / 196.00 MiB
+VG UUID               jAA7BR-mEHr-V2F8-yu8A-Bzoq-POr1-VSdD2q
 [tuser1@thost1 Centos]#  sudo lvcreate myvg -n mylv -L 200M
-    Volume group "myvg" has insufficient free space (49 extents): 50 required.
+Volume group "myvg" has insufficient free space (49 extents): 50 required.
 [tuser1@thost1 Centos]#  sudo lvcreate myvg -n mylv -l 30%FREE
-    Logical volume "mylv" created.
+Logical volume "mylv" created.
 [tuser1@thost1 Centos]#  sudo lvcreate myvg -n mylv2 -l 30%FREE
-    Logical volume "mylv2" created.
+Logical volume "mylv2" created.
 [tuser1@thost1 Centos]#  sudo lvs
-    LV    VG   Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
-    root  cl   -wi-ao---- <46.94g
-    swap  cl   -wi-ao----  <2.06g
-    mylv  myvg -wi-a-----  56.00m
-    mylv2 myvg -wi-a-----  40.00m
+LV    VG   Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+root  cl   -wi-ao---- <46.94g
+swap  cl   -wi-ao----  <2.06g
+mylv  myvg -wi-a-----  56.00m
+mylv2 myvg -wi-a-----  40.00m
 [tuser1@thost1 Centos]#  sudo lvdisplay myvg
-    --- Logical volume ---
-    LV Path                /dev/myvg/mylv
-    LV Name                mylv
-    VG Name                myvg
-    LV UUID                BXxmLe-zWBY-Syui-ifdb-uQ5h-7W8d-ER1fKc
-    LV Write Access        read/write
-    LV Creation host, time cs.virtualbox, 2022-02-12 10:27:18 +0800
-    LV Status              available
-    # open                 0
-    LV Size                56.00 MiB
-    Current LE             14
-    Segments               1
-    Allocation             inherit
-    Read ahead sectors     auto
-    - currently set to     8192
-    Block device           253:2
-    --- Logical volume ---
-    LV Path                /dev/myvg/mylv2
-    LV Name                mylv2
-    VG Name                myvg
-    LV UUID                UO5u2O-61IE-niam-EogM-8WDg-jP8y-vMyzjf
-    LV Write Access        read/write
-    LV Creation host, time cs.virtualbox, 2022-02-12 10:33:40 +0800
-    LV Status              available
-    # open                 0
-    LV Size                40.00 MiB
-    Current LE             10
-    Segments               1
-    Allocation             inherit
-    Read ahead sectors     auto
-    - currently set to     8192
-    Block device           253:3
+--- Logical volume ---
+LV Path                /dev/myvg/mylv
+LV Name                mylv
+VG Name                myvg
+LV UUID                BXxmLe-zWBY-Syui-ifdb-uQ5h-7W8d-ER1fKc
+LV Write Access        read/write
+LV Creation host, time cs.virtualbox, 2022-02-12 10:27:18 +0800
+LV Status              available
+# open                 0
+LV Size                56.00 MiB
+Current LE             14
+Segments               1
+Allocation             inherit
+Read ahead sectors     auto
+- currently set to     8192
+Block device           253:2
+--- Logical volume ---
+LV Path                /dev/myvg/mylv2
+LV Name                mylv2
+VG Name                myvg
+LV UUID                UO5u2O-61IE-niam-EogM-8WDg-jP8y-vMyzjf
+LV Write Access        read/write
+LV Creation host, time cs.virtualbox, 2022-02-12 10:33:40 +0800
+LV Status              available
+# open                 0
+LV Size                40.00 MiB
+Current LE             10
+Segments               1
+Allocation             inherit
+Read ahead sectors     auto
+- currently set to     8192
+Block device           253:3
 [tuser1@thost1 Centos]#  ls /dev/myvg
   mylv  mylv2
 [tuser1@thost1 Centos]#  sudo mkfs.ext4 /dev/myvg/mylv
@@ -3210,7 +1909,7 @@ Command (m for help): w
   Creating filesystem with 57344 1k blocks and 14336 inodes
   Filesystem UUID: 4e2490cc-9a96-4cac-af6d-12f7835067ad
   Superblock backups stored on blocks:
-          8193, 24577, 40961
+      8193, 24577, 40961
   Allocating group tables: done
   Writing inode tables: done
   Creating journal (4096 blocks): done
@@ -3220,7 +1919,7 @@ Command (m for help): w
   Creating filesystem with 40960 1k blocks and 10240 inodes
   Filesystem UUID: 0c48275d-16e2-4054-a1c6-1d0da548eba3
   Superblock backups stored on blocks:
-          8193, 24577
+      8193, 24577
   Allocating group tables: done
   Writing inode tables: done
   Creating journal (4096 blocks): done
@@ -3294,240 +1993,6 @@ https://codernotes.ru/articles/administrirovanie-linux/chem-zanyato-mesto-na-dis
 https://losst.ru/komanda-du-v-linux
 https://www.youtube.com/watch?v=qXq7qH_MdV8&list=PLtSGboPf3g50Aejrp6KjQsqqjxvAO4aKw&index=4
 https://basis.gnulinux.pro/ru/latest/basis/25/25._%D0%9F%D1%80%D0%B0%D0%BA%D1%82%D0%B8%D0%BA%D0%B0.html#"
-Task:
-Добавьте 2 диска по 1Гб к виртуалке. На первом диске создайте ТР MBR и 3 основных раздела по 50Мб, на втором ТР GPT и 2 раздела по 100Мб. Сохраните и покажите список разделов.
-Decision:
-[tuser1@thost1 Centos]#  sudo poweroff
-- VirtualBox - Настроить - Носители - Контроллер SATA - Добавить жесткий диск - Создать - 1гб - выбрать - ок - запустить
-[tuser1@thost1 Centos]#  lsscsi -s
-  [1:0:0:0]    cd/dvd  VBOX     CD-ROM           1.0   /dev/sr0   61.1MB
-  [2:0:0:0]    disk    ATA      VBOX HARDDISK    1.0   /dev/sda   53.6GB
-  [3:0:0:0]    disk    ATA      VBOX HARDDISK    1.0   /dev/sdb   1.07GB
-  [4:0:0:0]    disk    ATA      VBOX HARDDISK    1.0   /dev/sdc   1.07GB
-[tuser1@thost1 Centos]#  sudo fdisk /dev/sdb
-  [sudo] password for cs:
-  Welcome to fdisk (util-linux 2.32.1).
-  Changes will remain in memory only, until you decide to write them.
-  Be careful before using the write command.
-  Device does not contain a recognized partition table.
-  Created a new DOS disklabel with disk identifier 0x357e75ef.
-Command (m for help): m
-  Help:
-    DOS (MBR)
-     a   toggle a bootable flag
-     b   edit nested BSD disklabel
-     c   toggle the dos compatibility flag
-    Generic
-     d   delete a partition
-     F   list free unpartitioned space
-     l   list known partition types
-     n   add a new partition
-     p   print the partition table
-     t   change a partition type
-     v   verify the partition table
-     i   print information about a partition
-    Misc
-     m   print this menu
-     u   change display/entry units
-     x   extra functionality (experts only)
-    Script
-     I   load disk layout from sfdisk script file
-     O   dump disk layout to sfdisk script file
-    Save & Exit
-     w   write table to disk and exit
-     q   quit without saving changes
-    Create a new label
-     g   create a new empty GPT partition table
-     G   create a new empty SGI (IRIX) partition table
-     o   create a new empty DOS partition table
-     s   create a new empty Sun partition table
-Command (m for help): p
-  Disk /dev/sdb: 1 GiB, 1073741824 bytes, 2097152 sectors
-  Units: sectors of 1 * 512 = 512 bytes
-  Sector size (logical/physical): 512 bytes / 512 bytes
-  I/O size (minimum/optimal): 512 bytes / 512 bytes
-  Disklabel type: dos
-  Disk identifier: 0x357e75ef
-Command (m for help): o
-  Created a new DOS disklabel with disk identifier 0x87f777ab.
-Command (m for help): n
-  Partition type
-     p   primary (0 primary, 0 extended, 4 free)
-     e   extended (container for logical partitions)
-Select (default p): p
-Partition number (1-4, default 1): 3
-First sector (2048-2097151, default 2048):
-Last sector, +sectors or +size{K,M,G,T,P} (2048-2097151, default 2097151): +50M
-  Created a new partition 3 of type 'Linux' and of size 50 MiB.
-Command (m for help): n
-  Partition type
-     p   primary (1 primary, 0 extended, 3 free)
-     e   extended (container for logical partitions)
-Select (default p): p
-Partition number (1,2,4, default 1): 1
-First sector (104448-2097151, default 104448):
-Last sector, +sectors or +size{K,M,G,T,P} (104448-2097151, default 2097151): +50M
-  Created a new partition 1 of type 'Linux' and of size 50 MiB.
-Command (m for help): n
-  Partition type
-     p   primary (2 primary, 0 extended, 2 free)
-     e   extended (container for logical partitions)
-Select (default p): p
-Partition number (2,4, default 2): 2
-First sector (206848-2097151, default 206848):
-Last sector, +sectors or +size{K,M,G,T,P} (206848-2097151, default 2097151): +50M
-  Created a new partition 2 of type 'Linux' and of size 50 MiB.
-Command (m for help): p
-  Disk /dev/sdb: 1 GiB, 1073741824 bytes, 2097152 sectors
-  Units: sectors of 1 * 512 = 512 bytes
-  Sector size (logical/physical): 512 bytes / 512 bytes
-  I/O size (minimum/optimal): 512 bytes / 512 bytes
-  Disklabel type: dos
-  Disk identifier: 0x87f777ab
-  Device     Boot  Start    End Sectors Size Id Type
-  /dev/sdb1       104448 206847  102400  50M 83 Linux
-  /dev/sdb2       206848 309247  102400  50M 83 Linux
-  /dev/sdb3         2048 104447  102400  50M 83 Linux
-  Partition table entries are not in disk order.
-Command (m for help): w
-  The partition table has been altered.
-  Calling ioctl() to re-read partition table.
-  Syncing disks.
-[tuser1@thost1 Centos]#  sudo fdisk /dev/sdc
-[sudo] password for cs:
-  Welcome to fdisk (util-linux 2.32.1).
-  Changes will remain in memory only, until you decide to write them.
-  Be careful before using the write command.
-  Device does not contain a recognized partition table.
-  Created a new DOS disklabel with disk identifier 0x275ab546.
-Command (m for help): p
-  Disk /dev/sdc: 1 GiB, 1073741824 bytes, 2097152 sectors
-  Units: sectors of 1 * 512 = 512 bytes
-  Sector size (logical/physical): 512 bytes / 512 bytes
-  I/O size (minimum/optimal): 512 bytes / 512 bytes
-  Disklabel type: dos
-  Disk identifier: 0x275ab546
-Command (m for help): g
-  Created a new GPT disklabel (GUID: 1ED9FC80-4FEE-934E-A504-725D4C9F611F).
-Command (m for help): n
-Partition number (1-128, default 1): 1
-First sector (2048-2097118, default 2048):
-Last sector, +sectors or +size{K,M,G,T,P} (2048-2097118, default 2097118): +100M
-  Created a new partition 1 of type 'Linux filesystem' and of size 100 MiB.
-Command (m for help): n
-Partition number (2-128, default 2): 2
-First sector (206848-2097118, default 206848):
-Last sector, +sectors or +size{K,M,G,T,P} (206848-2097118, default 2097118): +100M
-  Created a new partition 2 of type 'Linux filesystem' and of size 100 MiB.
-Command (m for help): p
-  Disk /dev/sdc: 1 GiB, 1073741824 bytes, 2097152 sectors
-  Units: sectors of 1 * 512 = 512 bytes
-  Sector size (logical/physical): 512 bytes / 512 bytes
-  I/O size (minimum/optimal): 512 bytes / 512 bytes
-  Disklabel type: gpt
-  Disk identifier: 1ED9FC80-4FEE-934E-A504-725D4C9F611F
-  Device      Start    End Sectors  Size Type
-  /dev/sdc1    2048 206847  204800  100M Linux filesystem
-  /dev/sdc2  206848 411647  204800  100M Linux filesystem
-Command (m for help): w
-  The partition table has been altered.
-  Calling ioctl() to re-read partition table.
-  Syncing disks.
-[tuser1@thost1 Centos]#  sudo fdisk -l /dev/sdb
-  Disk /dev/sdb: 1 GiB, 1073741824 bytes, 2097152 sectors
-  Units: sectors of 1 * 512 = 512 bytes
-  Sector size (logical/physical): 512 bytes / 512 bytes
-  I/O size (minimum/optimal): 512 bytes / 512 bytes
-  Disklabel type: dos
-  Disk identifier: 0x87f777ab
-  Device     Boot  Start    End Sectors Size Id Type
-  /dev/sdb1       104448 206847  102400  50M 83 Linux
-  /dev/sdb2       206848 309247  102400  50M 83 Linux
-  /dev/sdb3         2048 104447  102400  50M 83 Linux
-  Partition table entries are not in disk order.
-[tuser1@thost1 Centos]#  sudo fdisk -l /dev/sdc
-  Disk /dev/sdc: 1 GiB, 1073741824 bytes, 2097152 sectors
-  Units: sectors of 1 * 512 = 512 bytes
-  Sector size (logical/physical): 512 bytes / 512 bytes
-  I/O size (minimum/optimal): 512 bytes / 512 bytes
-  Disklabel type: gpt
-  Disk identifier: 1ED9FC80-4FEE-934E-A504-725D4C9F611F
-  Device      Start    End Sectors  Size Type
-  /dev/sdc1    2048 206847  204800  100M Linux filesystem
-  /dev/sdc2  206848 411647  204800  100M Linux filesystem
-Task:
-Добавьте на первом диске ещё 2 раздела по 100Мб, при этом не удаляя ранее созданные разделы.
-Decision:
-Command (m for help): p
-  Disk /dev/sdb: 1 GiB, 1073741824 bytes, 2097152 sectors
-  Units: sectors of 1 * 512 = 512 bytes
-  Sector size (logical/physical): 512 bytes / 512 bytes
-  I/O size (minimum/optimal): 512 bytes / 512 bytes
-  Disklabel type: dos
-  Disk identifier: 0x87f777ab
-  Device     Boot  Start    End Sectors Size Id Type
-  /dev/sdb1       104448 206847  102400  50M 83 Linux
-  /dev/sdb2       206848 309247  102400  50M 83 Linux
-  /dev/sdb3         2048 104447  102400  50M 83 Linux
-  Partition table entries are not in disk order.
-Command (m for help): n
-  Partition type
-     p   primary (3 primary, 0 extended, 1 free)
-     e   extended (container for logical partitions)
-Select (default e): e
-  Selected partition 4
-First sector (309248-2097151, default 309248):
-Last sector, +sectors or +size{K,M,G,T,P} (309248-2097151, default 2097151): +100M
-  Created a new partition 4 of type 'Extended' and of size 100 MiB.
-Command (m for help): n
-  All primary partitions are in use.
-  Adding logical partition 5
-First sector (311296-514047, default 311296):
-Last sector, +sectors or +size{K,M,G,T,P} (311296-514047, default 514047): +100M
-  Value out of range.
-Last sector, +sectors or +size{K,M,G,T,P} (311296-514047, default 514047):
-  Created a new partition 5 of type 'Linux' and of size 99 MiB.
-Command (m for help): p
-  Disk /dev/sdb: 1 GiB, 1073741824 bytes, 2097152 sectors
-  Units: sectors of 1 * 512 = 512 bytes
-  Sector size (logical/physical): 512 bytes / 512 bytes
-  I/O size (minimum/optimal): 512 bytes / 512 bytes
-  Disklabel type: dos
-  Disk identifier: 0x87f777ab
-  Device     Boot  Start    End Sectors  Size Id Type
-  /dev/sdb1       104448 206847  102400   50M 83 Linux
-  /dev/sdb2       206848 309247  102400   50M 83 Linux
-  /dev/sdb3         2048 104447  102400   50M 83 Linux
-  /dev/sdb4       309248 514047  204800  100M  5 Extended
-  /dev/sdb5       311296 514047  202752   99M 83 Linux
-  Partition table entries are not in disk order.
-Command (m for help): w
-  The partition table has been altered.
-  Calling ioctl() to re-read partition table.
-  Syncing disks.
-Task:
-Удалите со второго диска второй раздел.
-Decision:
-[tuser1@thost1 Centos]#  sudo fdisk /dev/sdc
-  Welcome to fdisk (util-linux 2.32.1).
-  Changes will remain in memory only, until you decide to write them.
-  Be careful before using the write command.
-Command (m for help): d
-Partition number (1,2, default 2): 2
-  Partition 2 has been deleted.
-Command (m for help): p
-  Disk /dev/sdc: 1 GiB, 1073741824 bytes, 2097152 sectors
-  Units: sectors of 1 * 512 = 512 bytes
-  Sector size (logical/physical): 512 bytes / 512 bytes
-  I/O size (minimum/optimal): 512 bytes / 512 bytes
-  Disklabel type: gpt
-  Disk identifier: 1ED9FC80-4FEE-934E-A504-725D4C9F611F
-  Device     Start    End Sectors  Size Type
-  /dev/sdc1   2048 206847  204800  100M Linux filesystem
-Command (m for help): w
-  The partition table has been altered.
-  Calling ioctl() to re-read partition table.
-  Syncing disks.
 Task:
 Создайте сжатый архив файлов, измененных за последнюю неделю (tar, gzip, find, cpio)
 Decision:
@@ -3923,265 +2388,10 @@ $ sudo cat /var/spool/cron/root
 Source:
 https://basis.gnulinux.pro/ru/latest/
 Task:
-Установить qemu-kvm.
-Decision:
-$ egrep -c '(vmx|svm)' /proc/cpuinfo
-$ sudo apt install qemu-kvm libvirt-daemon-system virtinst libvirt-clients bridge-utils virt-manager
-$ systemctl start libvirtd
-$ systemctl enable libvirtd
-$ kvm-ok
-$ sudo usermod -aG kvm Tuser
-$ sudo usermod -aG libvirt Tuser
-$ ip link | grep virb
-Task:
-Установить виртуальную машину в qemu-kvm
-Decision:
-$ sudo virt-install \
---name thost \
---ram 2048 \
---disk path=/var/lib/libvirt/images/thost.qcow2,size=50 \
---vcpus 2 \
---os-variant ubuntu22.04 \
---network default \
---cdrom /var/lib/libvirt/images/ubuntu-22.04.3-desktop-amd64.iso
-$ virt-viewer --connect qemu:///system --wait thost
-Source:
-https://winitpro.ru/index.php/2020/02/10/virsh-upravlenie-virtualnymi-mashinami-kvm/
-https://winitpro.ru/index.php/2020/02/04/ustanovka-zapusk-kvm-v-linux-centos/
-https://www.server-world.info/en/note?os=CentOS_Stream_9&p=kvm&f=1
-https://www.server-world.info/en/note?os=CentOS_Stream_9&p=initial_conf&f=3
-https://www.server-world.info/en/note?os=CentOS_Stream_9&p=kvm&f=2
-https://bozza.ru/art-260.html
-Task:
-How to create snapshots of QEMU/KVM guests
-Decision:
-$ virsh snapshot-create-as thost snapshot0 --description "update+ssh"
-$ virsh snapshot-list thost
-Name    Creation Time       State
---------------------------------------------------
-snapshot0 2024-03-09 09:46:33 +0800 running
-Source:
-Creating snapshots with virsh - https://linuxconfig.org/how-to-create-snapshots-of-qemu-kvm-guests
-Task:
-Установить dbeaver
-Decision:
-$ wget https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb
-$ sudo apt install ./dbeaver-ce_latest_amd64.deb
-Task:
-Добавить нового пользователя в posgresql, добавить ему пароль и создать новую базу с таблицей
-Decision:
-# CREATE USER tuser2 WITH PASSWORD 'tpassword2';
-# CREATE DATABASE tdb2;
-# \c tdb2
-# CREATE TABLE ttable3 (
-name varchar(80),
-location point
-);
-# \d
-    List of relations
-Schema | Name | Type | Owner 
---------+--------+-------+-------
-public | cities | table | tuser
-(1 row)
-Source:
-Создание таблицы - https://postgrespro.ru/docs/postgrespro/9.5/tutorial-table
-Task:
-Изменить пароль в базе
-Decision:
-$ mysql -u root -p
-mysql> SELECT user,authentication_string,plugin,host FROM mysql.user;
-mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'tP@ssw0rd';
-mysql> \q
-Task:
-Install PostgreSQL, добавить новую учетную запись и перенести базу данных в posgresql
-Decision:
-$ sudo apt install postgresql postgresql-contrib
-$ sudo usermod -aG postgres tuser2
-$ sudo -i -u postgres
-$ psql
-# \q
-$ createuser --interactive
-Enter name of role to add: tuser2
-Shall the new role be a superuser? (y/n) y
-$ createdb tdb2
-$ exit
-$ sudo -i -u tuser2
-$ psql -U tuser2 -d tdb2
-# \password
-# GRANT ALL PRIVILEGES ON DATABASE tdb2 to tuser2;
-# GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO "tuser2";
-# ALTER DATABASE tdb2 OWNER TO tuser2;
-# GRANT pg_read_all_settings TO tuser2;
-# \conninfo
-# \l+
-# SHOW config_file;
-...
-/etc/postgresql/14/main/postgresql.conf
-# \q
-$ cat /etc/postgresql/14/main/postgresql.conf
-...
-#listen_addresses = 'localhost'       # what IP address(es) to listen on;
-...
-$ sudo vim /etc/postgresql/14/main/postgresql.conf
-$ cat /etc/postgresql/14/main/postgresql.conf
-...
-listen_addresses = 'tip, tip2'       # what IP address(es) to listen on;
-...
-$ sudo cat /etc/postgresql/14/main/pg_hba.conf
-...
-# "local" is for Unix domain socket connections only
-local all       all                   peer
-...
-$ sudo vim /etc/postgresql/14/main/pg_hba.conf
-$ sudo cat /etc/postgresql/14/main/pg_hba.conf
-...
-# "local" is for Unix domain socket connections only
-host  tdb2   tuser2      tip2/21   md5
-local all       all                   peer
-...
-$ sudo systemctl restart postgresql
-$ psql -U tuser2 -d tdb2 -h tip
-Source:
-How To Install PostgreSQL on Ubuntu 22.04 [Quickstart] - https://www.digitalocean.com/community/tutorials/how-to-install-postgresql-on-ubuntu-22-04-quickstart
-Измените пароль для выбранного пользователя - https://uchet-jkh.ru/i/kak-izmenit-parol-k-baze-dannyx-postgresql/
-Grant Role to the non-default user - https://asvignesh.in/how-to-get-the-postgresql-conf-file-location/
-Task:
-Просмотр занятого места на разделах
-Decision:
-$ sudo df -h
-Filesystem   Size Used Avail Use% Mounted on
-tmpfs     196M 1.6M 195M 1% /run
-/dev/sda3    49G 31G 16G 67% /
-tmpfs     980M   0 980M 0% /dev/shm
-tmpfs     5.0M 4.0K 5.0M 1% /run/lock
-/dev/sda2   512M 6.1M 506M 2% /boot/efi
-tmpfs     196M 76K 196M 1% /run/user/127
-tmpfs     196M 64K 196M 1% /run/user/1001
-Source:
-Просмотр занятого места на разделах командой du - https://winitpro.ru/index.php/2021/02/20/svobodnoe-mesta-na-diske-v-linux/
-Task:
 Настроить диск с файловой системой exfat.
 Decision:
 $ sudo apt install exfat-fuse
 $ sudo mkfs -t exfat /dev/sdc1
-Task:
-На физическом сервере критически было мало места на диске. В связи с этим настроил подключение к другому физическому диску для хранилища виртуальных машин и баз данных, а сервер оставил для корректной работы с Веб-сервером на Django.
-Decision:
-$ lsblk
-...
-sdc   8:32 0 931,5G 0 disk 
-$ sudo fdisk /dev/sdc
-...
-Команда (m для справки): n
-...
-Выберите (по умолчанию - p): p
-...
-$ lsblk
-...
-sdc   8:32 0 931,5G 0 disk 
-└─sdc1 8:33 0 931,5G 0 part 
-$ sudo mkfs -t ext4 /dev/sdc1
-$ sudo mount /dev/sdc1 /var/lib/libvirt/images/
-$ sudo cp -p ubuntu22.04.qcow2 /var/lib/libvirt/images/
-$ sudo virt-install \
---name Ubuntu2204 \
---ram 2048 \
---vcpus 2 \
---disk /var/lib/libvirt/images/ubuntu22.04.qcow2,bus=sata \
---import \
---os-variant ubuntu22.04 \
---network default
-$ virsh shutdown Ubuntu2204
-$ sudo virt-install \
---name Centos9 \
---ram 2048 \
---vcpus 2 \
---disk /var/lib/libvirt/images/Centos_9.img,bus=sata \
---import \
---os-variant rhel9-unknown \
---network default
-$ sudo qemu-img info /var/lib/libvirt/images/Kali.qcow2
-$ virt-install --os-variant list | grep debian
-$ sudo virt-install \
---name Kali \
---ram 2048 \
---vcpus 2 \
---disk /var/lib/libvirt/images/Kali.qcow2,bus=sata \
---import \
---os-variant debian11 \
---network default
-$ sudo virt-install \
---name Windows \
---ram 2048 \
---vcpus 2 \
---disk path=/var/lib/libvirt/images/Windows.qcow2,bus=sata \
---import \
---os-variant win10 \
---network default
-$ sudo virt-install \
---name Windows12 \
---ram 2048 \
---vcpus 2 \
---disk path=/var/lib/libvirt/images/Windows12.qcow2,bus=sata \
---import \
---os-variant win2k12 \
---network default
-$ sudo umount /var/lib/libvirt/images/
-$ sudo systemctl stop postgresql
-$ sudo -i -u postgres
-$ cp -r 14 14.backup
-$ ls -l
-итого 8
-drwxr-xr-x 3 postgres postgres 4096 фев 25 19:33 14
-drwxr-xr-x 3 postgres postgres 4096 фев 25 19:57 14.backup
-$ sudo mount /dev/sdc1 /var/lib/postgresql/14
-$ sudo cp -pr /var/lib/postgresql/14.backup /var/lib/postgresql/14/
-$ sudo mv /var/lib/postgresql/14/14.backup /var/lib/postgresql/14/14
-$ sudo ls -l /var/lib/postgresql/14
-итого 87992628
-drwxr-xr-x 3 postgres postgres    4096 фев 25 19:57 14
-drwx------ 2 root   root     16384 фев 21 20:50 lost+found
--rw------- 1 tuser   tuser   90104397824 фев 24 19:44 ubuntu22.04.qcow2
-$ sudo umount /var/lib/postgresql/14
-$ sudo mount /dev/sdc1 /var/lib/postgresql
-$ sudo systemctl start postgresql
-$ sudo -u tuser psql -d tdb
-# \d
-    List of relations
-Schema | Name | Type | Owner 
---------+--------+-------+-------
-public | cities | table | tuser
-(1 row)
-# CREATE TABLE countries (
-  name      varchar(80),
-  location    point
-);
-# exit
-$ sudo systemctl stop postgresql
-$ sudo umount /var/lib/postgresql
-$ sudo systemctl start postgresql
-Source:
-Import Qcow2 images using virt-install command - https://ostechnix.com/create-a-kvm-virtual-machine-using-qcow2-image-in-linux/
-Перенос базы - https://etogeek.dev/posts/move-psql/
-копирование файлов с правами и пользователями - https://www.linux.org.ru/forum/general/8186570
-Importing a virtual machine image - https://access.redhat.com/documentation/ru-ru/red_hat_enterprise_linux/7/html/virtualization_deployment_and_administration_guide/sect-guest_virtual_machine_installation_overview-creating_guests_with_virt_install
-Task:
-Установить и настроить SSH в Ubuntu 22.04
-Decision:
-$ sudo apt update && sudo apt upgrade
-$ sudo apt install openssh-server
-$ sudo systemctl enable --now ssh
-Source:
-Как установить и настроить SSH в Ubuntu 22.04 - https://timeweb.cloud/tutorials/ubuntu/kak-ustanovit-i-nastroit-ssh-v-ubuntu-22-04
-Task:
-Добавьте новый ключ для безопасной авторизации по ssh
-Decision:
-$ ssh-keygen -t rsa -q -N '' -f ~/.ssh/tkey
-$ cat .ssh/tkey.pub 
-ssh-rsa ...tuser@tkey
-$ ssh-copy-id -i ~/.ssh/tkey.pub tuser@tip
-Source:
-Создание SSH-ключей - https://beget.com/ru/kb/how-to/ssh/avtomaticheskaya-ssh-avtorizacziya-po-klyuchu#sozdanie-ssh-klyuchey
 Task:
 Создание пользователя
 Decision:
@@ -4246,7 +2456,7 @@ $ cat /etc/hosts
 $ sudo reboot
 Source:
 https://serverspace.ru/support/help/osnovnye-komandy-ufw/
- Task:
+Task:
 Установить vscode.
 Decision:
 $ wget https://vscode.download.prss.microsoft.com/dbazure/download/stable/903b1e9d8990623e3d7da1df3d33db3e42d80eda/code_1.86.2-1707854558_amd64.deb
@@ -4254,1042 +2464,201 @@ $ sudo apt install ./code_1.86.2-1707854558_amd64.deb
 Source:
 Debian and Ubuntu based distributions - https://code.visualstudio.com/docs/setup/linux
 Task:
-Миграция виртуальных машин с Qemu-Kvm в VirtualBox
-У руководителя уже установлена тестовая система Centos в машине Qemu-Kvm. Наша первая задача скоипровать у него систему 
-Decision:
-$ sudo virsh list --all
- ID   Имя           Состояние
--------------------------------
- 2    Centos9       работает
- -    Alt           выключен
- -    Centos        выключен
- -    Kali          выключен
- -    ubuntu22.04   выключен
- -    Windows       выключен
-$ sudo virsh shutdown Centos9
-$ sudo virsh domblklist Centos9
- Назначение   Источник
----------------------------------------------------
- vda          /images/Centos9.img
- sda          -
-$ rsync -avzP user@tipcentos:/images/Centos9.img Centos/.
-$ sudo virsh dumpxml Centos9 > Centos9.xml
-$ head Centos9.xml
-<domain type='kvm'>
-  <name>Centos9</name>
-  <uuid>8cdbcba9-a955-4ca1-b75e-ab3145255c8d</uuid>
-  <metadata>
-    <libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
-      <libosinfo:os id="http://centos.org/centos-stream/9"/>
-    </libosinfo:libosinfo>
-  </metadata>
-  <memory unit='KiB'>2097152</memory>
-  <currentMemory unit='KiB'>2097152</currentMemory>
-$ sudo head /etc/libvirt/qemu/Centos9.xml
-<!--
-WARNING: THIS IS AN AUTO-GENERATED FILE. CHANGES TO IT ARE LIKELY TO BE
-OVERWRITTEN AND LOST. Changes to this xml configuration should be made using:
-  virsh edit Centos9
-or other application using the libvirt API.
--->
-<domain type='kvm'>
-  <name>Centos9</name>
-  <uuid>8cdbcba9-a955-4ca1-b75e-ab3145255c8d</uuid>
-$ sudo qemu-img info Centos9.img
-image: Centos9.img
-file format: qcow2
-virtual size: 50 GiB (53687091200 bytes)
-disk size: 50 GiB
-cluster_size: 65536
-Snapshot list:
-ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
-1         snapshot1             0 B 2023-09-28 13:18:14 00:00:00.000          0
-Format specific information:
-    compat: 1.1
-    compression type: zlib
-    lazy refcounts: true
-    refcount bits: 16
-    corrupt: false
-    extended l2: false
-Child node '/file':
-    filename: Centos9.img
-    protocol type: file
-    file length: 50 GiB (53695545344 bytes)
-    disk size: 50 GiB
-$ sudo qemu-img convert Centos9.img tmp.bin -p
-$ VBoxManage convertdd tmp.bin virtualbox.vdi
-$ VBoxManage modifyvdi virtualbox.vdi compact
-Task:
-Обновление лицензии DrWeb
-Decision:
-Администрирование, менеджер лицензии, ОРГАНИЗАЦИЯ, распр-ть ключ на группы и станции, EveryOne,Заменить ключи
-Task:
-Для подготовки стенда:
-1. Необходимо скачать архив по ссылке: courses-shop.zip (Зеркало: courses-shop.zip Яндекс.Диск)
-2. Распаковать данный архив и перейти в появившуюся директорию courses-shop-prod в терминальной оболочке вашей ОС. Выполнить команду (при запущенном сервисе docker): docker-compose up -d. По адресу http://localhost:1337 появится приложение лабораторного стенда.
-Возможные проблемы:
-1. На некоторых компьютерах приложение может долго ожидать подключения к базе данных. Это зависит от мощностей вашего компьютера.
-2. По той же причине бот (администратор приложения) может не запуститься, если база данных запускалась дольше 15 секунд. В таком случае вы можете перезагрузить сервис бота из папки приложения после загрузки базы данных командой:
-docker-compose restart bot
-Необходимо находиться в директории приложения, в одном месте с файлом docker-compose.yml
-Проанализируйте защищенность механизмов аутентификации административной панели и проэксплуатируйте найденные уязвимости.
-В качестве подтверждения успешной эксплуатации предоставьте флаг (секретную строку в формате 32 букв и цифр) из кода страницы панели администратора.
-Вопрос для самопроверки на протяжении работы с данным лабораторным стендом:
-Что опасного в этой информационной системе может сделать злоумышленник? Какие риски он мог бы реализовать?
-Decision:
-$ firefox https://disk.yandex.ru/d/bXfeC1DM4vrUsw
-$ unzip Downloads/courses-shop.zip
-$ cd courses-shop-prod
-$ docker-compose up -d
-$ firefox https://portswigger.net/burp/releases/professional-community-2023-9-4?requestededition=community&requestedplatform=
-$ chmod ugo+x burpsuite_community_linux_v2023_9_4.sh
-$ ./burpsuite_community_linux_v2023_9_4.sh
-$ /home/tuser/BurpSuiteCommunity/BurpSuiteCommunity &
-$ firefox https://github.com/empty-jack/YAWR/blob/master/brute/passwords/realyBest.txt 
-Source:
-1. https://portswigger.net/burp/documentation/desktop/getting-started/download-and-install
-2. https://losst.pro/zapusk-skripta-sh-v-linux
-Task:
-Проанализируйте существующие поддомены основного домена компании cyber-ed.ru. Выявите домен, который похож на название домена для задания, и изучите его DNS TXT записи.
-В качестве подтверждения успешной эксплуатации предоставьте флаг (секретную строку в формате 32 букв и цифр несвязного текста) из DNS записи типа TXT (Чтобы получить TXT записи для домена, выполните команду nslookup -q=TXT domain.name).
-Decision:
-$ google-chrome https://crt.sh/?q=cyber-ed.ru
-$ nslookup -q=TXT task.cyber-ed.ru
-Server:		tip.1
-Address:	tip.1#53
-Non-authoritative answer:
-task.cyber-ed.ru	text = "FLAG=ОТВЕТ"
-Authoritative answers can be found from:
-Task:
-Использование симметричного шифрования.
-Давайте зашифруем и расшифруем данные с помощью симметричного метода. Для этого выполним команду gpg с опцией -c, которая сообщает, что нужно использовать симметричный режим шифрования. Далее указываем файл, который необходимо зашифровать. По умолчанию применяется алгоритм CAST5, который можно изменить с помощью опции --cipher-algo. Посмотреть доступные алгоритмы можно в выводе команды gpg --version (строка Cipher:).
-Decision:
-# vim myfile.txt
-# cat myfile.txt
-        --------SECRTET!!-------
-        ---------=)------------
-# ls -l
-        -rw-r--r--. 1 root   root     49 апр 15 22:42  myfile.txt
-# gpg -c myfile.txt
-# ls -l
-        -rw-r--r--. 1 root   root     49 апр 15 22:42  myfile.txt
-        -rw-r--r--. 1 root   root    103 апр 15 22:44  myfile.txt.gpg
-# cat myfile.txt.gpg
-        ��%��A���V�O��κQ��S��gj�Vyv��cƒ�]��$[)8�]l��S�w�Z���ȝ���<�n�R��y�`W7'�F�⬚�m���
-Task:
-У меня есть Другая система Убунту, перенесем туда файл. После передачи файла в удаленную/другую систему его необходимо расшифровать. Для этого в команде gpg с помощью опции -o указываем имя для файла, которое будет после расшифровки, а с помощью опции -d указываем зашифрованный файл, который будем расшифровывать.
-Decision:
-# ls -l
-        -rwxrwx--- 1 linux linux   103 апр 16 05:44  myfile.txt.gpg
-# cat myfile.txt.gpg
-        ��%��A���V�O��κQ��S��gj�Vyv��cƒ�]��$[)8�]l��S�w�Z���ȝ���<�n�R��y�`W7'�F�⬚�m���
-# gpg -o myfile -d myfile.txt.gpg
-    gpg: Внимание: небезопасный владелец домашнего каталога '/home/linux/.gnupg'
-    gpg: данные зашифрованы алгоритмом AES
-    gpg: зашифровано одной фразой-паролем
-# ls -l
-        -rw-r--r-- 1 root  root     49 апр 16 06:04  myfile
-        -rwxrwx--- 1 linux linux   103 апр 16 05:44  myfile.txt.gpg
-Task:
-Проверим содержимое файла. Как видим, это действительно оригинальный файл с первой машины Centos.
-Decision:
-# cat myfile
-        --------SECRTET!!-------
-        ---------=)------------
-Task:
-Использование асимметричного шифрования начинается с генерации пары ключей — открытого и секретного. Для этого используется команда gpg с опцией --gen-key:
-Decision:
-# gpg --gen-key
-        gpg (GnuPG) 2.2.9; Copyright (C) 2018 Free Software Foundation, Inc.
-        This is free software: you are free to change and redistribute it.
-        There is NO WARRANTY, to the extent permitted by law.
-        gpg: создан каталог '/root/.gnupg'
-        gpg: создан щит с ключами '/root/.gnupg/pubring.kbx'
-        Замечание: "gpg --full-generate-key" вызывает полнофункциональный диалог создания ключа.
-        GnuPG должен составить идентификатор пользователя для идентификации ключа.
-        Ваше полное имя: Admin3
-        Адрес электронной почты: testAdmin3@mail.ru
-        Вы выбрали следующий идентификатор пользователя:
-            "Admin3 <testAdmin3@mail.ru>"
-        Сменить (N)Имя, (E)Адрес; (O)Принять/(Q)Выход? o
-        Необходимо получить много случайных чисел. Желательно, чтобы Вы
-        в процессе генерации выполняли какие-то другие действия (печать
-        на клавиатуре, движения мыши, обращения к дискам); это даст генератору
-        случайных чисел больше возможностей получить достаточное количество энтропии.
-        Необходимо получить много случайных чисел. Желательно, чтобы Вы
-        в процессе генерации выполняли какие-то другие действия (печать
-        на клавиатуре, движения мыши, обращения к дискам); это даст генератору
-        случайных чисел больше возможностей получить достаточное количество энтропии.
-        gpg: /root/.gnupg/trustdb.gpg: создана таблица доверия
-        gpg: ключ 8EAEFED2A8D76C1E помечен как абсолютно доверенный
-        gpg: создан каталог '/root/.gnupg/openpgp-revocs.d'
-        gpg: сертификат отзыва записан в '/root/.gnupg/openpgp-revocs.d/CDEA2870E05BF3969EFC7CA18EAEFED2A8D76C1E.rev'.
-        открытый и секретный ключи созданы и подписаны.
-        pub   rsa2048 2020-04-16 [SC] [   годен до: 2022-04-16]
-              CDEA2870E05BF3969EFC7CA18EAEFED2A8D76C1E
-        uid                      Admin3 <testAdmin3@mail.ru>
-        sub   rsa2048 2020-04-16 [E] [   годен до: 2022-04-16]
-Task:
-Указываем идентификационный номер для ключа, по которому его можно будет отличить от других. Обычно это имя и e-mail адрес владельца ключа. Не всегда процесс генерации ключа идет гладко, чтобы это исправить нужно еще один консоль открыть и сделать активность в системе. Это для тех у кого консольная система. А если у вас графический интерфейс, можете просто мышкой потыкать. После этого должно пойти процесс генерации. После этого в каталоге ~/.gnupg/ будут созданы соответствующие файлы.
-Decision:
-ls -liR /usr/
-ls -l ~/.gnupg/
-Task:
-Посмотреть ключи можно командой gpg с опцией --list-keys
-Decision:
-# gpg --list-keys
-        gpg: проверка таблицы доверия
-        gpg: marginals needed: 3  completes needed: 1  trust model: pgp
-        gpg: глубина: 0  достоверных:   1  подписанных:   0  доверие: 0-, 0q, 0n, 0m, 0f, 1u
-        gpg: срок следующей проверки таблицы доверия 2022-04-16
-        /root/.gnupg/pubring.kbx
-        ------------------------
-        pub   rsa2048 2020-04-16 [SC] [   годен до: 2022-04-16]
-              CDEA2870E05BF3969EFC7CA18EAEFED2A8D76C1E
-        uid         [  абсолютно ] Admin3 <testAdmin3@mail.ru>
-        sub   rsa2048 2020-04-16 [E] [   годен до: 2022-04-16]
-Task:
-Перед использованием вашего публичного ключа другими пользователями его необходимо экспортировать. По умолчанию ключ экспортируется в бинарном формате, что не всегда удобно. С помощью опции --armor мы получим наш публичный ключ на консоль, откуда его можно скопировать и отправить по почте или выложить на свой сайт.
-Decision:
-# gpg --armor --export Admin3
-        -----BEGIN PGP PUBLIC KEY BLOCK-----
-        mQENBF6X83gBCACxdea4V0yruICk52BJ4/+i2h7iTLHSBINl4rDFWtFhYYDIjFAs
-        BbW3tVT5Pd+vXQyFUD/fedP4n36OY8IrJB44jFGWZysuWYy4+WAQ0gyJh3GbkW6D
-        QZ5QFOK3XHcijhK1ejCIWH6qPoVmLuY3KKKqb7Cm8Ufr06mhDO6hNVIPI62/2liv
-        ws4g8HYRFqJvif1uhAvPZZUUwIckDnZnxci42wNgsgmVlo9DfXw919Y5M935jySY
-        caTk5+yht4DzjwZzFz4cYaNUU1CPudG8rcoWemfiWvtCWwB8RD++chsO+JWizk6l
-        PMnqUMq+ZxVIbpBZzPHccW5nLr/MINQ2KxzBABEBAAG0G0FkbWluMyA8dGVzdEFk
-        bWluM0BtYWlsLnJ1PokBVAQTAQgAPhYhBM3qKHDgW/OWnvx8oY6u/tKo12weBQJe
-        l/N4AhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMBAstrongBAheAAAoJEI6u/tKo12we
-        roAIAI/v3/JkkBHDD9QjvHicooo60R52+U+Xdpr5gYnfMUgEPOjHQFwgrhXgvQrT
-        Pxf4DMUa1TlbrEgThvOb+y4Q6P22jR7Nc/uy6ZIFsUPWif96kYoyKZX9tlvxXMmV
-        IqbSrWdxF6rsEs/CaXKLNRj1bCwb8UPkDODlt1yv/A7Td0mhbKGgISXhZZYMgN6Q
-        nrTwZoBZw65cCfGDGGjgGUYZkEZA0Lyke2quTxZjdkq4PHPSThX/eiTjHYgMY95r
-        ScJDIMWpnJVeG3wDmWMXwOm+mCZKuRinvUGlyCDkzGDloV0O63FNDKaA1x6wIAyv
-        Z8FLXUC0VNI7ZjfDVplUTkH5rHe5AQ0EXpfzeAEIAP6hXCx+24fXfzhOHjb/CVlY
-        T7mVDzeWItkQ6gLfoBcidfMLA9pzx6IlchbCzbLGvZEQmpMFilkOGw6Et+2Nw6AG
-        RMNRlgZ+PXptlElWTR4mnube5AODBPw+OwUsqogW9V+MSXFA7U6Cia+88jTFE8Zp
-        9LJsdNM8vbYgS+X1vTJBLtO1cUQS/8B5ndvKJds5aqC/Lw7JA2UqIU1Eu9BenKKG
-        h5NdVbwHwwAiYrYjSr0a/Gl2NPSqo1tfVSDhxkHBe8m+VZt7NffpDMYDdAgfk3At
-        8WtuuwMRbVehMRcij8wdSOhVbBXtB5x86biqjKD+7QRM7iPFmIAii6uSsDGTik8A
-        EQEAAYkBPAQYAQgAJhYhBM3qKHDgW/OWnvx8oY6u/tKo12weBQJel/N4AhsMBQkD
-        wmcAAAoJEI6u/tKo12wevkkIAIL4tg4xRAbL1kDH2u01++3q4dc76JmwV96BuIe0
-        O3BdsT8c0zdRRamfRNghI8SHxR42uXg+GnMrNOqOC9FQ7Fpd5Q3+XQxvEjGNrctN
-        4YkwjTWQLstrongM8psB7L4fshXK/dEVlm9IGD3Y47+2K3Hrt13Ttt8DQmnTZEjPr3bZ
-        29VeUWOqy/UV0ULxKYFqxHuIWmBycW4A3usLm4a0UGm6S6Z/5Yz0xdSIuvXD/2Rc
-        CYyxynbLeIxw29LYqLBWATEfJQTkr0jJjkjDSWUd82nSSp9iSdhCQiVN7ytHgbxR
-        ms4UCJxlkE2uoZ/VNMKoxFCLWdEsK3mI+f8BtCr2SmQwObY=
-        =ooVe
-        -----END PGP PUBLIC KEY BLOCK-----
-Task:
-В удаленной системе импортируем публичный ключ, чтобы мы его могли использовать. Для этого текст публичного ключа сохраняем в текстовый файл и передаем в качестве аргумента команде gpg. вставляем скопированный публичный ключ
-Decision:
-# vim box-key
-# cat box-key
-        -----BEGIN PGP PUBLIC KEY BLOCK-----
-        mQENBF6X83gBCACxdea4V0yruICk52BJ4/+i2h7iTLHSBINl4rDFWtFhYYDIjFAs
-        BbW3tVT5Pd+vXQyFUD/fedP4n36OY8IrJB44jFGWZysuWYy4+WAQ0gyJh3GbkW6D
-        QZ5QFOK3XHcijhK1ejCIWH6qPoVmLuY3KKKqb7Cm8Ufr06mhDO6hNVIPI62/2liv
-        ws4g8HYRFqJvif1uhAvPZZUUwIckDnZnxci42wNgsgmVlo9DfXw919Y5M935jySY
-        caTk5+yht4DzjwZzFz4cYaNUU1CPudG8rcoWemfiWvtCWwB8RD++chsO+JWizk6l
-        PMnqUMq+ZxVIbpBZzPHccW5nLr/MINQ2KxzBABEBAAG0G0FkbWluMyA8dGVzdEFk
-        bWluM0BtYWlsLnJ1PokBVAQTAQgAPhYhBM3qKHDgW/OWnvx8oY6u/tKo12weBQJe
-        l/N4AhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMBAstrongBAheAAAoJEI6u/tKo12we
-        roAIAI/v3/JkkBHDD9QjvHicooo60R52+U+Xdpr5gYnfMUgEPOjHQFwgrhXgvQrT
-        Pxf4DMUa1TlbrEgThvOb+y4Q6P22jR7Nc/uy6ZIFsUPWif96kYoyKZX9tlvxXMmV
-        IqbSrWdxF6rsEs/CaXKLNRj1bCwb8UPkDODlt1yv/A7Td0mhbKGgISXhZZYMgN6Q
-        nrTwZoBZw65cCfGDGGjgGUYZkEZA0Lyke2quTxZjdkq4PHPSThX/eiTjHYgMY95r
-        ScJDIMWpnJVeG3wDmWMXwOm+mCZKuRinvUGlyCDkzGDloV0O63FNDKaA1x6wIAyv
-        Z8FLXUC0VNI7ZjfDVplUTkH5rHe5AQ0EXpfzeAEIAP6hXCx+24fXfzhOHjb/CVlY
-        T7mVDzeWItkQ6gLfoBcidfMLA9pzx6IlchbCzbLGvZEQmpMFilkOGw6Et+2Nw6AG
-        RMNRlgZ+PXptlElWTR4mnube5AODBPw+OwUsqogW9V+MSXFA7U6Cia+88jTFE8Zp
-        9LJsdNM8vbYgS+X1vTJBLtO1cUQS/8B5ndvKJds5aqC/Lw7JA2UqIU1Eu9BenKKG
-        h5NdVbwHwwAiYrYjSr0a/Gl2NPSqo1tfVSDhxkHBe8m+VZt7NffpDMYDdAgfk3At
-        8WtuuwMRbVehMRcij8wdSOhVbBXtB5x86biqjKD+7QRM7iPFmIAii6uSsDGTik8A
-        EQEAAYkBPAQYAQgAJhYhBM3qKHDgW/OWnvx8oY6u/tKo12weBQJel/N4AhsMBQkD
-        wmcAAAoJEI6u/tKo12wevkkIAIL4tg4xRAbL1kDH2u01++3q4dc76JmwV96BuIe0
-        O3BdsT8c0zdRRamfRNghI8SHxR42uXg+GnMrNOqOC9FQ7Fpd5Q3+XQxvEjGNrctN
-        4YkwjTWQLstrongM8psB7L4fshXK/dEVlm9IGD3Y47+2K3Hrt13Ttt8DQmnTZEjPr3bZ
-        29VeUWOqy/UV0ULxKYFqxHuIWmBycW4A3usLm4a0UGm6S6Z/5Yz0xdSIuvXD/2Rc
-        CYyxynbLeIxw29LYqLBWATEfJQTkr0jJjkjDSWUd82nSSp9iSdhCQiVN7ytHgbxR
-        ms4UCJxlkE2uoZ/VNMKoxFCLWdEsK3mI+f8BtCr2SmQwObY=
-        =ooVe
-        -----END PGP PUBLIC KEY BLOCK-----
-# ls -l
-        -rw-r--r-- 1 root  root   1753 апр 16 09:02  box-key
-# gpg --gen-key
-        gpg: Внимание: небезопасный владелец домашнего каталога '/home/linux/.gnupg'
-        gpg (GnuPG) 2.2.4; Copyright (C) 2017 Free Software Foundation, Inc.
-        This is free software: you are free to change and redistribute it.
-        There is NO WARRANTY, to the extent permitted by law.
-        Замечание: "gpg --full-generate-key" вызывает полнофункциональный диалог создания ключа.
-        GnuPG должен составить идентификатор пользователя для идентификации ключа.
-        Ваше полное имя: Client1
-        Адрес электронной почты: testClient1@mail.ru
-        Вы выбрали следующий идентификатор пользователя:
-            "Client1 <testClient1@mail.ru>"
-        Сменить (N)Имя, (E)Адрес; (O)Принять/(Q)Выход? o
-        Необходимо получить много случайных чисел. Желательно, чтобы Вы
-        в процессе генерации выполняли какие-то другие действия (печать
-        на клавиатуре, движения мыши, обращения к дискам); это даст генератору
-        случайных чисел больше возможностей получить достаточное количество энтропии.
-        Необходимо получить много случайных чисел. Желательно, чтобы Вы
-        в процессе генерации выполняли какие-то другие действия (печать
-        на клавиатуре, движения мыши, обращения к дискам); это даст генератору
-        случайных чисел больше возможностей получить достаточное количество энтропии.
-        gpg: ключ 05A2E96C7147C8B8 помечен как абсолютно доверенный
-        gpg: создан каталог '/home/linux/.gnupg/openpgp-revocs.d'
-        gpg: сертификат отзыва записан в '/home/linux/.gnupg/openpgp-revocs.d/C0A7FE019BB0D430C465CBCA05A2E96C7147C8B8.rev'.
-        открытый и секретный ключи созданы и подписаны.
-        pub   rsa3072 2020-04-16 [SC] [годен до: 2022-04-16]
-              C0A7FE019BB0D430C465CBCA05A2E96C7147C8B8
-        uid                      Client1 <testClient1@mail.ru>
-        sub   rsa3072 2020-04-16 [E] [годен до: 2022-04-16]
-# gpg --import box-key
-        gpg: Внимание: небезопасный владелец домашнего каталога '/home/linux/.gnupg'
-        gpg: ключ 8EAEFED2A8D76C1E: импортирован открытый ключ "Admin3 <testAdmin3@mail.ru>"
-        gpg: Всего обработано: 1
-        gpg:               импортировано: 1
-Task:
-После импорта можно убедиться, что ключ действительно был импортирован. должен быть Dmitry и Eugeny. Для этого используется команда gpg --list-keys. A После импорта ключа его необходимо активировать, а для этого необходимо перейти в режим редактирования этого ключа. Вы попадете в специальный интерфейс.
-Decision:
-# gpg --list-keys
-        gpg: Внимание: небезопасный владелец домашнего каталога '/home/linux/.gnupg'
-        gpg: проверка таблицы доверия
-        gpg: marginals needed: 3  completes needed: 1  trust model: pgp
-        gpg: глубина: 0  достоверных:   1  подписанных:   0  доверие: 0-, 0q, 0n, 0m, 0f, 1u
-        gpg: срок следующей проверки таблицы доверия 2022-04-16
-        /home/linux/.gnupg/pubring.kbx
-        ------------------------------
-        pub   rsa3072 2020-04-16 [SC] [годен до: 2022-04-16]
-              C0A7FE019BB0D430C465CBCA05A2E96C7147C8B8
-        uid         [  абсолютно ] Client1 <testClient1@mail.ru>
-        sub   rsa3072 2020-04-16 [E] [годен до: 2022-04-16]
-        pub   rsa2048 2020-04-16 [SC] [годен до: 2022-04-16]
-              CDEA2870E05BF3969EFC7CA18EAEFED2A8D76C1E
-        uid         [ неизвестно ] Admin3 <testAdmin3@mail.ru>
-        sub   rsa2048 2020-04-16 [E] [годен до: 2022-04-16]
-# gpg --edit-key Admin3
-        gpg: Внимание: небезопасный владелец домашнего каталога '/home/linux/.gnupg'
-        gpg (GnuPG) 2.2.4; Copyright (C) 2017 Free Software Foundation, Inc.
-        This is free software: you are free to change and redistribute it.
-        There is NO WARRANTY, to the extent permitted by law.
-        pub  rsa2048/8EAEFED2A8D76C1E
-             создан: 2020-04-16  годен до: 2022-04-16  назначение: SC  
-             доверие: неизвестно достоверность: неизвестно
-        sub  rsa2048/764375B485FCFEAF
-             создан: 2020-04-16  годен до: 2022-04-16  назначение: E   
-        [ неизвестно ] (1). Admin3 <testAdmin3@mail.ru>
-gpg> help
-Task:
-Для начала нужно вывести отпечаток ключа и сравнить его с отпечатком ключа из целевой системы. Можно позвонить к пользователю, попросить чтоб он сообщил отпечаток ключа и сравнить по телефону. F379 B9FC CC0E 825B 476E  E68B 6610 EC5A D37E 27AC - отпечаток ключа пользователя Eugeny. Если они совпадают, то все нормально, ключ можно верифицировать.
-Decision:
-gpg> fpr
-        pub   rsa2048/8EAEFED2A8D76C1E 2020-04-16 Admin3 <testAdmin3@mail.ru>
-         Отпечаток первичного ключа: CDEA 2870 E05B F396 9EFC  7CA1 8EAE FED2 A8D7 6C1E
-gpg> sign
-        pub  rsa2048/8EAEFED2A8D76C1E
-             создан: 2020-04-16  годен до: 2022-04-16  назначение: SC  
-             доверие: неизвестно достоверность: неизвестно
-         Отпечаток первичного ключа: CDEA 2870 E05B F396 9EFC  7CA1 8EAE FED2 A8D7 6C1E
-             Admin3 <testAdmin3@mail.ru>
-        Срок действия данного ключа истекает 2022-04-16.
-        Вы уверены, что хотите подписать этот ключ
-        своим ключом "Client1 <testClient1@mail.ru>" (05A2E96C7147C8B8)?
-        Действительно подписать? (y/N) y
-gpg> check
-Task:
-На другом компьютере нужно будет проделать то же самое. Единственное отличие — имя ключа будет другим. получатель публикует ключ, копирует его.
-Decision:
-# gpg --armor --export Client1
-        gpg: Внимание: небезопасный владелец домашнего каталога '/home/linux/.gnupg'
-        -----BEGIN PGP PUBLIC KEY BLOCK-----
-        mQGNBF6X9VwBDADIWL7gvO1KUpGLzzBewGbkyaBJGEhO3dMAtrGvP1xRcWXRgphK
-        AJfVu1t4wIjfWhumv1jo6uE9phk9BHQkqmzCVlPdEOSYsuyP6jNkWQnuc4sNAIqA
-        7bKMH9nccojJa7Ba67qx7Kp4jtzXRrdswr8h+ilimwZjpsKSasNZfAIE0XoBUyI+
-        EZeEl8SPRyTe09R4kRLcgQgDhrTyUeU9Q2xaok6zeEl39HhivXibSu+/a3DzKOXV
-        Q0gdrQZqciAUfxsd0ZNK8SSGWlNt18JMC/uCKFTqsLtaRo/oGMeZTltZzYBXoF5G
-        yKakOlAnYKPF6T6RestT8lVOTNsRYfWxSOZFYKkD3gyq9AK6+rOG2ROUAQObAnJg
-        DafERktkQQvDW3SB7VkQzJAy0OicaDSlFBdo43snBxAngWNZ/HXYLmw2Zoba4VGv
-        /6iJ1AjaDNwu+9WkdNJ6KPQEb932R8wi0savVcfXAw/HNtIgpXT1zPlq3A0UaPpQ
-        bW0ZFeAA7gvzDqsAEQEAAbQdQ2xpZW50MSA8dGVzdENsaWVudDFAbWFpbC5ydT6J
-        AdQEEwEKAD4WIQTAp/4Bm7DUMMRly8oFoulscUfIuAUCXpf1XAIbAwUJA8JnAAUL
-        CQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRAFoulscUfIuLU2DACpir1O1XD8AlkR
-        6DW+lQL0nJpVAIUo8z664gg0l4raU/EQqp//mxEdRR2jSTRbVj9YgPqqr34AIWqp
-        FW7GL6erKpaP33UrKPcDUfZzf3a1t57+0GdulfoPAjxWpmqf11qjaKsJOHEqT2VE
-        GvsumaqUvwUfvIfXchQgqpFDaxICk0YbAIub2T0nU49IcMxsF9Exsam3N2VUinlS
-        6EPhuRYsbEUH9uTp29BHE8FQDjM4zyQS3nf3HX42snYGeexCx6KiR2MhCuv7VRS4
-        VtmfknLv9zJq5z/NbsFSRse3xpVsaT4TdPIC73Dog92wmpwArYScaVy70vI2u78V
-        rRDodxp17INMvTY42q5vJqwxgip792bkWGk6w1P/dvOBxJHcOWQa8P346pJOgdcW
-        10vIle7bZQ77sWdtBOjpFxmyRo6QvaXlSaWKpoy/qHGX4/FM4LIn5ugVRd3YdBwV
-        tJG/rCkduP/BmCggkGrUaCx6DekaGTqoyTsRTct9BPooT278b+q5AY0EXpf1XAEM
-        AMRZ7ndZ60strongBBqi9RlAdDh35mouxcy9kv73WK24l7wnoQNq2QIHCkoCCiht7lqT
-        AHNGk5cwuiov9hfRbZPbMVoc7444IoQ3D5Vj5tvkaqW3ey92hE0g4P0ITAK7/1MG
-        OxZz26yPM/45MWvwlo7vz9QCGTp0hkpJG3fsdPISaV1r/vylD0zpKJ8Yotth07FR
-        QmK5ck3vr/GWtP+tYR7JQnP1R+oFfcEi2cP8/VA/lry+I29yc04/wxjbxYqzB1nZ
-        9nhJPCCEpWR3oIsrHaLMfTI4pUnguREO/Qv/gtmR2TZwJ2eAXsNJ0jvw4+F2crXk
-        nGSxEru0+D2b2bsxN2Gj4JRXCli3sipg19lbTwZTeZFGmpg84OUIaTLjQi39DCFu
-        l40lgd/Xvx797eOVeN/QWNwzxiFcDNDQTXcx9LBXRyDkKeCa+ZvDYvH3ezIvJcvi
-        so3ZEBdJ5QIvEXzm8q3vbIf7yV1p4+hgw88J6jekIOUlJoHYMzpkJtgaPb6ZYrt4
-        5wARAQABiQG8BBgBCgAmFiEEwKf+AZuw1DDEZcvKBaLpbHFHyLgFAl6X9VwCGwwF
-        CQPCZwAACgkQBaLpbHFHyLgXRwwAswv05e7mKvYVUphP/ihSxZmEDy/R9DcZiSsI
-        f4fWmypv9D5Y2YgCt/2NT3X6MUABAV12QGlwJlQBlRgV9rEExaiZ0p/g0QmK28Fa
-        ZQ4+FS1S0+BuUso9MAFbam2Jk+hEFmCNhmK7thJlVgrcSDPppENn6/D4Lw6/WoI3
-        8q6vMff7xxNYGjKnqU5aPlmNvff8FoxNYcLwmVk0y9tlI8l0g5c5LVsrRmnJXYPQ
-        wtItiv6KzNtEKmbshObqf9gPZAnjLIC8sNytO/78NIJPR3JQyWMd6yudGosrg6NQ
-        q0N2C9J5x1aBPPS9x6QvMfiOm2JewEqKSDQ3NEyW+V8y4jOwIr+9G3DLueMLPVPj
-        MsAz4P7xxX00TKcYTa2DWlOW4z2kF8qoYPs1nuXWHAvRVQ+QJ0pop3VRZKXN3ZBw
-        9pGyrirzjqEqk/1aJTsEK6kgpHDlg71B1ajcZ2pYiMsICnjBowXh87Xgrb/7wTr1
-        yKDnyVYRcd3IECbxciuHX49/YffC
-        =NM6e
-        -----END PGP PUBLIC KEY BLOCK-----
-# vim box-key
-# ls -l
-        -rw-r--r--. 1 root   root   2448 апр 16 02:10  box-key
-        -rw-r--r--. 1 root   root     49 апр 15 22:42  myfile.txt
-        -rw-r--r--. 1 root   root    103 апр 15 22:44  myfile.txt.gpg
-# gpg --import box-key
-        gpg: ключ 05A2E96C7147C8B8: импортирован открытый ключ "Client1 <testClient1@mail.ru>"
-        gpg: Всего обработано: 1
-        gpg:                  импортировано: 1
-# gpg --edit-key Client1
-        gpg (GnuPG) 2.2.9; Copyright (C) 2018 Free Software Foundation, Inc.
-        This is free software: you are free to change and redistribute it.
-        There is NO WARRANTY, to the extent permitted by law.
-        pub  rsa3072/05A2E96C7147C8B8
-              создан: 2020-04-16     годен до: 2022-04-16  назначение: SC  
-             доверие: неизвестно достоверность: неизвестно
-        sub  rsa3072/58859DC04AFB86B9
-              создан: 2020-04-16     годен до: 2022-04-16  назначение: E   
-        [ неизвестно ] (1). Client1 <testClient1@mail.ru>
-gpg> fpr
-        pub   rsa3072/05A2E96C7147C8B8 2020-04-16 Client1 <testClient1@mail.ru>
-         Отпечаток первичного ключа: C0A7 FE01 9BB0 D430 C465  CBCA 05A2 E96C 7147 C8B8
-gpg> sign
-        pub  rsa3072/05A2E96C7147C8B8
-              создан: 2020-04-16     годен до: 2022-04-16  назначение: SC  
-             доверие: неизвестно достоверность: неизвестно
-         Отпечаток первичного ключа: C0A7 FE01 9BB0 D430 C465  CBCA 05A2 E96C 7147 C8B8
-             Client1 <testClient1@mail.ru>
-        Срок действия данного ключа истекает 2022-04-16.
-        Вы уверены, что хотите подписать этот ключ
-        своим ключом "Admin3 <testAdmin3@mail.ru>" (8EAEFED2A8D76C1E)?
-        Действительно подписать? (y/N) y
-gpg> check
-gpg> quit
-Task:
-Зашифруем файл myfile для пользователя Dmitry. Зашифрованный файл получит имя myfile.gpg. r - кто получатель, e - ecrypt операция шифрования
-Decision:
-# vim myfile
-# cat myfile
-
-        ---secret---
-# gpg -o myfilenew.gpg -e -r Client1 myfile
-        gpg: проверка таблицы доверия
-        gpg: marginals needed: 3  completes needed: 1  trust model: pgp
-        gpg: глубина: 0  достоверных:   1  подписанных:   1  доверие: 0-, 0q, 0n, 0m, 0f, 1u
-        gpg: глубина: 1  достоверных:   1  подписанных:   0  доверие: 1-, 0q, 0n, 0m, 0f, 0u
-        gpg: срок следующей проверки таблицы доверия 2022-04-16
-# ls -l
-        -rw-r--r--. 1 root   root   2448 апр 16 02:10  box-key
-        -rw-r--r--. 1 root   root     13 апр 16 02:15  myfile
-        -rw-r--r--. 1 root   root    478 апр 16 02:21  myfilenew.gpg
-# cat myfilenew.gpg
-        ��X���J���
-                 �+��-$6ٌ�)r+9e��|>N�&�21ʸX��HJMuS�=����o��_��oi�h��:J��Q��U�Y[���5I��`
-              {�6U����y$�n��    TS�>����NJ�Tc%���5{��=FW�xv�Zr�����N*��9�ڻ��r(h�x��[ŀ(ў*��~�x��|Sր��u�{
-                                   ^���8YA���R&nI�����y�l9��!��yO/J�X�9���%u����q�2��ã%�k'u�i���؍�������g�X�v�bE5IP9�<�"���'�?b]��x���_`Y�Ԡ��I��M�6�B�\�C�h���Q�B�4@�;O�xbԽ��e��x/8\L's����*��)EU��x~�ά��`ȟ�    �BB���M� ,�>�&gkb�ǻ�
-        �N�Խ����s��b��-ɘ%�
-                         F;.܍5��zD\����
-                                       �Kc|=O��:��s�
-Task:
-После этого зашифрованный файл можно свободно передавать по открытым каналам передачи данных. Файл сможет расшифровать только пользователь Dmitry с помощью своего секретного ключа. Передаем
-Decision:
-# scp myfilenew.gpg linux@tip.104:/home/linux 
-        myfilenew.gpg                                 100%  478   167.8KB/s   00:00
-# ls -l
-        итого 112
-        -rw-r--r-- 1 root  root   1753 апр 16 09:02  box-key
-        -rw-r--r-- 1 linux linux   478 апр 16 09:55  myfilenew.gpg
-Task:
-Расшифровать файл пользователь Dmitry сможет командой, указанной ниже.
-Decision:
-# gpg -o myfile -d myfilenew.gpg
-        gpg: Внимание: небезопасный владелец домашнего каталога '/home/linux/.gnupg'
-        gpg: зашифровано 3072-битным ключом RSA с идентификатором 58859DC04AFB86B9, созданным 2020-04-16
-              "Client1 <testClient1@mail.ru>"
-# ls -l
-        итого 116
-        -rw-r--r-- 1 root  root   1753 апр 16 09:02  box-key
-        -rw-r--r-- 1 root  root     13 апр 16 09:57  myfile
-        -rw-r--r-- 1 linux linux   478 апр 16 09:55  myfilenew.gpg
-# cat myfile
-        ---secret---
-Task:
-Создание сертификата отзыва
-Посмотрим ID публичного ключа, который мы отправим на публичный сервер ключей.
-Decision:
-# gpg --list-keys
-        /root/.gnupg/pubring.kbx
-        ------------------------
-        pub   rsa2048 2020-04-16 [SC] [   годен до: 2022-04-16]
-              CDEA2870E05BF3969EFC7CA18EAEFED2A8D76C1E
-        uid         [  абсолютно ] Admin3 <testAdmin3@mail.ru>
-        sub   rsa2048 2020-04-16 [E] [   годен до: 2022-04-16]
-        pub   rsa3072 2020-04-16 [SC] [   годен до: 2022-04-16]
-              C0A7FE019BB0D430C465CBCA05A2E96C7147C8B8
-        uid         [   полное   ] Client1 <testClient1@mail.ru>
-        sub   rsa3072 2020-04-16 [E] [   годен до: 2022-04-16]
-Task:
-С помощью опции --keyserver указываем публичный сервер ключей, с помощью опции --send-key сообщаем, что ключ необходимо отправить на сервер.
-Decision:
-# gpg --keyserver pgp.mit.edu --send-key CDEA2870E05BF3969EFC7CA18EAEFED2A8D76C1E
-        gpg: отправка ключа 8EAEFED2A8D76C1E на hkp://pgp.mit.edu
-Task:
-После этого любой желающий может получить ваш публичный ключ с сервера ключей, просто указав его ID. Для получения ключа с сервера используется опция --recv-keys. ID ключа также можно выяснить по e-mail адресу владельца или его имени.
-Decision:
-# gpg --keyserver pgp.mit.edu --recv-key CDEA2870E05BF3969EFC7CA18EAEFED2A8D76C1E
-        gpg: Внимание: небезопасный владелец домашнего каталога '/home/linux/.gnupg'
-        gpg: ключ 8EAEFED2A8D76C1E: "Admin3 <testAdmin3@mail.ru>" не изменен
-        gpg: Всего обработано: 1
-        gpg:              неизмененных: 1
-# gpg --keyserver pgp.mit.edu --search-key testAdmin3@mail.ru
-        gpg: data source: http://pgp.mit.edu:11371
-        (1)    Admin3 <testAdmin3@mail.ru>
-              2048 bit RSA key 8EAEFED2A8D76C1E,      создан: 2020-04-16,    годен до: 2022-04-16
-        Keys 1-1 of 1 for "testAdmin3@mail.ru".  Введите числа, N) Следующее; Q) Выход > Q
-Task:
-Представим ситуацию, что ваш секретный ключ скомпрометирован или просто потерян. Следовательно, больше нет смысла шифровать для вас данные публичным ключом из связки с этим личным ключом и его нужно отозвать. Генерируем сертификат отзыва. После выполнения команды будет создан файл eugeny.asc, это и есть сертификат отзыва.
-Decision:
-# gpg -o Admin3.asc --gen-revoke Admin3
-        sec  rsa2048/8EAEFED2A8D76C1E 2020-04-16 Admin3 <testAdmin3@mail.ru>
-        Создать сертификат отзыва данного ключа? (y/N) y
-        Укажите причину отзыва:
-          0 = Причина не указана
-          1 = Ключ был раскрыт
-          2 = Ключ заменен другим
-          3 = Ключ больше не используется
-          Q = Отмена
-        (Скорее всего, Вы здесь выберете 1)
-        Ваше Decision? 3
-        Введите необязательное пояснение; завершите пустой строкой:
-        >
-        Причина отзыва: Ключ больше не используется
-        (Пояснения отсутствуют)
-        Все правильно? (y/N) y
-        Для вывода использован текстовый формат ASCII.
-        Сертификат отзыва создан.
-        Поместите его в надежное место; если посторонний получит доступ
-        к данному сертификату, он может использовать его, чтобы сделать
-        Ваш ключ непригодным к использованию. Можно распечатать данный
-        сертификат и спрятать подальше на случай, если Ваш основной
-        носитель будет поврежден, но будьте осторожны: система печати
-        Вашей машины может сохранить данные и сделать их доступными для других!
-# ls -l
-        -rw-r--r--. 1 root   root    478 апр 16 02:53  tip.104
-        -rw-------. 1 root   root    548 апр 16 03:16  Admin3.asc
-        -rw-r--r--. 1 root   root   2448 апр 16 02:10  box-key
-        drwxr-xr-x. 2 root   root     45 апр  9 21:40  docs
-        -rw-r--r--. 1 root   root     13 апр 16 02:15  myfile
-        -rw-r--r--. 1 root   root    478 апр 16 02:21  myfilenew.gpg
-Task:
-Далее сертификат отзыва необходимо импортировать в вашу базу данных ключей. Публичный ключ отозван (revoked).
-Decision:
-# gpg --import Admin3.asc
-        gpg: ключ 8EAEFED2A8D76C1E: сертификат отзыва "Admin3 <testAdmin3@mail.ru>" импортирован
-        gpg: Всего обработано: 1
-        gpg:           новых отзывов ключей: 1
-        gpg: marginals needed: 3  completes needed: 1  trust model: pgp
-        gpg: глубина: 0  достоверных:   1  подписанных:   0  доверие: 0-, 0q, 0n, 0m, 0f, 1u
-        gpg: срок следующей проверки таблицы доверия 2022-04-16
-# gpg --list-keys
-        /root/.gnupg/pubring.kbx
-        ------------------------
-        pub   rsa2048 2020-04-16 [SC] [    отозван: 2020-04-16]
-              CDEA2870E05BF3969EFC7CA18EAEFED2A8D76C1E
-        uid         [   отозван  ] Admin3 <testAdmin3@mail.ru>
-        pub   rsa3072 2020-04-16 [SC] [   годен до: 2022-04-16]
-              C0A7FE019BB0D430C465CBCA05A2E96C7147C8B8
-        uid         [ неизвестно ] Client1 <testClient1@mail.ru>
-        sub   rsa3072 2020-04-16 [E] [   годен до: 2022-04-16]
-Task:
-Загружаем отозванный ключ на публичный сервер ключей.
-Decision:
-# gpg --keyserver pgp.mit.edu --send-key CDEA2870E05BF3969EFC7CA18EAEFED2A8D76C1E
-        gpg: отправка ключа 8EAEFED2A8D76C1E на hkp://pgp.mit.edu
-Task:
-В удаленной системе, в случае желания получить ваш публичный ключ, будет принят сертификат отзыва. Теперь отозванный ключ нельзя будет использовать для шифрования данных.
-Decision:
-# gpg --keyserver pgp.mit.edu --recv-key CDEA2870E05BF3969EFC7CA18EAEFED2A8D76C1E
-        gpg: Внимание: небезопасный владелец домашнего каталога '/home/linux/.gnupg'
-        gpg: ключ 8EAEFED2A8D76C1E: добавлен сертификат отзыва "Admin3 <testAdmin3@mail.ru>"
-        gpg: ключ 8EAEFED2A8D76C1E: "Admin3 <testAdmin3@mail.ru>" 1 новая подпись
-        gpg: Всего обработано: 1
-        gpg:         новых подписей: 1
-# gpg --list-keys
-        gpg: Внимание: небезопасный владелец домашнего каталога '/home/linux/.gnupg'
-        gpg: проверка таблицы доверия
-        gpg: marginals needed: 3  completes needed: 1  trust model: pgp
-        gpg: глубина: 0  достоверных:   1  подписанных:   0  доверие: 0-, 0q, 0n, 0m, 0f, 1u
-        gpg: срок следующей проверки таблицы доверия 2022-04-16
-        /home/linux/.gnupg/pubring.kbx
-        ------------------------------
-        pub   rsa3072 2020-04-16 [SC] [годен до: 2022-04-16]
-              C0A7FE019BB0D430C465CBCA05A2E96C7147C8B8
-        uid         [  абсолютно ] Client1 <testClient1@mail.ru>
-        sub   rsa3072 2020-04-16 [E] [годен до: 2022-04-16]
-        pub   rsa2048 2020-04-16 [SC] [отозван: 2020-04-16]
-              CDEA2870E05BF3969EFC7CA18EAEFED2A8D76C1E
-        uid         [   отозван  ] Admin3 <testAdmin3@mail.ru>
-# gpg -o myfile.gpg -e -r Admin3 myfile
-        gpg: Внимание: небезопасный владелец домашнего каталога '/home/linux/.gnupg'
-        gpg: Admin3: пропущено: Нет открытого ключа
-        gpg: myfile: encryption failed: Нет открытого ключа
-Task:
-Цифровая подпись файлов
-Подписать файл myfile можно командой, указанной ниже. Подписанный файл будет сохранен под именем myfile.sig
-Decision:
-# gpg --gen-key
-        gpg (GnuPG) 2.2.9; Copyright (C) 2018 Free Software Foundation, Inc.
-        This is free software: you are free to change and redistribute it.
-        There is NO WARRANTY, to the extent permitted by law.
-        Замечание: "gpg --full-generate-key" вызывает полнофункциональный диалог создания ключа.
-        GnuPG должен составить идентификатор пользователя для идентификации ключа.
-        Ваше полное имя: Admin3
-        Адрес электронной почты: testAdmin3@mail.ru
-        Вы выбрали следующий идентификатор пользователя:
-            "Admin3 <testAdmin3@mail.ru>"
-        Сменить (N)Имя, (E)Адрес; (O)Принять/(Q)Выход? o
-        Необходимо получить много случайных чисел. Желательно, чтобы Вы
-        в процессе генерации выполняли какие-то другие действия (печать
-        на клавиатуре, движения мыши, обращения к дискам); это даст генератору
-        случайных чисел больше возможностей получить достаточное количество энтропии.
-        Необходимо получить много случайных чисел. Желательно, чтобы Вы
-        в процессе генерации выполняли какие-то другие действия (печать
-        на клавиатуре, движения мыши, обращения к дискам); это даст генератору
-        случайных чисел больше возможностей получить достаточное количество энтропии.
-        gpg: ключ E2EF59C572C2FE68 помечен как абсолютно доверенный
-        gpg: сертификат отзыва записан в '/root/.gnupg/openpgp-revocs.d/4D651D448FC062BFFC7602DCE2EF59C572C2FE68.rev'.
-        открытый и секретный ключи созданы и подписаны.
-        pub   rsa2048 2020-04-16 [SC] [   годен до: 2022-04-16]
-              4D651D448FC062BFFC7602DCE2EF59C572C2FE68
-        uid                      Admin3 <testAdmin3@mail.ru>
-        sub   rsa2048 2020-04-16 [E] [   годен до: 2022-04-16]
-# gpg -o myfile.sig -s myfile
-# ls -l
-        -rw-r--r--. 1 root   root    478 апр 16 02:53  tip.104
-        -rw-------. 1 root   root    548 апр 16 03:16  Admin3.asc
-        -rw-r--r--. 1 root   root   2448 апр 16 02:10  box-key
-        -rw-r--r--. 1 root   root     13 апр 16 02:15  myfile
-        -rw-r--r--. 1 root   root    478 апр 16 02:21  myfilenew.gpg
-        -rw-r--r--. 1 root   root    354 апр 16 03:38  myfile.sig
-Task:
-Проверить подпись в удаленной системе можно с помощью команды gpg с опцией --verify
-Decision:
-# gpg --verify myfile.sig
-        gpg: Внимание: небезопасный владелец домашнего каталога '/home/linux/.gnupg'
-        gpg: Подпись сделана Чт 16 апр 2020 10:38:31 MSK
-        gpg:                ключом RSA с идентификатором 4D651D448FC062BFFC7602DCE2EF59C572C2FE68
-Task:
-Расшифровка файла myfile.sig
-Decision:
-#  gpg -o myfile -d myfile.sig
-Task:
-подписать текстовые файлы, в этом случае подпись будет добавлена в конец файла. Файл получит расширение asc.
-Decision:
-# gpg --clearsign myfile
-# ls -l
-        -rw-r--r-- 1 root  root    723 апр 16 10:50  myfile.asc
-# cat myfile.asc
-        -----BEGIN PGP SIGNED MESSAGE-----
-        Hash: SHA512
-        - ---secret---
-        -----BEGIN PGP SIGNATURE-----
-        iQGzBAEBCgAdFiEEwKf+AZuw1DDEZcvKBaLpbHFHyLgFAl6YDjIACgkQBaLpbHFH
-        yLhfYgv/fUG4Uc1XWSqfdg39etdp5xIvVx1DUwxy+QNopHqd2MXps6Oe2+qJzLpk
-        gthQRGSB60Xqgim2hwDEz0hoBrIoFMskuFpZo8JDOpxjR0fofPAp0i+t3z5ZVbjf
-        0Mxp8xzvSnxqgx5bwv7Xew4WZwAdiBaOCWhdJ0mK32zxQ2OKClDODUH6XNLVG/iz
-        ecVq3VRUUvkRJHj2q1auPsQm2kopp3kuuIYSub/IY+lsEe25fPj/wV+wmugmzExi
-        YMj5j8RVMaJCvojJiso7C4+Fv78x9xazEeJlo+d9DTe/+N+O4HttJjGTlCcY1dxc
-        QlMytIRnAmJVVioOI6lcG5lp0ZQ0o5M1rhuP53k9+q1o6n8vKPCj/lSK6wO77NYH
-        liMFZaeNuL0XDKCbzNqFUTOgFbOo8vueZ1ob7Jq36V/VKz4lXhzOil20QCG8Mmrk
-        3f/cM/KK6Oy2MWDEJyjVCHt2PhoiknES7mppvilFR1Plb4JSQPPMzXQ1WgsjAtoH
-        RYFDq2Hc
-        =YJ6J
-        -----END PGP SIGNATURE-----
-Task:
-Также есть возможность получить цифровую подпись в отдельный файл. Впоследствии файл с подписью и оригинальный файл будут использоваться для того, чтобы верифицировать подпись.
-Decision:
-# gpg -o myfile.sig --detach-sig myfile
-# gpg --verify myfile.sig myfile
-        gpg: Подпись сделана Чт 16 апр 2020 03:53:06 EDT
-        gpg:                ключом RSA с идентификатором 4D651D448FC062BFFC7602DCE2EF59C572C2FE68
-        gpg: Действительная подпись пользователя "Admin3 <testAdmin3@mail.ru>" [абсолютное]
-Task:
-Уровень доверия к владельцам ключа
-Уровень доверия показывает, насколько сильно вы доверяете владельцу указанного ключа. Изменить его можно, войдя в режим редактирования.
-Decision:
-# gpg --edit-key Client1
-        gpg (GnuPG) 2.2.9; Copyright (C) 2018 Free Software Foundation, Inc.
-        This is free software: you are free to change and redistribute it.
-        There is NO WARRANTY, to the extent permitted by law.
-        pub  rsa3072/05A2E96C7147C8B8
-              создан: 2020-04-16     годен до: 2022-04-16  назначение: SC  
-             доверие: неизвестно достоверность: неизвестно
-        sub  rsa3072/58859DC04AFB86B9
-              создан: 2020-04-16     годен до: 2022-04-16  назначение: E   
-        [ неизвестно ] (1). Client1 <testClient1@mail.ru>
-gpg> trust
-        pub  rsa3072/05A2E96C7147C8B8
-              создан: 2020-04-16     годен до: 2022-04-16  назначение: SC  
-             доверие: неизвестно достоверность: неизвестно
-        sub  rsa3072/58859DC04AFB86B9
-              создан: 2020-04-16     годен до: 2022-04-16  назначение: E   
-        [ неизвестно ] (1). Client1 <testClient1@mail.ru>
-        Укажите, насколько Вы доверяете данному пользователю в вопросах проверки
-        достоверности ключей других пользователей (проверяет паспорт,
-        сверяет отпечатки ключей из разных источников и т.п.)
-         1 = Не знаю или не буду отвечать
-         2 = НЕ доверяю
-         3 = Доверяю ограниченно
-         4 = Полностью доверяю
-         5 = Абсолютно доверяю
-         m = вернуться в главное меню
-Task:
-Надежное удаление файлов
-Для надежного удаления файлов используется программа shred, входящая в пакет coreutils. Потребность в удалении файла может возникнуть после создания его зашифрованной версии. Место на диске, где находится файл, перезаписывается в несколько проходов, и восстановить его практически невозможно.
-Пример удаления файла. По умолчанию программа shred 25 раз перезаписывает то место, где находился файл.
-Decision:
-# shred -u -v myfile
-        shred: myfile: проход 1/3 (random)…
-        shred: myfile: проход 2/3 (random)…
-        shred: myfile: проход 3/3 (random)…
-        shred: myfile: удаление
-        shred: myfile: переименован в 000000
-        shred: 000000: переименован в 00000
-        shred: 00000: переименован в 0000
-        shred: 0000: переименован в 000
-        shred: 000: переименован в 00
-        shred: 00: переименован в 0
-        shred: myfile: удалён
-
-# ls -l
-        -rw-r--r--. 1 root   root    478 апр 16 02:53  tip.104
-        -rw-------. 1 root   root    548 апр 16 03:16  Admin3.asc
-        -rw-r--r--. 1 root   root   2448 апр 16 02:10  box-key
-        -rw-r--r--. 1 root   root     88 апр 16 02:17  myfile.gpg
-        -rw-r--r--. 1 root   root    478 апр 16 02:21  myfilenew.gpg
-        -rw-r--r--. 1 root   root    310 апр 16 03:53  myfile.sig
-Source:
-https://scabere.livejournal.com/62886.html?ysclid=lis5xg9t99308663826
-Task:
-Система безопасности PAM
-Конфигурационные файлы для различных программ находятся в /etc/pam.d/.
-Decision:
-$ ls /etc/pam.d
-    atd gdm-launch-environment polkit-1 sudo-i
-    chfn gdm-password postlogin su-l
-    chsh gdm-pin remote system-auth
-    cockpit gdm-smartcard runuser systemd-user
-    config-util liveinst runuser-l vlock
-    crond login smartcard-auth vmtoolsd
-    cups other sshd xserver
-    fingerprint-auth passwd sssd-shadowutils
-    gdm-autologin password-auth su
-    gdm-fingerprint pluto sudo
-Task:
-выяснить, какие модули PAM присутствуют в системе.
-Decision:
-$ find / -name pam_*.so
-    find: ‘/proc/12490’: No such file or directory
-    find: ‘/proc/12491’: No such file or directory
-    find: ‘/run/user/1000/gvfs’: Permission denied
-    /usr/lib64/security/pam_cap.so
-...
-    /usr/lib64/security/pam_gnome_keyring.so
-    /usr/lib64/security/pam_gdm.so
-    /opt/VBoxGuestAdditions-6.1.4/other/pam_vbox.so
-Task:
-Запретим пользователю tuser1 с сервера с IP tipcentos подключаться по SSH к нашему серверу. В конце файла /etc/security/access.conf вписываем такую строку: - : tuser1 : tipcentos. Узнать IP можно с помощью ifconfig.
-Decision:
-$ su - tuser1
-$ ifconfig
-    ....
-    inet tipcentos ...
-    ...
-$ exit
-    logout
-$ vim /etc/security/access.conf
-$ cat /etc/security/access.conf
-    # Login access control table.
-    ...
-    #-:ALL:ALL
-    -:tuser1:tipcentos
-$ cat /etc/pam.d/sshd
-    #%PAM-1.0
-    auth substack password-auth
-    auth include postlogin
-    account required pam_sepermit.so
-    account required pam_nologin.so
-    account include password-auth
-    password include password-auth
-    # pam_selinux.so close should be the first session rule
-    session required pam_selinux.so close
-    session required pam_loginuid.so
-    # pam_selinux.so open should only be followed by sessions to be executed in the user context
-    session required pam_selinux.so open env_params
-    session required pam_namespace.so
-    session optional pam_keyinit.so force revoke
-    session optional pam_motd.so
-    session include password-auth
-    session include postlogin
-$ vim /etc/pam.d/sshd
-$ cat /etc/pam.d/sshd
-    #%PAM-1.0
-    auth substack password-auth
-    auth include postlogin
-    account required pam_sepermit.so
-    account required pam_nologin.so
-    account required pam_access.so
-    account include password-auth
-    password include password-auth
-    # pam_selinux.so close should be the first session rule
-    session required pam_selinux.so close
-    session required pam_loginuid.so
-    # pam_selinux.so open should only be followed by sessions to be executed in the user context
-    session required pam_selinux.so open env_params
-    session required pam_namespace.so
-    session optional pam_keyinit.so force revoke
-    session optional pam_motd.so
-    session include password-auth
-    session include postlogin
-Task:
-Теперь пользователь tuser1 не сможет подключиться к нашему серверу по SSH. В файле access.conf также есть много других примеров, которые можно использовать в своей ситуации. проверить подключение на другом компе.  Чтобы разрешить это, можно просто закомментить строку в файле.
-Decision:
-$ ssh tuser1@tipcentos
-    The authenticity of host 'tipcentos (tipcentos)' can't be established.
-    ECDSA key fingerprint is SHA256:18lZcodItzx9EW0IpFFs7S6p5/JzeQVp6w2DBhQ5ypI.
-    Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-    Warning: Permanently added 'tipcentos' (ECDSA) to the list of known hosts.
-    tuser1@tipcentos's password:
-    Connection closed by tipcentos port 22
-$ vim /etc/security/access.conf
-$ cat /etc/security/access.conf
-    # Login access control table.
-    ...
-    #-:ALL:ALL
-    #-:tuser1:tipcentos
-Task:
-С помощью pam_limits.so для пользователя tuser1 сделаем следующие ограничения: максимальный размер файла – 20 Мб; приоритет для пользовательских процессов – 15.
-Строки в конце файла /etc/security/limits.conf: tuser1 hard fsize 20000; tuser1 hard priority 15.
-Decision:
-$ vim /etc/security/limits.conf
-$ cat /etc/security/limits.conf
-    # /etc/security/limits.conf
-    ...
-    #@student - maxlogins 4
-    tuser1 hard fsize 20000
-    tuser1 hard priority 15
-    # End of file
-$ ssh tuser1@tipcentos
-    The authenticity of host 'tipcentos (tipcentos)' can't be established.
-    ECDSA key fingerprint is SHA256:18lZcodItzx9EW0IpFFs7S6p5/JzeQVp6w2DBhQ5ypI.
-    Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-    Warning: Permanently added 'tipcentos' (ECDSA) to the list of known hosts.
-    tuser1@tipcentos's password:
-    Activate the web console with: systemctl enable --now cockpit.socket
-    Last login: Wed Mar 25 23:07:16 2020
-$ ls -lh
-    итого 0
-$ yes > file.txt
-    File size limit exceeded (стек памяти сброшен на диск)
-$ ls -lh
-    итого 20M -rw-rw-r-- 1 tuser1 tuser1 20M мар 25 23:17 file.txt
-Task:
 Запускаем любой процесс, например, с помощью watch отслеживаем статистику программы free в реальном времени. С другой консоли посмотрим приоритет процесса watch.
 Decision:
 watch free
 ps -C watch -o ni=
-    15
+15
 Task:
-устанавливаем касперский 
-Decision: 
-kes - setup
-Указать имя сервера, записываем имя компа thost
-netagent - setup
-чтобы активировать касперский заходим через сервер в kasp Sec Center, комп, клиент компr, созд (пр кнопкой мыши), Маст добавл, клиент комп, thost
-Task:
-Рассмотрим легкий способ анонимной и конфиденциальной переписки на основе i2p + XMPP (протокол обмена сообщениями). Мы создаем свой XMPP сервер на нашем localhost и кинем все его хосты внутри сети i2p, который выделит нам криптографический адрес, по которому наш собеседник может вступить с нами в контакт.
+Есть консольная программа для Linux, которая должна вывести результат работы в терминал. Но после запуска никакого вывода не происходит и вы снова видите системное приглашение консоли. Перечислите порядок действий дя выявления причин и инструменты, которыми воспользуетесь для решения данной проблемы.
 Decision:
-Всю реализацию буду делать внутри виртуальной машины. Cначала установим сервис i2p. В Ubuntu это делается так:
-$ sudo add-apt-repository ppa:purplei2p/i2pd
-$ sudo apt-get update
-$ sudo apt-get install i2pd
-В Центосе 8:
-# curl -s https://copr.fedorainfracloud.org/coprs/r4sas/miniupnpc/repo/epel-8/r4sas-miniupnpc-epel-8.repo -o /etc/yum.repos.d/miniupnpc-epel-8.repo
-# curl -s https://copr.fedorainfracloud.org/coprs/supervillain/i2pd/repo/epel-8/supervillain-i2pd-epel-8.repo -o /etc/yum.repos.d/i2pd-epel-8.repo
-# yum install epel-release -y
-# yum install i2pd -y
-# systemctl enable i2pd
-    Created symlink /etc/systemd/system/multi-user.target.wants/i2pd.service → /usr/lib/systemd/system/i2pd.service.
-# systemctl start i2pd
-После установки создаем серверный I2P туннель - это виртуальный адрес, по которому наш XMPP сервер будет доступен.
-# find / -name tunnels.conf
-    find: ‘/run/user/1000/gvfs’: Permission denied
-    /etc/i2pd/tunnels.conf
-    /usr/share/doc/i2pd/tunnels.conf
-# cat /etc/i2pd/tunnels.conf
-    [IRC-IRC2P]
-    ...
-    #[IRC-ILITA]
-    ...
-    #[SMTP]
-    ...
-    #[POP3]
-    ...
-    # see more examples at https://i2pd.readthedocs.io/en/latest/user-guide/tunnels/
-дописываем следующие строки:
-# vim /etc/i2pd/tunnels.conf
-# cat /etc/i2pd/tunnels.conf
-    [IRC-IRC2P]
-    ...
-    #[IRC-ILITA]
-    ...
-    #[SMTP]
-    ...
-    #[POP3]
-    ...
-    # see more examples at https://i2pd.readthedocs.io/en/latest/user-guide/tunnels/
-    [prosody-s2s]
-    type=server
-    host=127.0.0.1
-    port=5269
-    inport=5269
-    keys=prosody.dat
-    [prosody-c2s]
-    type=server
-    host=127.0.0.1
-    port=5222
-    inport=5222
-    keys=prosody.dat
-Перезагружаем i2pd
-# systemctl restart i2pd
-Узнаем какой у нас будет криптографический адрес через браузер 127.0.0.1:7070. это и будет домен для вашего XMPP сервера, его надо будет сохранить.
-Устанавливаем сервер XMPP под cвою ОС.
-# yum list | grep prosody
-    prosody.x86_64         0.11.5-1.el8       epel
-# yum install prosody -y
-    Последняя проверка окончания срока действия метаданных: 0:31:19 назад, Сб 06 июн 2020 01:21:39.
-    Ошибка:
-        Проблема: conflicting requests
-        - nothing provides lua-filesystem needed by prosody-0.11.5-1.el8.x86_64
-    (try to add '--skip-broken' to skip uninstallable packages or '--nobest' to use not only best candidate packages)
-# yum list | grep lua-fi
-    lua-fifo.noarch               0.2-2.el8           epel
-# rpm -i http://mirror.C.org/C/8/PowerTools/x86_64/os/Packages/lua-filesystem-1.6.3-7.el8.x86_64.rpm
-# yum list | grep lua-fi
-    lua-filesystem.x86_64         1.6.3-7.el8         @System                                          
-    lua-fifo.noarch               0.2-2.el8           epel
-# yum install prosody -y
-Устанавливаем lua библиотеку bit32
-# yum list | grep lua
-        ...
-        lua5.1-basexx.noarch                                 0.4.0-2.el8 epel                                             
-        lua5.1-binaryheap.noarch                             0.4-1.el8 epel                                             
-        lua5.1-bitop.x86_64                                  1.0.2-5.el8 epel                                             
-        lua5.1-compat53.x86_64                               0.7-3.el8 epel                                             
-        lua5.1-cqueues.x86_64                                20190813-3.el8 epel
-        lua5.1-fifo.noarch                                   0.2-2.el8 epel                                             
-        lua5.1-http.noarch                                   0.3-5.el8 epel                                             
-        lua5.1-lpeg.x86_64                                   1.0.2-1.el8 epel                                             
-        lua5.1-lpeg-patterns.noarch                          0.5-4.el8 epel                                             
-        lua5.1-luaossl.x86_64                                20190731-1.el8 epel                                           
-        lua5.1-luv.x86_64                                    1.36.0.0-1.el8 epel
-        lua5.1-luv-devel.x86_64                              1.36.0.0-1.el8                                    epel
-        lua5.1-mmdb.noarch                                   0.2-2.el8                                         epel    lua5.1-mpack.x86_64                                  1.0.8-3.el8                                       epel   
-        ...
-# yum install lua5.1-basexx lua5.1-binaryheap lua5.1-compat53 lua5.1-bitop lua5.1-cqueues lua5.1-fifo lua5.1-http lua5.1-lpeg lua5.1-lpeg-patterns lua5.1-luaossl lua5.1-luv lua5.1-luv-devel lua5.1-mmdb lua5.1-mpack -y
-Устанавливаем модуль mod_darknet в директорию модулей prosody.
-# find / -name modules
-    ...
-    /usr/lib64/prosody/modules
-    ...
-# cd /usr/lib64/prosody/modules
-# wget https://raw.githubusercontent.com/majestrate/mod_darknet/master/mod_darknet.lua
-# ls -l
-    ...
-    -rw-r--r--. 1 root root 8478 июн 6 02:57 mod_darknet.lua
-    ...
-Теперь редактируем конфиг
-# vim /etc/prosody/prosody.cfg.lua
-В самом низу нужно прописать такой код (Замените xxx.b32.i2p на свой адрес, который мы сохраняли ранее):
-# cat /etc/prosody/prosody.cfg.lua
-    interfaces = { "127.0.0.1" };
-    admins = { "admin@xxx.b32.i2p" };
-    modules_enabled = {
-        "roster"; "saslauth"; "tls"; "dialback"; "disco"; "posix"; "private"; "vcard";  "ping";  "register"; "admin_adhoc"; "darknet";
-    };
-    modules_disabled = {};
-    allow_registration = false;
-    darknet_only = true;
-    c2s_require_encryption = true;
-    s2s_secure_auth = false;
-    authentication = "internal_plain";
-    -- On Debian/Ubuntu
-    daemonize = true;
-    pidfile = "/var/run/prosody/prosody.pid";
-    log = {
-        error = "/var/log/prosody/prosody.err";
-        "*syslog";
-    }
-    certificates = "certs";
-    VirtualHost "xxx.b32.i2p";
-    ssl = {
-        key = "/etc/prosody/certs/xxx.b32.i2p.key";
-        certificate = "/etc/prosody/certs/xxx.b32.i2p.crt";
-    }
-Генерируем сертификаты шифрования всталяя теже значения домена, которые мы сохраняли ранее
-# openssl genrsa -out /etc/prosody/certs/xxx.b32.i2p.key 2048
-    Generating RSA private key, 2048 bit long modulus (2 primes)
-    ......................+++++
-    ....+++++
-    e is 65537 (0x010001)
-# openssl req -new -x509 -key /etc/prosody/certs/xxx.b32.i2p.key -out /etc/prosody/certs/xxx.b32.i2p.crt -days 3650
-    You are about to be asked to enter information that will be incorporated
-    into your certificate request.
-    What you are about to enter is what is called a Distinguished Name or a DN.
-    There are quite a few fields but you can leave some blank
-    For some fields there will be a default value,
-    If you enter '.', the field will be left blank.
-    -----
-    Country Name (2 letter code) [XX]:
-    State or Province Name (full name) []:
-    Locality Name (eg, city) [Default City]:
-    Organization Name (eg, company) [Default Company Ltd]:
-    Organizational Unit Name (eg, section) []:
-    Common Name (eg, your name or your server's hostname) []:
-    Email Address []:
-# chown root:prosody /etc/prosody/certs/*.b32.i2p.{key,crt}
-# chmod 640 /etc/prosody/certs/*.b32.i2p.{key,crt}
-Перезагрузите сервер prosody
-# systemctl enable prosody
-    Created symlink /etc/systemd/system/multi-user.target.wants/prosody.service → /usr/lib/systemd/system/prosody.service. 
-# systemctl start prosody
-Добавляем админский аккаунт
-# prosodyctl adduser admin@xxx.b32.i2p
-Теперь мы можем законектиться к нашему серверу через pidgin-клиент.
-Если вы подключаетесь локально к серверу, то в настройках клиента указываем подключение к серверу 127.0.0.1 порт 5222. Если подключаетесь к серверу удаленно через I2P, то указывайте в настройках прокси Socks5 127.0.0.1:4447 При подключении нас предупредят, сертификаты шифрования самописные, так как мы сами их сгенерировали.
-Теперь мы можем подлючить второго собеседника через вторую виртуальную машину. Также на ней установим шлюз i2p, который будет являться нашим локальным прокси i2p.
-# add-apt-repository ppa:purplei2p/i2pd
-# apt-get update
-# apt-get install -y i2pd
-# apt-get install -y pidgin
-Вернемся в первую машину и создадим для нашего собеседника аккаунт на сервере
-# prosodyctl adduser C@xxx.b32.i2p
-Во второй машине проверяем
-Указываем тут домен нашего сервера, порт 5222, укажем, что трафик должен идти через прокси типа SOCKS 5, который находится на localhost 127.0.0.1, порт - 4447. При подключении нас также предупредят,что сертификаты шифрования самописные, если все сделали правильно. Остается только запросить авторизацию наших собеседников для того, чтобы создать чат.
+Если код закрыт, то надо перенаправить весь вывод на стандартный:
+filename &2>&1
+это перенаправляет поток ошибок stderr на стандартный вывод stdout.
+А если открыт, то уже смотреть по самому коду скрипта или исполняемого файла.
+Проверить штатность поведения - код возврата:
+./app; echo $?
+если не 0, то посмотрел бы в dmesg на предмет segfault. Может оно просто тихо падает. Потом попробовал бы почитать man, запустил бы с ключом --help или -h. Исключив segfault, запустил бы её через strace, чтобы посмотреть, что она вообще пытается сделать.
 Source:
-1. https://www.youtube.com/playlist?list=PLLqKATfceKNsptsrNP63TukGKETztvf1r
+Принцип работы - https://www.dmosk.ru/miniinstruktions.php?mini=selinux-setting&ysclid=lw1jsobk8866859354
+Принудительный контроль доступа - SElinux - https://basis.gnulinux.pro/ru/latest/basis/45/45._%D0%9F%D1%80%D0%B8%D0%BD%D1%83%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9_%D0%BA%D0%BE%D0%BD%D1%82%D1%80%D0%BE%D0%BB%D1%8C_%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF%D0%B0_-_SElinux.html
+  Task:
+  Как узнать дистрибутив?
+  Decision:
+  $ cat /etc/*-release
+  DISTRIB_ID=Ubuntu
+  DISTRIB_RELEASE=20.04
+  DISTRIB_CODENAME=focal
+  DISTRIB_DESCRIPTION="Ubuntu 20.04.5 LTS"
+  NAME="Ubuntu"
+  VERSION="20.04.5 LTS (Focal Fossa)"
+  ID=ubuntu
+  ID_LIKE=debian
+  PRETTY_NAME="Ubuntu 20.04.5 LTS"
+  VERSION_ID="20.04"
+  HOME_URL="https://www.ubuntu.com/"
+  SUPPORT_URL="https://help.ubuntu.com/"
+  BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+  PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+  VERSION_CODENAME=focal
+  UBUNTU_CODENAME=focal
+  Source:
+  https://losst.ru/kak-uznat-versiyu-linux?ysclid=l7mrzpkpk917754519#%D0%A3%D0%B7%D0%BD%D0%B0%D1%82%D1%8C_%D0%B4%D0%B8%D1%81%D1%82%D1%80%D0%B8%D0%B1%D1%83%D1%82%D0%B8%D0%B2
+  Task:
+  В CentOS/Redhat/fedora нужно перечитать конфиг файл постгресса.
+  Decision:
+  # systemctl reload postgresql.servise
+  Task:
+файл hosts
+Decision:
+Разрешает доступ к ресурсам, Задает приоритет перед DNS, Позволяет попасть на сайт
+Task:
+Файл с расширением ADMX
+Decision:
+XML-файл на основе параметров групповой политики Windows / Office
+Task:
+принцип работы групп безопасности
+Decision:
+Запрещено всё, что не разрешено напрямую
+Task:
+признаки отказоустойчивой архитектуры
+Decision:
+использование компонентов одного вендора, которые хорошо интегрируются между собой
+Task:
+типы записей DNS
+Decision:
+A, AAAA, CNAME, MX, PTR, TXT, SRV, NS, SOA
+Task:
+Коды сообщений или ошибок http
+Decision:
+1xx: Informational (информационные):
+100 Continue (продолжайте)
+101 Switching Protocols (переключение протоколов)
+102 Processing (идёт обработка)
+103 Early Hints (ранняя метаинформация)
+2xx: Success (успешно):
+200 OK (хорошо)
+201 Created (создано)
+202 Accepted (принято)
+203 Non-Authoritative Information (информация не авторитетна)
+204 No Content (нет содержимого)
+205 Reset Content (сбросить содержимое)
+206 Partial Content (частичное содержимое)
+207 Multi-Status (многостатусный)
+208 Already Reported (уже сообщалось)
+226 IM Used (использовано IM)
+3xx: Redirection (перенаправление):
+300 Multiple Choices (множество выборов)
+301 Moved Permanently (перемещено навсегда)
+302 Found (найдено)
+303 See Other (смотреть другое)
+304 Not Modified (не изменялось)
+305 Use Proxy (использовать прокси)
+306 — зарезервировано (код использовался только в ранних спецификациях)
+307 Temporary Redirect (временное перенаправление)
+308 Permanent Redirect (постоянное перенаправление)
+4xx: Client Error (ошибка клиента):
+400 Bad Request (неправильный, некорректный запрос)
+401 Unauthorized (не авторизован)
+402 Payment Required (необходима оплата) — зарезервировано для использования в будущем
+403 Forbidden (запрещено (не уполномочен))
+404 Not Found (не найдено)
+405 Method Not Allowed (метод не поддерживается)
+406 Not Acceptable (неприемлемо)
+407 Proxy Authentication Required (необходима аутентификация прокси)
+408 Request Timeout (истекло время ожидания)
+409 Conflict (конфликт)
+410 Gone (удалён)
+411 Length Required (необходима длина)
+412 Precondition Failed (условие ложно)
+413 Payload Too Large (полезная нагрузка слишком велика)
+414 URI Too Long (URI слишком длинный)
+415 Unsupported Media Type (неподдерживаемый тип данных)
+416 Range Not Satisfiable (диапазон не достижим)
+417 Expectation Failed (ожидание не удалось)
+418 I’m a teapot (я — чайник)
+419 Authentication Timeout (not in RFC 2616) (обычно ошибка проверки CSRF)
+421 Misdirected Request
+422 Unprocessable Entity (необрабатываемый экземпляр)
+423 Locked (заблокировано)
+424 Failed Dependency (невыполненная зависимость)
+425 Too Early (слишком рано)
+426 Upgrade Required (необходимо обновление)
+428 Precondition Required (необходимо предусловие)
+429 Too Many Requests (слишком много запросов)
+431 Request Header Fields Too Large (поля заголовка запроса слишком большие)
+449 Retry With (повторить с)
+451 Unavailable For Legal Reasons (недоступно по юридическим причинам)
+499 Client Closed Request (клиент закрыл соединение)
+5xx: Server Error (ошибка сервера):
+500 Internal Server Error (внутренняя ошибка сервера)
+501 Not Implemented (не реализовано)
+502 Bad Gateway (плохой, ошибочный шлюз)
+503 Service Unavailable (сервис недоступен)
+504 Gateway Timeout (шлюз не отвечает)
+505 HTTP Version Not Supported (версия HTTP не поддерживается)
+506 Variant Also Negotiates (вариант тоже проводит согласование)
+507 Insufficient Storage (переполнение хранилища)
+508 Loop Detected (обнаружено бесконечное перенаправление)
+509 Bandwidth Limit Exceeded (исчерпана пропускная ширина канала)
+510 Not Extended (не расширено)
+511 Network Authentication Required (требуется сетевая аутентификация)
+520 Unknown Error (неизвестная ошибка)
+521 Web Server Is Down (веб-сервер не работает)
+522 Connection Timed Out (соединение не отвечает)
+523 Origin Is Unreachable (источник недоступен)
+524 A Timeout Occurred (время ожидания истекло)
+525 SSL Handshake Failed (квитирование SSL не удалось)
+526 Invalid SSL Certificate (недействительный сертификат SSL)
+Task:
+Чем Nginx отличается от Apache?
+Decision:
+асинхронный принцип работы Nginx
+Task:
+преимущества подхода Infrastructure as Code?
+Decision:
+-изменения, вносимые в спецификации, легко проконтролировать
+-для спецификаций можно хранить историю версий и при необходимости можно быстро извлечь и использовать нужную версию
+-описания отдельных объектов IT-инфраструктуры можно многократно использовать в разных инсталляциях, это ускоряет подготовку к развёртыванию и повышает надёжность за счет использования проверенных решений
+Task:
+Принцип работы SElinux
+Decision:
+SELinux расширяет возможности стандартной системы безопасности (на основе прав доступа к файлам). Она позволяет ограничить доступ процессу, который запускается от имени пользователя, у которого прав больше, чем нужно данному процессу. Чтобы понять наглядно принцип работы SELinux, рассмотрим контекст безопасности — сочетание сущности, роли, домена и категории (не обязательно).
+Task:
+Чем приватный отличается от публичного ключа?
+Decision:
+Мы можем сгенерировать два ключа - приватный и публичный. После чего закинуть публичный ключ на все свои сервера и подключаться к ним без пароля, используя приватный ключ. Это говорит о том, что приватный ключ нужно беречь,
+Админ закидывает публичный ключ на сервера, в домашнюю директорию пользователей, к которым будет подключаться. И при следующем подключении демон ssh увидит наличие подходящего ключа у пользователя и аутентифицирует его.
+Task:
+Как сгенерировать ssh ключа?
+Decision:
+Для начала нужно сгенерировать ключи, это делается на стороне клиента, т.е. у администратора. Для генерации ключей используется команда ssh-keygen. По умолчанию ключи и в целом настройки клиента ssh хранятся в домашней директории пользователя, в скрытой директории .ssh. А ключи, по умолчанию, называются id_rsa. По хорошему, когда у нас много серверов, мы можем создать различные ключи и для подключения к разным серверам использовать разные ключи. Тут нажмём enter, чтобы использовать название по умолчанию. Дальше у нас спрашивается пароль для ключа. Так как ssh ключи позволяют заходить на сервера без пароля, они могут быть очень опасны, если попадут в руки злоумышленникам. Поэтому мы можем защитить приватные ключи паролем. При использовании ключа нам нужно будет вводить пароль от ключа, но, если у нас украдут этот ключ, без пароля хакеры ничего не сделают. Для нашего примера мы не будем использовать пароль, чтобы было нагляднее. Поэтому нажимаем два раза Enter и ключ создаётся. Мы видим, что создались два файла - id_rsa и id_rsa.pub - приватный и публичный ключ соответственно. Также внизу есть эдакая картинка, визуализирующая ключ. На самом деле это больше нужно для ключей хоста - вы можете настроить так, чтобы при подключении к серверам вы видели ключ хоста в таком виде. Если вдруг ключ хоста изменится или кто-то встанет посреди трафика, ключ будет другой и визуально вы сразу заметите разницу.
+У нас есть ключи, теперь мы можем закинуть наш публичный ключ на какой-нибудь сервер и проверить. Используем эту же виртуалку и пользователя root. Самый простой способ закинуть ключ - команда ssh-copy-id.
+Если не использовать никакие опции, она найдёт дефолтный ключ id_rsa.pub и закинет его. При этом, чтобы закинуть ключ, ssh подключается на этот сервер к пользователю, поэтому он попросит пароль пользователя. После чего добавит ключ и предложит нам проверить.
+На этот раз никакого пароля не потребовалось, мы можем аутентифицироваться по ключу.
+Посмотрим появившиеся файлы, для начала у клиента. В директории .ssh у нас 3 файла - два ключа и файл known_hosts.
+Ключи представляют из себя текстовые файлы с непонятным набором символов. А в файле known_hosts указаны адреса, к которым мы подключались, а также отпечатки их ключей. Именно по этому файлу наш клиент будет понимать, изменились ли у сервера ключи или нет.
+На сервере, в домашней директории пользователя, к которому я закинул ключ, также появилась директория .ssh с файлом authorized_keys
+В этот файл будут попадать публичные ключи пользователей, т.е. это результат команды ssh-copy-id. На самом деле, хоть и не понятно в терминале, в этом файле сейчас одна строчка с одним ключом. Этот тот же id_rsa.pub. Если кто-то ещё добавит ключ, то он будет на второй строчке, т.е. один ключ - одна строчка.
+Task:
+Пример Rpo/Rto 
+Decision:
+Раз в день в 1:00 делаете бэкап. в 12:00 сгорает сервер. Поставил новый компьютер, установил ОС, программы и восстанавили бэкап. в 17:00 - полное восстановление. 
+Время от последнего бэкапа - Rpo, а время до восстановления - rto. Если организация хочет Rpo 1 час - бэкап надо делать каждый час, а для 1 часа нужно автоматическое создание серверов. Можно сделать реплику потерю данных Rpo на другой сервер. 
+Task:
+Какие характеристики микросервисов ты знаешь?
+Decision:
+- Все разбито на маленькие компоненты. Например, есть компонент для веб-сервера, есть компонент, который показывает другу страницу и есть компонент, который обращается к базе данных.
+- Если что-то ломается, это не страшно, когда есть другие микросервисы.
+- Все данные должны сохраняться в какой-нибудь БД, а не в микросервисах.
+Task:
+Пример работы DNS
+Decision:
+Ввожу адрес. компьютер понимает только Ip адреса. Поэтому ему надо перевести ваш Url запрос в Ip. Компьютер сначала локально проверят хост файл. в линуксе это reslove. Если в файле прописан жанный адрес, то ответ отправляется пользователю, если нет то проверяется в Dns Серверах на регистрацию адреса. ВОзращается все это по протоколку http. 
+Task:
+Чем Active Directory отличается от Dns?
+Decision:
+Active Directory использует DNS как механизм поиска контроллеров домена и других объектов
 Task:
 Пример работы инкапсуляции Модель OSI 
 Decision:
@@ -5300,10 +2669,6 @@ Decision:
 - Здесь мы должны указать, на какой адрес отправлять пакет. Соответственно, указываем адрес назначения (пусть адрес сервера будет 192.168.1.2) и адрес источника (адрес компьютера 192.168.1.1). Заворачиваем и спускаем дальше.
 - IP пакет спускается вниз и тут вступает в работу канальный уровень. Он добавляет физические адреса источника и назначения, о которых подробно будет расписано в последующей статье. Так как у нас компьютер и сервер в локальной среде, то адресом источника будет являться MAC-адрес компьютера, а адресом назначения MAC-адрес сервера (если бы компьютер и сервер находились в разных сетях, то адресация работала по-другому). Если на верхних уровнях каждый раз добавлялся заголовок, то здесь еще добавляется концевик, который указывает на конец кадра и готовность всех собранных данных к отправке.
 - И уже физический уровень конвертирует полученное в биты и при помощи электрических сигналов (если это витая пара), отправляет на сервер.
-Task:
-Как посмотреть занятость места на разделах?
-Decision:
-$ sudo df -h
 Task:
 Пример работы деинкапусуляции Модель OSI 
 Decision:
@@ -5329,130 +2694,21 @@ Decision:
 - Маршрутизаторы отличаются подключением к интернету.
 - Для работы коммутатора и маршрутизатора нужен порт LAN, но последнее устройство также использует и WAN-порт.
 Task:
-Чем Active Directory отличается от Dns?
+Команды Subversion
 Decision:
-Active Directory использует DNS как механизм поиска контроллеров домена и других объектов
-Task:
-Пример работы DNS
-Decision:
-Ввожу адрес. компьютер понимает только Ip адреса. Поэтому ему надо перевести ваш Url запрос в Ip. Компьютер сначала локально проверят хост файл. в линуксе это reslove. Если в файле прописан жанный адрес, то ответ отправляется пользователю, если нет то проверяется в Dns Серверах на регистрацию адреса. ВОзращается все это по протоколку http. 
-Task:
-Чем Tcp отличается от Udp?
-Decision:
-В Tcp отправляется пакет и ждет ответ. в Udp не ждет ответа. Udp используется для трансляции.
-Task:
-Чем Get отличается от Post?
-Decision:
-Запрос Get передает данные в Url через ссылку, а Post передает данные в теле запроса
-Task:
-Какая маска подсети этого Ip 10.20.0.0/23?
-Decision:
-Если 24 - последняя цифра отходит 255.255.255.0. В нашем случае - 255.255.254.0
-Task:
-В вашем распоряжении находится подсеть 192.168.1.0/30. Какие Ip адреса доступны для присвоения устройствам?
-Decision:
-Маска 30 означает, что подряд 30 единиц 11111111.11111111.11111111.11111100. значит ответ 192.168.1.1, 192.168.1.2.
-Task:
-Способы авторизации
-Decision:
-- двуфаторный
-- по ключу
-- по паролю
-Task:
-типы записей DNS
-Decision:
-- A записи могут принимать только IP-адрес в качестве значения,  Вы можете направить один и тот же домен / поддомен на несколько IP-адресов, просто добавив еще одну запись A с тем же именем, но с другим IP-адресом в поле “значение”.
-- Запись AAAA (также запись quad-A) указывает адрес IPv6 для данного хоста. Таким образом, он работает так же, как запись A, и разница заключается в типе IP-адреса.
-- Записи CNAME (Canonical Name Record - запись канонического имени) используется для создания псевдонима для существующей  A и AAAA записи. При этом в поле со значением заполняется именем домена, которое ранее было связано с IP-адресом в файле. Таким образом, разные адреса могут ссылаться на один и тот же сервер. Например, псевдоним «service.google.ru» может использоваться для указания на существующую A-запись «story.google.ru», где размещен сервис.
-- Запись ресурса MX ( Mail Exchange - почтовый обмен)  используется специально для отправки электронной почты и указывает сервер обмена почтой для доменного имени DNS. Эта информация используется протоколом SMTP для маршрутизации электронной почты на соответствующие узлы. Здесь определен один или несколько почтовых серверов, которые принадлежат соответствующему домену. При использовании нескольких почтовых серверов (например, для компенсации сбоя), лучше сразу указать разные уровни приоритета. 
-- Запись PTR является аналогом записи A. По сути это обратная запись A, где поле «имя» содержит информацию о IP-адресе, а поле «значение» содержит строку имени хоста. Запись PTR используется для сопоставления IP-адреса с соответствующим именем хоста, обычно используется для определения того, какое имя хоста использует указанный IP-адрес.
-- Запись TXT или текстовая запись - это особый тип записи DNS. Он не используется для пересылки трафика, а используется для предоставления информации о домене. TXT может быть создан в любой зоне в виде статической или динамической записи. Поле «имя» и поле «значение» могут быть заполнены чем угодно, как того требует программа или протокол. TXT запись часто используется для подтверждения владение доменом ( например, при добавлении Google-метрики на сайт).
-- Запись SRV или служебная запись - это тип DNS-записи, используемой для указания служб. Запись SRV предоставляет информацию о том, какие службы доступны в определенной зоне или домене. Запись SRV имеет формат для поле «имя», где она начинается с имени службы, имени протокола, а затем имени зоны или домена. А поле  «значение» будет содержать несколько сведений, таких как приоритет, вес, номер порта службы и имя хоста, на котором находится служба.
-- NS запись - это DNS-запись, основная ее цель связывать домен и хостинг, в ней  содержится список доверенных серверов имен для домена. Для этого нужно добавить в запись NS-сервера, которые предоставляет Ваш текущий хостинг провайдер для той или иной услуги. Минимум может быть два NS-сервера
-- SOA запись или Start of Authority - это запись DNS, которая содержит имя сервера, на котором хранится вся информация, касающаяся этой записи. Он включает в себя достоверную информацию, такую как идентификационный номер сервера, ответственный почтовый адрес, основной сервер имен и т. д. Предполагается, что сервер, на который есть ссылка в записи SOA, отвечает за любой процесс в соответствующей записи.
-Task:
-Есть консольная программа для Linux, которая должна вывести результат работы в терминал. Но после запуска никакого вывода не происходит и вы снова видите системное приглашение консоли. Перечислите порядок действий дя выявления причин и инструменты, которыми воспользуетесь для решения данной проблемы.
-Decision:
-Если код закрыт, то надо перенаправить весь вывод на стандартный:
-filename &2>&1
-это перенаправляет поток ошибок stderr на стандартный вывод stdout.
-А если открыт, то уже смотреть по самому коду скрипта или исполняемого файла.
-Проверить штатность поведения - код возврата:
-./app; echo $?
-если не 0, то посмотрел бы в dmesg на предмет segfault. Может оно просто тихо падает. Потом попробовал бы почитать man, запустил бы с ключом --help или -h. Исключив segfault, запустил бы её через strace, чтобы посмотреть, что она вообще пытается сделать.
-Task:
-Как создать простое зашифрованное сообщение с помощью командной строки?
-Decision:
-Использовать OpenSsl для шифрования потока текста в текстовый файл, который содержит зашифрованный текст Aes-256 с использованием ключа доступа
-Task:
-Как обеспечить надежную работу сайта?
-Decision:
-Установить Ssl сертификат для безопасности url - https.
-Task:
-Чем Dos Атака отличается от DDos?
-Decision:
-DoS-атаки используют всего один хост для перегрузки системы, есть косвенные признаки, по которым их можно отличить от DDoS. Они менее эффективны и более заметны: когда запросы приходят с одного IP-адреса источника, системному администратору становится очевидна их нелегитимность. Как следствие — DoS-атаки гораздо проще подавить, ведь достаточно использовать брандмауэр. 
-Task:
-Как оркестрации ты знаешь для микросервисов?
-Decision:
-Оркестрация микросервисов в контексте разработки программного обеспечения и архитектуры микросервисов относится к координации, управлению и контролю взаимодействий и процессов между независимыми микросервисами.
-- Kubernetes (K8s) — это открытое программное обеспечение для автоматизации развёртывания, масштабирования и управления контейнеризированными приложениями.
-- Amazon ECS - упрощает развертывание контейнеров Docker и управление ими в любом масштабе. 
-Task:
-Какие характеристики микросервисов ты знаешь?
-Decision:
-- Все разбито на маленькие компоненты. Например, есть компонент для веб-сервера, есть компонент, который показывает другу страницу и есть компонент, который обращается к базе данных.
-- Если что-то ломается, это не страшно, когда есть другие микросервисы.
-- Все данные должны сохраняться в какой-нибудь БД, а не в микросервисах.
-Task:
-Какие решения для CI/CD ты знаешь?
-Decision:
-- jenkins - программная система, предназначенная для обеспечения процесса непрерывной интеграции программного обеспечения
-- gitlab CI - встроенный инструмент, для автоматизации рутинных задач, возникающих в процессе разработки ПО.
-Task:
-Когда нужно использовать Terraform модули?
-Decision:
-Когда есть повторяющийся код. Это более удобное решение нескольких ресурсов.
-Task:
-Тебе нужно соответствовать Rpo 2 часа. Как часто нужно делать Backup?
-Rpo
-Decision:
-Каждые 2 часа
-Task:
-Пример Rpo/Rto 
-Decision:
-Раз в день в 1:00 делаете бэкап. в 12:00 сгорает сервер. Поставил новый компьютер, установил ОС, программы и восстанавили бэкап. в 17:00 - полное восстановление. 
-Время от последнего бэкапа - Rpo, а время до восстановления - rto. Если организация хочет Rpo 1 час - бэкап надо делать каждый час, а для 1 часа нужно автоматическое создание серверов. Можно сделать реплику потерю данных Rpo на другой сервер. 
-Task:
-В розетке можно подключить подключить одну витую пару. Но нужно разделить на две витые пары розетку для двух компьютеров.
-Decision:
-Коммутатуратор вход 1 - 1бо,2о,3бз,6з
-Коммутатуратор вход 2 - 1с,2бс,3бк,6к
-Патч панель - 1бо,2о,3бз,4с,5бс,6з,7бк,8к
-Розетка комп 1 - 1бо,2о,3бз,6з
-Розетка комп 2 - 4бо,5о,7бз,8з
-Комп 1 - 1бо,2о,3бз,4с,5бс,6з,7бк,8к
-Комп 2 - 1бо,2о,3бз,4с,5бс,6з,7бк,8к
-Task:
-Чем приватный отличается от публичного ключа?
-Decision:
-Мы можем сгенерировать два ключа - приватный и публичный. После чего закинуть публичный ключ на все свои сервера и подключаться к ним без пароля, используя приватный ключ. Это говорит о том, что приватный ключ нужно беречь,
-Админ закидывает публичный ключ на сервера, в домашнюю директорию пользователей, к которым будет подключаться. И при следующем подключении демон ssh увидит наличие подходящего ключа у пользователя и аутентифицирует его.
-Task:
-Как сгенерировать ssh ключа?
-Decision:
-Для начала нужно сгенерировать ключи, это делается на стороне клиента, т.е. у администратора. Для генерации ключей используется команда ssh-keygen. По умолчанию ключи и в целом настройки клиента ssh хранятся в домашней директории пользователя, в скрытой директории .ssh. А ключи, по умолчанию, называются id_rsa. По хорошему, когда у нас много серверов, мы можем создать различные ключи и для подключения к разным серверам использовать разные ключи. Тут нажмём enter, чтобы использовать название по умолчанию. Дальше у нас спрашивается пароль для ключа. Так как ssh ключи позволяют заходить на сервера без пароля, они могут быть очень опасны, если попадут в руки злоумышленникам. Поэтому мы можем защитить приватные ключи паролем. При использовании ключа нам нужно будет вводить пароль от ключа, но, если у нас украдут этот ключ, без пароля хакеры ничего не сделают. Для нашего примера мы не будем использовать пароль, чтобы было нагляднее. Поэтому нажимаем два раза Enter и ключ создаётся. Мы видим, что создались два файла - id_rsa и id_rsa.pub - приватный и публичный ключ соответственно. Также внизу есть эдакая картинка, визуализирующая ключ. На самом деле это больше нужно для ключей хоста - вы можете настроить так, чтобы при подключении к серверам вы видели ключ хоста в таком виде. Если вдруг ключ хоста изменится или кто-то встанет посреди трафика, ключ будет другой и визуально вы сразу заметите разницу.
-У нас есть ключи, теперь мы можем закинуть наш публичный ключ на какой-нибудь сервер и проверить. Используем эту же виртуалку и пользователя root. Самый простой способ закинуть ключ - команда ssh-copy-id.
-Если не использовать никакие опции, она найдёт дефолтный ключ id_rsa.pub и закинет его. При этом, чтобы закинуть ключ, ssh подключается на этот сервер к пользователю, поэтому он попросит пароль пользователя. После чего добавит ключ и предложит нам проверить.
-На этот раз никакого пароля не потребовалось, мы можем аутентифицироваться по ключу.
-Посмотрим появившиеся файлы, для начала у клиента. В директории .ssh у нас 3 файла - два ключа и файл known_hosts.
-Ключи представляют из себя текстовые файлы с непонятным набором символов. А в файле known_hosts указаны адреса, к которым мы подключались, а также отпечатки их ключей. Именно по этому файлу наш клиент будет понимать, изменились ли у сервера ключи или нет.
-На сервере, в домашней директории пользователя, к которому я закинул ключ, также появилась директория .ssh с файлом authorized_keys
-В этот файл будут попадать публичные ключи пользователей, т.е. это результат команды ssh-copy-id. На самом деле, хоть и не понятно в терминале, в этом файле сейчас одна строчка с одним ключом. Этот тот же id_rsa.pub. Если кто-то ещё добавит ключ, то он будет на второй строчке, т.е. один ключ - одна строчка.
-Task:
-Принцип работы SElinux
-Decision:
-SELinux расширяет возможности стандартной системы безопасности (на основе прав доступа к файлам). Она позволяет ограничить доступ процессу, который запускается от имени пользователя, у которого прав больше, чем нужно данному процессу. Чтобы понять наглядно принцип работы SELinux, рассмотрим контекст безопасности — сочетание сущности, роли, домена и категории (не обязательно).
-Source:
-Принцип работы - https://www.dmosk.ru/miniinstruktions.php?mini=selinux-setting&ysclid=lw1jsobk8866859354
-Принудительный контроль доступа - SElinux - https://basis.gnulinux.pro/ru/latest/basis/45/45._%D0%9F%D1%80%D0%B8%D0%BD%D1%83%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9_%D0%BA%D0%BE%D0%BD%D1%82%D1%80%D0%BE%D0%BB%D1%8C_%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF%D0%B0_-_SElinux.html
+- Обновление рабочей копии 
+svn update
+- Внесение изменений:
+svn add
+svn delete
+svn copy
+svn move
+- Анализ изменений:
+svn status
+svn diff
+svn revert
+- Слияние изменений, выполненных другими, с вашей рабочей копией:
+svn update
+svn resolved
+- Фиксация изменений:
+svn commit

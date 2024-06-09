@@ -8,3 +8,7 @@ Task:
 }  
 Source:
 https://www.youtube.com/playlist?list=PLg5SS_4L6LYuu1RAT4l1tCkZrJzkIaNgL
+Task:
+Когда нужно использовать Terraform модули?
+Decision:
+Когда есть повторяющийся код. Это более удобное решение нескольких ресурсов.

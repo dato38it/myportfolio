@@ -1,7 +1,13 @@
 Task:
 Как автоматически деплоить helm cart?
 Decision:
-k8s add-on helm operator + argocd/fluxcd
-k8s add-on github action + terraform + helm provider 
+$ k8s add-on helm operator + argocd/fluxcd
+$ k8s add-on github action + terraform + helm provider 
 Source:
 https://www.youtube.com/playlist?list=PLg5SS_4L6LYuu1RAT4l1tCkZrJzkIaNgL
+Task:
+Как оркестрации ты знаешь для микросервисов?
+Decision:
+Оркестрация микросервисов в контексте разработки программного обеспечения и архитектуры микросервисов относится к координации, управлению и контролю взаимодействий и процессов между независимыми микросервисами.
+- Kubernetes (K8s) — это открытое программное обеспечение для автоматизации развёртывания, масштабирования и управления контейнеризированными приложениями.
+- Amazon ECS - упрощает развертывание контейнеров Docker и управление ими в любом масштабе. 

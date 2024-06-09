@@ -44,26 +44,26 @@ $ cat docker-compose.yml
 version: '3.1'
 services:
 db:
-  image: mariadb
-  restart: always
-  environment:
-    MYSQL_ROOT_PASSWORD: YOUR-PASSWORD
+image: mariadb
+restart: always
+environment:
+  MYSQL_ROOT_PASSWORD: YOUR-PASSWORD
 adminer:
-  image: adminer
-  restart: always
-  ports:
-    - 6080:8080
+image: adminer
+restart: always
+ports:
+  - 6080:8080
 $ docker -v
 $ docker-compose -v
 $ docker-compose up
 $ docker-compose up -d
 $ docker-compose ps
-      Name                Command          State           Ports        
+    Name                Command          State           Ports        
 ------------------------------------------------------------------------
 docker_adminer_1   entrypoint.sh docker-   Up      0.0.0.0:6080->8080/tc
-                   php-e ...                       p,:::6080->8080/tcp  
+                 php-e ...                       p,:::6080->8080/tcp  
 docker_db_1        docker-entrypoint.sh    Up      3306/tcp             
-                   mysqld
+                 mysqld
 Decision:
 В винде тот же самый файл и те же команды запуска. Единственное, чтоб узнать ip адрес машины, для запуска в браузере напишем команду - docker-machine ip default. и в браузере уже по этому адресу запускаем проект
 Task:
@@ -177,9 +177,9 @@ $ vim Dockerfile
 $ cat Dockerfile
 FROM ubuntu
 RUN apt-get update \
-      && apt-get install -y cowsay \
-      && ln -s /usr/games/cowsay /usr/bin/cowsay \
-      && r-t -rf /var/lib/apt/lists/*
+    && apt-get install -y cowsay \
+    && ln -s /usr/games/cowsay /usr/bin/cowsay \
+    && r-t -rf /var/lib/apt/lists/*
 ENTRYPOINT ["cowsay"]
 $ docker build -t dkaonerun .
 ...
@@ -235,30 +235,30 @@ $ cat docker-compose.yml
 version: "2.3"
 services:
 demo-container-db:
-  image: postgres:12
-  mem_limit: 1536MB
-  mem_reservation: 1G
-  environment:
-    POSTGRES_USER: YOUR-USERNAME
-    POSTGRES_PASSWORD: YOUR-PASSWORD
-  ports:
-  - "5442:5432"
-  networks:
-  - TestNetwork
-  volumes:
-  - db-data:/var/lib/postgresql/data
+image: postgres:12
+mem_limit: 1536MB
+mem_reservation: 1G
+environment:
+  POSTGRES_USER: YOUR-USERNAME
+  POSTGRES_PASSWORD: YOUR-PASSWORD
+ports:
+- "5442:5432"
+networks:
+- TestNetwork
+volumes:
+- db-data:/var/lib/postgresql/data
 demo-pgadmin4:
-  image: dpage/pgadmin4
-  environment:
-    PGADMIN_DEFAULT_EMAIL: YOUR-MAIL
-    PGADMIN_DEFAULT_PASSWORD: YOUR-PASSWORD
-  ports:
-  - "8889:80"
-  networks:
-  - TestNetwork
+image: dpage/pgadmin4
+environment:
+  PGADMIN_DEFAULT_EMAIL: YOUR-MAIL
+  PGADMIN_DEFAULT_PASSWORD: YOUR-PASSWORD
+ports:
+- "8889:80"
+networks:
+- TestNetwork
 networks:
 TestNetwork:
-  driver: bridge
+driver: bridge
 volumes:
 db-data:
 $ docker-compose up -d
@@ -280,20 +280,20 @@ YOUR-ID10   dpage/pgadmin4   "/entrypoint.sh"         3 minutes ago   Up 3 minut
 YOUR-ID11   postgres:12      "docker-entrypoint.s…"   3 minutes ago   Up 3 minutes   0.0.0.0:5442->5432/tcp, :::5442->5432/tcp        postgreslpgadmin_demo-container-db_1
 $ docker inspect YOUR-ID10
 ...
-                  "NetworkID": "YOUR-ID12",
-                  "EndpointID": "YOUR-ID13",
-                  "Gateway": "YOUR-IP",
-                  "IPAddress": "YOUR-IP1",
-                  "IPPrefixLen": 16,
-                  "IPv6Gateway": "",
-                  "GlobalIPv6Address": "",
-                  "GlobalIPv6PrefixLen": 0,
-                  "MacAddress": "YOUR-MACIP1",
-                  "DriverOpts": null
-              }
-          }
-      }
-  }
+                "NetworkID": "YOUR-ID12",
+                "EndpointID": "YOUR-ID13",
+                "Gateway": "YOUR-IP",
+                "IPAddress": "YOUR-IP1",
+                "IPPrefixLen": 16,
+                "IPv6Gateway": "",
+                "GlobalIPv6Address": "",
+                "GlobalIPv6PrefixLen": 0,
+                "MacAddress": "YOUR-MACIP1",
+                "DriverOpts": null
+            }
+        }
+    }
+}
 ]
 $ firefox http://localhost:8889 &
 Mail logins - Servers - register - server - name - TestServer - port - 5432 - username - YOUR-USERNAME - password - YOUR-PASSWORD - save password - hostname - YOUR-IP1 - save
@@ -329,12 +329,12 @@ db:
 image: mariadb
 restart: always
 environment:
-  MYSQL_ROOT_PASSWORD: YOUR-PASSWORD
+MYSQL_ROOT_PASSWORD: YOUR-PASSWORD
 adminer:
 image: adminer
 restart: always
 ports:
-  - 6080:8080
+- 6080:8080
 $ vim docker-compose.yml
 $ cat docker-compose.yml
 version: '3.1'
@@ -343,12 +343,12 @@ db:
 build: ./db
 restart: always
 environment:
-  MYSQL_ROOT_PASSWORD: YOUR-PASSWORD
+MYSQL_ROOT_PASSWORD: YOUR-PASSWORD
 adminer:
 image: adminer
 restart: always
 ports:
-  - 6080:8080
+- 6080:8080
 $ mkdir adminer
 $ vim adminer/Dockerfile
 $ cat adminer/Dockerfile
@@ -361,12 +361,12 @@ db:
 build: ./db
 restart: always
 environment:
-  MYSQL_ROOT_PASSWORD: YOUR-PASSWORD
+MYSQL_ROOT_PASSWORD: YOUR-PASSWORD
 adminer:
 build: ./adminer
 restart: always
 ports:
-  - 6080:8080
+- 6080:8080
 $ ls
 adminer  db  docker-compose.yml  Dockerfile
 $ r-t -rf Dockerfile
@@ -400,14 +400,14 @@ db:
 build: ./db
 restart: always
 environment:
-  MYSQL_ROOT_PASSWORD: YOUR-PASSWORD
+MYSQL_ROOT_PASSWORD: YOUR-PASSWORD
 volumes:
-  - ./databases:/var/lib/mysql
+- ./databases:/var/lib/mysql
 adminer:
 build: ./adminer
 restart: always
 ports:
-  - 6080:8080
+- 6080:8080
 $ mkdir databases
 $ ls
 adminer  databases  db  docker-compose.yml
@@ -457,3 +457,303 @@ $ docker run --link mysqlserver:db -p 8080:8080 adminer
 Digest: sha256:a3e73e13e4f3f1bd1007d7a5d75a6bd23846c3252b71ab7a5817de9ffec04826
 Status: Downloaded newer image for adminer:latest
 [Thu May  6 01:28:31 2021] PHP 7.4.18 Development Server (http://[::]:8080) started
+Task:
+Вам необходимо обеспечить связь между двумя контейнерами так, чтобы он могли обращаться друг к другу с использованием DNS имен.
+Для этого нужно запустить контейнер hub.docker.com сервер под именем stepik-linking-docker таким образом, чтобы контейнер был по имени доступен другим контейнерам, с которыми он тем или иным образом связан. Контейнер нужно запустить в виде демона.
+После этого нужно запустить контейнер hub.docker.com так, чтобы он получил доступ к первому контейнеру, этот контейнер нужно запустить в интерактивном режиме.
+В том случае, если все сделано правильно, контейнер отправит сообщение, которое нужно использовать в качестве ответа на задачу  
+Decision:
+$ docker network create test_net
+    f8c6615588a4eff01d7fae56f969cfd479e74a55bc7be20498dedcc49f31ce7c
+$ docker run -d --r-t --name stepik-linking-docker --network=test_net parseq/stepik-linking-docker
+    ...
+    Digest: sha256:0f96ab451a9743996a434fd373e721b2a3b97491b65194d658a17a732dde66f8
+    Status: Downloaded newer image for parseq/stepik-linking-docker:latest
+    b6d77ab24126bd93e4a560a465c9fa0a453b1313a031810d122cc8c020a96ceb
+$ docker network inspect test_net
+[
+    {
+        "Name": "test_net",
+        "Id": "f8c6615588a4eff01d7fae56f969cfd479e74a55bc7be20498dedcc49f31ce7c",
+        "Created": "2021-04-25T17:17:41.363958209-05:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.18.0.0/16",
+                    "Gateway": "YOUR-IP"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "b6d77ab24126bd93e4a560a465c9fa0a453b1313a031810d122cc8c020a96ceb": {
+                "Name": "stepik-linking-docker",
+                "EndpointID": "a6d9dd22bed3a372f8ca92a85bb564e68af9de81ac8fdebd8657e8139634efdf",
+                "MacAddress": "02:42:ac:12:00:02",
+                "IPv4Address": "172.18.0.2/16",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {},
+        "Labels": {}
+    }
+]
+$ docker run -it --r-t --network=test_net parseq/stepik-linking-docker-client
+    ...
+    Digest: sha256:9ab6f089a5416148271997c428eea30306bc296f7d8f2c9b52d721747eaef850
+    Status: Downloaded newer image for parseq/stepik-linking-docker-client:latest
+    Container linking is awesome simple!
+Task:
+В образе https://hub.docker.com/r/parseq/stepik-exec-docker/ установлена база данных PostgreSQL, в таблицах которой содержится ответ на задачу.
+Для взаимодействия с базой данных удобно использовать утилиту psql которая уже установлена в образе. Синтаксис прост, для подключения к базе нужно указать пользователя (в нашем случае это postgres) и команду (если команду не указать, psql подключится к базе данных в интерактивном режиме). Пример:
+psql -U postgres -c 'SELECT now()'
+Также psql позволяет легко получить доступ к информации о структуре базы, например:
+psql -U postgres -c '\dt'
+выводит список таблиц БД. Полный список системных команд для psql доступен по команде:
+psql -U postgres -c '\?'
+По умолчанию psql подключается к базе данных postgres, в одной из таблиц которой записан ответ на задачу.
+Для получения ответа вам нужно запустить образ с базой данных в режиме демона, после запуска советуем проверить, что контейнер стартовал и работает, после чего подключиться к нему и выполнить нужные запросы к базе с использованием psql.
+Decision:
+$ docker run -d parseq/stepik-exec-docker
+    ...
+    Digest: sha256:db066d63099bff37b158a406a4393be51881a9829c7f07e565bd9450cb471d9f
+    Status: Downloaded newer image for parseq/stepik-exec-docker:latest
+    cfa5601d40ca25e400459b36093f84be00972a708167b784047f48d2645d52a5
+$ docker ps -a
+    CONTAINER ID   IMAGE                        COMMAND                  CREATED          STATUS                  PORTS                                     NAMES
+    cfa5601d40ca   parseq/stepik-exec-docker    "docker-entrypoint.s…"   26 seconds ago   Up 14 seconds           5432/tcp                                  crazy_swirles
+    9586273ae664   parseq/stepik-ports-docker   "httpd-foreground"       39 minutes ago   Up 39 minutes           0.0.0.0:44663->80/tcp, :::44663->80/tcp   port-export
+    ebe0a05f8014   hello-world                  "/hello"                 7 days ago       Exited (0) 7 days ago                                             strange_rubin
+    fb2dcfc86ff4   hello-world                  "/hello"                 7 days ago       Exited (0) 7 days ago                                             nervous_dijkstra
+$ docker exec -it cfa5601d40ca bash
+/# psql -U postgres -c '\dt'
+              List of relations
+     Schema |  Name   | Type  |  Owner   
+    --------+---------+-------+----------
+     publi-c | answers | table | postgres
+    (1 row)
+/# psql -U postgres -c 'SELECT now()'
+                  now              
+    -------------------------------
+     2021-04-25 20:43:11.758893+00
+    (1 row)
+/# psql -U postgres -c '\?'
+/# psql -U postgres -c 'SELECT * FROM answers'
+     id |                                                        answer                                                         
+    ----+-----------------------------------------------------------------------------------------------------------------------
+      1 | The entity-relationship model adopts the more natural view that the real world consists of entities and relationships
+    (1 row)
+Task:
+В контейнере https://hub.docker.com/r/parseq/stepik-ports-docker/ установлен веб-сервер, который принимает подключения на 80 порту. Запустите контейнер в режиме демона и обеспечьте доступ к порту 80 внутри контейнера с произвольного порта хоста, после чего отправьте http запрос на соответствующий порт (проще всего использовать веб-браузер).
+Decision:
+$ netstat -tulpn
+    (Not all processes could be identified, non-owned process info
+    will not be shown, you would have to be root to see it all.)
+    Active Internet connections (only servers)
+    Proto Recv-Q Send-Q Local Address Foreign Address State PID/Program name
+    tcp 0 0 .....0.0....:... 0.0.0.0:* LISTEN -
+    tcp 0 0 0.0.0.0:... 0.0.0.0:* LISTEN -
+    tcp 0 0 ....0.0.1:... 0.0.0.0:* LISTEN -
+    tcp6 0 0 :::... :::* LISTEN -
+    tcp6 0 0 ::1:631 :::* LISTEN -
+    udp 0 0 ....0.0...:... 0.0.0.0:* -
+    udp 0 0 0.0.0.0:... 0.0.0.0:* -
+    udp 0 0 0.0.0.0:... 0.0.0.0:* -
+    udp 0 0 0.0.0.0:44663 0.0.0.0:* -
+    udp6 0 0 :::... :::* -
+    udp6 0 0 :::... :::* -
+$ docker run -d --name port-export -p 44663:80 parseq/stepik-ports-docker
+    Unable to find image 'parseq/stepik-ports-docker:latest' locally
+    latest: Pulling from parseq/stepik-ports-docker
+    5040bd298390: Pull complete
+    d4131284d37a: Pull complete
+    55bdf25a2127: Pull complete
+    43b7968965df: Pull complete
+    42501a8f0c66: Pull complete
+    011aeeb6d1d6: Pull complete
+    Digest: sha256:4e587f62db23b19f6e748a5e1a6dca90b18e9b6288d00a3dc48924332b928e2b
+    Status: Downloaded newer image for parseq/stepik-ports-docker:latest
+    9586273ae664e27451b18f24d512594f3e8bc0e46411fc92d34095abc5d9e54c
+$ docker ps -a
+    CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+    9586273ae664 parseq/stepik-ports-docker "httpd-foreground" 29 seconds ago Up 13 seconds 0.0.0.0:44663->80/tcp, :::44663->80/tcp port-export
+    ebe0a05f8014 hello-world "/hello" 7 days ago Exited (0) 7 days ago strange_rubin
+    fb2dcfc86ff4 hello-world "/hello" 7 days ago Exited (0) 7 days ago nervous_dijkstra
+В машине запускаем браузер, там будет ответ - We are stuck with technology when what we really want is just stuff that works
+Task:
+От вас потребуется создать Dockerfile для образа, который будет удовлетворять следующим свойствам:
+1. Базовый образ – ubuntu:16.04
+2. Установлен текстовый редактор nano
+3. Переменная окружения $EDITOR устанавливает nano в качестве редактора по умолчанию
+4. В качестве рабочей директории установлен каталог /home/stepik
+5. При запуске контейнера открывается nano, файл автоматически сохраняется в файловую систему хоста, даже если при запуске опции монтирования не указаны (при отсутствии опции монтирования путь, по кторому сохраняется файл, не играет роли, важно, чтобы файл в конечном счете оказался на хосте)
+6. Владельцем файла на хосте назначается пользователь с uid=1000, если при сборке не указываются дополнительные аргументы, или пользователь с uid, который был задан аргументом UID при сборке
+7. Именно этот пользователь (uid=1000/uid=UID) должен быть основным в контейнере.
+id -u $(whoami)
+> 1000
+docker build -t dockerfile-extended .
+docker run -it --r-t -v $(pwd):/home/stepik dockerfile-extended
+# Nano is opened, we write some text, closing editor and specifying a filename as 'test'
+ls -l test
+> -rw-r--r-- 1 <username> <group> 7 марта 11 17:20 test
+# Where <username> is the name of the user with uid=1000
+Пример для пользователя с произвольным UID
+docker build -t dockerfile-extended --build-arg UID=1001 .
+# Doing the same...
+> -rw-r--r-- 1 <username> <group> 7 марта 11 17:20 test
+# Where <username> is the name of the user with uid=1001
+Для получения кода проверки в папке с Dockerfile, содержащим ответ, выполните:
+docker run --r-t -v $(pwd)/Dockerfile:/mnt/Dockerfile -v /var/run/docker.sock:/var/run/docker.sock parseq/stepik-dockerfile-extended
+Decision:
+$ ls /home/
+    server
+$ ls
+    Desktop  Dockerfile  Documents  Downloads  Musi-c  Pi-ctures  Publi-c  Templates  Videos
+$ ls /
+    bin  boot  cdrom  dev  etc  home  lib  lib32  lib64  libx32  lost+found  media  mnt  opt  proc  root  run  sbin  snap  srv  swapfile  sys  tmp  usr  var
+$ whi-ch nano
+    /usr/bin/nano
+$ vim Dockerfile
+$ cat Dockerfile
+FROM ubuntu:16.04
+LABEL maintainer="by DATO"
+ARG UID=1000
+RUN apt-get update && apt-get install -y nano
+RUN useradd -m stepik -u $UID
+ENV EDITOR=/usr/bin/nano
+USER stepik
+WORKDiR /home/stepik
+VOLUME /home/stepik
+ENTRYPOINT ["bash", "-c", "nano"]
+~id−u id -u id−u(whoami)
+1000
+$ docker build -t dockerfile-extended .
+    ...
+    Successfully built b3ecd51aabd9
+    Successfully tagged dockerfile-extended:latest
+$ docker images
+    REPOSITORY                            TAG       IMAGE ID       CREATED          SIZE
+    dockerfile-extended                   latest    b3ecd51aabd9   20 minutes ago   167MB
+    stepik_task_test_image                latest    d5a320ef460f   2 hours ago      72.9MB
+    test                                  latest    d5a320ef460f   2 hours ago      72.9MB
+    testtwo                               latest    e3e656e8d305   3 hours ago      72.9MB
+    testone                               latest    881aeba8a550   3 hours ago      72.9MB
+    ubuntu                                16.04     aefd7f02ae24   4 days ago       134MB
+    ubuntu                                20.04     26b77e58432b   3 weeks ago      72.9MB
+    hello-world                           latest    d1165f221234   7 weeks ago      13.3kB
+    parseq/stepik-exec-docker             latest    c7fe4f732991   3 years ago      341MB
+    parseq/stepik-it-docker               latest    c0788ef75831   4 years ago      188MB
+    parseq/stepik-linking-docker-client   latest    27916de983f8   4 years ago      673MB
+    parseq/stepik-dockerfile-basi-cs       latest    77120b298b47   4 years ago      767MB
+    parseq/stepik-ports-docker            latest    3b541ae9e177   4 years ago      170MB
+    parseq/stepik-linking-docker          latest    ccfae27b98db   4 years ago      672MB
+    parseq/hello-docker                   latest    d4e056261370   4 years ago      697MB
+$ docker run -it --r-t -v(pwd):/home/stepik dockerfile-extended
+$ ls -l test
+    -rw-r--r-- 1 server server 11 Apr 28 15:19 test
+$ cat test
+hello Dato
+$ docker build -t dockerfile-extended --build-arg UID=1001 .
+    ...
+    Successfully built eb9a47cd0883
+    Successfully tagged dockerfile-extended:latest
+$ docker images
+    REPOSITORY                            TAG       IMAGE ID       CREATED          SIZE
+    dockerfile-extended                   latest    eb9a47cd0883   9 seconds ago    167MB
+    <none>                                <none>    b3ecd51aabd9   28 minutes ago   167MB
+    stepik_task_test_image                latest    d5a320ef460f   2 hours ago      72.9MB
+    test                                  latest    d5a320ef460f   2 hours ago      72.9MB
+    testtwo                               latest    e3e656e8d305   3 hours ago      72.9MB
+    testone                               latest    881aeba8a550   3 hours ago      72.9MB
+    ubuntu                                16.04     aefd7f02ae24   4 days ago       134MB
+    ubuntu                                20.04     26b77e58432b   3 weeks ago      72.9MB
+    hello-world                           latest    d1165f221234   7 weeks ago      13.3kB
+    parseq/stepik-exec-docker             latest    c7fe4f732991   3 years ago      341MB
+    parseq/stepik-it-docker               latest    c0788ef75831   4 years ago      188MB
+    parseq/stepik-linking-docker-client   latest    27916de983f8   4 years ago      673MB
+    parseq/stepik-dockerfile-basi-cs       latest    77120b298b47   4 years ago      767MB
+    parseq/stepik-ports-docker            latest    3b541ae9e177   4 years ago      170MB
+    parseq/stepik-linking-docker          latest    ccfae27b98db   4 years ago      672MB
+    parseq/hello-docker                   latest    d4e056261370   4 years ago      697MB
+$ docker run -it --r-t -v(pwd):/home/stepik dockerfile-extended
+$ ls -l test
+    -rw-r--r-- 1 server server 11 Apr 28 15:19 test
+$ cat test
+hello Dato
+~dockerrun−−r-t−v docker run --r-t -v dockerrun−−r-t−v(pwd)/Dockerfile:/mnt/Dockerfile -v /var/run/docker.sock:/var/run/docker.sock parseq/stepik-dockerfile-extended
+    ...
+    Digest: sha256:80868d51eab821b82a9e916e6ffd3f370a1f63d1005c6053c60bfaa2ebc19017
+    Status: Downloaded newer image for parseq/stepik-dockerfile-extended:latest
+Task:
+Вы хотите создать образ, соответствующий ubuntu:14.04, но изменить его так, чтобы в качестве точки входа испoльзовался python3. У вас в системе присутствует контейнер с именем create-image-from-me, созданный из ubuntu:14.04 командой:
+docker run -it --name create-image-from-me ubuntu:14.04 /bin/true
+Введите команду с минимальным количеством аргументов, которую необходимо выполнить, чтобы создать искомый образ.
+Decision:
+$ docker run -it --name create-image-from-me ubuntu:20.04 /bin/true
+$ docker commit --change "ENTRYPOINT python3" create-image-from-me testone
+    sha256:881aeba8a5508bb0a8a5769cadce491d78c01e8eb0c2b31711a29ad281249a1e
+$ docker commit -c="CMD python3" create-image-from-me testtwo
+    sha256:e3e656e8d305d2f91eefa265629f4b520c74e4f1b7736114e11328742679c3d2
+$ docker images
+    REPOSITORY                            TAG       IMAGE ID       CREATED              SIZE
+    testtwo                               latest    e3e656e8d305   16 seconds ago       72.9MB
+    testone                               latest    881aeba8a550   About a minute ago   72.9MB
+    ubuntu                                20.04     26b77e58432b   3 weeks ago          72.9MB
+    hello-world                           latest    d1165f221234   7 weeks ago          13.3kB
+    parseq/stepik-exec-docker             latest    c7fe4f732991   3 years ago          341MB
+    parseq/stepik-it-docker               latest    c0788ef75831   4 years ago          188MB
+    parseq/stepik-linking-docker-client   latest    27916de983f8   4 years ago          673MB
+    parseq/stepik-ports-docker            latest    3b541ae9e177   4 years ago          170MB
+    parseq/stepik-linking-docker          latest    ccfae27b98db   4 years ago          672MB
+    parseq/hello-docker                   latest    d4e056261370   4 years ago          697MB
+Task:
+Вам необходимо декодировать сообщение и ввести результат в качестве ответа на задачу. Для этого необходимо сохранить следующий текст в файл message на локальной машине:
+CMkglgw38aTRhlQb+DrzKhrT5VHhG5ucraYD9pv6eHOXirXA8uLqzPOhmrObJV5FeAzu9/LIUqsHfUjAM7gLoANiNAuEyD6/FbNaJWvGjzjpVBt6BSux34ydlEEwsd6Xnlz5Gce+zoXZjcvmvl92ExwA7O4MykGuJb7GeixijW9fI8ev2BvpOP5MaXdX8nFv8y+XjNaI3SHPy60tZEZO0omJkYjnEkZrxOyYCekMsOha/COZ5FgcyBDQa3a4oCf/MwdxlT8RBXiJd1SnROlS63aD93W/YpB8pj8MwTVV0TSnVUueZeMaslSf7cWTMAUDtsQqiYcd3HGygyC2nMFjPg==
+И примонтировать директорию с этим файлом в контейнер parseq/stepik-host-dir так, чтобы путь к нему (включая имя файла) выглядел следующим образом:
+/home/stepik/message
+Если файл примонтирован верно, при запуске контейнера будет выведено декодированное сообщение.
+Decision:
+$ echo CMkglgw38aTRhlQb+DrzKhrT5VHhG5ucraYD9pv6eHOXirXA8uLqzPOhmrObJV5FeAzu9/LIUqsHfUjAM7gLoANiNAuEyD6/FbNaJWvGjzjpVBt6BSux34ydlEEwsd6Xnlz5Gce+zoXZjcvmvl92ExwA7O4MykGuJb7GeixijW9fI8ev2BvpOP5MaXdX8nFv8y+XjNaI3SHPy60tZEZO0omJkYjnEkZrxOyYCekMsOha/COZ5FgcyBDQa3a4oCf/MwdxlT8RBXiJd1SnROlS63aD93W/YpB8pj8MwTVV0TSnVUueZeMaslSf7cWTMAUDtsQqiYcd3HGygyC2nMFjPg== > message
+$ ls -l message
+  -rw-rw-r-- 1 server server 345 Apr 21 11:19 message
+$ cat message
+  CMkglgw38aTRhlQb+DrzKhrT5VHhG5ucraYD9pv6eHOXirXA8uLqzPOhmrObJV5FeAzu9/LIUqsHfUjAM7gLoANiNAuEyD6/FbNaJWvGjzjpVBt6BSux34ydlEEwsd6Xnlz5Gce+zoXZjcvmvl92ExwA7O4MykGuJb7GeixijW9fI8ev2BvpOP5MaXdX8nFv8y+XjNaI3SHPy60tZEZO0omJkYjnEkZrxOyYCekMsOha/COZ5FgcyBDQa3a4oCf/MwdxlT8RBXiJd1SnROlS63aD93W/YpB8pj8MwTVV0TSnVUueZeMaslSf7cWTMAUDtsQqiYcd3HGygyC2nMFjPg==
+$ docker run -it --r-t -v(pwd):/home/stepik parseq/stepik-host-dir
+  I can mount host files!
+Task:
+Стяните контейнер https://hub.docker.com/r/parseq/stepik-it-docker/ на локальную машину. Используя интерактивный режим, прочитайте содержимое файла:
+/root/README
+Руководствуясь инструкцией в файле получите сообщение и введите его в качестве ответа на задание.
+  Decision:
+$ docker run --r-t -it parseq/stepik-it-docker
+  ...
+  Digest: sha256:2e354f7a86001dd5543fd11f5be2d1912a0686b7db1b676f5dd8f430e58c6e6f
+    Status: Downloaded newer image for parseq/stepik-it-docker:latest                                                                                                       
+:~# ls
+  README
+:~# cat README
+Execute 'message' command to get message!                                                                                                                               
+:~# message
+  Yes, I can run interactive Docker!
+Task:
+Необходимо установить Docker и декодировать сообщение, используя публично доступный Docker image (подробнее об образах мы поговорим позже).
+Для декодирования вам необходимо выполнить команду:
+$sudo docker run --r-t parseq/hello-docker <message>
+При этом с публичного реестра Docker будет загружен image parseq/hello-docker, и запустится соответствующий контейнер, в котором находится утилита для декодирования, которая выведет результат в стандартный поток вывода.
+Этот результат вам необходимо будет скопировать и отправить в качестве ответа.
+Сообщение, которое необходимо декодировать:
+koRZEWXPssf6NoX/2NEQL31SEoxhFhiH2MIDuh6+4wngfTZW
+Decision:
+:$ sudo docker run --r-t parseq/hello-docker "koRZEWXPssf6NoX/2NEQL31SEoxhFhiH2MIDuh6+4wngfTZW"
+  Congratulations, you can run Docker!

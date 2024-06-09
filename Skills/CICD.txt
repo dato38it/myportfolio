@@ -1,6 +1,5 @@
-Task:   
-Сделай CI/CD Pipeline который созадет и деплоит dicker image в cloud
-Task:   
-Сделай CI/CD Pipeline который деплоит java приложение в кибернетес
-Source:
-https://www.youtube.com/playlist?list=PLg5SS_4L6LYuu1RAT4l1tCkZrJzkIaNgL
+Task:
+Какие решения для CI/CD ты знаешь?
+Decision:
+- jenkins - программная система, предназначенная для обеспечения процесса непрерывной интеграции программного обеспечения
+- gitlab CI - встроенный инструмент, для автоматизации рутинных задач, возникающих в процессе разработки ПО.

@@ -1,4 +1,278 @@
 Task:
+Установить qemu-kvm.
+Decision:
+$ egrep -c '(vmx|svm)' /proc/cpuinfo
+$ sudo apt install qemu-kvm libvirt-daemon-system virtinst libvirt-clients bridge-utils virt-manager
+$ systemctl start libvirtd
+$ systemctl enable libvirtd
+$ kvm-ok
+$ sudo usermod -aG kvm Tuser
+$ sudo usermod -aG libvirt Tuser
+$ ip link | grep virb
+Task:
+Установить виртуальную машину в qemu-kvm
+Decision:
+$ sudo virt-install \
+--name thost \
+--ram 2048 \
+--disk path=/var/lib/libvirt/images/thost.qcow2,size=50 \
+--vcpus 2 \
+--os-variant ubuntu22.04 \
+--network default \
+--cdrom /var/lib/libvirt/images/ubuntu-22.04.3-desktop-amd64.iso
+$ virt-viewer --connect qemu:///system --wait thost
+Source:
+https://winitpro.ru/index.php/2020/02/10/virsh-upravlenie-virtualnymi-mashinami-kvm/
+https://winitpro.ru/index.php/2020/02/04/ustanovka-zapusk-kvm-v-linux-centos/
+https://www.server-world.info/en/note?os=CentOS_Stream_9&p=kvm&f=1
+https://www.server-world.info/en/note?os=CentOS_Stream_9&p=initial_conf&f=3
+https://www.server-world.info/en/note?os=CentOS_Stream_9&p=kvm&f=2
+https://bozza.ru/art-260.html
+Task:
+How to create snapshots of QEMU/KVM guests
+Decision:
+$ virsh snapshot-create-as thost snapshot0 --description "update+ssh"
+$ virsh snapshot-list thost
+Name    Creation Time       State
+--------------------------------------------------
+snapshot0 2024-03-09 09:46:33 +0800 running
+Source:
+Creating snapshots with virsh - https://linuxconfig.org/how-to-create-snapshots-of-qemu-kvm-guests
+Task:
+Добавьте 2 диска по 1Гб к виртуалке. На первом диске создайте ТР MBR и 3 основных раздела по 50Мб, на втором ТР GPT и 2 раздела по 100Мб. Сохраните и покажите список разделов.
+Decision:
+[tuser1@thost1 Centos]#  sudo poweroff
+- VirtualBox - Настроить - Носители - Контроллер SATA - Добавить жесткий диск - Создать - 1гб - выбрать - ок - запустить
+[tuser1@thost1 Centos]#  lsscsi -s
+  [1:0:0:0]    cd/dvd  VBOX     CD-ROM           1.0   /dev/sr0   61.1MB
+  [2:0:0:0]    disk    ATA      VBOX HARDDISK    1.0   /dev/sda   53.6GB
+  [3:0:0:0]    disk    ATA      VBOX HARDDISK    1.0   /dev/sdb   1.07GB
+  [4:0:0:0]    disk    ATA      VBOX HARDDISK    1.0   /dev/sdc   1.07GB
+[tuser1@thost1 Centos]#  sudo fdisk /dev/sdb
+  [sudo] password for cs:
+  Welcome to fdisk (util-linux 2.32.1).
+  Changes will remain in memory only, until you decide to write them.
+  Be careful before using the write command.
+  Device does not contain a recognized partition table.
+  Created a new DOS disklabel with disk identifier 0x357e75ef.
+Command (m for help): m
+  Help:
+DOS (MBR)
+ a   toggle a bootable flag
+ b   edit nested BSD disklabel
+ c   toggle the dos compatibility flag
+Generic
+ d   delete a partition
+ F   list free unpartitioned space
+ l   list known partition types
+ n   add a new partition
+ p   print the partition table
+ t   change a partition type
+ v   verify the partition table
+ i   print information about a partition
+Misc
+ m   print this menu
+ u   change display/entry units
+ x   extra functionality (experts only)
+Script
+ I   load disk layout from sfdisk script file
+ O   dump disk layout to sfdisk script file
+Save & Exit
+ w   write table to disk and exit
+ q   quit without saving changes
+Create a new label
+ g   create a new empty GPT partition table
+ G   create a new empty SGI (IRIX) partition table
+ o   create a new empty DOS partition table
+ s   create a new empty Sun partition table
+Command (m for help): p
+  Disk /dev/sdb: 1 GiB, 1073741824 bytes, 2097152 sectors
+  Units: sectors of 1 * 512 = 512 bytes
+  Sector size (logical/physical): 512 bytes / 512 bytes
+  I/O size (minimum/optimal): 512 bytes / 512 bytes
+  Disklabel type: dos
+  Disk identifier: 0x357e75ef
+Command (m for help): o
+  Created a new DOS disklabel with disk identifier 0x87f777ab.
+Command (m for help): n
+  Partition type
+ p   primary (0 primary, 0 extended, 4 free)
+ e   extended (container for logical partitions)
+Select (default p): p
+Partition number (1-4, default 1): 3
+First sector (2048-2097151, default 2048):
+Last sector, +sectors or +size{K,M,G,T,P} (2048-2097151, default 2097151): +50M
+  Created a new partition 3 of type 'Linux' and of size 50 MiB.
+Command (m for help): n
+  Partition type
+ p   primary (1 primary, 0 extended, 3 free)
+ e   extended (container for logical partitions)
+Select (default p): p
+Partition number (1,2,4, default 1): 1
+First sector (104448-2097151, default 104448):
+Last sector, +sectors or +size{K,M,G,T,P} (104448-2097151, default 2097151): +50M
+  Created a new partition 1 of type 'Linux' and of size 50 MiB.
+Command (m for help): n
+  Partition type
+ p   primary (2 primary, 0 extended, 2 free)
+ e   extended (container for logical partitions)
+Select (default p): p
+Partition number (2,4, default 2): 2
+First sector (206848-2097151, default 206848):
+Last sector, +sectors or +size{K,M,G,T,P} (206848-2097151, default 2097151): +50M
+  Created a new partition 2 of type 'Linux' and of size 50 MiB.
+Command (m for help): p
+  Disk /dev/sdb: 1 GiB, 1073741824 bytes, 2097152 sectors
+  Units: sectors of 1 * 512 = 512 bytes
+  Sector size (logical/physical): 512 bytes / 512 bytes
+  I/O size (minimum/optimal): 512 bytes / 512 bytes
+  Disklabel type: dos
+  Disk identifier: 0x87f777ab
+  Device     Boot  Start    End Sectors Size Id Type
+  /dev/sdb1       104448 206847  102400  50M 83 Linux
+  /dev/sdb2       206848 309247  102400  50M 83 Linux
+  /dev/sdb3         2048 104447  102400  50M 83 Linux
+  Partition table entries are not in disk order.
+Command (m for help): w
+  The partition table has been altered.
+  Calling ioctl() to re-read partition table.
+  Syncing disks.
+[tuser1@thost1 Centos]#  sudo fdisk /dev/sdc
+[sudo] password for cs:
+  Welcome to fdisk (util-linux 2.32.1).
+  Changes will remain in memory only, until you decide to write them.
+  Be careful before using the write command.
+  Device does not contain a recognized partition table.
+  Created a new DOS disklabel with disk identifier 0x275ab546.
+Command (m for help): p
+  Disk /dev/sdc: 1 GiB, 1073741824 bytes, 2097152 sectors
+  Units: sectors of 1 * 512 = 512 bytes
+  Sector size (logical/physical): 512 bytes / 512 bytes
+  I/O size (minimum/optimal): 512 bytes / 512 bytes
+  Disklabel type: dos
+  Disk identifier: 0x275ab546
+Command (m for help): g
+  Created a new GPT disklabel (GUID: 1ED9FC80-4FEE-934E-A504-725D4C9F611F).
+Command (m for help): n
+Partition number (1-128, default 1): 1
+First sector (2048-2097118, default 2048):
+Last sector, +sectors or +size{K,M,G,T,P} (2048-2097118, default 2097118): +100M
+  Created a new partition 1 of type 'Linux filesystem' and of size 100 MiB.
+Command (m for help): n
+Partition number (2-128, default 2): 2
+First sector (206848-2097118, default 206848):
+Last sector, +sectors or +size{K,M,G,T,P} (206848-2097118, default 2097118): +100M
+  Created a new partition 2 of type 'Linux filesystem' and of size 100 MiB.
+Command (m for help): p
+  Disk /dev/sdc: 1 GiB, 1073741824 bytes, 2097152 sectors
+  Units: sectors of 1 * 512 = 512 bytes
+  Sector size (logical/physical): 512 bytes / 512 bytes
+  I/O size (minimum/optimal): 512 bytes / 512 bytes
+  Disklabel type: gpt
+  Disk identifier: 1ED9FC80-4FEE-934E-A504-725D4C9F611F
+  Device      Start    End Sectors  Size Type
+  /dev/sdc1    2048 206847  204800  100M Linux filesystem
+  /dev/sdc2  206848 411647  204800  100M Linux filesystem
+Command (m for help): w
+  The partition table has been altered.
+  Calling ioctl() to re-read partition table.
+  Syncing disks.
+[tuser1@thost1 Centos]#  sudo fdisk -l /dev/sdb
+  Disk /dev/sdb: 1 GiB, 1073741824 bytes, 2097152 sectors
+  Units: sectors of 1 * 512 = 512 bytes
+  Sector size (logical/physical): 512 bytes / 512 bytes
+  I/O size (minimum/optimal): 512 bytes / 512 bytes
+  Disklabel type: dos
+  Disk identifier: 0x87f777ab
+  Device     Boot  Start    End Sectors Size Id Type
+  /dev/sdb1       104448 206847  102400  50M 83 Linux
+  /dev/sdb2       206848 309247  102400  50M 83 Linux
+  /dev/sdb3         2048 104447  102400  50M 83 Linux
+  Partition table entries are not in disk order.
+[tuser1@thost1 Centos]#  sudo fdisk -l /dev/sdc
+  Disk /dev/sdc: 1 GiB, 1073741824 bytes, 2097152 sectors
+  Units: sectors of 1 * 512 = 512 bytes
+  Sector size (logical/physical): 512 bytes / 512 bytes
+  I/O size (minimum/optimal): 512 bytes / 512 bytes
+  Disklabel type: gpt
+  Disk identifier: 1ED9FC80-4FEE-934E-A504-725D4C9F611F
+  Device      Start    End Sectors  Size Type
+  /dev/sdc1    2048 206847  204800  100M Linux filesystem
+  /dev/sdc2  206848 411647  204800  100M Linux filesystem
+Task:
+Добавьте на первом диске ещё 2 раздела по 100Мб, при этом не удаляя ранее созданные разделы.
+Decision:
+Command (m for help): p
+  Disk /dev/sdb: 1 GiB, 1073741824 bytes, 2097152 sectors
+  Units: sectors of 1 * 512 = 512 bytes
+  Sector size (logical/physical): 512 bytes / 512 bytes
+  I/O size (minimum/optimal): 512 bytes / 512 bytes
+  Disklabel type: dos
+  Disk identifier: 0x87f777ab
+  Device     Boot  Start    End Sectors Size Id Type
+  /dev/sdb1       104448 206847  102400  50M 83 Linux
+  /dev/sdb2       206848 309247  102400  50M 83 Linux
+  /dev/sdb3         2048 104447  102400  50M 83 Linux
+  Partition table entries are not in disk order.
+Command (m for help): n
+  Partition type
+ p   primary (3 primary, 0 extended, 1 free)
+ e   extended (container for logical partitions)
+Select (default e): e
+  Selected partition 4
+First sector (309248-2097151, default 309248):
+Last sector, +sectors or +size{K,M,G,T,P} (309248-2097151, default 2097151): +100M
+  Created a new partition 4 of type 'Extended' and of size 100 MiB.
+Command (m for help): n
+  All primary partitions are in use.
+  Adding logical partition 5
+First sector (311296-514047, default 311296):
+Last sector, +sectors or +size{K,M,G,T,P} (311296-514047, default 514047): +100M
+  Value out of range.
+Last sector, +sectors or +size{K,M,G,T,P} (311296-514047, default 514047):
+  Created a new partition 5 of type 'Linux' and of size 99 MiB.
+Command (m for help): p
+  Disk /dev/sdb: 1 GiB, 1073741824 bytes, 2097152 sectors
+  Units: sectors of 1 * 512 = 512 bytes
+  Sector size (logical/physical): 512 bytes / 512 bytes
+  I/O size (minimum/optimal): 512 bytes / 512 bytes
+  Disklabel type: dos
+  Disk identifier: 0x87f777ab
+  Device     Boot  Start    End Sectors  Size Id Type
+  /dev/sdb1       104448 206847  102400   50M 83 Linux
+  /dev/sdb2       206848 309247  102400   50M 83 Linux
+  /dev/sdb3         2048 104447  102400   50M 83 Linux
+  /dev/sdb4       309248 514047  204800  100M  5 Extended
+  /dev/sdb5       311296 514047  202752   99M 83 Linux
+  Partition table entries are not in disk order.
+Command (m for help): w
+  The partition table has been altered.
+  Calling ioctl() to re-read partition table.
+  Syncing disks.
+Task:
+Удалите со второго диска второй раздел.
+Decision:
+[tuser1@thost1 Centos]#  sudo fdisk /dev/sdc
+  Welcome to fdisk (util-linux 2.32.1).
+  Changes will remain in memory only, until you decide to write them.
+  Be careful before using the write command.
+Command (m for help): d
+Partition number (1,2, default 2): 2
+  Partition 2 has been deleted.
+Command (m for help): p
+  Disk /dev/sdc: 1 GiB, 1073741824 bytes, 2097152 sectors
+  Units: sectors of 1 * 512 = 512 bytes
+  Sector size (logical/physical): 512 bytes / 512 bytes
+  I/O size (minimum/optimal): 512 bytes / 512 bytes
+  Disklabel type: gpt
+  Disk identifier: 1ED9FC80-4FEE-934E-A504-725D4C9F611F
+  Device     Start    End Sectors  Size Type
+  /dev/sdc1   2048 206847  204800  100M Linux filesystem
+Command (m for help): w
+  The partition table has been altered.
+  Calling ioctl() to re-read partition table.
+  Syncing disks.
+Task:
 Install VirtualBox
 Decision:
 $ sudo dnf config-manager --add-repo=https://download.virtualbox.org/virtualbox/rpm/el/virtualbox.repo
@@ -11,6 +285,72 @@ $ sudo usermod -aG vboxusers $USER
 $ newgrp vboxusers
 $ wget https://download.virtualbox.org/virtualbox/7.0.10/Oracle_VM_VirtualBox_Extension_Pack-7.0.10-158379.vbox-extpack
 $ sudo VBoxManage extpack install Oracle_VM_VirtualBox_Extension_Pack-7.0.10-158379.vbox-extpack
+Task:
+Миграция виртуальных машин с Qemu-Kvm в VirtualBox
+У руководителя уже установлена тестовая система Centos в машине Qemu-Kvm. Наша первая задача скоипровать у него систему 
+Decision:
+$ sudo virsh list --all
+ ID   Имя           Состояние
+-------------------------------
+ 2    Centos9       работает
+ -    Alt           выключен
+ -    Centos        выключен
+ -    Kali          выключен
+ -    ubuntu22.04   выключен
+ -    Windows       выключен
+$ sudo virsh shutdown Centos9
+$ sudo virsh domblklist Centos9
+ Назначение   Источник
+---------------------------------------------------
+ vda          /images/Centos9.img
+ sda          -
+$ rsync -avzP user@tipcentos:/images/Centos9.img Centos/.
+$ sudo virsh dumpxml Centos9 > Centos9.xml
+$ head Centos9.xml
+<domain type='kvm'>
+  <name>Centos9</name>
+  <uuid>8cdbcba9-a955-4ca1-b75e-ab3145255c8d</uuid>
+  <metadata>
+    <libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
+      <libosinfo:os id="http://centos.org/centos-stream/9"/>
+    </libosinfo:libosinfo>
+  </metadata>
+  <memory unit='KiB'>2097152</memory>
+  <currentMemory unit='KiB'>2097152</currentMemory>
+$ sudo head /etc/libvirt/qemu/Centos9.xml
+<!--
+WARNING: THIS IS AN AUTO-GENERATED FILE. CHANGES TO IT ARE LIKELY TO BE
+OVERWRITTEN AND LOST. Changes to this xml configuration should be made using:
+  virsh edit Centos9
+or other application using the libvirt API.
+-->
+<domain type='kvm'>
+  <name>Centos9</name>
+  <uuid>8cdbcba9-a955-4ca1-b75e-ab3145255c8d</uuid>
+$ sudo qemu-img info Centos9.img
+image: Centos9.img
+file format: qcow2
+virtual size: 50 GiB (53687091200 bytes)
+disk size: 50 GiB
+cluster_size: 65536
+Snapshot list:
+ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
+1         snapshot1             0 B 2023-09-28 13:18:14 00:00:00.000          0
+Format specific information:
+    compat: 1.1
+    compression type: zlib
+    lazy refcounts: true
+    refcount bits: 16
+    corrupt: false
+    extended l2: false
+Child node '/file':
+    filename: Centos9.img
+    protocol type: file
+    file length: 50 GiB (53695545344 bytes)
+    disk size: 50 GiB
+$ sudo qemu-img convert Centos9.img tmp.bin -p
+$ VBoxManage convertdd tmp.bin virtualbox.vdi
+$ VBoxManage modifyvdi virtualbox.vdi compact
 Task:
 Использовать Virtualbox
 Decision:
@@ -178,3 +518,104 @@ $ ls test.txt
     test.txt
 Source:
 https://www.youtube.com/user/itsemaev
+Task:
+На физическом сервере критически было мало места на диске. В связи с этим настроил подключение к другому физическому диску для хранилища виртуальных машин и баз данных, а сервер оставил для корректной работы с Веб-сервером на Django.
+Decision:
+$ lsblk
+...
+sdc   8:32 0 931,5G 0 disk 
+$ sudo fdisk /dev/sdc
+...
+Команда (m для справки): n
+...
+Выберите (по умолчанию - p): p
+...
+$ lsblk
+...
+sdc   8:32 0 931,5G 0 disk 
+└─sdc1 8:33 0 931,5G 0 part 
+$ sudo mkfs -t ext4 /dev/sdc1
+$ sudo mount /dev/sdc1 /var/lib/libvirt/images/
+$ sudo cp -p ubuntu22.04.qcow2 /var/lib/libvirt/images/
+$ sudo virt-install \
+--name Ubuntu2204 \
+--ram 2048 \
+--vcpus 2 \
+--disk /var/lib/libvirt/images/ubuntu22.04.qcow2,bus=sata \
+--import \
+--os-variant ubuntu22.04 \
+--network default
+$ virsh shutdown Ubuntu2204
+$ sudo virt-install \
+--name Centos9 \
+--ram 2048 \
+--vcpus 2 \
+--disk /var/lib/libvirt/images/Centos_9.img,bus=sata \
+--import \
+--os-variant rhel9-unknown \
+--network default
+$ sudo qemu-img info /var/lib/libvirt/images/Kali.qcow2
+$ virt-install --os-variant list | grep debian
+$ sudo virt-install \
+--name Kali \
+--ram 2048 \
+--vcpus 2 \
+--disk /var/lib/libvirt/images/Kali.qcow2,bus=sata \
+--import \
+--os-variant debian11 \
+--network default
+$ sudo virt-install \
+--name Windows \
+--ram 2048 \
+--vcpus 2 \
+--disk path=/var/lib/libvirt/images/Windows.qcow2,bus=sata \
+--import \
+--os-variant win10 \
+--network default
+$ sudo virt-install \
+--name Windows12 \
+--ram 2048 \
+--vcpus 2 \
+--disk path=/var/lib/libvirt/images/Windows12.qcow2,bus=sata \
+--import \
+--os-variant win2k12 \
+--network default
+$ sudo umount /var/lib/libvirt/images/
+$ sudo systemctl stop postgresql
+$ sudo -i -u postgres
+$ cp -r 14 14.backup
+$ ls -l
+итого 8
+drwxr-xr-x 3 postgres postgres 4096 фев 25 19:33 14
+drwxr-xr-x 3 postgres postgres 4096 фев 25 19:57 14.backup
+$ sudo mount /dev/sdc1 /var/lib/postgresql/14
+$ sudo cp -pr /var/lib/postgresql/14.backup /var/lib/postgresql/14/
+$ sudo mv /var/lib/postgresql/14/14.backup /var/lib/postgresql/14/14
+$ sudo ls -l /var/lib/postgresql/14
+итого 87992628
+drwxr-xr-x 3 postgres postgres    4096 фев 25 19:57 14
+drwx------ 2 root   root     16384 фев 21 20:50 lost+found
+-rw------- 1 tuser   tuser   90104397824 фев 24 19:44 ubuntu22.04.qcow2
+$ sudo umount /var/lib/postgresql/14
+$ sudo mount /dev/sdc1 /var/lib/postgresql
+$ sudo systemctl start postgresql
+$ sudo -u tuser psql -d tdb
+# \d
+    List of relations
+Schema | Name | Type | Owner 
+--------+--------+-------+-------
+public | cities | table | tuser
+(1 row)
+# CREATE TABLE countries (
+  name      varchar(80),
+  location    point
+);
+# exit
+$ sudo systemctl stop postgresql
+$ sudo umount /var/lib/postgresql
+$ sudo systemctl start postgresql
+Source:
+Import Qcow2 images using virt-install command - https://ostechnix.com/create-a-kvm-virtual-machine-using-qcow2-image-in-linux/
+Перенос базы - https://etogeek.dev/posts/move-psql/
+копирование файлов с правами и пользователями - https://www.linux.org.ru/forum/general/8186570
+Importing a virtual machine image - https://access.redhat.com/documentation/ru-ru/red_hat_enterprise_linux/7/html/virtualization_deployment_and_administration_guide/sect-guest_virtual_machine_installation_overview-creating_guests_with_virt_install

@@ -1,4 +1,164 @@
 Task:
+$ google-chrome http://tipubuntu/phpmyadmin/
+This page isn’t workingtipubuntu is currently unable to handle this request.
+HTTP ERROR 500
+Decision:
+$ sudo phpenmod mbstring
+$ sudo a2enconf phpmyadmin.conf
+$ sudo systemctl reload apache2
+$ cat /var/log/apache2/error.log
+...
+[Wed May 29 09:28:02.124906 2024] [php:error] [pid 2856] [client 192.168.122.1:47444] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\\Component\\Config\\ctype_alpha() in /usr/share/php/Symfony/Component/Config/FileLocator.php:83\nStack trace:\n#0 /usr/share/php/Symfony/Component/Config/FileLocator.php(42): Symfony\\Component\\Config\\FileLocator->isAbsolutePath()\n#1 /usr/share/php/Symfony/Component/DependencyInjection/Loader/PhpFileLoader.php(54): Symfony\\Component\\Config\\FileLocator->locate()\n#2 /usr/share/phpmyadmin/libraries/classes/Core.php(1425): Symfony\\Component\\DependencyInjection\\Loader\\PhpFileLoader->load()\n#3 /usr/share/phpmyadmin/libraries/common.inc.php(118): PhpMyAdmin\\Core::getContainerBuilder()\n#4 /usr/share/phpmyadmin/index.php(15): require_once('...')\n#5 {main}\n  thrown in /usr/share/php/Symfony/Component/Config/FileLocator.php on line 83
+$ php -v
+PHP 8.1.2-1ubuntu2.17 (cli) (built: May  1 2024 10:10:07) (NTS)
+...
+$ sudo apt-get install php8.1-mbstring
+$ sudo cat /etc/php/8.1/apache2/php.ini | grep extension=
+...
+;extension=curl
+;extension=ffi
+...
+$ sudo vim /etc/php/8.1/apache2/php.ini
+...
+;extension=curl
+extension=ctype
+;extension=ffi
+...
+$ sudo cat /etc/php/8.1/apache2/php.ini | grep extension=
+$ sudo service apache2 restart
+$ google-chrome http://tipubuntu/phpmyadmin/
+Source:
+https://stackoverflow.com/questions/68996485/how-to-rectify-call-to-undefined-function-symfony-component-console-helper-mb-de
+Task:
+После изменения порта с 80 на tport1 отображается только страница index.php. Раньше отображалась еще вторая страница phpmyadmin. Как отобразить страницу с phpmyadmin?
+$ google-chrome http://tipubuntu:tport1/phpmyadmin/
+Not Found
+The requested URL was not found on this server.
+Apache/2.4.52 (Ubuntu) Server at tipubuntu Port tport1
+Decision:
+$ sudo systemctl restart apache2
+$ sudo a2enconf phpmyadmin.conf
+$ sudo systemctl reload apache2
+$ sudo apt-get install php8.1-mbstring
+$ sudo cat /etc/php/8.1/apache2/php.ini | grep extension=
+...
+;extension=curl
+;extension=ffi
+...
+$ sudo vim /etc/php/8.1/apache2/php.ini
+...
+;extension=curl
+extension=ctype
+;extension=ffi
+...
+$ sudo cat /etc/php/8.1/apache2/php.ini | grep extension=
+$ sudo service apache2 restart
+$ google-chrome http://tipubuntu:tport1/phpmyadmin/
+Source:
+https://stackoverflow.com/questions/68996485/how-to-rectify-call-to-undefined-function-symfony-component-console-helper-mb-de
+Task:
+$ sudo systemctl reload apache2
+apache2.service is not active, cannot reload.
+$ sudo systemctl restart apache2.service
+Job for apache2.service failed because the control process exited with error code.
+See "systemctl status apache2.service" and "journalctl -xeu apache2.service" for details.
+$ sudo journalctl -xeu apache2.service
+░░ 
+░░ The unit apache2.service has entered the 'failed' state with result 'exit-code'.
+may 29 03:15:19 kvmubuntu systemd[1]: Failed to start The Apache HTTP Server.
+░░ Subject: A start job for unit apache2.service has failed
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░ 
+Decision:
+$ sudo cat /etc/apache2/sites-available/phpmyadmin.conf
+Listen tport1
+<VirtualHost *:tport1>
+        ServerName localhost
+        <Directory /usr/share/phpmyadmin>
+                AllowOverride None
+                Require all granted
+        </Directory>
+        DocumentRoot /usr/share/phpmyadmin
+        Include /etc/phpmyadmin/apache.conf
+        ErrorLog ${APACHE_LOG_DIR}/phpmyadmin.error.log
+        CustomLog ${APACHE_LOG_DIR}/phpmyadmin.access.log combined
+</VirtualHost>
+$ netstat -tunl | grep tport1
+tcp6       0      0 :::tport1                 :::*                    LISTEN   
+$ sudo vim /etc/apache2/sites-available/phpmyadmin.conf
+$ sudo cat /etc/apache2/sites-available/phpmyadmin.conf
+Listen tport2
+<VirtualHost *:tport2>
+        ServerName localhost
+        <Directory /usr/share/phpmyadmin>
+                AllowOverride None
+                Require all granted
+        </Directory>
+        DocumentRoot /usr/share/phpmyadmin
+        Include /etc/phpmyadmin/apache.conf
+        ErrorLog ${APACHE_LOG_DIR}/phpmyadmin.error.log
+        CustomLog ${APACHE_LOG_DIR}/phpmyadmin.access.log combined
+</VirtualHost>
+$ sudo a2disconf phpmyadmin
+$ sudo a2ensite phpmyadmin
+$ sudo systemctl restart apache2.service
+Source:
+Change phpMyAdmin port from 80 to another number - https://askubuntu.com/questions/896988/change-phpmyadmin-port-from-80-to-another-number
+Task:
+После запуска любой программы (чат, Фемида) выходит такая ошибка:
+«Ошибочный образ C:\Program Files\Windows Portable Devices\netapi.dll не предназначен для выполнения под управлением Windows или содержит ошибку» 
+Decision:
+> sfc /scannow
+> shutdown /r
+Task:
+Windows 10 запускается с ошибкой:
+ UNMOUNTABLE BOOT VOLUME
+Decision:
+-	загрузившись с загрузочной флешки или диска с Windows 10 (8 и 7 тоже подойдут, несмотря на установленную десятку, для быстрой загрузки с флешки проще всего использовать Boot Menu) - клавиши Shift+F10 - на экране установки, должна появиться командная строка. Если не появится, на экране выбора языка выберите «Далее», а на втором экране внизу слева – «Восстановление системы» и найдите в средствах восстановления пункт «Командная строка».
+> diskpart
+> list volume
+- в результате команды вы увидите список разделов на ваших дисках. Обратите внимание на букву раздела, на котором установлена Windows 10, она может отличаться от привычной буквы C во время работы в среде восстановления, в моем случае на скриншоте это буква D
+> exit
+> chkdsk D: /r
+-	закройте командную строку - перезагрузите компьютер с жесткого диска
+Task:
+Нужно обойти восстановление при загрузке Windows 7. Во время запуска появляется:
+восстановление загрузки
+Даже когда запускаем в бут меню с обычной загрузки.
+Decision:
+Иногда достаточно просто вставить установочный диск Windows 7  -> перезагрузить компьютер  -> нажать любую клавишу при появлении запроса  -> выберать ваши языковые настройки ->Далее  -> Ремонт вашего компьютера -> в командной строке открыли доступ к папке с файлами, которые следует заменить C:\Windows\System32\Config
+> cd windows 
+> cd system32
+> cd config
+> dir
+- Было 5 файлов с окончанием .gbck, и 5 файлов без какого-либо завершения. Это следующие файлы: DEFAULT, SAM, SECURITY, SOFTWARE и SYSTEM ->Переименуйте все файлы без завершения в .bak один за другим. просто так: ren COMPONENTS COMPONENTS.bak (вы должны сделать это для остальных 4 файлов) ->Переименуйте все .gbck в один без завершения. просто так: ren COMPONENTS.gbck COMPONENTS (вы должны сделать это для остальных 4 файлов)  -> Введите dir , чтобы увидеть, были ли имена файлов именно такими, как вы ожидаете  -> Перезагрузите компьютер.
+- Но в моем случае не было установочного диска Windows 7 -> Зато у меня есть загрузочная флешка, с помощью которой можно устаналивать, например, винду, или есть программа акронис с помощью которого можно упралятть жестким диском (удалять разделы, добавлять), или есть прорграмма тотал командер, в нашем случае, как раз, она и нужна, чтобы заменить конфиги windows - system32 - config - выделяем Default, SAM, Security, software, system - это нужно удалить, не выделенные оставляем - и вставляем в папку regpack удаленныефайлы, windows - system32 - config - Regpack - перезагружаемся.
+Task:
+Был такой случай, что компьютер не видит мою флешку. Хотя вчера я прекрасно работал с флешкой. Сначала проверил, работает ли флешка в других USB-портах. Потом вставил флешку в другой компьютер и он загрузился. Получается, что один компьютер видит флешку, а другой — нет.
+Decision:
+Вставляю флешку в компьютер -> Мой компьютер -> Управление дисками -> видим диски С и диск без имени — это флешка -> Изменить имя диска -> в открывшемся окне система предложит букву диску (обычно «i» ) -> ок
+Task:
+кеосера fs-3040mfp:
+сбой аппарата со100
+Decision:
+застряла бумага
+Task:
+После отключения света и перезагрузки, пищит сервер и появляется такое сообщение на сервере.
+The following VDs are missing: 00. If you proceed (or load the configuration utility), these VDs will be removed from your configuration. If you wish to use them at a later time, they will have to be imported. If you believe these VDs should be present, please power off your system and check your cables to ensure all disks are present. Press any key to continue, or 'C' to load the configuration utility.
+Нажать пробел и зайти в программу C:\ПУТЬКПРОГРАММЕ\MegaRAID Storage Manager\startupui.bat 
+во вкладке \Physical\ видим статус:
+Slot: 7 Unconfigurate Bad 
+Нужно менять на новый диск, сервер в моем случае автоматически сделает rebuild. Но пока новго диска нету, настроим временно кнкфитгурацию программы
+Decision:
+Во вкладке \Logical\Unconfigurate Drivers\ выбрать Change to Unconfigured Good. 
+Во вкладке \Logical\LSI Mega raid выбрать Scan Foreign Configuration и перезагрузиться. Зайти в программу C:\ПУТЬКПРОГРАММЕ\MegaRAID Storage Manager\startupui.bat и посмотреть статусы. Если rebuild - смотреть во вкладке \Dashboard\Drive operations in progress
+Task:
+Один диск в программе megaraid C:\ПУТЬКПРОГРАММЕ\MegaRAID Storage Manager\startupui.bat показывает статус:
+failed.
+Decision:
+Во вкладке Physical выбрать проблемный диск с ошибкой failed, пометить офлайн make drive offline и вернуть обратно в онлайн make drive online
+Task:
 вордовский файл после печати в содержании выводит ошибку:
 ошибка не распределена
 Decision:
@@ -76,10 +236,10 @@ $ sudo apt-get update
   Get:6 http://archive.ubuntu.com/ubuntu focal-backports InRelease [108 kB]
   Fetched 336 kB in 2s (163 kB/s)
   Traceback (most recent call last):
-    File "/usr/lib/cnf-update-db", line 8, in <module>
-      from CommandNotFound.db.creator import DbCreator
-    File "/usr/lib/python3/dist-packages/CommandNotFound/db/creator.py", line 12, in <module>
-      import apt_pkg
+File "/usr/lib/cnf-update-db", line 8, in <module>
+  from CommandNotFound.db.creator import DbCreator
+File "/usr/lib/python3/dist-packages/CommandNotFound/db/creator.py", line 12, in <module>
+  import apt_pkg
   ModuleNotFoundError: No module named 'apt_pkg'
   Reading package lists... Done
   E: Problem executing scripts APT::Update::Post-Invoke-Success 'if /usr/bin/test -w /var/lib/command-not-found/ -a -e /usr/lib/cnf-update-db; then /usr/lib/cnf-update-db > /dev/null; fi'
@@ -87,11 +247,11 @@ $ sudo apt-get update
 Decision:
 $ sudo update-alternatives --config python3
   There are 2 choices for the alternative python3 (providing /usr/bin/python3).
-    Selection    Path                 Priority   Status
+Selection    Path                 Priority   Status
   ------------------------------------------------------------
   * 0            /usr/bin/python3.10   2         auto mode
-    1            /usr/bin/python3.10   2         manual mode
-    2            /usr/bin/python3.8    1         manual mode
+1            /usr/bin/python3.10   2         manual mode
+2            /usr/bin/python3.8    1         manual mode
 Press <enter> to keep the current choice[*], or type selection number: 2
   update-alternatives: using /usr/bin/python3.8 to provide /usr/bin/python3 (python3) in manual mode
 $ sudo apt-get update
@@ -130,7 +290,7 @@ Task:
   /dev/sda1: Inode 4329004 extent tree (at level 1) could be narrower, IGNORED.
   /dev/sda1: Inodes that were part of a corrupted orphan linked list found.
   /dev/sda1: UNEXPECTED INCONSISTENCY; RUN fsck MANUALLY.
-          (i.e., without -a or -p options)
+      (i.e., without -a or -p options)
   fsck exited with status code 4.
   The root filesystem on /dev/sda1 requires a manual fsck.
   BusyBox v1.30.1 (Ubuntu 1:1.30.1-4ubuntu6.1) built-in shell (ash)
@@ -376,134 +536,134 @@ SQL> select file#,name,status from v$datafile;
  FILE# NAME                 STATUS
 ---------- -------------------- ----------
    1 C:\ORACLE\ORADATA\GA SYSTEM
-     S\SYSTEM01.DBF
+ S\SYSTEM01.DBF
    2 C:\ORACLE\ORADATA\GA ONLINE
-     S\UNDOTBS01.DBF
+ S\UNDOTBS01.DBF
    3 C:\ORACLE\ORADATA\GA ONLINE
-     S\CWMLITE01.DBF
+ S\CWMLITE01.DBF
    4 C:\ORACLE\ORADATA\GA ONLINE
-     S\DRSYS01.DBF
+ S\DRSYS01.DBF
  FILE# NAME                 STATUS
 ---------- -------------------- ----------
    5 C:\ORACLE\ORADATA\GA ONLINE
-     S\EXAMPLE01.DBF
+ S\EXAMPLE01.DBF
    6 C:\ORACLE\ORADATA\GA ONLINE
-     S\INDX01.DBF
+ S\INDX01.DBF
    7 C:\ORACLE\ORADATA\GA ONLINE
-     S\ODM01.DBF
+ S\ODM01.DBF
    8 C:\ORACLE\ORADATA\GA ONLINE
  FILE# NAME                 STATUS
 ---------- -------------------- ----------
-     S\TOOLS01.DBF
+ S\TOOLS01.DBF
    9 C:\ORACLE\ORADATA\GA ONLINE
-     S\USERS01.DBF
+ S\USERS01.DBF
   10 C:\ORACLE\ORADATA\GA ONLINE
-     S\XDB01.DBF
+ S\XDB01.DBF
   11 C:\ORACLE\ORADATA\GA ONLINE
-     S\TBLS_BSR.ORA
+ S\TBLS_BSR.ORA
  FILE# NAME                 STATUS
 ---------- -------------------- ----------
   12 C:\ORACLE\ORADATA\GA ONLINE
-     S\DELO_D.DAT
+ S\DELO_D.DAT
   13 C:\ORACLE\ORADATA\GA ONLINE
-     S\DELO_I.DAT
+ S\DELO_I.DAT
   14 C:\ORACLE\ORADATA\GA ONLINE
-     S\DELO_O.DAT
+ S\DELO_O.DAT
   15 C:\ORACLE\ORADATA\GA ONLINE
-     S\KADR_D.DAT
+ S\KADR_D.DAT
  FILE# NAME                 STATUS
 ---------- -------------------- ----------
   16 C:\ORACLE\ORADATA\GA ONLINE
-     S\KADR_I.DAT
+ S\KADR_I.DAT
   17 C:\ORACLE\ORADATA\GA ONLINE
-     S\KADR_O.DAT
+ S\KADR_O.DAT
   18 C:\ORACLE\ORADATA\GA ONLINE
-     S\ARCH_D.DAT
+ S\ARCH_D.DAT
   19 C:\ORACLE\ORADATA\GA ONLINE
  FILE# NAME                 STATUS
 ---------- -------------------- ----------
-     S\ARCH_I.DAT
+ S\ARCH_I.DAT
   20 C:\ORACLE\ORADATA\GA ONLINE
-     S\EDS_D.DAT
+ S\EDS_D.DAT
   21 C:\ORACLE\ORADATA\GA ONLINE
-     S\EDS_I.DAT
+ S\EDS_I.DAT
   22 C:\ORACLE\ORADATA\GA ONLINE
-     S\EDS_O.DAT
+ S\EDS_O.DAT
  FILE# NAME                 STATUS
 ---------- -------------------- ----------
   23 C:\ORACLE\ORADATA\GA ONLINE
-     S\.ORA
+ S\.ORA
   24 C:\ORACLE\ORADATA\GA SYSTEM
-     S\SYSTEM02.ORA
+ S\SYSTEM02.ORA
   25 C:\ORACLE\ORADATA\GA SYSTEM
-     S\SYSTEM03.ORA
+ S\SYSTEM03.ORA
 25 rows selected.
 SQL> recover datafile 1;
 SQL> select file#,name,status from v$datafile;
  FILE# NAME                 STATUS
 ---------- -------------------- ----------
    1 C:\ORACLE\ORADATA\GA SYSTEM
-     S\SYSTEM01.DBF
+ S\SYSTEM01.DBF
    2 C:\ORACLE\ORADATA\GA ONLINE
-     S\UNDOTBS01.DBF
+ S\UNDOTBS01.DBF
    3 C:\ORACLE\ORADATA\GA ONLINE
-     S\CWMLITE01.DBF
+ S\CWMLITE01.DBF
    4 C:\ORACLE\ORADATA\GA ONLINE
-     S\DRSYS01.DBF
+ S\DRSYS01.DBF
  FILE# NAME                 STATUS
 ---------- -------------------- ----------
    5 C:\ORACLE\ORADATA\GA ONLINE
-     S\EXAMPLE01.DBF
+ S\EXAMPLE01.DBF
    6 C:\ORACLE\ORADATA\GA ONLINE
-     S\INDX01.DBF
+ S\INDX01.DBF
    7 C:\ORACLE\ORADATA\GA ONLINE
-     S\ODM01.DBF
+ S\ODM01.DBF
    8 C:\ORACLE\ORADATA\GA ONLINE
  FILE# NAME                 STATUS
 ---------- -------------------- ----------
-     S\TOOLS01.DBF
+ S\TOOLS01.DBF
    9 C:\ORACLE\ORADATA\GA ONLINE
-     S\USERS01.DBF
+ S\USERS01.DBF
   10 C:\ORACLE\ORADATA\GA ONLINE
-     S\XDB01.DBF
+ S\XDB01.DBF
   11 C:\ORACLE\ORADATA\GA ONLINE
-     S\TBLS_BSR.ORA
+ S\TBLS_BSR.ORA
  FILE# NAME                 STATUS
 ---------- -------------------- ----------
   12 C:\ORACLE\ORADATA\GA ONLINE
-     S\DELO_D.DAT
+ S\DELO_D.DAT
   13 C:\ORACLE\ORADATA\GA ONLINE
-     S\DELO_I.DAT
+ S\DELO_I.DAT
   14 C:\ORACLE\ORADATA\GA ONLINE
-     S\DELO_O.DAT
+ S\DELO_O.DAT
   15 C:\ORACLE\ORADATA\GA ONLINE
-     S\KADR_D.DAT
+ S\KADR_D.DAT
  FILE# NAME                 STATUS
 ---------- -------------------- ----------
   16 C:\ORACLE\ORADATA\GA ONLINE
-     S\KADR_I.DAT
+ S\KADR_I.DAT
   17 C:\ORACLE\ORADATA\GA ONLINE
-     S\KADR_O.DAT
+ S\KADR_O.DAT
   18 C:\ORACLE\ORADATA\GA ONLINE
-     S\ARCH_D.DAT
+ S\ARCH_D.DAT
   19 C:\ORACLE\ORADATA\GA ONLINE
  FILE# NAME                 STATUS
 ---------- -------------------- ----------
-     S\ARCH_I.DAT
+ S\ARCH_I.DAT
   20 C:\ORACLE\ORADATA\GA ONLINE
-     S\EDS_D.DAT
+ S\EDS_D.DAT
   21 C:\ORACLE\ORADATA\GA ONLINE
-     S\EDS_I.DAT
+ S\EDS_I.DAT
   22 C:\ORACLE\ORADATA\GA ONLINE
-     S\EDS_O.DAT
+ S\EDS_O.DAT
  FILE# NAME                 STATUS
 ---------- -------------------- ----------
   23 C:\ORACLE\ORADATA\GA ONLINE
-     S\.ORA
+ S\.ORA
   24 C:\ORACLE\ORADATA\GA SYSTEM
-     S\SYSTEM02.ORA
+ S\SYSTEM02.ORA
   25 C:\ORACLE\ORADATA\GA SYSTEM
-     S\SYSTEM03.ORA
+ S\SYSTEM03.ORA
 25 rows selected.
 SQL> alter database open;
 Task:
@@ -632,7 +792,7 @@ Task:
 Failed to fetch http://ppa.launchpad.net/wireshark-dev/stable/ubuntu/dists/focal/InRelease  Temporary failure resolving 'ppa.launchpad.net'. Some index files failed to download. They have been ignored, or old ones used instead.
 $ sudo curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add
 % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                               Dload  Upload   Total   Spent    Left  Speed
+                           Dload  Upload   Total   Spent    Left  Speed
 100  3935  100  3935    0     0    633      0  0:00:06  0:00:06 --:--:--   824
 OK
 $ sudo sh -c 'echo "deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
@@ -673,7 +833,7 @@ $ sudo service mysql status
  * MySQL is stopped.
 $ sudo service mysql start
  * Starting MySQL database server mysqld                                                                                su: warning: cannot change directory to /nonexistent: No such file or directory
-                                                                                                               [ OK ]
+                                                                                                           [ OK ]
 $ sudo service mysql status
  * /usr/bin/mysqladmin  Ver 8.0.28-0uu0.20.04.3 for Linux on x86_64 ((uu))
 Copyright (c) 2000, 2022, Oracle and/or its affiliates.
@@ -1444,7 +1604,7 @@ CKEDITOR_5_CUSTOM_CSS = 'path_to.css' # optional
 CKEDITOR_5_CONFIGS = {
 'default': {
 'toolbar': ['heading', '|', 'bold', 'italic', 'link',
-    'bulletedList', 'numberedList', 'blockQuote', 'imageUpload', ],
+'bulletedList', 'numberedList', 'blockQuote', 'imageUpload', ],
 
 },
 'extends': {
@@ -1457,12 +1617,12 @@ CKEDITOR_5_CONFIGS = {
 ],
 'toolbar': ['heading', '|', 'outdent', 'indent', '|', 'bold', 'italic', 'link', 'underline', 'strikethrough',
 'code','subscript', 'superscript', 'highlight', '|', 'codeBlock', 'sourceEditing', 'insertImage',
-    'bulletedList', 'numberedList', 'todoList', '|', 'blockQuote', 'imageUpload', '|',
-    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'mediaEmbed', 'removeFormat',
-    'insertTable',],
+'bulletedList', 'numberedList', 'todoList', '|', 'blockQuote', 'imageUpload', '|',
+'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'mediaEmbed', 'removeFormat',
+'insertTable',],
 'image': {
 'toolbar': ['imageTextAlternative', '|', 'imageStyle:alignLeft',
-      'imageStyle:alignRight', 'imageStyle:alignCenter', 'imageStyle:side', '|'],
+  'imageStyle:alignRight', 'imageStyle:alignCenter', 'imageStyle:side', '|'],
 'styles': [
   'full',
   'side',
