@@ -1,9 +1,0 @@
-SELECT Fakulty.kolichestvo_aspirfntov_ochno, Fakulty.adres,;
-  Aspirant.obrazovanie, Aspirant.kafedra, Kafedra.fio_zavkafedroy;
- FROM  data1!fakulty INNER JOIN data1!kafedra;
-    INNER JOIN data1!aspirant ;
-   ON  Kafedra.kode = Aspirant.kafedra ;
-   ON  Fakulty.kode = Kafedra.kode2;
- WHERE Fakulty.kolichestvo_aspirfntov_ochno = 20;
- ORDER BY Fakulty.adres, Fakulty.kolichestvo_aspirfntov_ochno,;
-  Aspirant.obrazovanie, Aspirant.kafedra, Kafedra.fio_zavkafedroy

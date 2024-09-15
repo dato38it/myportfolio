@@ -29,59 +29,6 @@ mysql> SELECT user,authentication_string,plugin,host FROM mysql.user;
 mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'tP@ssw0rd';
 mysql> \q
 Task:
-Install PostgreSQL, добавить новую учетную запись и перенести базу данных в posgresql
-Decision:
-$ sudo apt install postgresql postgresql-contrib
-$ sudo usermod -aG postgres tuser2
-$ sudo -i -u postgres
-$ psql
-# \q
-$ createuser --interactive
-Enter name of role to add: tuser2
-Shall the new role be a superuser? (y/n) y
-$ createdb tdb2
-$ exit
-$ sudo -i -u tuser2
-$ psql -U tuser2 -d tdb2
-# \password
-# GRANT ALL PRIVILEGES ON DATABASE tdb2 to tuser2;
-# GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO "tuser2";
-# ALTER DATABASE tdb2 OWNER TO tuser2;
-# GRANT pg_read_all_settings TO tuser2;
-# \conninfo
-# \l+
-# SHOW config_file;
-...
-/etc/postgresql/14/main/postgresql.conf
-# \q
-$ cat /etc/postgresql/14/main/postgresql.conf
-...
-#listen_addresses = 'localhost'       # what IP address(es) to listen on;
-...
-$ sudo vim /etc/postgresql/14/main/postgresql.conf
-$ cat /etc/postgresql/14/main/postgresql.conf
-...
-listen_addresses = 'tip, tip2'       # what IP address(es) to listen on;
-...
-$ sudo cat /etc/postgresql/14/main/pg_hba.conf
-...
-# "local" is for Unix domain socket connections only
-local all       all                   peer
-...
-$ sudo vim /etc/postgresql/14/main/pg_hba.conf
-$ sudo cat /etc/postgresql/14/main/pg_hba.conf
-...
-# "local" is for Unix domain socket connections only
-host  tdb2   tuser2      tip2/21   md5
-local all       all                   peer
-...
-$ sudo systemctl restart postgresql
-$ psql -U tuser2 -d tdb2 -h tip
-Source:
-How To Install PostgreSQL on Ubuntu 22.04 [Quickstart] - https://www.digitalocean.com/community/tutorials/how-to-install-postgresql-on-ubuntu-22-04-quickstart
-Измените пароль для выбранного пользователя - https://uchet-jkh.ru/i/kak-izmenit-parol-k-baze-dannyx-postgresql/
-Grant Role to the non-default user - https://asvignesh.in/how-to-get-the-postgresql-conf-file-location/
-Task:
 Создайте таблицу de13ma.XXXX_SALARY_HIST, где XXXX - ваш идентификатор. В таблице должна быть SCD2 версия таблицы de.HISTGROUP (поля PERSON, CLASS, SALARY, EFFECTIVE_FROM, EFFECTIVE_TO). Возьмите в работу таблицы
 de13ma.XXXX_SALARY_HIST и de.SALARY_PAYMENTS. Напишите SQL скрипт, выводящий таблицу платежей сотрудникам. В таблице должны быть поля PAYMENT_DT, PERSON, PAYMENT, MONTH_PAID, MONTH_REST. Результат выполнения сохраните в таблицу de13ma.XXXX_SALARY_LOG.
 1. MONTH_PAID - суммарно выплачено в месяце,

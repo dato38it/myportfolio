@@ -1,45 +1,96 @@
+# Установка Qemu-kvm.
+# Подключение физического диска к WSL.
+# Установка виртуальной машины Ubuntu.
 Task:
-Установить qemu-kvm.
+Установка qemu-kvm.
 Decision:
-$ egrep -c '(vmx|svm)' /proc/cpuinfo
-$ sudo apt install qemu-kvm libvirt-daemon-system virtinst libvirt-clients bridge-utils virt-manager
-$ systemctl start libvirtd
-$ systemctl enable libvirtd
-$ kvm-ok
-$ sudo usermod -aG kvm Tuser
-$ sudo usermod -aG libvirt Tuser
-$ ip link | grep virb
+root@asuswindows:/mnt/c/Windows/system32# egrep -c '(vmx|svm)' /proc/cpuinfo
+root@asuswindows:/mnt/c/Windows/system32# sudo apt install qemu-kvm libvirt-daemon-system virtinst libvirt-clients bridge-utils virt-manager
+root@asuswindows:/mnt/c/Windows/system32# systemctl start libvirtd
+root@asuswindows:/mnt/c/Windows/system32# systemctl enable libvirtd
+root@asuswindows:/mnt/c/Windows/system32# kvm-ok
+root@asuswindows:/mnt/c/Windows/system32# sudo usermod -aG kvm Tuser
+root@asuswindows:/mnt/c/Windows/system32# sudo usermod -aG libvirt Tuser
+root@asuswindows:/mnt/c/Windows/system32# ip link | grep virb
+Source:
+# https://winitpro.ru/index.php/2020/02/04/ustanovka-zapusk-kvm-v-linux-centos/
 Task:
-Установить виртуальную машину в qemu-kvm
+Подключение физического диска к WSL.
 Decision:
-$ sudo virt-install \
---name thost \
+PS C:\Users\Dato> Start-Process powershell -Verb runAs
+PS C:\Windows\system32> wmic diskdrive list brief
+Caption                               DeviceID            Model                                 Partitions  Size        
+ST1000LM 035-1RK172 SCSI Disk Device  \\.\PHYSICALDRIVE2  ST1000LM 035-1RK172 SCSI Disk Device  1           1000202273280
+...
+PS C:\Windows\system32> wsl --mount \\.\PHYSICALDRIVE2 --partition 1
+Диск успешно подключен как "/mnt/wsl/PHYSICALDRIVE2p1".
+...
+PS C:\Windows\system32> wsl
+root@asuswindows:/mnt/c/Windows/system32# ls /mnt/wsl/PHYSICALDRIVE2p1
+Centos_9.img  Ubuntu_2204.qcow2  Windows12.qcow2  ubuntu-22.04.3-desktop-amd64.iso
+Kali.qcow2    Windows.qcow2      lost+found
+root@asuswindows:/mnt/c/Windows/system32# lsblk
+NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+sda      8:0    0 388.6M  1 disk
+sdb      8:16   0     1G  0 disk [SWAP]
+sdc      8:32   0 931.5G  0 disk
+└─sdc1   8:33   0 931.5G  0 part /mnt/wsl/PHYSICALDRIVE2p1
+sdd      8:48   0   256G  0 disk /var/snap/firefox/common/host-hunspell
+                                 /snap
+                                 /mnt/wslg/distro
+                                 /
+root@asuswindows:/mnt/c/Windows/system32# mount /dev/sdc1 /var/lib/libvirt/images/
+root@asuswindows:/mnt/c/Windows/system32# ls /var/lib/libvirt/images/
+Centos_9.img  Ubuntu_2204.qcow2  Windows12.qcow2  ubuntu-22.04.3-desktop-amd64.iso
+Kali.qcow2    Windows.qcow2      lost+found
+Source:
+# Running a command as Administrator using PowerShell? - https://stackoverflow.com/questions/7690994/running-a-command-as-administrator-using-powershell
+# https://winitpro.ru/index.php/2020/02/10/virsh-upravlenie-virtualnymi-mashinami-kvm/
+# https://www.server-world.info/en/note?os=CentOS_Stream_9&p=kvm&f=1
+# https://www.server-world.info/en/note?os=CentOS_Stream_9&p=initial_conf&f=3
+# https://www.server-world.info/en/note?os=CentOS_Stream_9&p=kvm&f=2
+# https://bozza.ru/art-260.html
+Task:
+Установка виртуальной машины Ubuntu.
+Decision:
+root@asuswindows:/mnt/c/Windows/system32# virt-install \
+--name Ubuntu22 \
 --ram 2048 \
---disk path=/var/lib/libvirt/images/thost.qcow2,size=50 \
 --vcpus 2 \
+--disk path=/var/lib/libvirt/images/Ubuntu22.qcow2,size=50 \
 --os-variant ubuntu22.04 \
 --network default \
 --cdrom /var/lib/libvirt/images/ubuntu-22.04.3-desktop-amd64.iso
-$ virt-viewer --connect qemu:///system --wait thost
-Source:
-https://winitpro.ru/index.php/2020/02/10/virsh-upravlenie-virtualnymi-mashinami-kvm/
-https://winitpro.ru/index.php/2020/02/04/ustanovka-zapusk-kvm-v-linux-centos/
-https://www.server-world.info/en/note?os=CentOS_Stream_9&p=kvm&f=1
-https://www.server-world.info/en/note?os=CentOS_Stream_9&p=initial_conf&f=3
-https://www.server-world.info/en/note?os=CentOS_Stream_9&p=kvm&f=2
-https://bozza.ru/art-260.html
+root@asuswindows:/mnt/c/Windows/system32# virsh list --all
+ Id   Name         State
+-----------------------------
+ -    Ubuntu22   shut off
+root@asuswindows:/mnt/c/Windows/system32# virsh start Ubuntu22
+root@asuswindows:/mnt/c/Windows/system32# virt-viewer --connect qemu:///system --wait Ubuntu22
 Task:
 How to create snapshots of QEMU/KVM guests
 Decision:
-$ virsh snapshot-create-as thost snapshot0 --description "update+ssh"
-$ virsh snapshot-list thost
+root@asuswindows:/mnt/c/Windows/system32# virsh snapshot-create-as Ubuntu22 snapshot0 --description "update+ssh"
+root@asuswindows:/mnt/c/Windows/system32# virsh snapshot-list Ubuntu22
 Name    Creation Time       State
 --------------------------------------------------
 snapshot0 2024-03-09 09:46:33 +0800 running
+root@asuswindows:/mnt/c/Windows/system32# virt-manager
 Source:
-Creating snapshots with virsh - https://linuxconfig.org/how-to-create-snapshots-of-qemu-kvm-guests
+# https://linuxconfig.org/how-to-create-snapshots-of-qemu-kvm-guests - Creating snapshots with virsh
+Decision:
+root@asuswindows:/mnt/c/Windows/system32# umount /dev/sdc1
+root@asuswindows:/mnt/c/Windows/system32# exit
+PS C:\Windows\system32> wsl --unmount \\.\PHYSICALDRIVE2
+
+
+
+
+
 Task:
-Добавьте 2 диска по 1Гб к виртуалке. На первом диске создайте ТР MBR и 3 основных раздела по 50Мб, на втором ТР GPT и 2 раздела по 100Мб. Сохраните и покажите список разделов.
+Добавьте 2 диска по 1Гб к виртуалке. 
+На первом диске создайте ТР MBR и 3 основных раздела по 50Мб, на втором ТР GPT и 2 раздела по 100Мб. 
+Сохраните и покажите список разделов.
 Decision:
 [tuser1@thost1 Centos]#  sudo poweroff
 - VirtualBox - Настроить - Носители - Контроллер SATA - Добавить жесткий диск - Создать - 1гб - выбрать - ок - запустить

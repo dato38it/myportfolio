@@ -1,8 +1,0 @@
-SELECT Students.st_name, Abonement.book, Abonement.chitatel;
- FROM  lib_igu!abonement INNER JOIN lib_igu!chitateli;
-    INNER JOIN lib_igu!students;
-    INNER JOIN lib_igu!abonement ;
-   ON  Books.b_kode = Abonement.book ;
-   ON  Chitateli.ch_name = Students.st_kod ;
-   ON  Abonement.chitatel = Chitateli.ch_kod;
- WHERE Books.b_ostatok = 0

@@ -1,4 +1,830 @@
 Task:
+root@cloudubuntu:~# systemctl status dato38itbot.service
+× dato38itbot.service - dato38it-bot
+     Loaded: loaded (/lib/systemd/system/dato38itbot.service; enabled; vendor preset: enabled)
+     Active: failed (Result: exit-code) since Tue 2024-09-03 14:33:33 MSK; 1s ago
+    Process: 2091 ExecStart=/usr/bin/python3 /home/tuser/dato38itbot/main.py (code=exited, status=1/FAILURE)
+   Main PID: 2091 (code=exited, status=1/FAILURE)
+        CPU: 124ms
+Sep 03 14:33:33 host.net systemd[1]: dato38itbot.service: Scheduled restart job, restart counter is at 5.
+Sep 03 14:33:33 host.net systemd[1]: Stopped dato38it-bot.
+Sep 03 14:33:33 host.net systemd[1]: dato38itbot.service: Start request repeated too quickly.
+Sep 03 14:33:33 host.net systemd[1]: dato38itbot.service: Failed with result 'exit-code'.
+Sep 03 14:33:33 host.net systemd[1]: Failed to start dato38it-bot.
+Decision:
+root@kvmubuntu:~# cat /etc/systemd/system/dato38itbot.service
+[Unit]
+Description=Bot
+After=syslog.target
+After=network.target
+[Service]
+Type=simple
+User=tuser
+WorkingDirectory=/home/tuser/dato38itbot
+ExecStart=/usr/bin/python3 /home/tuser/dato38itbot/main.py
+Restart=always
+[Install]
+WantedBy=multi-user.target
+root@kvmubuntu:~# vim /etc/systemd/system/dato38itbot.service
+root@kvmubuntu:~# cat /etc/systemd/system/dato38itbot.service
+[Unit]
+Description=Telegram bot
+After=network.target
+[Service]
+ExecStart=/usr/bin/python3 /home/tuser/dato38itbot/main.py
+[Install]
+WantedBy=multi-user.target
+[Install]
+WantedBy=multi-user.target
+root@kvmubuntu:~# systemctl daemon-reload
+root@kvmubuntu:~# systemctl enable dato38itbot.service
+root@kvmubuntu:~# systemctl start dato38itbot.service
+root@kvmubuntu:~# systemctl status dato38itbot.service
+× dato38itbot.service - Telegram bot
+     Loaded: loaded (/etc/systemd/system/dato38itbot.service; enabled; vendor preset: enabled)
+     Active: failed (Result: exit-code) since Tue 2024-09-03 15:09:34 MSK; 4s ago
+    Process: 3848 ExecStart=/usr/bin/python3 /home/tuser/dato38itbot/main.py (code=exited, status=1/FAILURE)
+   Main PID: 3848 (code=exited, status=1/FAILURE)
+        CPU: 127ms
+Sep 03 15:09:33 kvmubuntu.net systemd[1]: Started Telegram bot.
+Sep 03 15:09:34 kvmubuntu.net python3[3848]: Traceback (most recent call last):
+Sep 03 15:09:34 kvmubuntu.net python3[3848]:   File "/home/tuser/dato38itbot/main.py", line 1, in <module>
+Sep 03 15:09:34 kvmubuntu.net python3[3848]:     import psycopg2
+Sep 03 15:09:34 kvmubuntu.net python3[3848]: ModuleNotFoundError: No module named 'psycopg2'
+Sep 03 15:09:34 kvmubuntu.net systemd[1]: dato38itbot.service: Main process exited, code=exited, status=1/FAILURE
+Sep 03 15:09:34 kvmubuntu.net systemd[1]: dato38itbot.service: Failed with result 'exit-code'.
+Decision:
+root@kvmubuntu:~# vim /etc/systemd/system/dato38itbot.service
+root@kvmubuntu:~# cat /etc/systemd/system/dato38itbot.service
+[Unit]
+Description=Telegram dato38it-bot
+After=network.target
+[Service]
+User=tuser
+Group=tuser
+WorkingDirectory=/home/tuser/dato38itbot/
+VIRTUAL_ENV=/home/tuser/dato38itbot/telegaenv
+Environment=PATH=$VIRTUAL_ENV/bin:$PATH
+ExecStart=/home/tuser/dato38itbot/telegaenv/bin/python /home/tuser/dato38itbot/main.py
+Restart=on-failure
+[Install]
+WantedBy=multi-user.target
+root@kvmubuntu:~# systemctl daemon-reload
+root@kvmubuntu:~# systemctl enable dato38itbot.service
+root@kvmubuntu:~# systemctl start dato38itbot.service
+root@kvmubuntu:~# systemctl status dato38itbot.service
+Task:
+root@kvmubuntu:~# tripwire --check | mail -s "Tripwire report for `uname -n`" tmail38@mail.ru
+mail: cannot send message: Process exited with a non-zero status
+root@kvmubuntu:~# cat /var/log/mail.err
+...
+Aug 17 23:22:26 kvmubuntu postfix/sendmail[2833]: fatal: open /etc/postfix/main.cf: No such file or directory
+Decision:
+root@kvmubuntu:~# dpkg-reconfigure postfix
+...
+  1. No configuration  2. Internet Site  3. Internet with smarthost  4. Satellite system  5. Local only
+General mail configuration type: 2
+...
+System mail name: tmail38@mail.ru
+...
+Recipient for root and postmaster mail: tuser
+...
+Other destinations to accept mail for (blank for none): mail.ru
+...
+Force synchronous updates on mail queue? [yes/no] yes
+...
+Local networks: 192.168.122.5
+...
+Mailbox size limit (bytes): 
+...
+Local address extension character: 
+ all : use both IPv4 and IPv6 addresses;
+ ipv6: listen only on IPv6 addresses;
+ ipv4: listen only on IPv4 addresses.
+  1. all  2. ipv6  3. ipv4
+...
+Internet protocols to use: 1
+root@kvmubuntu:~# systemctl reload postfix
+root@kvmubuntu:~# tripwire --check | mail -s "Tripwire report for `uname -n`" tmail38@mail.ru
+Task:
+root@kvmubuntu:~# tripwire --init
+Please enter your local passphrase:
+Parsing policy file: /etc/tripwire/tw.pol
+Generating the database...
+*** Processing Unix File System ***
+### Warning: File system error.
+### Filename: /var/lib/tripwire/kvmubuntu.twd
+### No such file or directory
+### Continuing...
+'''### Warning: File system error.
+### Filename: /etc/rc.boot
+### No such file or directory
+### Continuing...'''
+The object: "/boot/efi" is on a different file system...ignoring.
+'''### Warning: File system error.
+### Filename: /root/mail
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /root/Mail
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /root/.xsession-errors
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /root/.xauth
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /root/.tcshrc
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /root/.sawfish
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /root/.pinerc
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /root/.mc
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /root/.gnome_private
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /root/.gnome-desktop
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /root/.gnome
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /root/.esd_auth
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /root/.elm
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /root/.cshrc
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /root/.bash_profile
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /root/.bash_logout
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /root/.amandahosts
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /root/.addressbook.lu
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /root/.addressbook
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /root/.Xresources
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /root/.Xauthority
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /root/.ICEauthority
+### No such file or directory
+### Continuing...'''
+The object: "/dev/hugepages" is on a different file system...ignoring.
+The object: "/dev/mqueue" is on a different file system...ignoring.
+The object: "/dev/pts" is on a different file system...ignoring.
+The object: "/dev/shm" is on a different file system...ignoring.
+### Warning: File system error.
+### Filename: /proc/23977/fd/4
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /proc/23977/fdinfo/4
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /proc/23977/task/23977/fd/4
+### No such file or directory
+### Continuing...
+### Warning: File system error.
+### Filename: /proc/23977/task/23977/fdinfo/4
+### No such file or directory
+### Continuing...
+The object: "/proc/sys/fs/binfmt_misc" is on a different file system...ignoring.
+Wrote database file: /var/lib/tripwire/kvmubuntu.twd
+The database was successfully generated.
+Decision:
+root@kvmubuntu:~# vim /etc/tripwire/twpol.txt
+root@kvmubuntu:~# cat /etc/tripwire/twpol.txt
+...
+{
+        #/var/lock              -> $(SEC_CONFIG) ;
+        #/var/run               -> $(SEC_CONFIG) ; # daemon PIDs
+        /var/log                -> $(SEC_CONFIG) ;
+}
+...
+{
+        /root                           -> $(SEC_CRIT) ; # Catch all additions to /root
+        #/root/mail                     -> $(SEC_CONFIG) ;
+        #/root/Mail                     -> $(SEC_CONFIG) ;
+        #/root/.xsession-errors         -> $(SEC_CONFIG) ;
+        #/root/.xauth                   -> $(SEC_CONFIG) ;
+        #/root/.tcshrc                  -> $(SEC_CONFIG) ;
+        #/root/.sawfish                 -> $(SEC_CONFIG) ;
+        #/root/.pinerc                  -> $(SEC_CONFIG) ;
+        #/root/.mc                      -> $(SEC_CONFIG) ;
+        #/root/.gnome_private           -> $(SEC_CONFIG) ;
+        #/root/.gnome-desktop           -> $(SEC_CONFIG) ;
+        #/root/.gnome                   -> $(SEC_CONFIG) ;
+        #/root/.esd_auth                        -> $(SEC_CONFIG) ;
+        #/root/.elm                     -> $(SEC_CONFIG) ;
+        #/root/.cshrc                   -> $(SEC_CONFIG) ;
+        /root/.bashrc                   -> $(SEC_CONFIG) ;
+        #/root/.bash_profile            -> $(SEC_CONFIG) ;
+        #/root/.bash_logout             -> $(SEC_CONFIG) ;
+        /root/.bash_history             -> $(SEC_CONFIG) ;
+        #/root/.amandahosts             -> $(SEC_CONFIG) ;
+        #/root/.addressbook.lu          -> $(SEC_CONFIG) ;
+        #/root/.addressbook             -> $(SEC_CONFIG) ;
+        #/root/.Xresources              -> $(SEC_CONFIG) ;
+        #/root/.Xauthority              -> $(SEC_CONFIG) -i ; # Changes Inode number on login
+        #/root/.ICEauthority                -> $(SEC_CONFIG) ;
+}
+...
+{
+        /dev            -> $(Device) ;
+        /dev/pts        -> $(Device) ;
+        #/proc          -> $(Device) ;
+        /proc/devices   -> $(Device) ;
+        /proc/net       -> $(Device) ;
+        /proc/tty       -> $(Device) ;
+        /proc/sys       -> $(Device) ;
+        /proc/cpuinfo   -> $(Device) ;
+        /proc/modules   -> $(Device) ;
+        /proc/mounts    -> $(Device) ;
+        /proc/dma       -> $(Device) ;
+        /proc/filesystems       -> $(Device) ;
+        /proc/interrupts        -> $(Device) ;
+        /proc/ioports   -> $(Device) ;
+        /proc/scsi      -> $(Device) ;
+        /proc/kcore     -> $(Device) ;
+        /proc/self      -> $(Device) ;
+        /proc/kmsg      -> $(Device) ;
+        /proc/stat      -> $(Device) ;
+        /proc/loadavg   -> $(Device) ;
+        /proc/uptime    -> $(Device) ;
+        /proc/locks     -> $(Device) ;
+        /proc/meminfo   -> $(Device) ;
+        /proc/misc      -> $(Device) ;
+}
+...
+root@kvmubuntu:~# twadmin -m P /etc/tripwire/twpol.txt
+root@kvmubuntu:~# tripwire --init
+Source:
+# https://stackoverflow.com/questions/12867573/searching-from-end-of-file-using-vim - Базовый поиск.
+# https://www.8host.com/blog/ispolzovanie-tripwire-dlya-obnaruzheniya-vtorzhenij-na-server-ubuntu/ - Настройка файла политики в соответствии с системой.
+Task:
+root@kvmubuntu:~# logwatch --detail Low --range today
+/var/cache/logwatch No such file or directory at /usr/sbin/logwatch line 651.
+Decision:
+root@kvmubuntu:~# mkdir /var/cache/logwatch
+root@kvmubuntu:~# logwatch --detail Low --range today
+Task:
+root@asusWindows:/home/tuser/github/TelegramBotDictionary# python3 pyMenuTranslator.py
+Введите текст, который вы хотите перевести: Вчера я забронировал у вас номер в отеле.
+Traceback (most recent call last):
+  File "/home/tuser/github/TelegramBotDictionary/pyMenuTranslator.py", line 35, in <module>
+    print(fun("translator","back","translate","list","term"))
+  File "/home/tuser/github/TelegramBotDictionary/pyMenuTranslator.py", line 16, in fun
+    translation=t4.translate(cmd3)
+  File "/usr/local/lib/python3.10/dist-packages/translate/translate.py", line 45, in translate
+    return ' '.join(self.provider.get_translation(text_wraped) for text_wraped in text_list)
+  File "/usr/local/lib/python3.10/dist-packages/translate/translate.py", line 45, in <genexpr>
+    return ' '.join(self.provider.get_translation(text_wraped) for text_wraped in text_list)
+  File "/usr/local/lib/python3.10/dist-packages/translate/providers/mymemory_translated.py", line 42, in get_translation
+    data = self._make_request(text)
+  File "/usr/local/lib/python3.10/dist-packages/translate/providers/mymemory_translated.py", line 38, in _make_request
+    response = requests.get(self.base_url, params=params, headers=self.headers)
+  File "/usr/lib/python3/dist-packages/requests/api.py", line 76, in get
+    return request('get', url, params=params, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/api.py", line 61, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 530, in request
+    prep = self.prepare_request(req)
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 458, in prepare_request
+    p.prepare(
+  File "/usr/lib/python3/dist-packages/requests/models.py", line 316, in prepare
+    self.prepare_url(url, params)
+  File "/usr/lib/python3/dist-packages/requests/models.py", line 434, in prepare_url
+    enc_params = self._encode_params(params)
+  File "/usr/lib/python3/dist-packages/requests/models.py", line 104, in _encode_params
+    v.encode('utf-8') if isinstance(v, str) else v))
+UnicodeEncodeError: 'utf-8' codec can't encode character '\udcd1' in position 15: surrogates not allowed
+Decision:
+root@asusWindows:/home/tuser/github/TelegramBotDictionary# vim pyMenuTranslator.py
+root@asusWindows:/home/tuser/github/TelegramBotDictionary# cat pyMenuTranslator.py
+...
+                elif cmd2 == t2:
+                    cmd3 = input("Введите текст, который вы хотите перевести: ")
+                    t4=Translator(from_lang="russian", to_lang="english")
+                    translation=t4.translate(cmd3)
+                    #print(translation)
+                    print(translation.encode('utf-8', 'replace').decode())
+                else:
+                    print("Я такую команду не знаю")
+...
+root@asusWindows:/home/tuser/github/TelegramBotDictionary# python3 pyMenuTranslator.py
+Введите текст, который вы хотите перевести: Вчера я забронировал у вас номер в отеле.
+Tom booked a room at the hotel
+Source:
+# Python 3: os.walk () пути к файлам UnicodeEncodeError: кодек 'utf-8' не может кодировать: суррогаты не разрешены - https://stackoverflow.com/questions/27366479/python-3-os-walk-file-paths-unicodeencodeerror-utf-8-codec-cant-encode-s
+Task:
+$ google-chrome dato138it.ru
+Internal Server Error
+The server encountered an internal error or misconfiguration and was unable to complete your request.
+Please contact the server administrator at admin@dato138it.ru to inform them of the time this error occurred, and the actions you performed just before this error.
+More information about this error may be available in the server error log.
+Apache/2.4.52 (Ubuntu) Server at dato138it.ru Port 80
+$ su -
+root@kvmubuntu:~# cat /var/log/apache2/dato138it.ru_error.log
+...
+[Wed Jul 31 14:45:00.895933 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808]
+[Wed Jul 31 14:45:00.895935 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808] During handling of the above exception, another exception occurred:
+[Wed Jul 31 14:45:00.895937 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808]
+[Wed Jul 31 14:45:00.895940 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808] Traceback (most recent call last):
+[Wed Jul 31 14:45:00.895960 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808]   File "/var/www/dato138it/djangoenv/lib/python3.10/site-packages/django/core/handlers/wsgi.py", line 124, in __call__
+[Wed Jul 31 14:45:00.895963 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808]     response = self.get_response(request)
+[Wed Jul 31 14:45:00.895966 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808]   File "/var/www/dato138it/djangoenv/lib/python3.10/site-packages/django/core/handlers/base.py", line 140, in get_response
+[Wed Jul 31 14:45:00.895968 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808]     response = self._middleware_chain(request)
+[Wed Jul 31 14:45:00.895971 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808]   File "/var/www/dato138it/djangoenv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 57, in inner
+[Wed Jul 31 14:45:00.895974 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808]     response = response_for_exception(request, exc)
+[Wed Jul 31 14:45:00.895977 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808]   File "/var/www/dato138it/djangoenv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 140, in response_for_exception
+[Wed Jul 31 14:45:00.895982 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808]     response = handle_uncaught_exception(
+[Wed Jul 31 14:45:00.895985 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808]   File "/var/www/dato138it/djangoenv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 181, in handle_uncaught_exception
+[Wed Jul 31 14:45:00.895988 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808]     return debug.technical_500_response(request, *exc_info)
+[Wed Jul 31 14:45:00.895991 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808]   File "/var/www/dato138it/djangoenv/lib/python3.10/site-packages/django/views/debug.py", line 69, in technical_500_response
+[Wed Jul 31 14:45:00.895993 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808]     html = reporter.get_traceback_html()
+[Wed Jul 31 14:45:00.895996 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808]   File "/var/www/dato138it/djangoenv/lib/python3.10/site-packages/django/views/debug.py", line 428, in get_traceback_html
+[Wed Jul 31 14:45:00.895999 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808]     c = Context(self.get_traceback_data(), use_l10n=False)
+[Wed Jul 31 14:45:00.896002 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808]   File "/var/www/dato138it/djangoenv/lib/python3.10/site-packages/django/views/debug.py", line 397, in get_traceback_data
+[Wed Jul 31 14:45:00.896004 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808]     "settings": self.filter.get_safe_settings(),
+[Wed Jul 31 14:45:00.896008 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808]   File "/var/www/dato138it/djangoenv/lib/python3.10/site-packages/django/views/debug.py", line 156, in get_safe_settings
+[Wed Jul 31 14:45:00.896010 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808]     settings_dict[k] = self.cleanse_setting(k, getattr(settings, k))
+[Wed Jul 31 14:45:00.896013 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808]   File "/var/www/dato138it/djangoenv/lib/python3.10/site-packages/django/conf/__init__.py", line 98, in __getattr__
+[Wed Jul 31 14:45:00.896016 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808]     raise ImproperlyConfigured("The SECRET_KEY setting must not be empty.")  
+[Wed Jul 31 14:45:00.896020 2024] [wsgi:error] [pid 671:tid 140298900985408] [remote 90.188.240.23:4808] django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.
+Decision:
+tuser@kvmubuntu:~$ source /var/www/dato138it/djangoenv/bin/activate
+tuser@kvmubuntu:~$ python /var/www/dato138it/manage.py runserver dato138it.ru:8000 &
+tuser@kvmubuntu:~$ vim /var/www/dato138it/dato138it/settings.py
+tuser@kvmubuntu:~$ cat /var/www/dato138it/dato138it/settings.py
+...
+#SECRET_KEY = os.getenv('DJANGO_KEY')
+SECRET_KEY = str(os.getenv('DJANGO_KEY'))
+...
+tuser@kvmubuntu:~$ source /var/www/dato138it/djangoenv/bin/activate
+tuser@kvmubuntu:~$ python /var/www/dato138it/manage.py runserver dato138it.ru:8000 &
+tuser@kvmubuntu:~$ su -
+root@kvmubuntu:~# reboot
+Task:
+(pyenv) tuser@kvmubuntu:~$ python dato138it/manage.py runserver tipubuntu:8000 &
+ Traceback (most recent call last):
+  File "/home/tuser/pyenv/lib/python3.10/site-packages/django/core/management/base.py", line 413, in run_from_argv
+    self.execute(*args, **cmd_options)
+  File "/home/tuser/pyenv/lib/python3.10/site-packages/django/core/management/commands/runserver.py", line 74, in execute
+    super().execute(*args, **options)
+  File "/home/tuser/pyenv/lib/python3.10/site-packages/django/core/management/base.py", line 459, in execute
+    output = self.handle(*args, **options)
+  File "/home/tuser/pyenv/lib/python3.10/site-packages/django/core/management/commands/runserver.py", line 81, in handle
+    if not settings.DEBUG and not settings.ALLOWED_HOSTS:
+  File "/home/tuser/pyenv/lib/python3.10/site-packages/django/conf/__init__.py", line 89, in __getattr__
+    self._setup(name)
+  File "/home/tuser/pyenv/lib/python3.10/site-packages/django/conf/__init__.py", line 76, in _setup
+    self._wrapped = Settings(settings_module)
+  File "/home/tuser/pyenv/lib/python3.10/site-packages/django/conf/__init__.py", line 190, in __init__
+    mod = importlib.import_module(self.SETTINGS_MODULE)
+  File "/usr/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/tuser/dato138it/dato138it/settings.py", line 14, in <module>
+    from dotenv import load_dotenv
+ModuleNotFoundError: No module named 'dotenv'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+  File "/home/tuser/dato138it/manage.py", line 22, in <module>
+    main()
+  File "/home/tuser/dato138it/manage.py", line 18, in main
+    execute_from_command_line(sys.argv)
+  File "/home/tuser/pyenv/lib/python3.10/site-packages/django/core/management/__init__.py", line 442, in execute_from_command_line
+    utility.execute()
+  File "/home/tuser/pyenv/lib/python3.10/site-packages/django/core/management/__init__.py", line 436, in execute
+    self.fetch_command(subcommand).run_from_argv(self.argv)
+  File "/home/tuser/pyenv/lib/python3.10/site-packages/django/core/management/base.py", line 426, in run_from_argv
+    connections.close_all()
+  File "/home/tuser/pyenv/lib/python3.10/site-packages/django/utils/connection.py", line 84, in close_all
+    for conn in self.all(initialized_only=True):
+  File "/home/tuser/pyenv/lib/python3.10/site-packages/django/utils/connection.py", line 76, in all
+    return [
+  File "/home/tuser/pyenv/lib/python3.10/site-packages/django/utils/connection.py", line 73, in __iter__
+    return iter(self.settings)
+  File "/home/tuser/pyenv/lib/python3.10/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/tuser/pyenv/lib/python3.10/site-packages/django/utils/connection.py", line 45, in settings
+    self._settings = self.configure_settings(self._settings)
+  File "/home/tuser/pyenv/lib/python3.10/site-packages/django/db/utils.py", line 148, in configure_settings
+    databases = super().configure_settings(databases)
+  File "/home/tuser/pyenv/lib/python3.10/site-packages/django/utils/connection.py", line 50, in configure_settings
+    settings = getattr(django_settings, self.settings_name)
+  File "/home/tuser/pyenv/lib/python3.10/site-packages/django/conf/__init__.py", line 89, in __getattr__
+    self._setup(name)
+  File "/home/tuser/pyenv/lib/python3.10/site-packages/django/conf/__init__.py", line 76, in _setup
+    self._wrapped = Settings(settings_module)
+  File "/home/tuser/pyenv/lib/python3.10/site-packages/django/conf/__init__.py", line 190, in __init__
+    mod = importlib.import_module(self.SETTINGS_MODULE)
+  File "/usr/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+Django==5.0.2
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/tuser/dato138it/dato138it/settings.py", line 14, in <module>
+    from dotenv import load_dotenv
+ModuleNotFoundError: No module named 'dotenv
+Decision:
+tuser@kvmubuntu:~$ pip install python-dotenv==1.0.1
+tuser@kvmubuntu:~$ python dato138it/manage.py runserver tipubuntu:8000 &
+Task:
+tuser@kvmubuntu:~$ python dato138it/manage.py runserver tipubuntu:8000 &
+Watching for file changes with StatReloader
+Performing system checks...
+System check identified no issues (0 silenced).
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.10/threading.py", line 953, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/core/management/commands/runserver.py", line 136, in inner_run
+    self.check_migrations()
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/core/management/base.py", line 581, in check_migrations
+    executor = MigrationExecutor(connections[DEFAULT_DB_ALIAS])
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/db/migrations/executor.py", line 18, in __init__
+    self.loader = MigrationLoader(self.connection)
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/db/migrations/loader.py", line 58, in __init__
+    self.build_graph()
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/db/migrations/loader.py", line 229, in build_graph
+    self.load_disk()
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/db/migrations/loader.py", line 120, in load_disk
+    migration_module = import_module(migration_path)
+  File "/usr/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/tuser/dato138it/portfolio/migrations/0010_rename_title_portfolio_progress_and_more.py", line 3, in <module>
+    import ckeditor_uploader.fields
+ModuleNotFoundError: No module named 'ckeditor_uploader'
+Decision:
+tuser@kvmubuntu:~$ pip install django-ckeditor==6.7.1
+tuser@kvmubuntu:~$ python dato138it/manage.py runserver tipubuntu:8000 &
+Task:
+tuser@kvmubuntu:~$ python dato138it/manage.py runserver tipubuntu:8000 &
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/db/backends/postgresql/base.py", line 25, in <module>
+    import psycopg as Database
+ModuleNotFoundError: No module named 'psycopg'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/db/backends/postgresql/base.py", line 27, in <module>
+    import psycopg2 as Database
+ModuleNotFoundError: No module named 'psycopg2'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.10/threading.py", line 953, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/core/management/commands/runserver.py", line 125, in inner_run
+    autoreload.raise_last_exception()
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/utils/autoreload.py", line 87, in raise_last_exception
+    raise _exception[1]
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/core/management/__init__.py", line 394, in execute
+    autoreload.check_errors(django.setup)()
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/__init__.py", line 24, in setup
+    apps.populate(settings.INSTALLED_APPS)
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/apps/registry.py", line 116, in populate
+    app_config.import_models()
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/apps/config.py", line 269, in import_models
+    self.models_module = import_module(models_module_name)
+  File "/usr/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/contrib/auth/models.py", line 3, in <module>
+    from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/contrib/auth/base_user.py", line 59, in <module>
+    class AbstractBaseUser(models.Model):
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/db/models/base.py", line 143, in __new__
+    new_class.add_to_class("_meta", Options(meta, app_label))
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/db/models/base.py", line 371, in add_to_class
+    value.contribute_to_class(cls, name)
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/db/models/options.py", line 243, in contribute_to_class
+    self.db_table, connection.ops.max_name_length()
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/utils/connection.py", line 15, in __getattr__
+    return getattr(self._connections[self._alias], item)
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/utils/connection.py", line 62, in __getitem__
+    conn = self.create_connection(alias)
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/db/utils.py", line 193, in create_connection
+    backend = load_backend(db["ENGINE"])
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/db/utils.py", line 113, in load_backend
+    return import_module("%s.base" % backend_name)
+  File "/usr/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/db/backends/postgresql/base.py", line 29, in <module>
+    raise ImproperlyConfigured("Error loading psycopg2 or psycopg module")
+django.core.exceptions.ImproperlyConfigured: Error loading psycopg2 or psycopg module
+Decision:
+tuser@kvmubuntu:~$ pip install psycopg2-binary==2.9.9
+tuser@kvmubuntu:~$ python dato138it/manage.py runserver tipubuntu:8000 &
+Task:
+tuser@kvmubuntu:~$ python dato138it/manage.py runserver tipubuntu:8000 &
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.10/threading.py", line 953, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/core/management/commands/runserver.py", line 125, in inner_run
+    autoreload.raise_last_exception()
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/utils/autoreload.py", line 87, in raise_last_exception
+    raise _exception[1]
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/core/management/__init__.py", line 394, in execute
+    autoreload.check_errors(django.setup)()
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/__init__.py", line 24, in setup
+    apps.populate(settings.INSTALLED_APPS)
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/apps/registry.py", line 91, in populate
+    app_config = AppConfig.create(entry)
+  File "/home/tuser/pyenvtest/lib/python3.10/site-packages/django/apps/config.py", line 193, in create
+    import_module(entry)
+Django==5.0.2
+  File "/usr/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1004, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'django_ckeditor_5'
+Decision:
+tuser@kvmubuntu:~$ pip install django-ckeditor-5==0.2.12
+tuser@kvmubuntu:~$ python dato138it/manage.py runserver tipubuntu:8000 &
+Task:
+tuser@kvmubuntu:~$ python dato138it/manage.py runserver tipubuntu:8000
+Traceback (most recent call last):
+  File "/home/tuser/dato138it/manage.py", line 11, in main
+    from django.core.management import execute_from_command_line
+ModuleNotFoundError: No module named 'django'
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/home/tuser/dato138it/manage.py", line 22, in <module>
+    main()
+  File "/home/tuser/dato138it/manage.py", line 13, in main
+    raise ImportError(
+ImportError: Couldn't import Django. Are you sure it's installed and available on your PYTHONPATH environment variable? Did you forget to activate a virtual environment?
+Decision:
+tuser@kvmubuntu:~$ pip install Django==5.0.2
+tuser@kvmubuntu:~$ python dato138it/manage.py runserver tipubuntu:8000
+Task:
+tuser@kvmubuntu:~$ python -m venv pyenv
+The virtual environment was not created successfully because ensurepip is not
+available.  On Debian/Ubuntu systems, you need to install the python3-venv
+package using the following command.
+    apt install python3.10-venv
+You may need to use sudo with that command.  After installing the python3-venv
+package, recreate your virtual environment.
+Failing command: /home/tuser/pyenv/bin/python
+Decision:
+tuser@kvmubuntu:~$ sudo apt install python3.10-venv
+tuser@kvmubuntu:~$ python -m venv pyenv
+Task:
+root@asusWindows:/home/tuser# ssh tuser@tipubuntu
+tuser@kvmubuntu:~$ google-chrome
+[1397:1397:0728/061423.836331:ERROR:ozone_platform_x11.cc(244)] Missing X server or $DISPLAY
+[1397:1397:0728/061423.836375:ERROR:env.cc(258)] The platform failed to initialize.  Exiting.
+Decision:
+root@asusWindows:/home/tuser# ssh -X tuser@tipubuntu
+tuser@kvmubuntu:~$ google-chrome
+Task:
+Уведомление от сайта tproject
+Couldnt upload file: Снимок экрана 2024-07-18 215309.png
+Decision:
+$ ls -l /var/www/kvmubuntu/
+...
+  drwxr-xr-x. 2 root  root    4096 Jul 16 15:13 media
+...
+$ chown -R tuser:tuser /var/www/kvmubuntu/media/
+$ chmod 757 /var/www/kvmubuntu/media
+$ ls -l /var/www/kvmubuntu/
+..
+drwxr-xrwx. 2 root  root    4096 Jul 20 06:26 media
+...
+Task:
+$ google-chrome http://tproject.ru:80
+504 Gateway Timeout
+Gateway Timeout
+The gateway did not receive a timely response from the upstream server or application.
+Apache/2.4.52 (Ubuntu) Server at tproject.ru Port 80
+$ google-chrome http://tproject.ru:80
+503 Service Unavailable
+Service Unavailable
+The server is temporarily unable to service your request due to maintenance downtime or capacity problems. Please try again later.
+Apache/2.4.52 (Ubuntu) Server at tproject.ru Port 80
+Decision:
+$ sudo cp -r /home/tuser/pyenv /var/www/kvmubuntu
+$ sudo vim /etc/apache2/sites-available/kvmubuntu.conf
+$ cat /etc/apache2/sites-available/kvmubuntu.conf | grep pyenv
+    WSGIDaemonProcess tproject python-path=/var/www/kvmubuntu python-home=/var/www/kvmubuntu/pyenv
+$ sudo a2ensite kvmubuntu.conf
+$ sudo systemctl reload apache2
+$ google-chrome http://tproject.ru/contents/
+Source:
+# https://www.linuxtuto.com/how-to-install-django-with-apache-on-ubuntu-22-04/ - How to Install Django with Apache on Ubuntu 22.04
+Task:
+# systemctl reload apache2
+sintax error WSGIDaemonProcess tproject python-path=/home/tuser/tproject/backend python-home=/home/tuser/pyenv
+Decision:
+# apt install libapache2-mod-wsgi-py3 libmysqlclient-dev
+# systemctl reload apache2
+Task:
+$ testdisk
+TestDisk 7.1, Data Recovery Utility, July 2019
+Christophe GRENIER <grenier@cgsecurity.org>
+https://www.cgsecurity.org
+TestDisk need 24 lines to work.
+Please enlarge the terminal and restart TestDisk.
+Decision:
+- Drag the window to make it bigger.
+Source:
+# https://forum.endeavouros.com/t/solved-problem-with-testdisk/5495 - Problem with Testdisk
+Task:
+PS C:\Windows\system32> wsl --mount \\.\PHYSICALDRIVE2 --partition 1
+PS Microsoft.PowerShell.Core\FileSystem::\\wsl.localhost\Ubuntu-22.04\home\tuser> wsl
+Welcome to Ubuntu 22.04.4 LTS (GNU/Linux 5.15.153.1-microsoft-standard-WSL2 x86_64)
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+This message is shown once a day. To disable it please create the
+/root/.hushlogin file.
+root@thost:/home/tuser# ls /var/lib/libvirt/images/
+root@thost:/home/tuser# lsblk
+NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+sda      8:0    0 388.6M  1 disk
+sdb      8:16   0     1G  0 disk [SWAP]
+sdc      8:32   0 931.5G  0 disk
+└─sdc1   8:33   0 931.5G  0 part /mnt/wsl/PHYSICALDRIVE2p1
+sdd      8:48   0   256G  0 disk /var/snap/firefox/common/host-hunspell
+                                 /snap
+                                 /mnt/wslg/distro
+                                 /
+root@thost:/home/tuser# mount /dev/sdc1 /var/lib/libvirt/images/
+root@thost:/home/tuser# ls /var/lib/libvirt/images/
+Centos_9.img  Kali.qcow2  Ubuntu_2204.qcow2  Windows.qcow2  Windows12.qcow2  lost+found  ubuntu-22.04.3-desktop-amd64.iso
+root@thost:/home/tuser# virsh start Ubuntu2204
+error: Failed to start domain 'Ubuntu2204'
+error: Cannot access storage file '/var/lib/libvirt/images/Ubuntu_2204.qcow2' (as uid:64055, gid:109): No such file or directory
+В начале, я показываю, вам как я подключаюсь к виртуальной машине. У меня Винда 11, подключаюсь я к wsl2. Так как образы виртуальных машин находятся на другом физическом диске, я подключаю через утилиту wsl диск, и потом уже монтирую в нужный каталог. Но когда я запускаю виртуальную машину, он выдает мне ошибку, в конце я вам ее показал.
+Decision:
+- Запустить через PowerShell
+Task:
+$ python main.py
+Traceback (most recent call last):
+  File "/home/tuser/TelegramBotAiogram4/main.py", line 17, in <module>
+    asyncio.run(main())
+  File "/usr/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/usr/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/home/tuser/TelegramBotAiogram4/main.py", line 8, in main
+    await async_main()
+  File "/home/tuser/TelegramBotAiogram4/app/database/models.py", line 30, in async_main
+    async with engine.begin() as conn:
+  File "/usr/lib/python3.10/contextlib.py", line 199, in __aenter__
+    return await anext(self.gen)
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/sqlalchemy/ext/asyncio/engine.py", line 1063, in begin
+    async with conn:
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/sqlalchemy/ext/asyncio/base.py", line 121, in __aenter__
+    return await self.start(is_ctxmanager=True)
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/sqlalchemy/ext/asyncio/engine.py", line 273, in start
+    await greenlet_spawn(self.sync_engine.connect)
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 3276, in connect
+    return self._connection_cls(self)
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 146, in __init__
+    self._dbapi_connection = engine.raw_connection()
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 3300, in raw_connection
+    return self.pool.connect()
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 449, in connect
+    return _ConnectionFairy._checkout(self)
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 1263, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 712, in checkout
+    rec = pool._do_get()
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/sqlalchemy/pool/impl.py", line 179, in _do_get
+    with util.safe_reraise():
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/sqlalchemy/pool/impl.py", line 177, in _do_get
+    return self._create_connection()
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 390, in _create_connection
+    return _ConnectionRecord(self)
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 674, in __init__
+    self.__connect()
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 900, in __connect
+    with util.safe_reraise():
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/sqlalchemy/engine/create.py", line 643, in connect
+    return dialect.connect(*cargs, **cparams)
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 620, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 937, in connect
+    await_only(creator_fn(*arg, **kw)),
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 131, in await_only
+    return current.driver.switch(awaitable)  # type: ignore[no-any-return]
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/asyncpg/connection.py", line 2329, in connect
+    return await connect_utils._connect(
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/asyncpg/connect_utils.py", line 991, in _connect
+    conn = await _connect_addr(
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/asyncpg/connect_utils.py", line 828, in _connect_addr
+    return await __connect_addr(params, True, *args)
+  File "/home/tuser/Projects/pyenv/lib/python3.10/site-packages/asyncpg/connect_utils.py", line 876, in __connect_addr
+    await connected
+asyncpg.exceptions.InvalidCatalogNameError: database "tuser:tpassword@tipubuntu/shop" does not exist
+Decision:
+$ cat .env
+...
+SQLALCHEMY_URL=postgresql+asyncpg:///tuser:tpassword@tipubuntu:5432/tdb
+$ vim .env
+$ cat .env
+...
+SQLALCHEMY_URL=postgresql+asyncpg://tuser:tpassword@tipubuntu:5432/tdb
+$ python main.py
+Source:
+# https://qna.habr.com/q/1356304 - Как перенести из sqlite3 в Postgresql?
+Task:
 $ google-chrome http://tipubuntu/phpmyadmin/
 This page isn’t workingtipubuntu is currently unable to handle this request.
 HTTP ERROR 500
@@ -929,17 +1755,17 @@ may 10 14:53:04 thost systemd[1]: ssh.service: Failed with result 'exit-code'.
 may 10 14:53:04 thost systemd[1]: Failed to start OpenBSD Secure Shell server.
 $ sudo journalctl -e
 may 10 14:53:04 thost systemd[1]: Failed to start OpenBSD Secure Shell server.
-may 10 14:53:16 thost sudo[2646]:   dato : TTY=pts/0 ; PWD=/home/dato ; USER=root ; COMMAND=/usr/bin/systemctl status sshd
-may 10 14:53:16 thost sudo[2646]: pam_unix(sudo:session): session opened for user root(uid=0) by dato(uid=1002)
+may 10 14:53:16 thost sudo[2646]:   tuser : TTY=pts/0 ; PWD=/home/tuser ; USER=root ; COMMAND=/usr/bin/systemctl status sshd
+may 10 14:53:16 thost sudo[2646]: pam_unix(sudo:session): session opened for user root(uid=0) by tuser(uid=1002)
 may 10 14:53:55 thost sudo[2646]: pam_unix(sudo:session): session closed for user root
-may 10 14:54:37 thost sudo[2656]:   dato : TTY=pts/0 ; PWD=/home/dato ; USER=root ; COMMAND=/usr/bin/journalctl -eu sshd
-may 10 14:54:37 thost sudo[2656]: pam_unix(sudo:session): session opened for user root(uid=0) by dato(uid=1002)
+may 10 14:54:37 thost sudo[2656]:   tuser : TTY=pts/0 ; PWD=/home/tuser ; USER=root ; COMMAND=/usr/bin/journalctl -eu sshd
+may 10 14:54:37 thost sudo[2656]: pam_unix(sudo:session): session opened for user root(uid=0) by tuser(uid=1002)
 may 10 14:54:38 thost sudo[2656]: pam_unix(sudo:session): session closed for user root
 may 10 14:55:02 thost CRON[2662]: pam_unix(cron:session): session opened for user root(uid=0) by (uid=0)
 may 10 14:55:02 thost CRON[2664]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
 may 10 14:55:02 thost CRON[2662]: pam_unix(cron:session): session closed for user root
-may 10 14:55:06 thost sudo[2666]:   dato : TTY=pts/0 ; PWD=/home/dato ; USER=root ; COMMAND=/usr/bin/journalctl -e
-may 10 14:55:06 thost sudo[2666]: pam_unix(sudo:session): session opened for user root(uid=0) by dato(uid=1002)
+may 10 14:55:06 thost sudo[2666]:   tuser : TTY=pts/0 ; PWD=/home/tuser ; USER=root ; COMMAND=/usr/bin/journalctl -e
+may 10 14:55:06 thost sudo[2666]: pam_unix(sudo:session): session opened for user root(uid=0) by tuser(uid=1002)
 Decision:
 $ sudo semanage port -a -t ssh_port_t -p tcp tport
 $ sudo systemctl restart sshd
@@ -1004,7 +1830,7 @@ DRF & React Portfolio Website - https://www.youtube.com/playlist?list=PLPSM8rIid
 Task:
 $ npm start
 ...
-Proxy error: Could not proxy request /place from localhost:3000 to http://cloudubuntu:8000.
+Proxy error: Could not proxy request /place from localhost:3000 to http://kvmubuntu:8000.
 See https://nodejs.org/api/errors.html#errors_common_system_errors for more information (ECONNREFUSED).
 Decision:
 $ deactivate
@@ -1994,3 +2820,10 @@ self.tk = _tkinter.create(screenName, baseName, className, interactive, wantobje
 _tkinter.TclError: no display name and no $DISPLAY environment variable
 $ export DISPLAY=:0.0
 $ idle
+Task:
+# dnf -y install kernel-devel-$(uname -r)
+    Last metadata expiration check: 0:52:33 ago on Thu 14 May 2020 03:36:35 AM EDT.
+    No match for argument: kernel-devel-4.18.0-147.el8.x86_64
+    Error: Unable to find a match: kernel-devel-4.18.0-147.el8.x86_64
+Decision:
+# dnf -y install kernel-devel

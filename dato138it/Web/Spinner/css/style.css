@@ -1,0 +1,31 @@
+@keyframes spinner{
+	100%{
+		transform: rotate(3600deg);
+	}
+}
+.container{
+	margin: 0 auto;
+	text-align: center;
+	position: relative;
+	top: 50vh;
+	transform: translateY(-50%);
+}
+.spinner{
+	display: inline-block;
+	width: 100px;
+	height: 100px;
+	background: url(../img/oSHLAzp.png) center center;
+	-webkit-background-size: contain;
+	background-size: contain;
+	animation: spinner 3s infinite alternate ease-in-out;
+}
+.center-spinner{
+	display: inline-block;
+	position: absolute;
+	margin-left: -100px;
+	width: 100px;
+	height: 100px;
+	background: url(../img/u0BC2ZR.png) center center;
+	background-size: contain;
+	content: '';
+}

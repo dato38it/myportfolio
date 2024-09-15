@@ -1,4 +1,38 @@
 Task:
+Протестировать диск
+Decision:
+$ sudo apt update 
+$ sudo apt install testdisk
+$ lsblk
+ ...
+ sdc      8:32   0 931,5G  0 disk 
+└─sdc1   8:33   0 931,5G  0 part /media/dato/Файлы
+$ testdisk
+...
+>[ Create ] Create a new log file
+...
+Select a media (use Arrow keys, then press Enter):
+...
+>Disk /dev/sdc - 1000 GB / 931 GiB - ST1000LM 035-1RK172
+...
+ [Previous]  [  Next  ] >[Proceed ]  [  Quit  ]
+...
+Please select the partition table type, press Enter when done.
+...
+>[EFI GPT] EFI GPT partition map (Mac i386, some x86_64...)
+...
+>[ Analyse  ] Analyse current partition structure and search for lost partitions
+...
+>[Quick Search]  [ Backup ]
+...
+>P MS Data                     2048 1953523711 1953521664
+...
+ 1 P MS Data                     2048 1953523711 1953521664
+...
+ [  Quit  ]  [ Return ] >[Deeper Search]  [ Write  ]
+Source:
+# https://www.8host.com/blog/ustanovka-testdisk-i-vosstanovlenie-fajlov/?ysclid=lwwuyo1ydf377479189
+Task:
 How to Enable or Disable AppArmor on Ubuntu 22.04 or 20.04
 Decision:
 $ sudo apt install apparmor-utils apparmor-notify apparmor-profiles apparmor-profiles-extra
@@ -2393,27 +2427,6 @@ Decision:
 $ sudo apt install exfat-fuse
 $ sudo mkfs -t exfat /dev/sdc1
 Task:
-Создание пользователя
-Decision:
-$ cat /etc/passwd | grep tuser
-tuser:x:1000:1000:Tuser,,,:/home/tuser:/bin/bash
-$ sudo useradd -m -d /home/tuser1 -u 1001 -s /bin/bash Tuser1
-$ cat /etc/passwd | grep tuser1
-Tuser1:x:1001:1001::/home/tuser1:/bin/bash
-$ sudo passwd Tuser1
-$ id Tuser1
-$ sudo usermod -aG sudo tuser1
-Source:
-Манипуляции с пользователями - https://www.inp.nsk.su/~bolkhov/teach/inpunix/setup_users.ru.html
-Команда useradd - https://losst.pro/kak-sozdat-polzovatelya-linux
-Task:
-Переименовать пользователя в Linux (также переименовать группу и домашний каталог)
-Decision:
-$ sudo usermod -l tuser1 Tuser
-$ sudo groupmod -n tuser1 Tuser
-Source:
-Изменить имя пользователя на Linux - https://itsecforu.ru/2020/04/29/%F0%9F%90%A7-%D0%BA%D0%B0%D0%BA-%D0%BF%D0%B5%D1%80%D0%B5%D0%B8%D0%BC%D0%B5%D0%BD%D0%BE%D0%B2%D0%B0%D1%82%D1%8C-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F-%D0%B2-linux/
-Task:
 Создать директорию или файл с пробелом в названии
 Decision:
 $ mkdir /mnt/Program\ Files
@@ -2437,25 +2450,6 @@ $ mkdir tdir1
 $ mkdir tdir2
 $ touch tdir1/tfile1
 $ ln -s /home/tuser/tdir1 /home/tuser/tdir2
-Task:
-Переименовать имя хоста
-Decision:
-$ hostname
-thost1.twc1.net
-$ sudo hostname thost.twc1.net
-$ cat /etc/hosts
-127.0.0.1 thost1.twc1.net
-$ sudo vim /etc/hosts
-$ cat /etc/hostname
-thost1.twc1.net
-$ sudo vim /etc/hostname
-$ sudo cat /etc/hostname
-thost.twc1.net
-$ cat /etc/hosts
-127.0.0.1 thost.twc1.net
-$ sudo reboot
-Source:
-https://serverspace.ru/support/help/osnovnye-komandy-ufw/
 Task:
 Установить vscode.
 Decision:
