@@ -51,29 +51,6 @@ Decision:
 # sudo yum install python3-devel -y
 # sudo yum groupinstall 'development tools'
 Task:
-Создание виртуальной среды для наших проектов разработки
-Decision:
-$ apt install -y python3-venv
-$ mkdir Py-Test
-$ cd Py-Test
-$ python3 -m venv ./venv
-$ ls
-venv
-$ source venv/bin/activate
-$ pip freeze
-$ pip install django
-...
-Successfully installed asgiref-3.5.2 django-4.0.6 sqlparse-0.4.2
-$ pip freeze
-asgiref==3.5.2
-Django==4.0.6
-sqlparse==0.4.2
-$ deactivate
-Source:
-https://linuxconfig.org/how-to-install-g-the-c-compiler-on-ubuntu-20-04-lts-focal-fossa-linux
-https://routerus.com/how-to-install-pip-on-centos-8/
-https://www.digitalocean.com/community/tutorials/how-to-install-python-3-and-set-up-a-programming-environment-on-an-ubuntu-20-04-s
-Task:
 Установка PyQt5, создание первого GUI приложения
 Decision:
 - https://pypi.org/project/PyQt5/ - cmd - от имени администратора

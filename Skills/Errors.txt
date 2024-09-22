@@ -1,5 +1,73 @@
 Task:
-root@cloudubuntu:~# systemctl status dato38itbot.service
+C:\WINDOWS\system32> "C:\Program Files\7-Zip\7z.exe" a -tzip -mxp5 -r0 \\tdomain.ru\tdir\Test.zip \\tdomain.ru\tdir\*.txt
+7-Zip 23.01 (x64) : Copyright (c) 1999-2023 Igor Pavlov : 2023-06-20
+Scanning the drive:
+2 files, 252820 bytes (247 KiB)
+Creating archive: \\tdomain.ru\tdir\Test.zip
+System ERROR:
+Параметр задан неверно.
+Decision:
+C:\WINDOWS\system32> "C:\Program Files\7-Zip\7z.exe" a -tzip \\tdomain.ru\tdir\Test.zip \\tdomain.ru\tdir\*.txt
+7-Zip 23.01 (x64) : Copyright (c) 1999-2023 Igor Pavlov : 2023-06-20
+Scanning the drive:
+2 files, 252820 bytes (247 KiB)
+Creating archive: \\tdomain.ru\tdir\Test.zip
+Add new data to archive: 2 files, 252820 bytes (247 KiB)
+Files read from disk: 2
+Archive size: 22012 bytes (22 KiB)
+Everything is Ok
+Task:
+PS C:\Users\tuser\Documents\py> python .\tpy.py
+  File "C:\Users\tuser\Documents\py\tpy.py", line 12
+    with open('C:\Users\tuser\Documents\py\test\tempfile.xml', 'wb') as tempfile:
+                                                                     ^
+SyntaxError: (unicode error) 'unicodeescape' codec can't decode bytes in position 2-3: truncated \UXXXXXXXX escape
+Decision:
+PS C:\Users\tuser\Documents\py> cat .\tpy.py
+...
+    with open('C:\Users\tuser\Documents\py\test\tempfile.xml', 'wb') as tempfile:
+        ftp.retrbinary(file_list1, tempfile.write)
+PS C:\Users\tuser\Documents\py> vim .\tpy.py
+PS C:\Users\tuser\Documents\py> cat .\tpy.py
+...
+    with open('/Users/tuser/Documents/py/test/tempfile.xml', 'wb') as tempfile:
+        ftp.retrbinary('RETR %s' %file_list1, tempfile.write)
+Task:
+unicode error unicodeescape codec can't decode bytes in position 2-3 truncated
+Decision:
+#out='C:\Users\tuser\Documents\scripts\TEST.xml'
+out='C:\\Users\\tuser\\Documents\\scripts\\TEST.xml'
+Task:
+ftp> get ftp://tipftp/Backups/tdir/MRBTS2279.xml \\tdomain.ru\tdir
+200 PORT command successful. Consider using PASV.
+Ошибка при открытии локального файла \\tdomain.ru\tdir
+> \:═хшчтхёЄэ√щ ъюф ю°шсъш
+ftp> get ftp://tipftp/Backups/tdir/MRBTS2279.xml \\tdomain.ru\tdir\Test.txt
+200 PORT command successful. Consider using PASV.
+550 Failed to open file.
+Decision:
+ftp> get /Backups/tdir/MRBTS2279.xml \\tdomain.ru\tdir\Test.txt
+200 PORT command successful. Consider using PASV.
+150 Opening BINARY mode data connection for /Backups/tdir/MRBTS2279.xml (126410 bytes).
+226 Transfer complete.
+ftp: 126410 байт получено за 0.24 (сек) со скоростью 533.38 (КБ/сек).
+Task:
+[MySQL][[ODBC 8.4(a) Driver][mysqld-5.5.5-10.5.6-MariaDB] No data supplied for parameters in prepared statement
+Следующий диапозон данных не был обновлен:
+Cretesite table_ericsson_4g_v
+Вы хотите продолжить обновление?
+Decision:
+- Удалить новую версию MySQL ODBC connector 8.4 - Панель управления – Администрирование – Источники данных (ODBC) - Удалить драйвера данной версии - Установить старую версию MySQL ODBC connector 8.0.1
+Task:
+[Microsoft][Диспетчер драйверов ODBC] Источник данных не найден и не указан драйвер, используемый по умолчанию
+Decision:
+- Microsoft Visual C++ https://www.microsoft.com/en-us/download/details.aspx?id=52685
+- MySQL ODBC connector 8.0.15 https://downloads.mysql.com/archives/c-odbc/
+- Панель управления – Администрирование – Источники данных (ODBC)
+- Добавить - MySQL ODBC ANSI Driver - Название подключение tbase2 - IP - tipdb - Логин tbase3 - Пароль - tpassword - DataBase - tpassword - TEST - успешно - ok
+- Добавить - MySQL ODBC ANSI Driver - Название подключение tbase3 - IP - tipftp - Логин tbase3 - Пароль - tpassword - DataBase - tbase4 - TEST - успешно - ok
+Task:
+root@kvmubuntu:~# systemctl status dato38itbot.service
 × dato38itbot.service - dato38it-bot
      Loaded: loaded (/lib/systemd/system/dato38itbot.service; enabled; vendor preset: enabled)
      Active: failed (Result: exit-code) since Tue 2024-09-03 14:33:33 MSK; 1s ago
@@ -309,7 +377,7 @@ Decision:
 root@kvmubuntu:~# mkdir /var/cache/logwatch
 root@kvmubuntu:~# logwatch --detail Low --range today
 Task:
-root@asusWindows:/home/tuser/github/TelegramBotDictionary# python3 pyMenuTranslator.py
+root@aw:/home/tuser/github/TelegramBotDictionary# python3 pyMenuTranslator.py
 Введите текст, который вы хотите перевести: Вчера я забронировал у вас номер в отеле.
 Traceback (most recent call last):
   File "/home/tuser/github/TelegramBotDictionary/pyMenuTranslator.py", line 35, in <module>
@@ -340,8 +408,8 @@ Traceback (most recent call last):
     v.encode('utf-8') if isinstance(v, str) else v))
 UnicodeEncodeError: 'utf-8' codec can't encode character '\udcd1' in position 15: surrogates not allowed
 Decision:
-root@asusWindows:/home/tuser/github/TelegramBotDictionary# vim pyMenuTranslator.py
-root@asusWindows:/home/tuser/github/TelegramBotDictionary# cat pyMenuTranslator.py
+root@aw:/home/tuser/github/TelegramBotDictionary# vim pyMenuTranslator.py
+root@aw:/home/tuser/github/TelegramBotDictionary# cat pyMenuTranslator.py
 ...
                 elif cmd2 == t2:
                     cmd3 = input("Введите текст, который вы хотите перевести: ")
@@ -352,7 +420,7 @@ root@asusWindows:/home/tuser/github/TelegramBotDictionary# cat pyMenuTranslator.
                 else:
                     print("Я такую команду не знаю")
 ...
-root@asusWindows:/home/tuser/github/TelegramBotDictionary# python3 pyMenuTranslator.py
+root@aw:/home/tuser/github/TelegramBotDictionary# python3 pyMenuTranslator.py
 Введите текст, который вы хотите перевести: Вчера я забронировал у вас номер в отеле.
 Tom booked a room at the hotel
 Source:
@@ -652,12 +720,12 @@ Decision:
 tuser@kvmubuntu:~$ sudo apt install python3.10-venv
 tuser@kvmubuntu:~$ python -m venv pyenv
 Task:
-root@asusWindows:/home/tuser# ssh tuser@tipubuntu
+root@aw:/home/tuser# ssh tuser@tipubuntu
 tuser@kvmubuntu:~$ google-chrome
 [1397:1397:0728/061423.836331:ERROR:ozone_platform_x11.cc(244)] Missing X server or $DISPLAY
 [1397:1397:0728/061423.836375:ERROR:env.cc(258)] The platform failed to initialize.  Exiting.
 Decision:
-root@asusWindows:/home/tuser# ssh -X tuser@tipubuntu
+root@aw:/home/tuser# ssh -X tuser@tipubuntu
 tuser@kvmubuntu:~$ google-chrome
 Task:
 Уведомление от сайта tproject
