@@ -9,13 +9,17 @@ Present Simple
 Decision:
 - You talk about facts or everyday, usual actions (Вы говорите о фактах или повседневных, обычных действиях), You talk in the future about schedules (Вы говорите в будущем о расписании)
 - You were hungry yesterday (Ты вчера был голоден), He was at the employer's yesterday (Он был у работодателя вчера)
-- V/Vs, do/does+V
+- Употребляется: постоянные ситуации, состояния, общие истины, законы природы, повторяющиеся, привычные действия, расписание (будущее значение), после if, when, till, untill, before, after (будущее значение)
+- Слова подсказки: every+..., usually, sometimes, always, rarely, never, often, on Mondaws, in the morning/evening/afternoon, at night
+- Образование: V/Vs, do/does+V
 Task:
 Present Continuous
 Decision:
 - You talk about the action which is happening now (Вы говорите о действии, которое происходит сейчас), You complain about smth (Вы жалуетесь на что-то) 
 - She is eating an apple now (Она сейчас ест яблоко), You're always eating apples (Ты всегда ешь яблоки)
-- am/is/are+Ving
+- Употребляется: временные ситуации, изменение или развитие ситуации, действия, происходящие в момент говорения, фиксированные договоренности в будущем, часто повторящиеся ситуации
+- Слова подсказки: now, at the moment, at present, nowadays, today, tonight, always, still
+- Образование: am/is/are+Ving
 Task:
 Past Simple
 Decision:
@@ -34,10 +38,14 @@ Present Perfect
 Decision:
 - The action in the past has a result now (Действие в прошлом имеет результат сейчас), You give the news or new information (Вы сообщаете новости или новую информацию), A period of time continues from the past until now (Период времени продолжается от прошлого до настоящего времени)
 - You have eaten everything. You are sick. (Ты съел все. ты болен.), You have just eaten five apples! (Ты только что съел пять яблок!), You have eaten five apples this week (На этой неделе ты съел пять яблок)
-- have/has+Ved/V3     
+- Слова подсказки: just, ever, never, yet, already, always, now ong, recently, this month/week/year, since, for
+- Образование: have/has+Ved/V3     
 Task:
 Present Perfect continuous
 Decision:
+- Употребляется: действия,которые началис в прошлом  и продолжаются до сих пор (до настоящего времени), в течении прошлых действий определенной продолжительности, имеющий видимый результат или влияние на настоящее время, акцент на продолжительность
+- Слова подсказки: how long, for, since
+- Образование: have been + Ving
 Task:
 Future Simple
 Decision:
