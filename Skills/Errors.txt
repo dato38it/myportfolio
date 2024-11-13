@@ -1,4 +1,140 @@
 Task:
+root@hvalt:~# net ads join -U tuser
+Enter tuser's password:
+Using short domain name -- hvalt
+Joined 'hvalt' to dns domain 'tdomain.ru'
+kerberos_kinit_password hvalt$@tdomain.ru failed: Preauthenthvredosation failed
+DNS update failed: kinit failed: Preauthenthvredosation failed
+Decision:
+root@hvalt:~# vim /etc/hosts
+root@hvalt:~# cat /etc/hosts
+127.0.0.1   hvalt.tdomain.ru hvalt
+root@hvalt:~# net ads join -U tuser
+Task:
+root@hvalt:~# net ads join -U tuser
+Enter tuser's password:
+Using short domain name -- hvaly
+Joined 'hvalt' to dns domain 'tdomain.ru'
+No DNS domain configured for hvalt. Unable to perfohvredos DNS Update.
+DNS update failed: NT_STATUS_INVALID_PARAMETER
+Decision:
+root@hvalt:~# cat /etc/hosts
+127.0.0.1   localhost.localdomain localhost
+root@hvalt:~# vim /etc/hosts
+root@hvalt:~# cat /etc/hosts
+127.0.0.1   localhost.localdomain localhost
+127.0.0.1   hvalt.tdomain.ru hvalt
+root@hvalt:~# net ads join -U tuser
+Task:
+[root@hvredos ~]# smbclient -L hvredos -k
+gse_get_client_auth_token: gss_init_sec_context failed with [ Miscellaneous failure (see text): encryption type 0 not supported](2529639062)
+gensec_spnego_client_negTokenInit_step: gse_krb5: creating NEG_TOKEN_INIT for cifs/tusertsrvdoc failed (next[(null)]): NT_STATUS_LOGON_FAILURE
+session setup failed: NT_STATUS_LOGON_FAILURE
+После добавления сетевых папок через Kerberos на следующий месяц, все етевые папки на ПК перестали работать. 
+Для решения проблемы нужно обновлять билеты через kdestroy и kinit.
+# Администрирование локальных, виртуальных и облачных серверов.
+Decision:
+[root@hvredos ~]# klist
+Ticket cache: FILE:/tmp/krb5cc_17
+Default principal: tuser@tdomain.ru
+Valid starting Expires Service principal
+01.01.1970 08:00:00 01.01.1970 08:00:00 krbtgt/tdomain.ru@tdomain.ru
+[root@hvredos ~]# date
+Вт окт 6 14:46:12 +08 2020
+[root@hvredos ~]# kdestroy
+[root@hvredos ~]# kinit
+[root@hvredos ~]# klist
+Ticket cache: FILE:/tmp/krb5cc_17
+Default principal: tuser@tdomain.ru
+Valid starting Expires Service principal
+06.10.2020 14:46:51 07.10.2020 00:46:51 krbtgt/tdomain.ru@tdomain.ru
+renew until 13.10.2020 14:46:29
+Task:
+$ wget https://tdomain.ru/sveden/document
+--2018-11-01 20:12:20-- https://tdomain.ru/sveden/document
+Распознаётся tdomain.ru (tdomain.ru)… IpAddr
+Подключение к tdomain.ru (tdomain.ru)|IpAddr|:443... соединение установлено.
+ОШИБКА: Нет доверия сертификату для «tdomain.ru».
+ОШИБКА: Неизвестный издатель сертификата «tdomain.ru».
+Decision:
+$ wget --no-check-certificate -r -l 1 -A pdf https://tdomain.ru/sveden/document
+Task:
+PS C:\Users\tuser\Documents\py> python .\tpy.py
+['/Backups/tdir/MRBTS881364.xml']
+Traceback (most recent call last):
+  File "C:\Users\tuser\Documents\py\tpy.py", line 13, in <module>
+    ftp.retrbinary('RETR %s' %file_list1, tempfile.write)
+  File "C:\Program Files\Python310\lib\ftplib.py", line 436, in retrbinary
+    with self.transfercmd(cmd, rest) as conn:
+  File "C:\Program Files\Python310\lib\ftplib.py", line 393, in transfercmd
+    return self.ntransfercmd(cmd, rest)[0]
+  File "C:\Program Files\Python310\lib\ftplib.py", line 359, in ntransfercmd
+    resp = self.sendcmd(cmd)
+  File "C:\Program Files\Python310\lib\ftplib.py", line 281, in sendcmd
+    return self.getresp()
+  File "C:\Program Files\Python310\lib\ftplib.py", line 254, in getresp
+    raise error_perm(resp)
+ftplib.error_perm: 550 Failed to open file.
+Decision:
+PS C:\Users\tuser\Documents\py> cat .\tpy.py
+from ftplib import FTP
+import os
+ftp = FTP("tipftp")
+ftp.login(user="tuserftp", passwd="tpssword")
+local_file = '/Users/tuser/Documents/py/test/testfile.txt'
+#files = ftp.nlst('/Backups/tdir/*.xml')
+files = ftp.nlst('/Backups/tdir/MRBTS881364.xml')
+#print(files)
+for file in files:
+    #print(file)
+    file_list=[]
+    file_list.append(file)
+    file_list1=str(file_list)
+    print(file_list1)
+    with open(local_file, 'wb') as tempfile:
+        #print("Работа с файлом testfile")
+        ftp.retrbinary('RETR' + file_list1, tempfile.write)
+        #ftp.retrbinary('retr ' + str(files), tempfile.write)
+ftp.quit()Q
+PS C:\Users\tuser\Documents\py> vim .\tpy.py
+PS C:\Users\tuser\Documents\py> cat .\tpy.py
+from ftplib import FTP
+import os
+ftp = FTP("tipftp")
+ftp.login(user="tuser", passwd="tpassword")
+#local_file = '/Users/tuser/Documents/py/test/testfile.txt'
+#files = ftp.nlst('/Backups/tdir/*.xml')
+#files = ftp.nlst('/Backups/tdir/MRBTS881364.xml')
+files = ftp.nlst('/Backups/tdir/')
+local_dir = '/Users/tuser/Documents/py/test/'
+xml_files = [file for file in files if file.endswith('.xml')]
+#print(xml_files)
+for file in xml_files:
+    #print(file)
+    local_file = os.path.join(local_dir, os.path.basename(file))
+    #print(local_file)
+    with open(local_file, 'wb') as tempfile:
+        #print("Работа с файлом testfile")
+        #ftp.retrbinary('retr ' + str(files), tempfile.write)
+        ftp.retrbinary(f'RETR {file}', tempfile.write)
+ftp.quit()
+PS C:\Users\tuser\Documents\py> python .\tpy.py
+Task:
+[root@kvmcentos ~]# yum install prosody -y
+Последняя проверка окончания срока действия метаданных: 0:31:19 назад, Сб 06 июн 2020 01:21:39.
+Ошибка:
+    Проблема: conflicting requests
+    - nothing provides lua-filesystem needed by prosody-0.11.5-1.el8.x86_64
+(try to add '--skip-broken' to skip uninstallable packages or '--nobest' to use not only best candidate packages)
+Decision:
+[root@kvmcentos ~]# yum list | grep lua-fi
+lua-fifo.noarch               0.2-2.el8           epel
+[root@kvmcentos ~]# rpm -i http://mirror.C.org/C/8/PowerTools/x86_64/os/Packages/lua-filesystem-1.6.3-7.el8.x86_64.rpm
+[root@kvmcentos ~]# yum list | grep lua-fi
+lua-filesystem.x86_64         1.6.3-7.el8         @System                                          
+lua-fifo.noarch               0.2-2.el8           epel
+[root@kvmcentos ~]# yum install prosody -y
+Task:
 # git push -u origin main
 Username for 'https://github.com': tuser
 Password for 'https://tuser@github.com':
