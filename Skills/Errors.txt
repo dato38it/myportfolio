@@ -1,4 +1,36 @@
 Task:
+    SQLStr = "SELECT cellName as NSector, SUBSTRING(CAST(cellName as CHAR),1,6) as SiteName " & _
+            "FROM LNCEL_begin " & _
+            "LIMIT 5 " & _
+Compile error:
+Expected Expression
+Decision:
+    SQLStr = "SELECT cellName as NSector, SUBSTRING(CAST(cellName as CHAR),1,6) as SiteName " & _
+            "FROM LNCEL_begin " & _
+            "LIMIT 5 "
+Source:
+# https://learn.microsoft.com/ru-ru/dotnet/visual-basic/programming-guide/program-structure/how-to-break-and-combine-statements-in-code#to-break-a-single-statement-into-multiple-lines - Разбиения одной инструкции на несколько строк.
+Task:
+C:\Users\tuser>python tpy.py
+Traceback (most recent call last):
+  File "C:\Users\tuser\Documents\py\tpy.py", line 3, in <module>
+    text=f.read()
+  File "C:\Program Files\Python310\lib\encodings\cp1251.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x98 in position 152: character maps to <undefined>
+Decision:
+C:\Users\tuser>cat tpy.py
+f=open("Site_DATA_1.kml")
+C:\Users\tuser>cat tpy.py
+f=open("Site_DATA_1.kml", encoding="utf8")
+Task:
+Run-time error '-2147217865 (80040e37)'
+Autpmation error
+Decision:
+oConn.Open "DRIVER={MySQL ODBC 8.0 Unicode Driver};Server=tipwindows;Database=tabse;User=tuser;Password=tpassword;PORT:3306;Option=3"
+...
+cmd.CommandText = "SELECT * FROM bss_2g_nokia" 'собственно, запрос
+Task:
 root@hvalt:~# net ads join -U tuser
 Enter tuser's password:
 Using short domain name -- hvalt

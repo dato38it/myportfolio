@@ -45,6 +45,9 @@ Skills:
 # Квантовая Механика И Строение Вещества.
 # Методы Обработки Сигналов И Данных.
 # Термодинамика И Статистическая Физика.
+# Разработка Сбор данных из файла Excel.
+# Разработка Диалог с пользователем.
+# Разработка Написание Sql запросов.
 Task:
 Создание HTML-списков.
 # Верстка Html-страниц.
@@ -19795,3 +19798,150 @@ Source:
 # https://elementy.ru/trefil/25/Izluchenie_chernogo_tela
 # https://docviewer.yandex.ru/view/895416477/?page=9&*=F35zvhI4ipMytKSryrY%2FeoIb4sp7InVybCI6Imh0dHBzOi8va2FwaXR6YS5yYXMucnUvfmdsYXprb3YvaHNlL21pbm9yLzAzLnBkZiIsInRpdGxlIjoiMDMucGRmIiwibm9pZnJhbWUiOnRydWUsInVpZCI6Ijg5NTQxNjQ3NyIsInRzIjoxNjMyMjgxMDM0NzY4LCJ5dSI6IjY0Nzc4MDA4NzE2MjE1NTg3MjEiLCJzZXJwUGFyYW1zIjoidG09MTYzMjI4MDkzNyZ0bGQ9cnUmbGFuZz1ydSZuYW1lPTAzLnBkZiZ0ZXh0PSVEMCVCOCVEMCVCNyVEMCVCQiVEMSU4MyVEMSU4NyVEMCVCNSVEMCVCRCVEMCVCOCVEMCVCNSslRDElODclRDAlQjUlRDElODAlRDAlQkQlRDAlQkUlRDAlQjMlRDAlQkUrJUQxJTgyJUQwJUI1JUQwJUJCJUQwJUIwJnVybD1odHRwcyUzQS8va2FwaXR6YS5yYXMucnUvfmdsYXprb3YvaHNlL21pbm9yLzAzLnBkZiZscj02MyZtaW1lPXBkZiZsMTBuPXJ1JnNpZ249ZTcxOWYxNDc1N2RiMmEwNGU1ZTc2ZTBkZDE3MTMxY2Ema2V5bm89MCJ9&lang=ru
 # https://ru.wikipedia.org/wiki/%D0%90%D0%B1%D1%81%D0%BE%D0%BB%D1%8E%D1%82%D0%BD%D0%BE_%D1%87%D1%91%D1%80%D0%BD%D0%BE%D0%B5_%D1%82%D0%B5%D0%BB%D0%BE#%D0%92%D1%82%D0%BE%D1%80%D0%BE%D0%B9_%D0%B7%D0%B0%D0%BA%D0%BE%D0%BD_%D0%B8%D0%B7%D0%BB%D1%83%D1%87%D0%B5%D0%BD%D0%B8%D1%8F_%D0%92%D0%B8%D0%BD%D0%B0
+Task:
+Работа с таблицей в excel.
+# Разработка Сбор данных из файла Excel.
+Decision:
+import openpyxl 
+wb = openpyxl.load_workbook('TableIntegratedSites.xlsx')
+sheet = wb['Sheet1']
+cell = sheet['A2']
+print(cell.value)
+# или
+value = sheet.cell(row=2, column=1).value
+print(value)
+Source:
+# https://sky.pro/media/kak-ispolzovat-python-dlya-raboty-s-excel/ - Чтение данных из файла Excel.
+Task:
+Запросить данные у пользателя.
+# Разработка Диалог с пользователем.
+Decision:
+print("Введите список БС:")
+A = list(map(str, input().split()))
+print(A)
+#print(*A)
+Task:
+Подключиться к БД и вывести иноформацию о БД.
+# Разработка Написание Sql запросов.
+Decision:
+import mysql.connector
+mydb = mysql.connector.connect(
+    host="tipWindows",
+    #host="tipWindows2",
+    user="tuser",
+    password="tpassword",
+    database="tbase"
+    #database="tbase2"
+)
+mycursor = mydb.cursor()
+mycursor.execute("SHOW DATABASES")
+print(mydb)
+Task:
+Вывести список таблиц в БД.
+# Разработка Написание Sql запросов.
+Decision:
+...
+mycursor.execute("SHOW TABLES")
+for x in mycursor:
+    print(x)
+Task:
+Заполнить таблицу в БД.
+# Разработка Написание Sql запросов.
+Decision:
+...
+sql = "INSERT INTO customers (Date, id, BSS, Reg, BS_name, TAC) VALUES (%s, %s, %s, %s, %s, %s)"
+val = (datetime.datetime(2022, 1, 30, 5, 13, 36), 249, "OK", "IR", "IR0000", "0000")
+mycursor.execute(sql, val)
+mydb.commit()
+print(mycursor.rowcount, "record inserted.")
+Task:
+вывести таблицу из БД.
+# Разработка Написание Sql запросов.
+Decision:
+...
+mycursor.execute("SELECT * FROM bss_4g_nokia")
+myresult = mycursor.fetchall()
+for i in myresult:
+    print(i)
+Task:
+Добавить все БС IO в шаблон инструмента Nokia.
+Подключиться к базе.
+# Разработка макросов в VBA.
+Decision:
+- Visual Basic - Tools - References - +Microsoft ActiveX Data Objects 6.1 Library - ok
+Private Sub ConnectionDB()
+    Dim oConn As Object
+    Set oConn = New ADODB.Connection    
+    oConn.Open "DRIVER={MySQL ODBC 8.0 Unicode Driver};Server=tipwindows;Database=tbase;User=tuser;Password=tpassword;PORT:3306;Option=3"
+    If oConn.State = adStateOpen Then
+        MsgBox "Connected! =)"
+    End If
+    Dim cmd As ADODB.Command  'переменная в которой будет запрос
+    Set cmd = New ADODB.Command    
+    Dim rec As ADODB.Recordset 'переменная в которой будет результат запроса
+    Set rec = New ADODB.Recordset    
+    Set cmd.ActiveConnection = oConn
+    cmd.CommandText = "SELECT * FROM bss_2g_nokia" 'собственно, запрос
+    cmd.CommandType = adCmdText
+    cmd.Execute    
+    Set rec.ActiveConnection = oConn
+    rec.Open cmd    
+    oConn.Close  
+End Sub
+Task:
+Подключиться к базе и выгрузить данные в таблицу.
+# Разработка макросов в VBA.
+Decision:
+Sub connect()
+    Dim Password As String
+    Dim SQLStr As String
+    'OMIT Dim Cn statement
+    Dim Server_Name As String
+    Dim User_ID As String
+    Dim Database_Name As String
+    'OMIT Dim rs statement
+
+    Set rs = CreateObject("ADODB.Recordset") 'EBGen-Daily
+    Server_Name = Range("b1").Value
+    Database_Name = Range("b2").Value ' Name of database
+    User_ID = Range("b3").Value 'id user or username
+    Password = Range("b4").Value 'Password
+
+    SQLStr = "SELECT * FROM bss_2g_nokia"
+
+    Set cn = CreateObject("ADODB.Connection") 'NEW STATEMENT
+    'cn.Open "DRIVER={MySQL ODBC 8.0 Unicode Driver};Server=tipWindows;Database=tbase;User=tuser;Password=tpassword;PORT:3306;Option=3"
+    cn.Open "Driver={MySQL ODBC 8.0 Unicode Driver};Server=" & _
+            Server_Name & ";Database=" & Database_Name & _
+            ";Uid=" & User_ID & ";Pwd=" & Password & ";"
+
+    'If cn.State = adStateOpen Then
+    '    MsgBox "Connected! =)"
+    'End If
+
+    rs.Open SQLStr, cn, adOpenStatic
+
+    Dim myArray()
+
+    myArray = rs.GetRows()
+
+    kolumner = UBound(myArray, 1)
+    rader = UBound(myArray, 2)
+
+    For K = 0 To kolumner ' Using For loop data are displayed
+        Range("a5").Offset(0, K).Value = rs.Fields(K).Name
+        For R = 0 To rader
+           Range("A5").Offset(R + 1, K).Value = myArray(K, R)
+        Next
+    Next
+
+    rs.Close
+    Set rs = Nothing
+    cn.Close
+    Set cn = Nothing
+End Sub
+Source:
+# https://www.vbastudio.ru/Book/9/9.4.html - Подключение к таблице на листе Excel.
+# https://training-course-material.com/training/ADO_Database_Connection - Подключение к базе данных ADO.
+# https://www.planetaexcel.ru/forum/?PAGE_NAME=read&FID=1&TID=119927&TITLE_SEO=119927-vba-dannye-iz-mysql-v-peremennye - VBA данные из MySQL в переменные.
+# https://stackoverflow.com/questions/13558921/how-can-vba-connect-to-mysql-database-in-excel - How can VBA connect to MySQL database in Excel?
